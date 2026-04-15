@@ -5350,4 +5350,1847 @@
             <div class="tokens-copied-tip" id="tokensCopiedTip">Contract copied</div>
           </section>
         </div>
- 
+      </div>
+    </div>
+  </section>
+
+  <section class="sheet more-sheet" id="moreSheet">
+    <div class="more-panel-ui" id="morePanelUi">
+      <div class="more-topbar">
+        <div class="more-topbar-left">
+          <button class="more-back-btn" id="closeMoreBtn" aria-label="Close">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M14.5 18l-6-6 6-6"/>
+            </svg>
+          </button>
+
+          <div class="more-title-stack">
+            <div class="more-eyebrow">StableFlow</div>
+            <div class="more-title">More</div>
+          </div>
+        </div>
+
+        <div class="more-topbar-right">
+          <button class="more-bell-btn" aria-label="Notifications">
+            <span class="more-notify-dot"></span>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.05" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M16 17H8"/>
+              <path d="M18 16.6l-1.1-1.2a2.2 2.2 0 0 1-.6-1.5v-2.4a4.3 4.3 0 1 0-8.6 0v2.4a2.2 2.2 0 0 1-.6 1.5L6 16.6"/>
+              <path d="M10.2 19a1.8 1.8 0 0 0 3.6 0"/>
+            </svg>
+          </button>
+        </div>
+      </div>
+
+      <div class="more-controls">
+        <div class="more-control">
+          <div class="more-control-info">
+            <div class="more-control-label">Theme</div>
+            <div class="more-control-value" id="moreThemeLabel">Dark</div>
+          </div>
+
+          <button class="more-theme-switch" id="moreThemeSwitch" aria-label="Toggle theme"></button>
+        </div>
+
+        <div class="more-control" id="moreLangControl">
+          <button class="more-lang-trigger" id="moreLangTrigger" aria-label="Choose language">
+            <div class="more-control-info">
+              <div class="more-control-label">Language</div>
+              <div class="more-lang-value" id="moreLangValue">English</div>
+            </div>
+            <span class="more-caret"></span>
+          </button>
+
+          <div class="more-lang-menu">
+            <button class="more-lang-option active" data-lang="English">
+              English
+              <span class="tick"></span>
+            </button>
+            <button class="more-lang-option" data-lang="Español">Español</button>
+            <button class="more-lang-option" data-lang="Português">Português</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="more-tabs-wrap">
+        <div class="more-tabs-shell">
+          <button class="more-tab active" data-tab="overview">
+            <span class="more-tab-dot"></span>
+            <span>Overview</span>
+          </button>
+          <button class="more-tab" data-tab="requests">
+            <span class="more-tab-dot"></span>
+            <span>Requests</span>
+          </button>
+          <button class="more-tab" data-tab="transactions">
+            <span class="more-tab-dot"></span>
+            <span>Transactions</span>
+          </button>
+        </div>
+      </div>
+
+      <div class="more-scroll-shell">
+        <div class="more-scroll-area">
+          <div class="more-view active" id="moreOverview">
+            <div class="more-section-top">
+              <div class="more-section-left">
+                <div class="more-section-kicker">System view</div>
+                <div class="more-section-title">Account flow</div>
+                <div class="more-section-desc">
+                  A lighter control surface, with status and activity shown through rails instead of heavy blocks.
+                </div>
+              </div>
+              <div class="more-side-chip">Live</div>
+            </div>
+
+            <div class="more-metric-row">
+              <div class="more-metric">
+                <div class="more-metric-label">Open requests</div>
+                <div class="more-metric-value">08</div>
+                <div class="more-metric-sub">2 expiring soon</div>
+              </div>
+
+              <div class="more-metric">
+                <div class="more-metric-label">This week</div>
+                <div class="more-metric-value">$1,240</div>
+                <div class="more-metric-sub">Collected via links</div>
+              </div>
+            </div>
+
+            <div class="more-rail-list">
+              <div class="more-rail">
+                <div class="more-rail-icon">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.05" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M12 3v18"/>
+                    <path d="M16.8 8.2c0-1.8-2.15-3.2-4.8-3.2s-4.8 1.4-4.8 3.2 2.15 3.2 4.8 3.2 4.8 1.4 4.8 3.2-2.15 3.2-4.8 3.2-4.8-1.4-4.8-3.2"/>
+                  </svg>
+                </div>
+
+                <div class="more-rail-main">
+                  <div class="more-rail-top">
+                    <div class="more-rail-title">Preferred settlement</div>
+                    <span class="more-badge gold">EURC</span>
+                  </div>
+                  <div class="more-rail-sub">
+                    Recipients can still receive stability while the payer uses another supported asset.
+                  </div>
+                </div>
+
+                <div class="more-rail-side">
+                  <div class="more-rail-big">6 dec</div>
+                  <div class="more-rail-small">stable asset</div>
+                </div>
+              </div>
+
+              <div class="more-rail">
+                <div class="more-rail-icon">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.05" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M8 17l4 4 4-4"/>
+                    <path d="M12 12v9"/>
+                    <path d="M20.5 17.2A4.8 4.8 0 0 0 17 9h-1.1A7.2 7.2 0 0 0 3.7 16"/>
+                  </svg>
+                </div>
+
+                <div class="more-rail-main">
+                  <div class="more-rail-top">
+                    <div class="more-rail-title">Request delivery</div>
+                    <span class="more-badge blue">Link + QR</span>
+                  </div>
+                  <div class="more-rail-sub">
+                    Every payment request is prepared to be copied, shared or exported with minimal friction.
+                  </div>
+                </div>
+
+                <div class="more-rail-side">
+                  <div class="more-rail-big">Ready</div>
+                  <div class="more-rail-small">distribution</div>
+                </div>
+              </div>
+
+              <div class="more-rail">
+                <div class="more-rail-icon">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.05" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M4 7h16"/>
+                    <path d="M4 12h16"/>
+                    <path d="M4 17h11"/>
+                  </svg>
+                </div>
+
+                <div class="more-rail-main">
+                  <div class="more-rail-top">
+                    <div class="more-rail-title">Interface direction</div>
+                    <span class="more-badge green">Refined</span>
+                  </div>
+                  <div class="more-rail-sub">
+                    Less giant cards, tighter spacing, slimmer rails and lighter tabs.
+                  </div>
+                </div>
+
+                <div class="more-rail-side">
+                  <div class="more-rail-big">V2</div>
+                  <div class="more-rail-small">design mode</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="more-mini-grid">
+              <div class="more-mini-box">
+                <div class="more-mini-label">Pending</div>
+                <div class="more-mini-value">03</div>
+              </div>
+              <div class="more-mini-box">
+                <div class="more-mini-label">Paid today</div>
+                <div class="more-mini-value">02</div>
+              </div>
+              <div class="more-mini-box">
+                <div class="more-mini-label">Failed</div>
+                <div class="more-mini-value">00</div>
+              </div>
+            </div>
+
+            <div class="more-note">
+              Requests lives here so generated links, notes and payment states can be revisited without repeating the Get Paid section.
+            </div>
+          </div>
+
+          <div class="more-view" id="moreRequests">
+            <div class="more-section-top">
+              <div class="more-section-left">
+                <div class="more-section-kicker">Collection flow</div>
+                <div class="more-section-title">Requests</div>
+                <div class="more-section-desc">
+                  Compact request tracking with smaller, cleaner rails.
+                </div>
+              </div>
+              <div class="more-side-chip">8 total</div>
+            </div>
+
+            <div class="more-rail-list">
+              <div class="more-rail">
+                <div class="more-rail-icon">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.05" stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="4" y="5" width="16" height="14" rx="3"/>
+                    <path d="M8 10h8"/>
+                    <path d="M8 14h5"/>
+                  </svg>
+                </div>
+
+                <div class="more-rail-main">
+                  <div class="more-rail-top">
+                    <div class="more-rail-title">Invoice for design work</div>
+                    <span class="more-badge gold">EURC</span>
+                    <span class="more-badge green">Paid</span>
+                  </div>
+                  <div class="more-rail-sub">Wallet saved • note attached • QR delivered</div>
+                  <div class="more-status-inline">
+                    <span>Recipient:</span>
+                    <span>0x84Fa...92D1</span>
+                  </div>
+                </div>
+
+                <div class="more-rail-side">
+                  <div class="more-rail-big">120.00</div>
+                  <div class="more-rail-small">Apr 13 • 18:42</div>
+                </div>
+              </div>
+
+              <div class="more-rail">
+                <div class="more-rail-icon">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.05" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+                  </svg>
+                </div>
+
+                <div class="more-rail-main">
+                  <div class="more-rail-top">
+                    <div class="more-rail-title">Marketing split</div>
+                    <span class="more-badge blue">USDC</span>
+                    <span class="more-badge orange">Waiting</span>
+                  </div>
+                  <div class="more-rail-sub">Link copied once • shared to recipient • expires in 18h</div>
+                  <div class="more-status-inline">
+                    <span class="more-status-dot"></span>
+                    <span>Active request still open</span>
+                  </div>
+                </div>
+
+                <div class="more-rail-side">
+                  <div class="more-rail-big">60.00</div>
+                  <div class="more-rail-small">Apr 14 • 09:10</div>
+                </div>
+              </div>
+
+              <div class="more-rail">
+                <div class="more-rail-icon">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.05" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M12 8v4l3 2"/>
+                    <circle cx="12" cy="12" r="9"/>
+                  </svg>
+                </div>
+
+                <div class="more-rail-main">
+                  <div class="more-rail-top">
+                    <div class="more-rail-title">Consulting fee</div>
+                    <span class="more-badge gold">EURC</span>
+                    <span class="more-badge red">Expired</span>
+                  </div>
+                  <div class="more-rail-sub">Generated 2 days ago • recipient did not complete payment in time</div>
+                </div>
+
+                <div class="more-rail-side">
+                  <div class="more-rail-big">250.00</div>
+                  <div class="more-rail-small">Apr 12 • 11:26</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="more-mini-grid">
+              <div class="more-mini-box">
+                <div class="more-mini-label">Paid</div>
+                <div class="more-mini-value">04</div>
+              </div>
+              <div class="more-mini-box">
+                <div class="more-mini-label">Open</div>
+                <div class="more-mini-value">03</div>
+              </div>
+              <div class="more-mini-box">
+                <div class="more-mini-label">Expired</div>
+                <div class="more-mini-value">01</div>
+              </div>
+            </div>
+
+            <div class="more-empty">
+              Depois dá para colocar expand/collapse, copy link, share e regenerate sem voltar para cardão pesado.
+            </div>
+          </div>
+
+          <div class="more-view" id="moreTransactions">
+            <div class="more-section-top">
+              <div class="more-section-left">
+                <div class="more-section-kicker">Settlement log</div>
+                <div class="more-section-title">Transactions</div>
+                <div class="more-section-desc">
+                  Compact flow history with better status, value and time hierarchy.
+                </div>
+              </div>
+              <div class="more-side-chip">Recent</div>
+            </div>
+
+            <div class="more-rail-list">
+              <div class="more-rail">
+                <div class="more-rail-icon">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.05" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M7 17L17 7"/>
+                    <path d="M8 7h9v9"/>
+                  </svg>
+                </div>
+
+                <div class="more-rail-main">
+                  <div class="more-rail-top">
+                    <div class="more-rail-title">Recipient payout confirmed</div>
+                    <span class="more-badge green">Success</span>
+                  </div>
+                  <div class="more-rail-sub">LMTV converted and recipient settled in EURC</div>
+                </div>
+
+                <div class="more-rail-side">
+                  <div class="more-rail-big">+120.00</div>
+                  <div class="more-rail-small">12s ago</div>
+                </div>
+              </div>
+
+              <div class="more-rail">
+                <div class="more-rail-icon">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.05" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M17 7L7 17"/>
+                    <path d="M7 7h10v10"/>
+                  </svg>
+                </div>
+
+                <div class="more-rail-main">
+                  <div class="more-rail-top">
+                    <div class="more-rail-title">Payment link created</div>
+                    <span class="more-badge blue">Request</span>
+                  </div>
+                  <div class="more-rail-sub">QR prepared and copied to clipboard</div>
+                </div>
+
+                <div class="more-rail-side">
+                  <div class="more-rail-big">60.00</div>
+                  <div class="more-rail-small">22m ago</div>
+                </div>
+              </div>
+
+              <div class="more-rail">
+                <div class="more-rail-icon">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.05" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M21 12a9 9 0 1 1-2.64-6.36"/>
+                    <path d="M21 3v6h-6"/>
+                  </svg>
+                </div>
+
+                <div class="more-rail-main">
+                  <div class="more-rail-top">
+                    <div class="more-rail-title">Swap route recalculated</div>
+                    <span class="more-badge gold">Auto</span>
+                  </div>
+                  <div class="more-rail-sub">Best output refreshed after price movement</div>
+                </div>
+
+                <div class="more-rail-side">
+                  <div class="more-rail-big">0.5%</div>
+                  <div class="more-rail-small">1h ago</div>
+                </div>
+              </div>
+
+              <div class="more-rail">
+                <div class="more-rail-icon">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.05" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="12" r="9"/>
+                    <path d="M15 9l-6 6"/>
+                    <path d="M9 9l6 6"/>
+                  </svg>
+                </div>
+
+                <div class="more-rail-main">
+                  <div class="more-rail-top">
+                    <div class="more-rail-title">Request expired</div>
+                    <span class="more-badge red">Closed</span>
+                  </div>
+                  <div class="more-rail-sub">No payment received before deadline</div>
+                </div>
+
+                <div class="more-rail-side">
+                  <div class="more-rail-big">250.00</div>
+                  <div class="more-rail-small">2d ago</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="more-note">
+              Essa estrutura já fica pronta para depois ligar com eventos reais, requests e histórico onchain.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.4/build/qrcode.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+  <script>
+    const body = document.body;
+    const overlay = document.getElementById("overlay");
+
+    const walletSheet = document.getElementById("walletSheet");
+    const tokensSheet = document.getElementById("tokensSheet");
+    const moreSheet = document.getElementById("moreSheet");
+
+    const swapPanel = document.getElementById("swapPanel");
+    const payPanel = document.getElementById("payPanel");
+    const getPaidPanel = document.getElementById("getPaidPanel");
+
+    const openWalletMain = document.getElementById("openWalletMain");
+    const openSwapBtn = document.getElementById("openSwapBtn");
+    const openPayBtn = document.getElementById("openPayBtn");
+    const openTokensBtn = document.getElementById("openTokensBtn");
+    const openGetPaidBtn = document.getElementById("openGetPaidBtn");
+    const openMoreNav = document.getElementById("openMoreNav");
+    const homeBtn = document.getElementById("homeBtn");
+
+    const swapActionBtn = document.getElementById("swapActionBtn");
+    const recipientWallet = document.getElementById("recipientWallet");
+    const recipientGets = document.getElementById("recipientGets");
+    const paymentNote = document.getElementById("paymentNote");
+    const swapPayBtn = document.getElementById("swapPayBtn");
+
+    const confirmBlock = document.getElementById("confirmBlock");
+    const confirmShell = document.getElementById("confirmShell");
+    const confirmTitle = document.getElementById("confirmTitle");
+    const confirmStep = document.getElementById("confirmStep");
+    const confirmChip = document.getElementById("confirmChip");
+    const youPayPreview = document.getElementById("youPayPreview");
+    const receivePreview = document.getElementById("receivePreview");
+    const payRateEl = document.getElementById("payRate");
+
+    const outputAssetToggle = document.getElementById("outputAssetToggle");
+    const outputAssetIcon = document.getElementById("outputAssetIcon");
+    const outputAssetName = document.getElementById("outputAssetName");
+    const confirmOutputIcon = document.getElementById("confirmOutputIcon");
+    const confirmOutputName = document.getElementById("confirmOutputName");
+
+    const swapTopInput = document.getElementById("swapTopInput");
+    const swapBottomInput = document.getElementById("swapBottomInput");
+    const swapQuickRow = document.getElementById("swapQuickRow");
+    const swapFlipBtn = document.getElementById("swapFlipBtn");
+
+    const swapTopTokenIcon = document.getElementById("swapTopTokenIcon");
+    const swapTopTokenLabel = document.getElementById("swapTopTokenLabel");
+    const swapBottomTokenIcon = document.getElementById("swapBottomTokenIcon");
+    const swapBottomTokenLabel = document.getElementById("swapBottomTokenLabel");
+    const swapTopBalance = document.getElementById("swapTopBalance");
+    const swapBottomBalance = document.getElementById("swapBottomBalance");
+    const swapRateValue = document.getElementById("swapRateValue");
+
+    const swapSlipControl = document.getElementById("swapSlipControl");
+    const swapSlipToggle = document.getElementById("swapSlipToggle");
+    const swapSlipSummary = document.getElementById("swapSlipSummary");
+    const swapSlipInput = document.getElementById("swapSlipInput");
+    const swapSlipInputWrap = document.getElementById("swapSlipInputWrap");
+    const swapStatSlippage = document.getElementById("swapStatSlippage");
+    const swapSlipOptions = document.querySelectorAll(".swap-slip-option");
+    const swapSlipExpand = document.getElementById("swapSlipExpand");
+
+    const profileStage = document.getElementById("profileStage");
+    const slimCard = document.getElementById("slimCard");
+    const walletIdText = document.getElementById("walletIdText");
+    const walletRibbon = document.getElementById("walletRibbon");
+    const statusPill = document.getElementById("statusPill");
+    const recipientQrBtn = document.getElementById("recipientQrBtn");
+
+    const walletConnectItems = document.querySelectorAll(".wallet-connect-item");
+    const closeTokensBtn = document.getElementById("closeTokensBtn");
+    const closeMoreBtn = document.getElementById("closeMoreBtn");
+
+    const gpChangeWalletBtn = document.getElementById("gpChangeWalletBtn");
+    const gpWalletBox = document.getElementById("gpWalletBox");
+    const gpUsdcBtn = document.getElementById("gpUsdcBtn");
+    const gpEurcBtn = document.getElementById("gpEurcBtn");
+    const gpSwitchTrack = document.getElementById("gpSwitchTrack");
+    const gpSwitchKnob = document.getElementById("gpSwitchKnob");
+    const gpAmountInput = document.getElementById("gpAmountInput");
+    const gpOrbAssetText = document.getElementById("gpOrbAssetText");
+    const gpGenerateBtn = document.getElementById("gpGenerateBtn");
+    const gpReceiptShell = document.getElementById("gpReceiptShell");
+    const gpReceiptPaper = document.getElementById("gpReceiptPaper");
+    const gpStatusText = document.getElementById("gpStatusText");
+    const gpReceiptAmountBig = document.getElementById("gpReceiptAmountBig");
+    const gpReceiptAssetBig = document.getElementById("gpReceiptAssetBig");
+    const gpReceiptDesc = document.getElementById("gpReceiptDesc");
+    const gpReceiptWallet = document.getElementById("gpReceiptWallet");
+    const gpReceiptPayer = document.getElementById("gpReceiptPayer");
+    const gpReceiptDate = document.getElementById("gpReceiptDate");
+    const gpCopyBtn = document.getElementById("gpCopyBtn");
+    const gpShareBtn = document.getElementById("gpShareBtn");
+    const gpDownloadBtn = document.getElementById("gpDownloadBtn");
+    const gpNewRequestBtn = document.getElementById("gpNewRequestBtn");
+    const gpQrCanvas = document.getElementById("gpQrCanvas");
+    const gpWalletModal = document.getElementById("gpWalletModal");
+    const gpWalletInput = document.getElementById("gpWalletInput");
+    const gpWalletCancelBtn = document.getElementById("gpWalletCancelBtn");
+    const gpWalletSaveBtn = document.getElementById("gpWalletSaveBtn");
+
+    const tokensSearchPill = document.getElementById("tokensSearchPill");
+    const tokensSearchInput = document.getElementById("tokensSearchInput");
+    const tokensSearchClose = document.getElementById("tokensSearchClose");
+    const tokensRailList = document.getElementById("tokensRailList");
+    const tokensTableRows = document.getElementById("tokensTableRows");
+    const tokensEmptyState = document.getElementById("tokensEmptyState");
+    const tokensCopiedTip = document.getElementById("tokensCopiedTip");
+
+    const morePanelUi = document.getElementById("morePanelUi");
+    const moreThemeSwitch = document.getElementById("moreThemeSwitch");
+    const moreThemeLabel = document.getElementById("moreThemeLabel");
+    const moreTabs = document.querySelectorAll(".more-tab");
+    const moreViews = document.querySelectorAll(".more-view");
+    const moreLangControl = document.getElementById("moreLangControl");
+    const moreLangTrigger = document.getElementById("moreLangTrigger");
+    const moreLangValue = document.getElementById("moreLangValue");
+    const moreLangOptions = document.querySelectorAll(".more-lang-option");
+
+    let confirmTimer = null;
+    let confirmCount = 0;
+    let outputAsset = "USDC";
+    let flipRotation = 0;
+    let swapSlipValue = 0.5;
+    let isWalletConnected = false;
+    let currentWalletLabel = "";
+    let currentWalletAddress = "0x56d1...c444";
+
+    const payRates = {
+      USDC: 1.0085,
+      EURC: 0.9920
+    };
+
+    const lmtvToUsdcRate = 0.0987;
+
+    const balances = {
+      LMTV: 4200,
+      USDC: 828.90,
+      EURC: 615.40
+    };
+
+    let swapState = {
+      topToken: "LMTV",
+      bottomToken: "USDC"
+    };
+
+    const gpState = {
+      asset: "USDC",
+      fullWallet: "0x7A3F0000000000000000000000000000000091Bc",
+      requestLink: ""
+    };
+
+    const gpRates = {
+      USDC: 3.001,
+      EURC: 3.095
+    };
+
+    const TOKENS = [
+      {
+        name: "LMTV",
+        price: "$1.00",
+        holders: "842",
+        supply: "3B",
+        volume: "$420K",
+        marketCap: "$3.0B",
+        contract: "0xd9D382085Fb4E4dBCf0A6B85c76D42eaB0A1be2d",
+        image: "lmtv.png",
+        fallback: "L"
+      },
+      {
+        name: "USDC",
+        price: "$1.00",
+        holders: "5.4K",
+        supply: "1M",
+        volume: "$180K",
+        marketCap: "$1.0M",
+        contract: "0x3600000000000000000000000000000000000000",
+        image: "usdc.png",
+        fallback: "$"
+      },
+      {
+        name: "EURC",
+        price: "$1.00",
+        holders: "1.2K",
+        supply: "1M",
+        volume: "$92K",
+        marketCap: "$1.0M",
+        contract: "0x89B50855Aa3bE2F677cD6303Cec089B5F319D72a",
+        image: "eurc.png",
+        fallback: "€"
+      }
+    ];
+
+    let filteredTokens = [...TOKENS];
+    let activeToken = TOKENS[0].name;
+    let tokensCopiedTimer = null;
+
+    function setBodyLocked(locked){
+      body.classList.toggle("sheet-open", locked);
+    }
+
+    function anyLayerOpen(){
+      return (
+        walletSheet.classList.contains("show") ||
+        tokensSheet.classList.contains("show") ||
+        moreSheet.classList.contains("show")
+      );
+    }
+
+    function syncOverlay(){
+      const showOverlay =
+        walletSheet.classList.contains("show") ||
+        tokensSheet.classList.contains("show") ||
+        moreSheet.classList.contains("show");
+
+      overlay.classList.toggle("show", showOverlay);
+      setBodyLocked(showOverlay);
+    }
+
+    function clearActiveNav(){
+      [openSwapBtn, openPayBtn, openTokensBtn, openGetPaidBtn, openMoreNav, homeBtn].forEach(btn=>{
+        btn.classList.remove("active");
+      });
+    }
+
+    function setHomeActive(){
+      clearActiveNav();
+      homeBtn.classList.add("active");
+    }
+
+    function setSwapActive(){
+      clearActiveNav();
+      openSwapBtn.classList.add("active");
+    }
+
+    function setPayActive(){
+      clearActiveNav();
+      openPayBtn.classList.add("active");
+    }
+
+    function setTokensActive(){
+      clearActiveNav();
+      openTokensBtn.classList.add("active");
+    }
+
+    function setGetPaidActive(){
+      clearActiveNav();
+      openGetPaidBtn.classList.add("active");
+    }
+
+    function setMoreActive(){
+      clearActiveNav();
+      openMoreNav.classList.add("active");
+    }
+
+    function closeModules(){
+      swapPanel.classList.remove("show");
+      payPanel.classList.remove("show");
+      getPaidPanel.classList.remove("show");
+    }
+
+    function closeSheets(){
+      walletSheet.classList.remove("show");
+      tokensSheet.classList.remove("show");
+      moreSheet.classList.remove("show");
+      moreLangControl.classList.remove("open");
+      syncOverlay();
+    }
+
+    function openHomeView(){
+      closeModules();
+      closeSheets();
+      setHomeActive();
+    }
+
+    function openWalletSheet(){
+      closeSheets();
+      walletSheet.classList.add("show");
+      syncOverlay();
+    }
+
+    function openTokensSheet(){
+      closeSheets();
+      tokensSheet.classList.add("show");
+      setTokensActive();
+      syncOverlay();
+    }
+
+    function openMoreSheet(){
+      closeSheets();
+      moreSheet.classList.add("show");
+      setMoreActive();
+      syncOverlay();
+    }
+
+    function openSwapPanel(){
+      closeModules();
+      closeSheets();
+      setSwapActive();
+      swapPanel.classList.add("show");
+    }
+
+    function openPayPanel(){
+      closeModules();
+      closeSheets();
+      setPayActive();
+      payPanel.classList.add("show");
+    }
+
+    function openGetPaidPanel(){
+      closeModules();
+      closeSheets();
+      setGetPaidActive();
+      getPaidPanel.classList.add("show");
+    }
+
+    function shortWallet(address){
+      if(!address || address.length < 10) return address || "";
+      return address.slice(0, 4) + "..." + address.slice(-4);
+    }
+
+    function sanitizeNumeric(value){
+      return value.replace(/[^0-9.,]/g, "").replace(",", ".");
+    }
+
+    function sanitizeInteger(value){
+      return value.replace(/\D/g, "");
+    }
+
+    function formatReceive(amount){
+      if(!amount || isNaN(amount)) return `0 ${outputAsset}`;
+      const clean = amount % 1 === 0 ? amount.toFixed(0) : amount.toFixed(2);
+      return `${clean} ${outputAsset}`;
+    }
+
+    function formatPay(amount){
+      if(!amount || isNaN(amount)) return "0.0000 LMTV";
+      return `${amount.toFixed(4)} LMTV`;
+    }
+
+    function formatSwapNumber(value){
+      if(value === "" || value === null || typeof value === "undefined" || isNaN(value)) return "";
+      const fixed = Number(value);
+      if(!isFinite(fixed)) return "";
+      if(Math.abs(fixed) >= 1000) return fixed.toFixed(2);
+      if(Math.abs(fixed) >= 1) return fixed.toFixed(2);
+      if(fixed === 0) return "0";
+      return fixed.toFixed(4).replace(/0+$/, "").replace(/\.$/, "");
+    }
+
+    function convertAmount(value, fromToken, toToken){
+      const amount = Number(value);
+      if(!isFinite(amount)) return 0;
+      if(fromToken === toToken) return amount;
+
+      if(fromToken === "LMTV" && toToken === "USDC"){
+        return amount * lmtvToUsdcRate;
+      }
+
+      if(fromToken === "USDC" && toToken === "LMTV"){
+        return amount / lmtvToUsdcRate;
+      }
+
+      if(fromToken === "LMTV" && toToken === "EURC"){
+        return amount * payRates.EURC;
+      }
+
+      if(fromToken === "EURC" && toToken === "LMTV"){
+        return amount / payRates.EURC;
+      }
+
+      return amount;
+    }
+
+    function tokenMeta(symbol){
+      if(symbol === "USDC"){
+        return { cls:"token-media token-media-usdc", image:"usdc.png", fallback:"$" };
+      }
+
+      if(symbol === "EURC"){
+        return { cls:"token-media token-media-eurc", image:"eurc.png", fallback:"€" };
+      }
+
+      return { cls:"token-media token-media-lmtv", image:"lmtv.png", fallback:"L" };
+    }
+
+    function setTokenMedia(el, symbol){
+      const meta = tokenMeta(symbol);
+      el.className = meta.cls;
+      el.innerHTML = `<img src="${meta.image}" alt="${symbol}" /><span>${meta.fallback}</span>`;
+    }
+
+    function setWalletConnected(walletName){
+      isWalletConnected = true;
+      currentWalletLabel = walletName;
+      currentWalletAddress = "0x56d1...c444";
+
+      openWalletMain.textContent = "Connected";
+      openWalletMain.classList.add("connected");
+
+      statusPill.textContent = walletName.toUpperCase();
+      statusPill.classList.add("connected");
+
+      walletRibbon.classList.add("connected");
+      walletIdText.textContent = shortWallet(currentWalletAddress);
+
+      closeSheets();
+    }
+
+    function ensureWalletOrOpenSheet(){
+      if(isWalletConnected) return true;
+      openWalletSheet();
+      return false;
+    }
+
+    function renderSwapRate(){
+      if(swapState.topToken === "LMTV" && swapState.bottomToken === "USDC"){
+        swapRateValue.textContent = "1 LMTV = 0.0987 USDC";
+        return;
+      }
+
+      if(swapState.topToken === "USDC" && swapState.bottomToken === "LMTV"){
+        swapRateValue.textContent = "1 USDC = 10.1317 LMTV";
+        return;
+      }
+
+      if(swapState.topToken === "LMTV" && swapState.bottomToken === "EURC"){
+        swapRateValue.textContent = "1 LMTV = 0.9920 EURC";
+        return;
+      }
+
+      if(swapState.topToken === "EURC" && swapState.bottomToken === "LMTV"){
+        swapRateValue.textContent = "1 EURC = 1.0081 LMTV";
+        return;
+      }
+
+      swapRateValue.textContent = `1 ${swapState.topToken} = 1 ${swapState.bottomToken}`;
+    }
+
+    function renderSwapUI(){
+      setTokenMedia(swapTopTokenIcon, swapState.topToken);
+      setTokenMedia(swapBottomTokenIcon, swapState.bottomToken);
+
+      swapTopTokenLabel.textContent = swapState.topToken;
+      swapBottomTokenLabel.textContent = swapState.bottomToken;
+
+      swapTopBalance.textContent = `Balance ${formatSwapNumber(balances[swapState.topToken] || 0)}`;
+      swapBottomBalance.textContent = `Balance ${formatSwapNumber(balances[swapState.bottomToken] || 0)}`;
+
+      renderSwapRate();
+    }
+
+    function updateQuickVisibility(){
+      const topValue = parseFloat(sanitizeNumeric(swapTopInput.value));
+      const bottomValue = parseFloat(sanitizeNumeric(swapBottomInput.value));
+      const hasValue =
+        (!isNaN(topValue) && topValue > 0) ||
+        (!isNaN(bottomValue) && bottomValue > 0);
+
+      swapQuickRow.classList.toggle("show", hasValue);
+      swapActionBtn.classList.toggle("disabled", !hasValue);
+    }
+
+    function updateSwapFromTop(){
+      const topValue = parseFloat(sanitizeNumeric(swapTopInput.value));
+
+      if(isNaN(topValue) || topValue <= 0){
+        swapBottomInput.value = "";
+        updateQuickVisibility();
+        return;
+      }
+
+      const converted = convertAmount(topValue, swapState.topToken, swapState.bottomToken);
+      swapBottomInput.value = formatSwapNumber(converted);
+      updateQuickVisibility();
+    }
+
+    function updateSwapFromBottom(){
+      const bottomValue = parseFloat(sanitizeNumeric(swapBottomInput.value));
+
+      if(isNaN(bottomValue) || bottomValue <= 0){
+        swapTopInput.value = "";
+        updateQuickVisibility();
+        return;
+      }
+
+      const converted = convertAmount(bottomValue, swapState.bottomToken, swapState.topToken);
+      swapTopInput.value = formatSwapNumber(converted);
+      updateQuickVisibility();
+    }
+
+    function formatSlipLabel(value){
+      if(value === "auto") return "Slippage Auto";
+      const num = Number(value);
+      if(!isFinite(num)) return "Slippage Auto";
+      const text = Number.isInteger(num) ? num.toFixed(1) : String(num);
+      return `Slippage ${text}%`;
+    }
+
+    function formatSlipStat(value){
+      if(value === "auto") return "Auto";
+      const num = Number(value);
+      if(!isFinite(num)) return "Auto";
+      return `${num.toFixed(2)}%`;
+    }
+
+    function renderSlippage(){
+      swapSlipSummary.textContent = formatSlipLabel(swapSlipValue);
+      swapStatSlippage.textContent = formatSlipStat(swapSlipValue);
+
+      swapSlipOptions.forEach(option=>{
+        const isActive = String(option.dataset.slip) === String(swapSlipValue);
+        option.classList.toggle("active", isActive);
+      });
+
+      if(swapSlipValue === "auto"){
+        swapSlipInput.value = "";
+        swapSlipInputWrap.classList.remove("manual-active");
+      }else{
+        const num = Number(swapSlipValue);
+        const presetMatch = Array.from(swapSlipOptions).some(option => Number(option.dataset.slip) === num);
+        swapSlipInput.value = presetMatch ? "" : String(num);
+        swapSlipInputWrap.classList.toggle("manual-active", !presetMatch);
+      }
+    }
+
+    function openSlippage(){
+      swapSlipControl.classList.add("open");
+      swapSlipToggle.setAttribute("aria-expanded", "true");
+    }
+
+    function closeSlippage(){
+      swapSlipControl.classList.remove("open");
+      swapSlipToggle.setAttribute("aria-expanded", "false");
+    }
+
+    function applyManualSlippage(){
+      const raw = sanitizeNumeric(swapSlipInput.value).trim();
+      const value = parseFloat(raw);
+
+      if(isNaN(value) || value <= 0){
+        renderSlippage();
+        closeSlippage();
+        return;
+      }
+
+      swapSlipValue = Number(value.toFixed(2));
+      renderSlippage();
+      closeSlippage();
+    }
+
+    function renderOutputAsset(){
+      const symbol = outputAsset;
+      setTokenMedia(outputAssetIcon, symbol);
+      setTokenMedia(confirmOutputIcon, symbol);
+
+      outputAssetIcon.style.width = "56px";
+      outputAssetIcon.style.height = "56px";
+      confirmOutputIcon.style.width = "44px";
+      confirmOutputIcon.style.height = "44px";
+
+      outputAssetName.textContent = outputAsset;
+      confirmOutputName.textContent = outputAsset;
+      payRateEl.textContent = `1 LMTV = ${payRates[outputAsset].toFixed(4)} ${outputAsset}`;
+    }
+
+    function toggleOutputAsset(){
+      outputAsset = outputAsset === "USDC" ? "EURC" : "USDC";
+      renderOutputAsset();
+      updatePayPreview();
+    }
+
+    function updatePayPreview(){
+      const receiveValue = parseFloat(sanitizeNumeric(recipientGets.value));
+      const hasWallet = recipientWallet.value.trim().length > 0;
+      const validReceive = !isNaN(receiveValue) && receiveValue > 0;
+
+      receivePreview.textContent = formatReceive(validReceive ? receiveValue : 0);
+
+      const currentRate = payRates[outputAsset];
+      const lmtvNeeded = validReceive ? (receiveValue / currentRate) * 0.9915 : 0;
+      youPayPreview.textContent = formatPay(lmtvNeeded);
+
+      const enableButton = hasWallet && validReceive;
+      swapPayBtn.classList.toggle("enabled", enableButton);
+
+      if(!confirmBlock.classList.contains("show")){
+        confirmChip.textContent = "Confirmations 0/3";
+      }
+    }
+
+    function resetPayFlow(){
+      if(confirmTimer){
+        clearInterval(confirmTimer);
+        confirmTimer = null;
+      }
+
+      confirmCount = 0;
+      recipientWallet.value = "";
+      recipientGets.value = "";
+      paymentNote.value = "";
+      confirmTitle.textContent = "Waiting for confirmation 1/3";
+      confirmStep.textContent = "1/3";
+      confirmChip.textContent = "Confirmations 0/3";
+      confirmBlock.classList.remove("show");
+      confirmShell.classList.remove("processing");
+      updatePayPreview();
+    }
+
+    function runConfirmFlow(){
+      if(!swapPayBtn.classList.contains("enabled")) return;
+      if(!ensureWalletOrOpenSheet()) return;
+
+      if(confirmTimer){
+        clearInterval(confirmTimer);
+        confirmTimer = null;
+      }
+
+      confirmCount = 0;
+      confirmBlock.classList.add("show");
+      confirmShell.classList.add("processing");
+
+      const tick = ()=>{
+        confirmCount += 1;
+        confirmTitle.textContent = `Waiting for confirmation ${confirmCount}/3`;
+        confirmStep.textContent = `${confirmCount}/3`;
+        confirmChip.textContent = `Confirmations ${confirmCount}/3`;
+
+        if(confirmCount >= 3){
+          clearInterval(confirmTimer);
+          confirmTimer = null;
+          confirmShell.classList.remove("processing");
+
+          setTimeout(()=>{
+            resetPayFlow();
+          }, 900);
+        }
+      };
+
+      tick();
+      confirmTimer = setInterval(tick, 900);
+    }
+
+    function moveProfileCard(clientX, clientY){
+      const rect = profileStage.getBoundingClientRect();
+      const x = clientX - rect.left;
+      const y = clientY - rect.top;
+      const px = (x / rect.width) - 0.5;
+      const py = (y / rect.height) - 0.5;
+
+      const rotateY = px * 4;
+      const rotateX = py * -3;
+
+      slimCard.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+    }
+
+    function resetProfileCard(){
+      slimCard.style.transform = "rotateX(0deg) rotateY(0deg)";
+    }
+
+    function gpShortWallet(address){
+      if(!address || address.length < 10) return address || "";
+      return address.slice(0, 6) + "..." + address.slice(-4);
+    }
+
+    function gpSyncWalletUI(){
+      gpWalletBox.textContent = gpShortWallet(gpState.fullWallet);
+    }
+
+    function gpOpenWalletModal(){
+      gpWalletInput.value = gpState.fullWallet;
+      gpWalletModal.classList.add("show");
+      setTimeout(() => gpWalletInput.focus(), 20);
+    }
+
+    function gpCloseWalletModal(){
+      gpWalletModal.classList.remove("show");
+    }
+
+    function gpEnforceAmountLimit(){
+      gpAmountInput.value = sanitizeInteger(gpAmountInput.value);
+
+      if(gpAmountInput.value === ""){
+        gpStatusText.textContent = "Fill the amount and generate the QR.";
+        return;
+      }
+
+      let value = parseInt(gpAmountInput.value, 10);
+
+      if(isNaN(value)){
+        gpAmountInput.value = "";
+        gpStatusText.textContent = "Fill the amount and generate the QR.";
+        return;
+      }
+
+      if(value > 100){
+        gpAmountInput.value = "100";
+        gpStatusText.textContent = "Allowed up to 100 by system.";
+        return;
+      }
+
+      gpStatusText.textContent = "Ready to generate the QR.";
+    }
+
+    function gpGetAmount(){
+      const n = parseInt(gpAmountInput.value, 10);
+      return (!isNaN(n) && n > 0) ? n : 0;
+    }
+
+    function gpFormatAmount(value){
+      if (!value || isNaN(value)) return "0.00";
+      return Number(value).toFixed(2);
+    }
+
+    function gpFormatPayer(value){
+      if (!value || isNaN(value)) return "≈ 0.000 LMTV";
+      return `≈ ${Number(value).toFixed(3)} LMTV`;
+    }
+
+    function gpSetAsset(asset){
+      gpState.asset = asset;
+      const isUSDC = asset === "USDC";
+
+      gpUsdcBtn.className = "gp-asset-box usdc";
+      gpEurcBtn.className = "gp-asset-box eurc";
+
+      if(isUSDC){
+        gpUsdcBtn.classList.add("active");
+        gpEurcBtn.classList.add("inactive");
+        gpSwitchKnob.className = "gp-switch-knob left";
+      } else {
+        gpEurcBtn.classList.add("active");
+        gpUsdcBtn.classList.add("inactive");
+        gpSwitchKnob.className = "gp-switch-knob right";
+      }
+
+      gpOrbAssetText.textContent = gpState.asset;
+    }
+
+    function gpBuildLink(){
+      const amount = gpGetAmount();
+      const payer = amount * gpRates[gpState.asset];
+
+      const payload = {
+        app: "StableFlow",
+        type: "get_paid_request",
+        asset: gpState.asset,
+        amount: Number(gpFormatAmount(amount)),
+        wallet: gpState.fullWallet,
+        ifUsingSwapAndPay: {
+          asset: "LMTV",
+          approxAmount: Number(payer.toFixed(3))
+        }
+      };
+
+      return "stableflow://request?data=" + encodeURIComponent(JSON.stringify(payload));
+    }
+
+    function gpDrawFallback(text){
+      const ctx = gpQrCanvas.getContext("2d");
+      const size = gpQrCanvas.width;
+      const cells = 21;
+      const cell = size / cells;
+
+      ctx.fillStyle = "#fff";
+      ctx.fillRect(0, 0, size, size);
+
+      let seed = 0;
+      for(let i = 0; i < text.length; i++){
+        seed = (seed * 31 + text.charCodeAt(i)) >>> 0;
+      }
+
+      function rand(){
+        seed = (seed * 1664525 + 1013904223) >>> 0;
+        return seed / 4294967296;
+      }
+
+      function finder(x, y){
+        ctx.fillStyle = "#000";
+        ctx.fillRect(x * cell, y * cell, 7 * cell, 7 * cell);
+        ctx.fillStyle = "#fff";
+        ctx.fillRect((x + 1) * cell, (y + 1) * cell, 5 * cell, 5 * cell);
+        ctx.fillStyle = "#000";
+        ctx.fillRect((x + 2) * cell, (y + 2) * cell, 3 * cell, 3 * cell);
+      }
+
+      finder(1,1);
+      finder(13,1);
+      finder(1,13);
+
+      ctx.fillStyle = "#000";
+      for(let y = 0; y < cells; y++){
+        for(let x = 0; x < cells; x++){
+          const inFinder =
+            (x >= 1 && x <= 7 && y >= 1 && y <= 7) ||
+            (x >= 13 && x <= 19 && y >= 1 && y <= 7) ||
+            (x >= 1 && x <= 7 && y >= 13 && y <= 19);
+
+          if(inFinder) continue;
+          if(rand() > 0.58){
+            ctx.fillRect(Math.floor(x * cell), Math.floor(y * cell), Math.ceil(cell), Math.ceil(cell));
+          }
+        }
+      }
+    }
+
+    async function gpRenderQR(text){
+      if(window.QRCode && QRCode.toCanvas){
+        try{
+          await QRCode.toCanvas(gpQrCanvas, text, {
+            width: 100,
+            margin: 1,
+            color: { dark: "#000000", light: "#ffffff" }
+          });
+          return;
+        } catch(e){}
+      }
+      gpDrawFallback(text);
+    }
+
+    async function gpGenerateReceipt(){
+      const amount = gpGetAmount();
+
+      if(amount <= 0){
+        gpStatusText.textContent = "Enter a value first.";
+        return;
+      }
+
+      const payer = amount * gpRates[gpState.asset];
+      const now = new Date();
+
+      gpState.requestLink = gpBuildLink();
+
+      gpReceiptAmountBig.textContent = gpFormatAmount(amount);
+      gpReceiptAssetBig.textContent = gpState.asset;
+      gpReceiptDesc.textContent = `Recipient receives ${gpFormatAmount(amount)} ${gpState.asset}.`;
+      gpReceiptWallet.textContent = gpShortWallet(gpState.fullWallet);
+      gpReceiptPayer.textContent = gpFormatPayer(payer);
+      gpReceiptDate.textContent = now.toLocaleString();
+
+      await gpRenderQR(gpState.requestLink);
+
+      gpReceiptShell.classList.add("show");
+      gpStatusText.textContent = "Payment QR generated.";
+    }
+
+    async function safeCopyText(text, successMessage, failureMessage){
+      try{
+        if(navigator.clipboard && window.isSecureContext){
+          await navigator.clipboard.writeText(text);
+        }else{
+          const area = document.createElement("textarea");
+          area.value = text;
+          area.style.position = "fixed";
+          area.style.left = "-9999px";
+          document.body.appendChild(area);
+          area.focus();
+          area.select();
+          document.execCommand("copy");
+          area.remove();
+        }
+        return { ok:true, message:successMessage };
+      }catch{
+        return { ok:false, message:failureMessage };
+      }
+    }
+        async function gpCopyText(text, message){
+      const result = await safeCopyText(text, message, "Could not copy on this device.");
+      gpStatusText.textContent = result.message;
+    }
+
+    async function gpDownloadReceipt(){
+      if(!gpReceiptShell.classList.contains("show")){
+        gpStatusText.textContent = "Generate the receipt first.";
+        return;
+      }
+
+      if(!window.html2canvas){
+        gpStatusText.textContent = "Download is not available right now.";
+        return;
+      }
+
+      try{
+        const canvas = await html2canvas(gpReceiptPaper, {
+          backgroundColor: null,
+          scale: 2
+        });
+
+        const link = document.createElement("a");
+        link.download = `stableflow-receipt-${Date.now()}.png`;
+        link.href = canvas.toDataURL("image/png");
+        link.click();
+
+        gpStatusText.textContent = "Receipt downloaded.";
+      }catch{
+        gpStatusText.textContent = "Could not download the receipt.";
+      }
+    }
+
+    function gpResetRequest(){
+      gpAmountInput.value = "";
+      gpReceiptShell.classList.remove("show");
+      gpStatusText.textContent = "Ready for a new request.";
+      gpState.requestLink = "";
+    }
+
+    function restoreNavAfterSheetClose(){
+      if(swapPanel.classList.contains("show")){
+        setSwapActive();
+      }else if(payPanel.classList.contains("show")){
+        setPayActive();
+      }else if(getPaidPanel.classList.contains("show")){
+        setGetPaidActive();
+      }else{
+        setHomeActive();
+      }
+    }
+
+    function simulateSwapAction(){
+      if(swapActionBtn.classList.contains("disabled")) return;
+      if(!ensureWalletOrOpenSheet()) return;
+
+      const original = swapActionBtn.textContent;
+      swapActionBtn.textContent = "Swap ready";
+      swapActionBtn.disabled = true;
+
+      setTimeout(()=>{
+        swapActionBtn.textContent = original;
+        swapActionBtn.disabled = false;
+      }, 900);
+    }
+
+    function tokensShortAddress(address){
+      return `${address.slice(0, 4)}...${address.slice(-4)}`;
+    }
+
+    function tokensShowCopied(message){
+      tokensCopiedTip.textContent = message;
+      tokensCopiedTip.classList.add("show");
+      clearTimeout(tokensCopiedTimer);
+      tokensCopiedTimer = setTimeout(() => tokensCopiedTip.classList.remove("show"), 1200);
+    }
+
+    async function tokensCopyText(text){
+      const result = await safeCopyText(text, "Contract copied", "Copy failed");
+      tokensShowCopied(result.message);
+    }
+
+    function tokensOrbMarkup(token){
+      return `
+        <div class="tokens-token-orb">
+          <img src="${token.image}" alt="${token.name}" />
+          <span>${token.fallback}</span>
+        </div>
+      `;
+    }
+
+    function renderTokens(){
+      tokensRailList.innerHTML = "";
+      tokensTableRows.innerHTML = "";
+
+      if(filteredTokens.length === 0){
+        tokensEmptyState.classList.add("show");
+        return;
+      }
+
+      tokensEmptyState.classList.remove("show");
+
+      filteredTokens.forEach((token) => {
+        const active = token.name === activeToken;
+
+        const railItem = document.createElement("div");
+        railItem.className = `tokens-token-item${active ? " active" : ""}`;
+        railItem.dataset.token = token.name;
+        railItem.innerHTML = `
+          ${tokensOrbMarkup(token)}
+          <span class="tokens-token-name">${token.name}</span>
+          <button class="tokens-copy-chip" type="button" aria-label="Copy ${token.name} contract">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <rect x="8" y="8" width="11" height="11" rx="2.5"></rect>
+              <rect x="5" y="5" width="11" height="11" rx="2.5"></rect>
+            </svg>
+          </button>
+        `;
+
+        railItem.addEventListener("click", (event) => {
+          if(event.target.closest(".tokens-copy-chip")) return;
+          activeToken = token.name;
+          renderTokens();
+        });
+
+        railItem.querySelector(".tokens-copy-chip").addEventListener("click", async (event) => {
+          event.stopPropagation();
+          await tokensCopyText(token.contract);
+        });
+
+        tokensRailList.appendChild(railItem);
+
+        const row = document.createElement("div");
+        row.className = `tokens-data-row${active ? " active" : ""}`;
+        row.innerHTML = `
+          <div class="tokens-d-cell">${token.price}</div>
+          <div class="tokens-d-cell">${token.holders}</div>
+          <div class="tokens-d-cell">${token.supply}</div>
+          <div class="tokens-d-cell">${token.volume}</div>
+          <div class="tokens-d-cell">${token.marketCap}</div>
+          <div class="tokens-d-cell soft">${tokensShortAddress(token.contract)}</div>
+        `;
+
+        row.addEventListener("click", () => {
+          activeToken = token.name;
+          renderTokens();
+        });
+
+        tokensTableRows.appendChild(row);
+      });
+    }
+
+    function filterTokens(value){
+      const query = value.trim().toLowerCase();
+
+      filteredTokens = TOKENS.filter((token) =>
+        token.name.toLowerCase().includes(query) ||
+        token.contract.toLowerCase().includes(query)
+      );
+
+      if(!filteredTokens.some((token) => token.name === activeToken)){
+        activeToken = filteredTokens[0]?.name || "";
+      }
+
+      renderTokens();
+    }
+
+    function openTokensSearch(){
+      tokensSearchPill.classList.add("open");
+      requestAnimationFrame(() => {
+        setTimeout(() => tokensSearchInput.focus(), 60);
+      });
+    }
+
+    function closeTokensSearch(){
+      tokensSearchInput.value = "";
+      filteredTokens = [...TOKENS];
+      activeToken = TOKENS[0].name;
+      renderTokens();
+      tokensSearchPill.classList.remove("open");
+    }
+
+    function activateMoreView(key){
+      const idMap = {
+        overview: "moreOverview",
+        requests: "moreRequests",
+        transactions: "moreTransactions"
+      };
+
+      moreTabs.forEach((tab) => tab.classList.toggle("active", tab.dataset.tab === key));
+      moreViews.forEach((view) => view.classList.remove("active"));
+
+      const target = document.getElementById(idMap[key]);
+      if(target) target.classList.add("active");
+    }
+
+    profileStage.addEventListener("mousemove", (e) => moveProfileCard(e.clientX, e.clientY));
+    profileStage.addEventListener("mouseleave", resetProfileCard);
+    profileStage.addEventListener("touchmove", (e) => {
+      const t = e.touches[0];
+      if(t) moveProfileCard(t.clientX, t.clientY);
+    }, { passive:true });
+    profileStage.addEventListener("touchend", resetProfileCard);
+
+    openWalletMain.addEventListener("click", () => {
+      openWalletSheet();
+    });
+
+    openSwapBtn.addEventListener("click", () => {
+      openSwapPanel();
+    });
+
+    openPayBtn.addEventListener("click", () => {
+      openPayPanel();
+    });
+
+    openTokensBtn.addEventListener("click", () => {
+      closeModules();
+      openTokensSheet();
+    });
+
+    openGetPaidBtn.addEventListener("click", () => {
+      openGetPaidPanel();
+    });
+
+    openMoreNav.addEventListener("click", () => {
+      closeModules();
+      openMoreSheet();
+    });
+
+    homeBtn.addEventListener("click", () => {
+      openHomeView();
+    });
+
+    closeTokensBtn.addEventListener("click", () => {
+      closeSheets();
+      restoreNavAfterSheetClose();
+    });
+
+    closeMoreBtn.addEventListener("click", () => {
+      closeSheets();
+      restoreNavAfterSheetClose();
+    });
+
+    overlay.addEventListener("click", () => {
+      closeSheets();
+      restoreNavAfterSheetClose();
+    });
+
+    document.querySelectorAll("[data-close='wallet']").forEach((el) => {
+      el.addEventListener("click", () => {
+        closeSheets();
+        restoreNavAfterSheetClose();
+      });
+    });
+
+    walletConnectItems.forEach((item) => {
+      item.addEventListener("click", () => {
+        setWalletConnected(item.dataset.wallet || "Wallet");
+      });
+    });
+
+    recipientQrBtn.addEventListener("click", () => {
+      const scannedWallet = window.prompt("Paste wallet captured from QR", recipientWallet.value.trim());
+      if(scannedWallet === null) return;
+      recipientWallet.value = scannedWallet.trim();
+      updatePayPreview();
+    });
+
+    swapSlipToggle.addEventListener("click", (e) => {
+      e.stopPropagation();
+      if(swapSlipControl.classList.contains("open")){
+        closeSlippage();
+      }else{
+        openSlippage();
+      }
+    });
+
+    swapSlipControl.addEventListener("click", (e) => {
+      e.stopPropagation();
+    });
+
+    swapSlipExpand.addEventListener("wheel", (e) => {
+      if(Math.abs(e.deltaY) > Math.abs(e.deltaX)){
+        e.preventDefault();
+        swapSlipExpand.scrollLeft += e.deltaY;
+      }
+    }, { passive:false });
+
+    swapSlipOptions.forEach((option) => {
+      option.addEventListener("click", () => {
+        const value = option.dataset.slip;
+        swapSlipValue = value === "auto" ? "auto" : Number(value);
+        renderSlippage();
+        closeSlippage();
+      });
+    });
+
+    swapSlipInput.addEventListener("input", () => {
+      swapSlipInput.value = sanitizeNumeric(swapSlipInput.value);
+      swapSlipInputWrap.classList.add("manual-active");
+    });
+
+    swapSlipInput.addEventListener("focus", () => {
+      openSlippage();
+      swapSlipInputWrap.classList.add("manual-active");
+    });
+
+    swapSlipInput.addEventListener("keydown", (e) => {
+      if(e.key === "Enter"){
+        e.preventDefault();
+        applyManualSlippage();
+      }
+    });
+
+    swapSlipInput.addEventListener("blur", () => {
+      setTimeout(() => {
+        if(document.activeElement !== swapSlipInput){
+          applyManualSlippage();
+        }
+      }, 80);
+    });
+
+    document.addEventListener("click", () => {
+      closeSlippage();
+      if(!moreLangControl.contains(document.activeElement) && !moreLangControl.matches(":hover")){
+        moreLangControl.classList.remove("open");
+      }
+    });
+
+    swapTopInput.addEventListener("input", () => {
+      swapTopInput.value = sanitizeNumeric(swapTopInput.value);
+      updateSwapFromTop();
+    });
+
+    swapBottomInput.addEventListener("input", () => {
+      swapBottomInput.value = sanitizeNumeric(swapBottomInput.value);
+      updateSwapFromBottom();
+    });
+
+    document.querySelectorAll(".swap-quick-btn").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        const percent = Number(btn.dataset.percent || "0");
+        const amount = (balances[swapState.topToken] || 0) * (percent / 100);
+        swapTopInput.value = formatSwapNumber(amount);
+        updateSwapFromTop();
+      });
+    });
+
+    swapFlipBtn.addEventListener("click", () => {
+      const oldTopValue = swapTopInput.value;
+      const oldBottomValue = swapBottomInput.value;
+
+      const prevTopToken = swapState.topToken;
+      swapState.topToken = swapState.bottomToken;
+      swapState.bottomToken = prevTopToken;
+
+      swapTopInput.value = oldBottomValue;
+      swapBottomInput.value = oldTopValue;
+
+      flipRotation += 180;
+      swapFlipBtn.style.setProperty("--flip-rotation", `${flipRotation}deg`);
+
+      renderSwapUI();
+      updateQuickVisibility();
+    });
+
+    swapActionBtn.addEventListener("click", simulateSwapAction);
+
+    outputAssetToggle.addEventListener("click", toggleOutputAsset);
+    outputAssetToggle.addEventListener("keydown", (e) => {
+      if(e.key === "Enter" || e.key === " "){
+        e.preventDefault();
+        toggleOutputAsset();
+      }
+    });
+
+    recipientWallet.addEventListener("input", updatePayPreview);
+    recipientGets.addEventListener("input", () => {
+      recipientGets.value = sanitizeNumeric(recipientGets.value);
+      updatePayPreview();
+    });
+    paymentNote.addEventListener("input", updatePayPreview);
+
+    swapPayBtn.addEventListener("click", runConfirmFlow);
+
+    gpChangeWalletBtn.addEventListener("click", gpOpenWalletModal);
+
+    gpWalletCancelBtn.addEventListener("click", gpCloseWalletModal);
+
+    gpWalletSaveBtn.addEventListener("click", () => {
+      const cleaned = gpWalletInput.value.trim();
+
+      if(cleaned.length < 8){
+        gpStatusText.textContent = "Wallet not updated.";
+        return;
+      }
+
+      gpState.fullWallet = cleaned;
+      gpSyncWalletUI();
+      gpCloseWalletModal();
+      gpStatusText.textContent = "Receiver wallet updated.";
+    });
+
+    gpWalletInput.addEventListener("keydown", (e) => {
+      if(e.key === "Enter"){
+        gpWalletSaveBtn.click();
+      }
+    });
+
+    gpWalletModal.addEventListener("click", (e) => {
+      if(e.target === gpWalletModal) gpCloseWalletModal();
+    });
+
+    gpUsdcBtn.addEventListener("click", () => gpSetAsset("USDC"));
+    gpEurcBtn.addEventListener("click", () => gpSetAsset("EURC"));
+    gpSwitchTrack.addEventListener("click", () => {
+      gpSetAsset(gpState.asset === "USDC" ? "EURC" : "USDC");
+    });
+
+    gpAmountInput.addEventListener("input", gpEnforceAmountLimit);
+
+    document.querySelectorAll(".gp-quick-btn").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        gpAmountInput.value = btn.dataset.value || "";
+        gpStatusText.textContent = "Ready to generate the QR.";
+      });
+    });
+
+    gpGenerateBtn.addEventListener("click", gpGenerateReceipt);
+
+    gpCopyBtn.addEventListener("click", async () => {
+      if(!gpState.requestLink) return;
+      await gpCopyText(gpState.requestLink, "Request link copied.");
+    });
+
+    gpShareBtn.addEventListener("click", async () => {
+      if(!gpState.requestLink) return;
+
+      const text =
+        `StableFlow payment request\n` +
+        `Recipient gets: ${gpFormatAmount(gpGetAmount())} ${gpState.asset}\n` +
+        `Wallet: ${gpState.fullWallet}\n` +
+        `${gpState.requestLink}`;
+
+      if(navigator.share){
+        try{
+          await navigator.share({
+            title: "StableFlow payment request",
+            text
+          });
+          gpStatusText.textContent = "Request shared.";
+          return;
+        }catch{}
+      }
+
+      await gpCopyText(text, "Share text copied.");
+    });
+
+    gpDownloadBtn.addEventListener("click", gpDownloadReceipt);
+    gpNewRequestBtn.addEventListener("click", gpResetRequest);
+
+    tokensSearchPill.addEventListener("click", (event) => {
+      if(event.target.closest(".tokens-search-close-btn")) return;
+      if(tokensSearchPill.classList.contains("open")) return;
+      openTokensSearch();
+    });
+
+    tokensSearchClose.addEventListener("pointerdown", (event) => {
+      event.preventDefault();
+      event.stopPropagation();
+      closeTokensSearch();
+    });
+
+    tokensSearchClose.addEventListener("click", (event) => {
+      event.preventDefault();
+      event.stopPropagation();
+    });
+
+    tokensSearchInput.addEventListener("input", (event) => {
+      filterTokens(event.target.value);
+    });
+
+    tokensSearchInput.addEventListener("keydown", (event) => {
+      if(event.key === "Escape") closeTokensSearch();
+    });
+
+    moreThemeSwitch.addEventListener("click", () => {
+      moreThemeSwitch.classList.toggle("off");
+      morePanelUi.classList.toggle("more-theme-soft");
+      moreThemeLabel.textContent = moreThemeSwitch.classList.contains("off") ? "Soft" : "Dark";
+    });
+
+    moreTabs.forEach((tab) => {
+      tab.addEventListener("click", () => {
+        activateMoreView(tab.dataset.tab);
+      });
+    });
+
+    moreLangTrigger.addEventListener("click", (event) => {
+      event.stopPropagation();
+      moreLangControl.classList.toggle("open");
+    });
+
+    moreLangOptions.forEach((option) => {
+      option.addEventListener("click", (event) => {
+        event.stopPropagation();
+        moreLangValue.textContent = option.dataset.lang;
+
+        moreLangOptions.forEach((item) => {
+          item.classList.remove("active");
+          const oldTick = item.querySelector(".tick");
+          if(oldTick) oldTick.remove();
+        });
+
+        option.classList.add("active");
+        const tick = document.createElement("span");
+        tick.className = "tick";
+        option.appendChild(tick);
+
+        moreLangControl.classList.remove("open");
+      });
+    });
+
+    document.addEventListener("click", (event) => {
+      if(!moreLangControl.contains(event.target)){
+        moreLangControl.classList.remove("open");
+      }
+    });
+
+    confirmChip.textContent = "Confirmations 0/3";
+    confirmTitle.textContent = "Waiting for confirmation 1/3";
+
+    renderSwapUI();
+    renderOutputAsset();
+    renderSlippage();
+    updateQuickVisibility();
+    updatePayPreview();
+
+    gpSyncWalletUI();
+    gpSetAsset("USDC");
+
+    renderTokens();
+    activateMoreView("overview");
+    restoreNavAfterSheetClose();
+    syncOverlay();
+  </script>
+</body>
+</html>
