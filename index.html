@@ -125,30 +125,28 @@
     }
 
     .logo-box{
-      width:68px;
-      height:54px;
-      border-radius:19px;
-      flex:0 0 auto;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      overflow:hidden;
-      border:1px solid rgba(125,178,255,.18);
-      background:
-        radial-gradient(circle at 32% 24%, rgba(255,255,255,.12), transparent 18%),
-        radial-gradient(circle at 50% 0%, rgba(96,164,255,.12), transparent 40%),
-        linear-gradient(180deg, #10192a 0%, #0a1220 100%);
-      box-shadow:
-        0 12px 24px rgba(0,0,0,.24),
-        inset 0 1px 0 rgba(255,255,255,.045),
-        inset 0 0 0 1px rgba(229,189,114,.03);
-      position:relative;
+  width:60px;
+  height:60px;
+  flex:0 0 60px;
+  aspect-ratio:1 / 1;
+  border-radius:12px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  overflow:hidden;
+  border:1px solid rgba(125,178,255,.18);
+  background:#0d1117;
+  box-shadow:
+    0 10px 20px rgba(0,0,0,.22),
+    inset 0 1px 0 rgba(255,255,255,.035);
+  position:relative;
     }
 
     .logo-box img{
-      width:100%;
-      height:100%;
-      object-fit:cover;
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  display:block;
     }
 
     .logo-box .logo-fallback{
