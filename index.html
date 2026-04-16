@@ -6867,3517 +6867,1997 @@
   </div>
 
   <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.4/build/qrcode.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/ethers@5.7.2/dist/ethers.umd.min.js"></script>
-<script>
-(() => {
-  const body = document.body;
-  const html = document.documentElement;
-  const mainPage = document.getElementById("mainPage");
-
-  const overlay = document.getElementById("overlay");
-  const moduleUnderlay = document.getElementById("moduleUnderlay");
-
-  const walletSheet = document.getElementById("walletSheet");
-  const tokensSheet = document.getElementById("tokensSheet");
-  const moreSheet = document.getElementById("moreSheet");
-
-  const swapPanel = document.getElementById("swapPanel");
-  const payPanel = document.getElementById("payPanel");
-  const getPaidPanel = document.getElementById("getPaidPanel");
-
-  const openWalletMain = document.getElementById("openWalletMain");
-  const openSwapBtn = document.getElementById("openSwapBtn");
-  const openPayBtn = document.getElementById("openPayBtn");
-  const openTokensBtn = document.getElementById("openTokensBtn");
-  const openGetPaidBtn = document.getElementById("openGetPaidBtn");
-  const openMoreNav = document.getElementById("openMoreNav");
-  const homeBtn = document.getElementById("homeBtn");
-
-  const swapActionBtn = document.getElementById("swapActionBtn");
-  const swapTopInput = document.getElementById("swapTopInput");
-  const swapBottomInput = document.getElementById("swapBottomInput");
-  const swapQuickRow = document.getElementById("swapQuickRow");
-  const swapFlipBtn = document.getElementById("swapFlipBtn");
-  const swapTopTokenIcon = document.getElementById("swapTopTokenIcon");
-  const swapTopTokenLabel = document.getElementById("swapTopTokenLabel");
-  const swapBottomTokenIcon = document.getElementById("swapBottomTokenIcon");
-  const swapBottomTokenLabel = document.getElementById("swapBottomTokenLabel");
-  const swapTopBalance = document.getElementById("swapTopBalance");
-  const swapBottomBalance = document.getElementById("swapBottomBalance");
-  const swapRateValue = document.getElementById("swapRateValue");
-
-  const swapSlipControl = document.getElementById("swapSlipControl");
-  const swapSlipToggle = document.getElementById("swapSlipToggle");
-  const swapSlipSummary = document.getElementById("swapSlipSummary");
-  const swapSlipInput = document.getElementById("swapSlipInput");
-  const swapSlipInputWrap = document.getElementById("swapSlipInputWrap");
-  const swapStatSlippage = document.getElementById("swapStatSlippage");
-  const swapSlipOptions = document.querySelectorAll(".swap-slip-option");
-  const swapSlipExpand = document.getElementById("swapSlipExpand");
-
-  const profileStage = document.getElementById("profileStage");
-  const slimCard = document.getElementById("slimCard");
-  const walletIdText = document.getElementById("walletIdText");
-  const walletRibbon = document.getElementById("walletRibbon");
-  const statusPill = document.getElementById("statusPill");
-  const profileProgressFill = document.getElementById("profileProgressFill");
-  const profileLvValue = document.querySelector(".lv-value");
-  const achievementSlots = [...document.querySelectorAll(".achievements .mark-slot")];
-
-  const walletConnectItems = document.querySelectorAll(".wallet-connect-item");
-  const closeTokensBtn = document.getElementById("closeTokensBtn");
-  const closeMoreBtn = document.getElementById("closeMoreBtn");
-
-  const spAssetUsdc = document.getElementById("spAssetUsdc");
-  const spAssetEurc = document.getElementById("spAssetEurc");
-  const spRecipientWallet = document.getElementById("spRecipientWallet");
-  const spReceiveAmount = document.getElementById("spReceiveAmount");
-  const spNoteInput = document.getElementById("spNoteInput");
-  const spPayerAmount = document.getElementById("spPayerAmount");
-  const spRecipientAmountMirror = document.getElementById("spRecipientAmountMirror");
-  const spQuoteReceiveLabel = document.getElementById("spQuoteReceiveLabel");
-  const spWalletShell = document.getElementById("spWalletShell");
-  const spAmountShell = document.getElementById("spAmountShell");
-  const spNoteToggle = document.getElementById("spNoteToggle");
-  const spNoteRow = document.getElementById("spNoteRow");
-  const spCenterCircle = document.getElementById("spCenterCircle");
-  const spPreviewPanel = document.getElementById("spPreviewPanel");
-  const spSwapBtn = document.getElementById("spSwapBtn");
-  const spPreviewLeft = document.getElementById("spPreviewLeft");
-  const spPreviewRight = document.getElementById("spPreviewRight");
-  const spPreviewRoute = document.getElementById("spPreviewRoute");
-  const spPreviewSlippage = document.getElementById("spPreviewSlippage");
-  const spPreviewFee = document.getElementById("spPreviewFee");
-  const spPreviewMin = document.getElementById("spPreviewMin");
-  const spPreviewNote = document.getElementById("spPreviewNote");
-  const spProgressBadge = document.getElementById("spProgressBadge");
-  const spLoaderCore = document.getElementById("spLoaderCore");
-  const spLoaderStep = document.getElementById("spLoaderStep");
-  const spLoaderSub = document.getElementById("spLoaderSub");
-  const spQrBtn = document.getElementById("spQrBtn");
-  const spScannerModal = document.getElementById("spScannerModal");
-  const spScannerVideo = document.getElementById("spScannerVideo");
-  const spScannerStatus = document.getElementById("spScannerStatus");
-  const spScannerClose = document.getElementById("spScannerClose");
-
-  const gpChangeWalletBtn = document.getElementById("gpChangeWalletBtn");
-  const gpWalletBox = document.getElementById("gpWalletBox");
-  const gpUsdcBtn = document.getElementById("gpUsdcBtn");
-  const gpEurcBtn = document.getElementById("gpEurcBtn");
-  const gpSwitchTrack = document.getElementById("gpSwitchTrack");
-  const gpSwitchKnob = document.getElementById("gpSwitchKnob");
-  const gpAmountInput = document.getElementById("gpAmountInput");
-  const gpOrbAssetText = document.getElementById("gpOrbAssetText");
-  const gpGenerateBtn = document.getElementById("gpGenerateBtn");
-  const gpReceiptShell = document.getElementById("gpReceiptShell");
-  const gpReceiptPaper = document.getElementById("gpReceiptPaper");
-  const gpStatusText = document.getElementById("gpStatusText");
-  const gpReceiptAmountBig = document.getElementById("gpReceiptAmountBig");
-  const gpReceiptAssetBig = document.getElementById("gpReceiptAssetBig");
-  const gpReceiptDesc = document.getElementById("gpReceiptDesc");
-  const gpReceiptWallet = document.getElementById("gpReceiptWallet");
-  const gpReceiptPayer = document.getElementById("gpReceiptPayer");
-  const gpReceiptDate = document.getElementById("gpReceiptDate");
-  const gpCopyBtn = document.getElementById("gpCopyBtn");
-  const gpShareBtn = document.getElementById("gpShareBtn");
-  const gpDownloadBtn = document.getElementById("gpDownloadBtn");
-  const gpNewRequestBtn = document.getElementById("gpNewRequestBtn");
-  const gpQrCanvas = document.getElementById("gpQrCanvas");
-  const gpWalletModal = document.getElementById("gpWalletModal");
-  const gpWalletInput = document.getElementById("gpWalletInput");
-  const gpWalletCancelBtn = document.getElementById("gpWalletCancelBtn");
-  const gpWalletSaveBtn = document.getElementById("gpWalletSaveBtn");
-
-  const tokensSearchPill = document.getElementById("tokensSearchPill");
-  const tokensSearchInput = document.getElementById("tokensSearchInput");
-  const tokensSearchClose = document.getElementById("tokensSearchClose");
-  const tokensRailList = document.getElementById("tokensRailList");
-  const tokensTableRows = document.getElementById("tokensTableRows");
-  const tokensEmptyState = document.getElementById("tokensEmptyState");
-  const tokensCopiedTip = document.getElementById("tokensCopiedTip");
-  const tokensHeaderCells = [...document.querySelectorAll(".tokens-header-row .tokens-h-cell")];
-
-  const morePanelUi = document.getElementById("morePanelUi");
-  const moreThemeSwitch = document.getElementById("moreThemeSwitch");
-  const moreThemeLabel = document.getElementById("moreThemeLabel");
-  const moreTabs = document.querySelectorAll(".more-tab");
-  const moreViews = document.querySelectorAll(".more-view");
-  const moreLangControl = document.getElementById("moreLangControl");
-  const moreLangTrigger = document.getElementById("moreLangTrigger");
-  const moreLangValue = document.getElementById("moreLangValue");
-  const moreLangOptions = document.querySelectorAll(".more-lang-option");
-  const moreOverview = document.getElementById("moreOverview");
-  const moreRequests = document.getElementById("moreRequests");
-  const moreTransactions = document.getElementById("moreTransactions");
-
-  const activityMiniTitle = document.getElementById("activityMiniTitle");
-  const activityMetricA = document.getElementById("activityMetricA");
-  const activityMetricB = document.getElementById("activityMetricB");
-  const activityMetricC = document.getElementById("activityMetricC");
-  const activitySubnote = document.getElementById("activitySubnote");
-  const activityLabelRow = document.getElementById("activityLabelRow");
-  const activityLivePill = document.getElementById("activityLivePill");
-  const activityAreaPath = document.getElementById("activityAreaPath");
-  const activityShadowPath = document.getElementById("activityShadowPath");
-  const activityLinePath = document.getElementById("activityLinePath");
-  const activityRodGroup = document.getElementById("activityRodGroup");
-  const activityDotGroup = document.getElementById("activityDotGroup");
-  const activityCalloutGroup = document.getElementById("activityCalloutGroup");
-  const activityMoveOrb = document.getElementById("activityMoveOrb");
-  const activityTabs = [...document.querySelectorAll(".activity-mode-btn")];
-
-  const ARC = {
-    chainIdDec: 5042002,
-    chainIdHex: "0x4cef52",
-    chainName: "Arc Testnet",
-    rpcUrls: [
-      "https://rpc.testnet.arc.network",
-      "https://rpc.drpc.testnet.arc.network"
-    ],
-    blockExplorerUrls: ["https://testnet.arcscan.app"],
-    nativeCurrency: {
-      name: "USDC",
-      symbol: "USDC",
-      decimals: 6
-    }
-  };
-
-  const STORAGE_KEYS = {
-    requests: "stableflow_requests_v1",
-    transactions: "stableflow_transactions_v1"
-  };
-
-  const TOKEN_CONFIG = {
-    LMTV: {
-      symbol: "LMTV",
-      address: "0xd9D382085Fb4E4dBCf0A6B85c76D42eaB0A1be2d",
-      image: "lmtv.png",
-      fallback: "L"
-    },
-    USDC: {
-      symbol: "USDC",
-      address: "0x3600000000000000000000000000000000000000",
-      image: "usdc.png",
-      fallback: "$"
-    },
-    EURC: {
-      symbol: "EURC",
-      address: "0x89B50855Aa3bE2F677cD6303Cec089B5F319D72a",
-      image: "eurc.png",
-      fallback: "€"
-    }
-  };
-
-  const PAIR_CONFIG = {
-    LMTV_USDC: {
-      key: "LMTV_USDC",
-      address: "0x0681304E26184f3c97a38E915B49CF5F5E8cB983",
-      symbols: ["LMTV", "USDC"]
-    },
-    LMTV_EURC: {
-      key: "LMTV_EURC",
-      address: "0xD41E9D32eacF8a3680750625602286318FD3c3E4",
-      symbols: ["LMTV", "EURC"]
-    }
-  };
-
-  const ERC20_ABI = [
-    "function name() view returns (string)",
-    "function symbol() view returns (string)",
-    "function decimals() view returns (uint8)",
-    "function totalSupply() view returns (uint256)",
-    "function balanceOf(address owner) view returns (uint256)",
-    "function allowance(address owner, address spender) view returns (uint256)",
-    "function approve(address spender, uint256 amount) returns (bool)",
-    "function transfer(address to, uint256 amount) returns (bool)"
-  ];
-
-  const PAIR_ABI = [
-    "function token0() view returns (address)",
-    "function token1() view returns (address)",
-    "function reserve0() view returns (uint256)",
-    "function reserve1() view returns (uint256)",
-    "function getAmountOut(address tokenIn, uint256 amountIn) view returns (uint256)",
-    "function swap(address tokenIn, uint256 amountIn) returns (uint256)"
-  ];
-
-  let readProvider = null;
-  let walletProvider = null;
-  let signer = null;
-  let currentAccount = "";
-  let isWalletConnected = false;
-  let currentWalletLabel = "MetaMask";
-
-  let tokenContractsRead = {};
-  let tokenContractsWrite = {};
-  let pairContractsRead = {};
-  let pairContractsWrite = {};
-  let tokenMeta = {};
-  let tokenMetrics = {};
-  let tokenBalances = { LMTV: 0, USDC: 0, EURC: 0 };
-  let pairStateCache = {};
-  let filteredTokens = ["LMTV", "USDC", "EURC"];
-  let activeToken = "LMTV";
-  let tokensCopiedTimer = null;
-  let activityAutoCycle = null;
-  let activityOrbFrame = null;
-  let flipRotation = 0;
-  let swapQuoteTimer = null;
-  let reverseSwapQuoteTimer = null;
-  let swapQuoteBusy = false;
-  let spQuoteTimer = null;
-  let spProcessStep = 0;
-  let spResetTimers = [];
-  let spSelectedAsset = "USDC";
-  let spScanStream = null;
-  let spScanFrame = null;
-  let spBarcodeDetector = null;
-  let lastSwapQuote = { amountIn: 0, amountOut: 0 };
-  let lastPayQuote = { asset: "USDC", desiredOut: 0, estimatedIn: 0, bufferedIn: 0 };
-
-  const ACTIVITY_DEFAULT_LABELS = ["Mon","Tue","Wed","Thu","Fri","Sat","Sun"];
-  const activityState = {
-    autoCycle: true,
-    cycleMs: 4500,
-    live: true,
-    currentMode: "volume",
-    datasets: {
-      volume: {
-        title: "StableFlow volume",
-        values: [0,0,0,0,0,0,0],
-        labels: ACTIVITY_DEFAULT_LABELS,
-        peakText: "0",
-        metricA: "<b>0.00</b> settled",
-        metricB: "<b>0</b> swaps",
-        metricC: "<b>USDC</b> / EURC",
-        note: "Waiting for real activity."
-      },
-      requests: {
-        title: "Request activity",
-        values: [0,0,0,0,0,0,0],
-        labels: ACTIVITY_DEFAULT_LABELS,
-        peakText: "0",
-        metricA: "<b>0</b> open",
-        metricB: "<b>0</b> created",
-        metricC: "<b>0</b> paid",
-        note: "Generated requests will appear here."
-      },
-      stable: {
-        title: "Stable settlement mix",
-        values: [0,0,0,0,0,0,0],
-        labels: ACTIVITY_DEFAULT_LABELS,
-        peakText: "0%",
-        metricA: "<b>0%</b> USDC",
-        metricB: "<b>0%</b> EURC",
-        metricC: "<b>0</b> total",
-        note: "Stable output distribution is calculated from actions created in this app."
-      }
-    }
-  };
-
-  const gpState = {
-    asset: "USDC",
-    fullWallet: "",
-    requestLink: "",
-    lastRequestId: ""
-  };
-
-  const swapState = {
-    topToken: "LMTV",
-    bottomToken: "USDC"
-  };
-
-  function anySheetOpen() {
-    return walletSheet.classList.contains("show")
-      || tokensSheet.classList.contains("show")
-      || moreSheet.classList.contains("show");
-  }
-
-  function anyModuleOpen() {
-    return swapPanel.classList.contains("show")
-      || payPanel.classList.contains("show")
-      || getPaidPanel.classList.contains("show");
-  }
-
-  function syncUiLocks() {
-    const showSheets = anySheetOpen();
-    const showModules = anyModuleOpen();
-    const lockAll = showSheets || showModules;
-
-    overlay.classList.toggle("show", showSheets);
-    moduleUnderlay.classList.toggle("show", showModules);
-
-    html.style.overflow = lockAll ? "hidden" : "";
-    body.style.overflow = lockAll ? "hidden" : "";
-
-    if (mainPage) {
-      mainPage.style.pointerEvents = showModules ? "none" : "";
-      mainPage.setAttribute("aria-hidden", showModules ? "true" : "false");
-    }
-  }
-
-  function clearActiveNav() {
-    [openSwapBtn, openPayBtn, openTokensBtn, openGetPaidBtn, openMoreNav, homeBtn].forEach(btn => {
-      btn.classList.remove("active");
-    });
-  }
-
-  function setHomeActive() {
-    clearActiveNav();
-    homeBtn.classList.add("active");
-  }
-
-  function setSwapActive() {
-    clearActiveNav();
-    openSwapBtn.classList.add("active");
-  }
-
-  function setPayActive() {
-    clearActiveNav();
-    openPayBtn.classList.add("active");
-  }
-
-  function setTokensActive() {
-    clearActiveNav();
-    openTokensBtn.classList.add("active");
-  }
-
-  function setGetPaidActive() {
-    clearActiveNav();
-    openGetPaidBtn.classList.add("active");
-  }
-
-  function setMoreActive() {
-    clearActiveNav();
-    openMoreNav.classList.add("active");
-  }
-
-  function closeModules() {
-    swapPanel.classList.remove("show");
-    payPanel.classList.remove("show");
-    getPaidPanel.classList.remove("show");
-    syncUiLocks();
-  }
-
-  function closeSheets() {
-    walletSheet.classList.remove("show");
-    tokensSheet.classList.remove("show");
-    moreSheet.classList.remove("show");
-    moreLangControl.classList.remove("open");
-    syncUiLocks();
-  }
-
-  function restoreNavAfterClose() {
-    if (tokensSheet.classList.contains("show")) return setTokensActive();
-    if (moreSheet.classList.contains("show")) return setMoreActive();
-    if (swapPanel.classList.contains("show")) return setSwapActive();
-    if (payPanel.classList.contains("show")) return setPayActive();
-    if (getPaidPanel.classList.contains("show")) return setGetPaidActive();
-    setHomeActive();
-  }
-
-  function openHomeView() {
-    closeSheets();
-    closeModules();
-    setHomeActive();
-  }
-
-  function openWalletSheet() {
-    closeSheets();
-    walletSheet.classList.add("show");
-    syncUiLocks();
-  }
-
-  function openTokensSheet() {
-    closeSheets();
-    closeModules();
-    tokensSheet.classList.add("show");
-    setTokensActive();
-    syncUiLocks();
-  }
-
-  function openMoreSheet() {
-    closeSheets();
-    closeModules();
-    moreSheet.classList.add("show");
-    setMoreActive();
-    syncUiLocks();
-  }
-
-  function openSwapPanel() {
-    closeSheets();
-    closeModules();
-    swapPanel.classList.add("show");
-    setSwapActive();
-    syncUiLocks();
-    debouncedRefreshSwapQuote();
-  }
-
-  function openPayPanel() {
-    closeSheets();
-    closeModules();
-    payPanel.classList.add("show");
-    setPayActive();
-    syncUiLocks();
-    debouncedRefreshPayQuote();
-  }
-
-  function openGetPaidPanel() {
-    closeSheets();
-    closeModules();
-    getPaidPanel.classList.add("show");
-    setGetPaidActive();
-    syncUiLocks();
-  }
-
-  function shortWallet(address) {
-    if (!address || address.length < 10) return address || "";
-    return `${address.slice(0, 6)}...${address.slice(-4)}`;
-  }
-
-  function sanitizeNumeric(value) {
-    return String(value || "")
-      .replace(/,/g, ".")
-      .replace(/[^\d.]/g, "")
-      .replace(/(\..*?)\..*/g, "$1");
-  }
-
-  function sanitizeInteger(value) {
-    return String(value || "").replace(/\D/g, "");
-  }
-
-  function cleanAddress(value) {
-    return String(value || "").trim();
-  }
-
-  function formatAmount(value, digits = 4) {
-    const n = Number(value || 0);
-    if (!Number.isFinite(n)) return "0";
-    if (Math.abs(n) >= 1000) {
-      return n.toLocaleString(undefined, { maximumFractionDigits: 2 });
-    }
-    if (Math.abs(n) >= 1) {
-      return n.toLocaleString(undefined, {
-        minimumFractionDigits: 2,
-        maximumFractionDigits: Math.min(6, digits)
-      });
-    }
-    if (n === 0) return "0";
-    return n.toLocaleString(undefined, {
-      minimumFractionDigits: 2,
-      maximumFractionDigits: Math.max(4, digits)
-    });
-  }
-
-  function formatUsd(value) {
-    const n = Number(value || 0);
-    if (!Number.isFinite(n)) return "$0.00";
-    return `$${n.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
-  }
-
-  function tokenMediaClass(symbol) {
-    if (symbol === "USDC") return "token-media token-media-usdc";
-    if (symbol === "EURC") return "token-media token-media-eurc";
-    return "token-media token-media-lmtv";
-  }
-
-  function setTokenMedia(el, symbol) {
-    const cfg = TOKEN_CONFIG[symbol];
-    el.className = tokenMediaClass(symbol);
-    el.innerHTML = `
-      <img src="${cfg.image}" alt="${cfg.symbol}" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
-      <span style="display:none;">${cfg.fallback}</span>
-    `;
-  }
-
-  function explorerTxUrl(hash) {
-    return `${ARC.blockExplorerUrls[0]}/tx/${hash}`;
-  }
-
-  function safeJsonParse(raw, fallback) {
-    try {
-      return JSON.parse(raw);
-    } catch {
-      return fallback;
-    }
-  }
-
-  function getStoredList(key) {
-    return safeJsonParse(localStorage.getItem(key) || "[]", []);
-  }
-
-  function setStoredList(key, value) {
-    localStorage.setItem(key, JSON.stringify(value));
-  }
-
-  function addStoredRequest(data) {
-    const items = getStoredList(STORAGE_KEYS.requests);
-    items.unshift(data);
-    setStoredList(STORAGE_KEYS.requests, items.slice(0, 100));
-  }
-
-  function updateStoredRequest(id, patch) {
-    const items = getStoredList(STORAGE_KEYS.requests).map(item => {
-      if (item.id !== id) return item;
-      return { ...item, ...patch };
-    });
-    setStoredList(STORAGE_KEYS.requests, items);
-  }
-
-  function addStoredTransaction(data) {
-    const items = getStoredList(STORAGE_KEYS.transactions);
-    items.unshift(data);
-    setStoredList(STORAGE_KEYS.transactions, items.slice(0, 150));
-  }
-
-  function humanTime(ts) {
-    const diff = Date.now() - Number(ts || 0);
-    const sec = Math.max(1, Math.floor(diff / 1000));
-    if (sec < 60) return `${sec}s ago`;
-    const min = Math.floor(sec / 60);
-    if (min < 60) return `${min}m ago`;
-    const hr = Math.floor(min / 60);
-    if (hr < 24) return `${hr}h ago`;
-    const day = Math.floor(hr / 24);
-    if (day < 7) return `${day}d ago`;
-    return new Date(Number(ts || 0)).toLocaleDateString();
-  }
-
-  function startOfDay(time) {
-    const d = new Date(time);
-    d.setHours(0,0,0,0);
-    return d.getTime();
-  }
-
-  function sevenDayBuckets() {
-    const labels = [];
-    const keys = [];
-    const now = new Date();
-    now.setHours(0,0,0,0);
-    for (let i = 6; i >= 0; i--) {
-      const d = new Date(now);
-      d.setDate(d.getDate() - i);
-      labels.push(d.toLocaleDateString(undefined, { weekday: "short" }));
-      keys.push(d.getTime());
-    }
-    return { labels, keys };
-  }
-
-  function activityClamp(value, min, max) {
-    return Math.max(min, Math.min(max, value));
-  }
-
-  function activityClearNode(node) {
-    while (node.firstChild) node.removeChild(node.firstChild);
-  }
-
-  function activityFormatLabels(labels) {
-    const finalLabels = Array.isArray(labels) && labels.length ? labels.slice(0, 7) : ACTIVITY_DEFAULT_LABELS;
-    while (finalLabels.length < 7) finalLabels.push("");
-    activityClearNode(activityLabelRow);
-    finalLabels.forEach(text => {
-      const span = document.createElement("span");
-      span.textContent = text;
-      activityLabelRow.appendChild(span);
-    });
-  }
-
-  function activityBuildRodHeights(values) {
-    const minValue = Math.min(...values);
-    const maxValue = Math.max(...values);
-    const minH = 28;
-    const maxH = 78;
-    return values.map(v => {
-      const ratio = (v - minValue) / ((maxValue - minValue) || 1);
-      return Math.round(minH + ratio * (maxH - minH));
-    });
-  }
-
-  function activitySanitizeDataset(raw) {
-    const safeValues = Array.isArray(raw?.values) && raw.values.length
-      ? raw.values.slice(0, 7).map(n => Number(n) || 0)
-      : [0,0,0,0,0,0,0];
-
-    while (safeValues.length < 7) safeValues.push(0);
-
-    return {
-      title: raw?.title || "StableFlow usage",
-      values: safeValues,
-      labels: Array.isArray(raw?.labels) && raw.labels.length ? raw.labels.slice(0, 7) : ACTIVITY_DEFAULT_LABELS,
-      peakText: raw?.peakText || String(Math.max(...safeValues)),
-      metricA: raw?.metricA || "<b>0</b> data",
-      metricB: raw?.metricB || "<b>--</b> trend",
-      metricC: raw?.metricC || "<b>--</b> output",
-      note: raw?.note || "Waiting for live activity."
-    };
-  }
-
-  function activitySmoothPath(points) {
-    if (!points.length) return "";
-    let d = `M ${points[0].x} ${points[0].y}`;
-    for (let i = 0; i < points.length - 1; i++) {
-      const p0 = points[i];
-      const p1 = points[i + 1];
-      const c1x = p0.x + (p1.x - p0.x) * 0.5;
-      const c1y = p0.y;
-      const c2x = p0.x + (p1.x - p0.x) * 0.5;
-      const c2y = p1.y;
-      d += ` C ${c1x} ${c1y}, ${c2x} ${c2y}, ${p1.x} ${p1.y}`;
-    }
-    return d;
-  }
-
-  function activityGetPoints(values) {
-    const svgW = 340;
-    const svgH = 120;
-    const topPad = 11;
-    const bottomPad = 22;
-    const leftPad = 10;
-    const rightPad = 10;
-    const usableW = svgW - leftPad - rightPad;
-    const usableH = svgH - topPad - bottomPad;
-    const stepX = usableW / (values.length - 1);
-    const max = Math.max(...values);
-    const min = Math.min(...values);
-
-    return values.map((value, i) => {
-      const x = leftPad + stepX * i;
-      const ratio = (value - min) / ((max - min) || 1);
-      const y = topPad + (usableH - ratio * usableH);
-      return { x, y, value };
-    });
-  }
-
-  function activityMakeCallout(point, text) {
-    activityClearNode(activityCalloutGroup);
-    const svgW = 340;
-    const width = Math.max(46, String(text).length * 6.8);
-    const height = 22;
-    const x = Math.max(8, Math.min(point.x - width / 2, svgW - width - 8));
-    const y = Math.max(4, point.y - 28);
-
-    const rect = document.createElementNS("http://www.w3.org/2000/svg", "rect");
-    rect.setAttribute("x", x);
-    rect.setAttribute("y", y);
-    rect.setAttribute("width", width);
-    rect.setAttribute("height", height);
-    rect.setAttribute("rx", 10);
-    rect.setAttribute("class", "activity-callout-box");
-
-    const label = document.createElementNS("http://www.w3.org/2000/svg", "text");
-    label.setAttribute("x", x + width / 2);
-    label.setAttribute("y", y + 14.2);
-    label.setAttribute("class", "activity-callout-value");
-    label.textContent = String(text);
-
-    activityCalloutGroup.appendChild(rect);
-    activityCalloutGroup.appendChild(label);
-  }
-
-  function activityDrawRods(points, rodHeights) {
-    activityClearNode(activityRodGroup);
-    const chartFloor = 98;
-
-    points.forEach((p, i) => {
-      const h = rodHeights[i];
-      const rodW = 5.2;
-      const glowW = 16;
-      const x = p.x - rodW / 2;
-      const y = chartFloor - h;
-      const glowX = p.x - glowW / 2;
-      const glowY = chartFloor - h - 7;
-
-      const g = document.createElementNS("http://www.w3.org/2000/svg", "g");
-      g.setAttribute("class", "activity-rod-group");
-
-      const glow = document.createElementNS("http://www.w3.org/2000/svg", "rect");
-      glow.setAttribute("x", glowX);
-      glow.setAttribute("y", glowY);
-      glow.setAttribute("width", glowW);
-      glow.setAttribute("height", h + 12);
-      glow.setAttribute("rx", glowW / 2);
-      glow.setAttribute("class", "activity-rod-glow");
-
-      const core = document.createElementNS("http://www.w3.org/2000/svg", "rect");
-      core.setAttribute("x", x);
-      core.setAttribute("y", y);
-      core.setAttribute("width", rodW);
-      core.setAttribute("height", h);
-      core.setAttribute("rx", rodW / 2);
-      core.setAttribute("class", "activity-rod-core");
-
-      const shine = document.createElementNS("http://www.w3.org/2000/svg", "rect");
-      shine.setAttribute("x", p.x - .75);
-      shine.setAttribute("y", y + 5);
-      shine.setAttribute("width", 1.5);
-      shine.setAttribute("height", Math.max(14, h - 10));
-      shine.setAttribute("rx", .75);
-      shine.setAttribute("class", "activity-rod-shine");
-
-      const cap = document.createElementNS("http://www.w3.org/2000/svg", "rect");
-      cap.setAttribute("x", p.x - 2.1);
-      cap.setAttribute("y", y - .2);
-      cap.setAttribute("width", 4.2);
-      cap.setAttribute("height", 2.1);
-      cap.setAttribute("rx", 1.05);
-      cap.setAttribute("class", "activity-rod-cap");
-
-      g.appendChild(glow);
-      g.appendChild(core);
-      g.appendChild(shine);
-      g.appendChild(cap);
-      activityRodGroup.appendChild(g);
-    });
-  }
-
-  function activityAnimateLine(pathEl) {
-    const len = pathEl.getTotalLength();
-    pathEl.style.strokeDasharray = len;
-    pathEl.style.strokeDashoffset = len;
-    pathEl.getBoundingClientRect();
-    pathEl.style.transition = "stroke-dashoffset .9s cubic-bezier(.2,.8,.2,1)";
-    pathEl.style.strokeDashoffset = "0";
-  }
-  function activityAnimateOrb(pathEl) {
-    if (activityOrbFrame) cancelAnimationFrame(activityOrbFrame);
-
-    const len = pathEl.getTotalLength();
-    const start = performance.now();
-
-    function frame(now) {
-      const elapsed = (now - start) % 2600;
-      const progress = elapsed / 2600;
-      const point = pathEl.getPointAtLength(len * progress);
-      activityMoveOrb.setAttribute("cx", point.x);
-      activityMoveOrb.setAttribute("cy", point.y);
-      activityOrbFrame = requestAnimationFrame(frame);
-    }
-
-    activityOrbFrame = requestAnimationFrame(frame);
-  }
-
-  function activityUpdateLiveUI() {
-    activityLivePill.classList.toggle("idle", !activityState.live);
-  }
-
-  function activityRender(mode, first = false) {
-    activityState.currentMode = mode;
-    activityTabs.forEach(tab => tab.classList.toggle("active", tab.dataset.mode === mode));
-
-    const data = activitySanitizeDataset(activityState.datasets[mode]);
-    const points = activityGetPoints(data.values);
-    const rods = activityBuildRodHeights(data.values);
-    const line = activitySmoothPath(points);
-    const area = `${line} L ${points[points.length - 1].x} 98 L ${points[0].x} 98 Z`;
-
-    activityMiniTitle.textContent = data.title;
-    activityMetricA.innerHTML = data.metricA;
-    activityMetricB.innerHTML = data.metricB;
-    activityMetricC.innerHTML = data.metricC;
-    activitySubnote.textContent = data.note;
-    activityFormatLabels(data.labels);
-    activityUpdateLiveUI();
-
-    activityDrawRods(points, rods);
-    activityAreaPath.setAttribute("d", area);
-    activityShadowPath.setAttribute("d", line);
-    activityLinePath.setAttribute("d", line);
-
-    activityClearNode(activityDotGroup);
-    points.forEach((p, i) => {
-      const dot = document.createElementNS("http://www.w3.org/2000/svg", "circle");
-      dot.setAttribute("cx", p.x);
-      dot.setAttribute("cy", p.y);
-      dot.setAttribute("r", i === points.length - 1 ? "4.8" : "3.7");
-      dot.setAttribute("class", i === points.length - 1 ? "activity-dot last" : "activity-dot");
-      activityDotGroup.appendChild(dot);
-    });
-
-    const peak = Math.max(...data.values);
-    const peakIndex = data.values.indexOf(peak);
-    activityMakeCallout(points[peakIndex], data.peakText);
-
-    activityLinePath.style.transition = "none";
-    activityLinePath.style.strokeDasharray = "none";
-    activityLinePath.style.strokeDashoffset = "0";
-
-    requestAnimationFrame(() => activityAnimateLine(activityLinePath));
-
-    if (first) {
-      activityAnimateOrb(activityLinePath);
-    } else {
-      setTimeout(() => activityAnimateOrb(activityLinePath), 120);
-    }
-  }
-
-  function activityStartCycle() {
-    clearInterval(activityAutoCycle);
-    if (!activityState.autoCycle) return;
-
-    const order = ["volume", "requests", "stable"];
-    activityAutoCycle = setInterval(() => {
-      const next = (order.indexOf(activityState.currentMode) + 1) % order.length;
-      activityRender(order[next]);
-    }, activityState.cycleMs);
-  }
-
-  function activitySetMode(mode) {
-    if (!activityState.datasets[mode]) return;
-    activityRender(mode);
-    activityStartCycle();
-  }
-
-  function rebuildActivityFromStorage() {
-    const buckets = sevenDayBuckets();
-    const requests = getStoredList(STORAGE_KEYS.requests);
-    const txs = getStoredList(STORAGE_KEYS.transactions);
-
-    const reqByDay = buckets.keys.map(day =>
-      requests.filter(item => startOfDay(item.createdAt) === day).length
-    );
-
-    const txByDay = buckets.keys.map(day =>
-      txs
-        .filter(item => startOfDay(item.createdAt) === day)
-        .reduce((sum, item) => sum + Number(item.receiveAmount || 0), 0)
-    );
-
-    const totalStableCount = txs.length;
-    const usdcCount = txs.filter(item => item.receiveAsset === "USDC").length;
-    const eurcCount = txs.filter(item => item.receiveAsset === "EURC").length;
-    const usdcPct = totalStableCount ? Math.round((usdcCount / totalStableCount) * 100) : 0;
-    const eurcPct = totalStableCount ? Math.round((eurcCount / totalStableCount) * 100) : 0;
-
-    activityState.datasets.requests = {
-      title: "Request activity",
-      values: reqByDay,
-      labels: buckets.labels,
-      peakText: String(Math.max(...reqByDay, 0)),
-      metricA: `<b>${requests.filter(x => x.status === "open").length}</b> open`,
-      metricB: `<b>${requests.length}</b> created`,
-      metricC: `<b>${requests.filter(x => x.status === "paid").length}</b> paid`,
-      note: "Requests generated inside Get Paid are stored locally in this app."
-    };
-
-    activityState.datasets.volume = {
-      title: "StableFlow volume",
-      values: txByDay,
-      labels: buckets.labels,
-      peakText: formatUsd(Math.max(...txByDay, 0)),
-      metricA: `<b>${formatUsd(txs.reduce((s, x) => s + Number(x.receiveAmount || 0), 0))}</b> settled`,
-      metricB: `<b>${txs.filter(x => x.kind === "swap").length}</b> swaps`,
-      metricC: `<b>${usdcCount + eurcCount}</b> payouts`,
-      note: "Volume uses completed actions recorded by StableFlow on this device."
-    };
-
-    activityState.datasets.stable = {
-      title: "Stable settlement mix",
-      values: buckets.keys.map(day => {
-        const items = txs.filter(item => startOfDay(item.createdAt) === day);
-        if (!items.length) return 0;
-        const usdcDay = items.filter(i => i.receiveAsset === "USDC").length;
-        return Math.round((usdcDay / items.length) * 100);
-      }),
-      labels: buckets.labels,
-      peakText: `${usdcPct}%`,
-      metricA: `<b>${usdcPct}%</b> USDC`,
-      metricB: `<b>${eurcPct}%</b> EURC`,
-      metricC: `<b>${totalStableCount}</b> total`,
-      note: "Settlement mix compares how many completed outputs ended in USDC vs EURC."
-    };
-
-    activityRender(activityState.currentMode || "volume");
-    activityStartCycle();
-  }
-
-  window.StableFlowActivity = {
-    setMode: activitySetMode,
-    setLive(isLive) {
-      activityState.live = !!isLive;
-      activityUpdateLiveUI();
-    },
-    replaceAllData(nextData) {
-      const safeModes = ["volume", "requests", "stable"];
-      safeModes.forEach(mode => {
-        if (nextData && nextData[mode]) {
-          activityState.datasets[mode] = {
-            ...activityState.datasets[mode],
-            ...nextData[mode]
-          };
-        }
-      });
-
-      if (typeof nextData?.live === "boolean") {
-        activityState.live = nextData.live;
-      }
-
-      if (typeof nextData?.autoCycle === "boolean") {
-        activityState.autoCycle = nextData.autoCycle;
-      }
-
-      if (typeof nextData?.cycleMs === "number") {
-        activityState.cycleMs = activityClamp(nextData.cycleMs, 2000, 12000);
-      }
-
-      activityRender(activityState.currentMode);
-      activityStartCycle();
-    },
-    pushValue(mode, value, label) {
-      if (!activityState.datasets[mode]) return;
-      const current = activitySanitizeDataset(activityState.datasets[mode]);
-      const nextValues = current.values.slice(1);
-      nextValues.push(Number(value) || 0);
-
-      const nextLabels = current.labels.slice(1);
-      nextLabels.push(label || "");
-
-      activityState.datasets[mode] = {
-        ...current,
-        values: nextValues,
-        labels: nextLabels,
-        peakText: String(Math.max(...nextValues))
+  <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+  <script>
+    (() => {
+      const body = document.body;
+      const html = document.documentElement;
+      const mainPage = document.querySelector(".page");
+
+      const overlay = document.getElementById("overlay");
+      const moduleUnderlay = document.getElementById("moduleUnderlay");
+
+      const walletSheet = document.getElementById("walletSheet");
+      const tokensSheet = document.getElementById("tokensSheet");
+      const moreSheet = document.getElementById("moreSheet");
+
+      const swapPanel = document.getElementById("swapPanel");
+      const payPanel = document.getElementById("payPanel");
+      const getPaidPanel = document.getElementById("getPaidPanel");
+
+      const openWalletMain = document.getElementById("openWalletMain");
+      const openSwapBtn = document.getElementById("openSwapBtn");
+      const openPayBtn = document.getElementById("openPayBtn");
+      const openTokensBtn = document.getElementById("openTokensBtn");
+      const openGetPaidBtn = document.getElementById("openGetPaidBtn");
+      const openMoreNav = document.getElementById("openMoreNav");
+      const homeBtn = document.getElementById("homeBtn");
+
+      const swapActionBtn = document.getElementById("swapActionBtn");
+
+      const swapTopInput = document.getElementById("swapTopInput");
+      const swapBottomInput = document.getElementById("swapBottomInput");
+      const swapQuickRow = document.getElementById("swapQuickRow");
+      const swapFlipBtn = document.getElementById("swapFlipBtn");
+
+      const swapTopTokenIcon = document.getElementById("swapTopTokenIcon");
+      const swapTopTokenLabel = document.getElementById("swapTopTokenLabel");
+      const swapBottomTokenIcon = document.getElementById("swapBottomTokenIcon");
+      const swapBottomTokenLabel = document.getElementById("swapBottomTokenLabel");
+      const swapTopBalance = document.getElementById("swapTopBalance");
+      const swapBottomBalance = document.getElementById("swapBottomBalance");
+      const swapRateValue = document.getElementById("swapRateValue");
+
+      const swapSlipControl = document.getElementById("swapSlipControl");
+      const swapSlipToggle = document.getElementById("swapSlipToggle");
+      const swapSlipSummary = document.getElementById("swapSlipSummary");
+      const swapSlipInput = document.getElementById("swapSlipInput");
+      const swapSlipInputWrap = document.getElementById("swapSlipInputWrap");
+      const swapStatSlippage = document.getElementById("swapStatSlippage");
+      const swapSlipOptions = document.querySelectorAll(".swap-slip-option");
+      const swapSlipExpand = document.getElementById("swapSlipExpand");
+
+      const profileStage = document.getElementById("profileStage");
+      const slimCard = document.getElementById("slimCard");
+      const walletIdText = document.getElementById("walletIdText");
+      const walletRibbon = document.getElementById("walletRibbon");
+      const statusPill = document.getElementById("statusPill");
+      const profileProgressFill = document.getElementById("profileProgressFill");
+
+      const walletConnectItems = document.querySelectorAll(".wallet-connect-item");
+      const closeTokensBtn = document.getElementById("closeTokensBtn");
+      const closeMoreBtn = document.getElementById("closeMoreBtn");
+
+      const spAssetUsdc = document.getElementById("spAssetUsdc");
+      const spAssetEurc = document.getElementById("spAssetEurc");
+      const spRecipientWallet = document.getElementById("spRecipientWallet");
+      const spReceiveAmount = document.getElementById("spReceiveAmount");
+      const spNoteInput = document.getElementById("spNoteInput");
+      const spPayerAmount = document.getElementById("spPayerAmount");
+      const spRecipientAmountMirror = document.getElementById("spRecipientAmountMirror");
+      const spQuoteReceiveLabel = document.getElementById("spQuoteReceiveLabel");
+      const spWalletShell = document.getElementById("spWalletShell");
+      const spAmountShell = document.getElementById("spAmountShell");
+      const spNoteToggle = document.getElementById("spNoteToggle");
+      const spNoteRow = document.getElementById("spNoteRow");
+      const spCenterCircle = document.getElementById("spCenterCircle");
+      const spPreviewPanel = document.getElementById("spPreviewPanel");
+      const spSwapBtn = document.getElementById("spSwapBtn");
+      const spPreviewLeft = document.getElementById("spPreviewLeft");
+      const spPreviewRight = document.getElementById("spPreviewRight");
+      const spPreviewRoute = document.getElementById("spPreviewRoute");
+      const spPreviewSlippage = document.getElementById("spPreviewSlippage");
+      const spPreviewFee = document.getElementById("spPreviewFee");
+      const spPreviewMin = document.getElementById("spPreviewMin");
+      const spPreviewNote = document.getElementById("spPreviewNote");
+      const spProgressBadge = document.getElementById("spProgressBadge");
+      const spLoaderCore = document.getElementById("spLoaderCore");
+      const spLoaderStep = document.getElementById("spLoaderStep");
+      const spLoaderSub = document.getElementById("spLoaderSub");
+      const spQrBtn = document.getElementById("spQrBtn");
+      const spScannerModal = document.getElementById("spScannerModal");
+      const spScannerVideo = document.getElementById("spScannerVideo");
+      const spScannerStatus = document.getElementById("spScannerStatus");
+      const spScannerClose = document.getElementById("spScannerClose");
+
+      const gpChangeWalletBtn = document.getElementById("gpChangeWalletBtn");
+      const gpWalletBox = document.getElementById("gpWalletBox");
+      const gpUsdcBtn = document.getElementById("gpUsdcBtn");
+      const gpEurcBtn = document.getElementById("gpEurcBtn");
+      const gpSwitchTrack = document.getElementById("gpSwitchTrack");
+      const gpSwitchKnob = document.getElementById("gpSwitchKnob");
+      const gpAmountInput = document.getElementById("gpAmountInput");
+      const gpOrbAssetText = document.getElementById("gpOrbAssetText");
+      const gpGenerateBtn = document.getElementById("gpGenerateBtn");
+      const gpReceiptShell = document.getElementById("gpReceiptShell");
+      const gpReceiptPaper = document.getElementById("gpReceiptPaper");
+      const gpStatusText = document.getElementById("gpStatusText");
+      const gpReceiptAmountBig = document.getElementById("gpReceiptAmountBig");
+      const gpReceiptAssetBig = document.getElementById("gpReceiptAssetBig");
+      const gpReceiptDesc = document.getElementById("gpReceiptDesc");
+      const gpReceiptWallet = document.getElementById("gpReceiptWallet");
+      const gpReceiptPayer = document.getElementById("gpReceiptPayer");
+      const gpReceiptDate = document.getElementById("gpReceiptDate");
+      const gpCopyBtn = document.getElementById("gpCopyBtn");
+      const gpShareBtn = document.getElementById("gpShareBtn");
+      const gpDownloadBtn = document.getElementById("gpDownloadBtn");
+      const gpNewRequestBtn = document.getElementById("gpNewRequestBtn");
+      const gpQrCanvas = document.getElementById("gpQrCanvas");
+      const gpWalletModal = document.getElementById("gpWalletModal");
+      const gpWalletInput = document.getElementById("gpWalletInput");
+      const gpWalletCancelBtn = document.getElementById("gpWalletCancelBtn");
+      const gpWalletSaveBtn = document.getElementById("gpWalletSaveBtn");
+
+      const tokensSearchPill = document.getElementById("tokensSearchPill");
+      const tokensSearchInput = document.getElementById("tokensSearchInput");
+      const tokensSearchClose = document.getElementById("tokensSearchClose");
+      const tokensRailList = document.getElementById("tokensRailList");
+      const tokensTableRows = document.getElementById("tokensTableRows");
+      const tokensEmptyState = document.getElementById("tokensEmptyState");
+      const tokensCopiedTip = document.getElementById("tokensCopiedTip");
+
+      const morePanelUi = document.getElementById("morePanelUi");
+      const moreThemeSwitch = document.getElementById("moreThemeSwitch");
+      const moreThemeLabel = document.getElementById("moreThemeLabel");
+      const moreTabs = document.querySelectorAll(".more-tab");
+      const moreViews = document.querySelectorAll(".more-view");
+      const moreLangControl = document.getElementById("moreLangControl");
+      const moreLangTrigger = document.getElementById("moreLangTrigger");
+      const moreLangValue = document.getElementById("moreLangValue");
+      const moreLangOptions = document.querySelectorAll(".more-lang-option");
+
+      const activityMiniTitle = document.getElementById("activityMiniTitle");
+      const activityMetricA = document.getElementById("activityMetricA");
+      const activityMetricB = document.getElementById("activityMetricB");
+      const activityMetricC = document.getElementById("activityMetricC");
+      const activitySubnote = document.getElementById("activitySubnote");
+      const activityLabelRow = document.getElementById("activityLabelRow");
+      const activityLivePill = document.getElementById("activityLivePill");
+      const activityAreaPath = document.getElementById("activityAreaPath");
+      const activityShadowPath = document.getElementById("activityShadowPath");
+      const activityLinePath = document.getElementById("activityLinePath");
+      const activityRodGroup = document.getElementById("activityRodGroup");
+      const activityDotGroup = document.getElementById("activityDotGroup");
+      const activityCalloutGroup = document.getElementById("activityCalloutGroup");
+      const activityMoveOrb = document.getElementById("activityMoveOrb");
+      const activityTabs = [...document.querySelectorAll(".activity-mode-btn")];
+
+      let isWalletConnected = false;
+      let currentWalletLabel = "";
+      let currentWalletAddress = "0x56d1...c444";
+
+      const balances = {
+        LMTV: 4200,
+        USDC: 828.90,
+        EURC: 615.40
       };
 
-      if (activityState.currentMode === mode) {
-        activityRender(mode);
-      }
-    }
-  };
-
-  function setReadProvider() {
-    readProvider = new ethers.providers.JsonRpcProvider(ARC.rpcUrls[0]);
-  }
-
-  function createReadContracts() {
-    tokenContractsRead = {
-      LMTV: new ethers.Contract(TOKEN_CONFIG.LMTV.address, ERC20_ABI, readProvider),
-      USDC: new ethers.Contract(TOKEN_CONFIG.USDC.address, ERC20_ABI, readProvider),
-      EURC: new ethers.Contract(TOKEN_CONFIG.EURC.address, ERC20_ABI, readProvider)
-    };
-
-    pairContractsRead = {
-      LMTV_USDC: new ethers.Contract(PAIR_CONFIG.LMTV_USDC.address, PAIR_ABI, readProvider),
-      LMTV_EURC: new ethers.Contract(PAIR_CONFIG.LMTV_EURC.address, PAIR_ABI, readProvider)
-    };
-  }
-
-  function createWriteContracts() {
-    if (!signer) {
-      tokenContractsWrite = {};
-      pairContractsWrite = {};
-      return;
-    }
-
-    tokenContractsWrite = {
-      LMTV: new ethers.Contract(TOKEN_CONFIG.LMTV.address, ERC20_ABI, signer),
-      USDC: new ethers.Contract(TOKEN_CONFIG.USDC.address, ERC20_ABI, signer),
-      EURC: new ethers.Contract(TOKEN_CONFIG.EURC.address, ERC20_ABI, signer)
-    };
-
-    pairContractsWrite = {
-      LMTV_USDC: new ethers.Contract(PAIR_CONFIG.LMTV_USDC.address, PAIR_ABI, signer),
-      LMTV_EURC: new ethers.Contract(PAIR_CONFIG.LMTV_EURC.address, PAIR_ABI, signer)
-    };
-  }
-
-  async function loadTokenMeta() {
-    const entries = Object.keys(tokenContractsRead);
-
-    for (const symbol of entries) {
-      const contract = tokenContractsRead[symbol];
-      const cfg = TOKEN_CONFIG[symbol];
-      let decimals = symbol === "LMTV" ? 18 : 6;
-      let totalSupply = ethers.BigNumber.from(0);
-
-      try {
-        decimals = await contract.decimals();
-      } catch {}
-
-      try {
-        totalSupply = await contract.totalSupply();
-      } catch {}
-
-      tokenMeta[symbol] = {
-        symbol,
-        address: cfg.address,
-        decimals: Number(decimals),
-        totalSupply
+      let swapState = {
+        topToken: "LMTV",
+        bottomToken: "USDC"
       };
-    }
-  }
 
-  function getPairKey(topToken, bottomToken) {
-    const set = [topToken, bottomToken].sort().join("_");
-    if (set === ["LMTV","USDC"].sort().join("_")) return "LMTV_USDC";
-    if (set === ["EURC","LMTV"].sort().join("_")) return "LMTV_EURC";
-    return "";
-  }
-
-  function getPairForStable(stableSymbol) {
-    return stableSymbol === "EURC" ? "LMTV_EURC" : "LMTV_USDC";
-  }
-
-  function getStableForCurrentSwap() {
-    return swapState.topToken === "EURC" || swapState.bottomToken === "EURC" ? "EURC" : "USDC";
-  }
-
-  function bnToFloat(bn, decimals) {
-    try {
-      return Number(ethers.utils.formatUnits(bn || 0, decimals || 18));
-    } catch {
-      return 0;
-    }
-  }
-
-  function floatToBn(value, decimals) {
-    const raw = sanitizeNumeric(value);
-    const safe = raw === "" ? "0" : raw;
-    return ethers.utils.parseUnits(safe, decimals);
-  }
-
-  async function safeTokenBalance(symbol, address) {
-    try {
-      return await tokenContractsRead[symbol].balanceOf(address);
-    } catch {
-      return ethers.BigNumber.from(0);
-    }
-  }
-
-  async function safePairState(pairKey) {
-    const pair = pairContractsRead[pairKey];
-    if (!pair) return null;
-
-    try {
-      const [token0, token1, reserve0, reserve1] = await Promise.all([
-        pair.token0(),
-        pair.token1(),
-        pair.reserve0(),
-        pair.reserve1()
-      ]);
-
-      return { token0, token1, reserve0, reserve1 };
-    } catch {
-      return null;
-    }
-  }
-
-  function reserveMapForPair(pairKey) {
-    const state = pairStateCache[pairKey];
-    if (!state) return null;
-
-    const entries = {};
-    const token0Addr = String(state.token0).toLowerCase();
-    const token1Addr = String(state.token1).toLowerCase();
-
-    Object.values(TOKEN_CONFIG).forEach(cfg => {
-      const addr = cfg.address.toLowerCase();
-      if (addr === token0Addr) entries[cfg.symbol] = state.reserve0;
-      if (addr === token1Addr) entries[cfg.symbol] = state.reserve1;
-    });
-
-    return entries;
-  }
-
-  function calcAmountOutRaw(amountInFloat, tokenIn, tokenOut) {
-    const pairKey = getPairKey(tokenIn, tokenOut);
-    if (!pairKey) return 0;
-
-    const reserveMap = reserveMapForPair(pairKey);
-    if (!reserveMap || !reserveMap[tokenIn] || !reserveMap[tokenOut]) return 0;
-
-    const reserveIn = bnToFloat(reserveMap[tokenIn], tokenMeta[tokenIn]?.decimals || 18);
-    const reserveOut = bnToFloat(reserveMap[tokenOut], tokenMeta[tokenOut]?.decimals || 18);
-    const amountIn = Number(amountInFloat || 0);
-
-    if (!reserveIn || !reserveOut || amountIn <= 0) return 0;
-
-    return (amountIn * reserveOut) / (reserveIn + amountIn);
-  }
-
-  function calcAmountInForDesiredOut(desiredOutFloat, tokenIn, tokenOut) {
-    const pairKey = getPairKey(tokenIn, tokenOut);
-    if (!pairKey) return 0;
-
-    const reserveMap = reserveMapForPair(pairKey);
-    if (!reserveMap || !reserveMap[tokenIn] || !reserveMap[tokenOut]) return 0;
-
-    const reserveIn = bnToFloat(reserveMap[tokenIn], tokenMeta[tokenIn]?.decimals || 18);
-    const reserveOut = bnToFloat(reserveMap[tokenOut], tokenMeta[tokenOut]?.decimals || 18);
-    const desiredOut = Number(desiredOutFloat || 0);
-
-    if (!reserveIn || !reserveOut || desiredOut <= 0 || desiredOut >= reserveOut) return 0;
-
-    return (reserveIn * desiredOut) / (reserveOut - desiredOut);
-  }
-
-  function computeTokenMetrics() {
-    const lmtvSupply = bnToFloat(tokenMeta.LMTV?.totalSupply || 0, tokenMeta.LMTV?.decimals || 18);
-    const usdcSupply = bnToFloat(tokenMeta.USDC?.totalSupply || 0, tokenMeta.USDC?.decimals || 6);
-    const eurcSupply = bnToFloat(tokenMeta.EURC?.totalSupply || 0, tokenMeta.EURC?.decimals || 6);
-
-    const pairUSDC = reserveMapForPair("LMTV_USDC") || {};
-    const pairEURC = reserveMapForPair("LMTV_EURC") || {};
-
-    const rLmtvUsdc = bnToFloat(pairUSDC.LMTV || 0, tokenMeta.LMTV?.decimals || 18);
-    const rUsdc = bnToFloat(pairUSDC.USDC || 0, tokenMeta.USDC?.decimals || 6);
-    const rLmtvEurc = bnToFloat(pairEURC.LMTV || 0, tokenMeta.LMTV?.decimals || 18);
-    const rEurc = bnToFloat(pairEURC.EURC || 0, tokenMeta.EURC?.decimals || 6);
-
-    const lmtvPriceUsdc = rLmtvUsdc > 0 ? (rUsdc / rLmtvUsdc) : 0;
-    const lmtvPriceEurc = rLmtvEurc > 0 ? (rEurc / rLmtvEurc) : 0;
-    const lmtvPrice = lmtvPriceUsdc || lmtvPriceEurc || 0;
-
-    tokenMetrics = {
-      LMTV: {
-        price: lmtvPrice,
-        holders: "—",
-        supply: lmtvSupply,
-        volume: rUsdc + rEurc,
-        marketCap: lmtvSupply * lmtvPrice,
-        contract: TOKEN_CONFIG.LMTV.address
-      },
-      USDC: {
-        price: 1,
-        holders: "—",
-        supply: usdcSupply,
-        volume: rUsdc,
-        marketCap: usdcSupply,
-        contract: TOKEN_CONFIG.USDC.address
-      },
-      EURC: {
-        price: 1,
-        holders: "—",
-        supply: eurcSupply,
-        volume: rEurc,
-        marketCap: eurcSupply,
-        contract: TOKEN_CONFIG.EURC.address
-      }
-    };
-  }
-
-  async function refreshPairState() {
-    pairStateCache.LMTV_USDC = await safePairState("LMTV_USDC");
-    pairStateCache.LMTV_EURC = await safePairState("LMTV_EURC");
-    computeTokenMetrics();
-  }
-
-  async function refreshWalletBalances() {
-    if (!currentAccount) {
-      tokenBalances = { LMTV: 0, USDC: 0, EURC: 0 };
-      return;
-    }
-
-    const [lmtvBn, usdcBn, eurcBn] = await Promise.all([
-      safeTokenBalance("LMTV", currentAccount),
-      safeTokenBalance("USDC", currentAccount),
-      safeTokenBalance("EURC", currentAccount)
-    ]);
-
-    tokenBalances = {
-      LMTV: bnToFloat(lmtvBn, tokenMeta.LMTV?.decimals || 18),
-      USDC: bnToFloat(usdcBn, tokenMeta.USDC?.decimals || 6),
-      EURC: bnToFloat(eurcBn, tokenMeta.EURC?.decimals || 6)
-    };
-  }
-
-  function renderWalletConnectionUi() {
-    if (isWalletConnected && currentAccount) {
-      openWalletMain.textContent = shortWallet(currentAccount);
-      openWalletMain.classList.add("connected");
-      statusPill.textContent = "CONNECTED";
-      statusPill.classList.add("connected");
-      walletRibbon.classList.add("connected");
-      walletIdText.textContent = shortWallet(currentAccount);
-      gpState.fullWallet = currentAccount;
-      gpWalletBox.textContent = shortWallet(currentAccount);
-    } else {
-      openWalletMain.textContent = "Connect";
-      openWalletMain.classList.remove("connected");
-      statusPill.textContent = "READY";
-      statusPill.classList.remove("connected");
-      walletRibbon.classList.remove("connected");
-      walletIdText.textContent = "Wallet not connected";
-      if (!gpState.fullWallet) gpWalletBox.textContent = "Set receiver wallet";
-    }
-  }
-
-  function renderProfileProgress() {
-    const txs = getStoredList(STORAGE_KEYS.transactions);
-    const completed = txs.filter(x => x.kind === "swap" || x.kind === "pay").length;
-    const level = Math.floor(completed / 5);
-    const pct = Math.min(100, completed * 10);
-
-    profileProgressFill.style.width = `${Math.max(12, pct)}%`;
-    if (profileLvValue) profileLvValue.textContent = String(level);
-
-    achievementSlots.forEach((slot, i) => {
-      const shouldLight =
-        (completed >= 1 && i === 0) ||
-        (completed >= 5 && i === 1) ||
-        (completed >= 10 && i === 2) ||
-        (completed >= 20 && i === 3);
-
-      slot.classList.toggle("inactive", !shouldLight && i === 4);
-      if (i < 4) {
-        slot.style.opacity = shouldLight ? "1" : ".42";
-        slot.style.filter = shouldLight ? "none" : "grayscale(.35)";
-      }
-    });
-  }
-
-  function renderSwapUiStatic() {
-    setTokenMedia(swapTopTokenIcon, swapState.topToken);
-    setTokenMedia(swapBottomTokenIcon, swapState.bottomToken);
-    swapTopTokenLabel.textContent = swapState.topToken;
-    swapBottomTokenLabel.textContent = swapState.bottomToken;
-
-    swapTopBalance.textContent = `Balance ${formatAmount(tokenBalances[swapState.topToken] || 0, 6)}`;
-    swapBottomBalance.textContent = `Balance ${formatAmount(tokenBalances[swapState.bottomToken] || 0, 6)}`;
-  }
-
-  function renderSwapRate() {
-    const quote = calcAmountOutRaw(1, swapState.topToken, swapState.bottomToken);
-    if (quote > 0) {
-      swapRateValue.textContent = `1 ${swapState.topToken} = ${formatAmount(quote, 6)} ${swapState.bottomToken}`;
-    } else {
-      swapRateValue.textContent = `1 ${swapState.topToken} = 0 ${swapState.bottomToken}`;
-    }
-  }
-
-  function formatSlipLabel(value) {
-    if (value === "auto") return "Slippage Auto";
-    const num = Number(value);
-    if (!Number.isFinite(num)) return "Slippage Auto";
-    return `Slippage ${num}%`;
-  }
-
-  function formatSlipStat(value) {
-    if (value === "auto") return "Auto";
-    const num = Number(value);
-    if (!Number.isFinite(num)) return "Auto";
-    return `${num.toFixed(2)}%`;
-  }
-
-  let swapSlipValue = 0.5;
-
-  function renderSlippage() {
-    swapSlipSummary.textContent = formatSlipLabel(swapSlipValue);
-    swapStatSlippage.textContent = formatSlipStat(swapSlipValue);
-
-    swapSlipOptions.forEach(option => {
-      const isActive = String(option.dataset.slip) === String(swapSlipValue);
-      option.classList.toggle("active", isActive);
-    });
-
-    if (swapSlipValue === "auto") {
-      swapSlipInput.value = "";
-      swapSlipInputWrap.classList.remove("manual-active");
-    } else {
-      const num = Number(swapSlipValue);
-      const presetMatch = [...swapSlipOptions].some(option => Number(option.dataset.slip) === num);
-      swapSlipInput.value = presetMatch ? "" : String(num);
-      swapSlipInputWrap.classList.toggle("manual-active", !presetMatch);
-    }
-  }
-
-  function openSlippage() {
-    swapSlipControl.classList.add("open");
-    swapSlipToggle.setAttribute("aria-expanded", "true");
-  }
-
-  function closeSlippage() {
-    swapSlipControl.classList.remove("open");
-    swapSlipToggle.setAttribute("aria-expanded", "false");
-  }
-
-  function applyManualSlippage() {
-    const raw = sanitizeNumeric(swapSlipInput.value).trim();
-    const value = parseFloat(raw);
-
-    if (Number.isNaN(value) || value <= 0) {
-      renderSlippage();
-      closeSlippage();
-      return;
-    }
-
-    swapSlipValue = Number(value.toFixed(2));
-    renderSlippage();
-    closeSlippage();
-    refreshSwapQuote();
-    refreshPayQuote();
-  }
-
-  function updateQuickVisibility() {
-    const topValue = parseFloat(sanitizeNumeric(swapTopInput.value));
-    const bottomValue = parseFloat(sanitizeNumeric(swapBottomInput.value));
-    const hasValue =
-      (!Number.isNaN(topValue) && topValue > 0) ||
-      (!Number.isNaN(bottomValue) && bottomValue > 0);
-
-    swapQuickRow.classList.toggle("show", hasValue);
-  }
-
-  function refreshSwapButtonState() {
-    const amountIn = parseFloat(sanitizeNumeric(swapTopInput.value) || "0");
-    const enough = amountIn > 0 && amountIn <= Number(tokenBalances[swapState.topToken] || 0);
-
-    if (!isWalletConnected) {
-      swapActionBtn.classList.remove("disabled");
-      swapActionBtn.textContent = "Connect wallet";
-      return;
-    }
-
-    if (!amountIn || amountIn <= 0) {
-      swapActionBtn.classList.add("disabled");
-      swapActionBtn.textContent = "Swap tokens";
-      return;
-    }
-
-    if (!enough) {
-      swapActionBtn.classList.add("disabled");
-      swapActionBtn.textContent = "Insufficient balance";
-      return;
-    }
-
-    swapActionBtn.classList.remove("disabled");
-    swapActionBtn.textContent = `Swap ${swapState.topToken}`;
-  }
-
-  function ensureWalletOrOpenSheet() {
-    if (isWalletConnected && currentAccount) return true;
-    openWalletSheet();
-    return false;
-  }
-
-  async function switchToArcNetwork() {
-    if (!window.ethereum) throw new Error("MetaMask not found");
-
-    try {
-      await window.ethereum.request({
-        method: "wallet_switchEthereumChain",
-        params: [{ chainId: ARC.chainIdHex }]
-      });
-    } catch (error) {
-      if (error && error.code === 4902) {
-        await window.ethereum.request({
-          method: "wallet_addEthereumChain",
-          params: [{
-            chainId: ARC.chainIdHex,
-            chainName: ARC.chainName,
-            rpcUrls: ARC.rpcUrls,
-            nativeCurrency: ARC.nativeCurrency,
-            blockExplorerUrls: ARC.blockExplorerUrls
-          }]
-        });
-      } else {
-        throw error;
-      }
-    }
-  }
-
-  async function connectInjectedWallet(walletName = "MetaMask") {
-    if (!window.ethereum) {
-      alert("MetaMask ou carteira EVM não encontrada no navegador.");
-      return;
-    }
-
-    try {
-      await switchToArcNetwork();
-
-      walletProvider = new ethers.providers.Web3Provider(window.ethereum, "any");
-      await walletProvider.send("eth_requestAccounts", []);
-      signer = walletProvider.getSigner();
-      currentAccount = await signer.getAddress();
-      currentWalletLabel = walletName;
-      isWalletConnected = true;
-
-      createWriteContracts();
-      renderWalletConnectionUi();
-      closeSheets();
-
-      await refreshAllOnchain(true);
-    } catch (error) {
-      console.error(error);
-      alert("Não foi possível conectar a carteira na Arc Testnet.");
-    }
-  }
-
-  async function refreshAllOnchain(forceMeta = false) {
-    try {
-      if (!readProvider || forceMeta) {
-        setReadProvider();
-        createReadContracts();
-      }
-
-      if (forceMeta || !tokenMeta.LMTV) {
-        await loadTokenMeta();
-      }
-
-      await refreshPairState();
-      await refreshWalletBalances();
-      renderWalletConnectionUi();
-      renderProfileProgress();
-      renderSwapUiStatic();
-      renderSwapRate();
-      refreshSwapButtonState();
-      renderTokens();
-      rebuildActivityFromStorage();
-      renderMoreViews();
-      debouncedRefreshSwapQuote();
-      debouncedRefreshPayQuote();
-    } catch (error) {
-      console.error("refreshAllOnchain error:", error);
-    }
-  }
-
-  function handleAccountsOrChainChanged() {
-    setTimeout(async () => {
-      try {
-        if (!window.ethereum) return;
-        const provider = new ethers.providers.Web3Provider(window.ethereum, "any");
-        const accounts = await provider.listAccounts();
-
-        if (!accounts.length) {
-          signer = null;
-          walletProvider = null;
-          currentAccount = "";
-          isWalletConnected = false;
-          createWriteContracts();
-          renderWalletConnectionUi();
-          await refreshAllOnchain(false);
-          return;
+      let flipRotation = 0;
+      let swapSlipValue = 0.5;
+
+      let spSelectedAsset = "USDC";
+      let spProcessStep = 0;
+      let spResetTimers = [];
+      let spScanStream = null;
+      let spScanFrame = null;
+      let spBarcodeDetector = null;
+
+      const gpState = {
+        asset: "USDC",
+        fullWallet: "0x7A3F0000000000000000000000000000000091Bc",
+        requestLink: ""
+      };
+
+      const gpRates = {
+        USDC: 3.001,
+        EURC: 3.095
+      };
+
+      const TOKENS = [
+        {
+          name: "LMTV",
+          price: "$1.00",
+          holders: "842",
+          supply: "3B",
+          volume: "$420K",
+          marketCap: "$3.0B",
+          contract: "0xd9D382085Fb4E4dBCf0A6B85c76D42eaB0A1be2d",
+          image: "lmtv.png",
+          fallback: "L"
+        },
+        {
+          name: "USDC",
+          price: "$1.00",
+          holders: "5.4K",
+          supply: "1M",
+          volume: "$180K",
+          marketCap: "$1.0M",
+          contract: "0x3600000000000000000000000000000000000000",
+          image: "usdc.png",
+          fallback: "$"
+        },
+        {
+          name: "EURC",
+          price: "$1.00",
+          holders: "1.2K",
+          supply: "1M",
+          volume: "$92K",
+          marketCap: "$1.0M",
+          contract: "0x89B50855Aa3bE2F677cD6303Cec089B5F319D72a",
+          image: "eurc.png",
+          fallback: "€"
         }
-
-        walletProvider = provider;
-        signer = provider.getSigner();
-        currentAccount = accounts[0];
-        isWalletConnected = true;
-        createWriteContracts();
-        renderWalletConnectionUi();
-        await refreshAllOnchain(false);
-      } catch (error) {
-        console.error(error);
-      }
-    }, 250);
-  }
-
-  function renderTokens() {
-    const tokenList = filteredTokens.map(symbol => ({
-      symbol,
-      cfg: TOKEN_CONFIG[symbol],
-      meta: tokenMeta[symbol],
-      metrics: tokenMetrics[symbol]
-    }));
-
-    tokensRailList.innerHTML = "";
-    tokensTableRows.innerHTML = "";
-
-    if (!tokenList.length) {
-      tokensEmptyState.classList.add("show");
-      return;
-    }
-
-    tokensEmptyState.classList.remove("show");
-    tokensHeaderCells[0].textContent = "Price";
-    tokensHeaderCells[1].textContent = "Holders";
-    tokensHeaderCells[2].textContent = "Supply";
-    tokensHeaderCells[3].textContent = "Volume";
-    tokensHeaderCells[4].textContent = "MCap";
-    tokensHeaderCells[5].textContent = "Contract";
-
-    tokenList.forEach(item => {
-      const active = item.symbol === activeToken;
-
-      const rail = document.createElement("div");
-      rail.className = `tokens-token-item${active ? " active" : ""}`;
-      rail.dataset.token = item.symbol;
-      rail.innerHTML = `
-        <div class="tokens-token-orb">
-          <img src="${item.cfg.image}" alt="${item.symbol}" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
-          <span style="display:none;">${item.cfg.fallback}</span>
-        </div>
-        <span class="tokens-token-name">${item.symbol}</span>
-        <button class="tokens-copy-chip" type="button" aria-label="Copy ${item.symbol} contract">
-          <svg viewBox="0 0 24 24" aria-hidden="true">
-            <rect x="8" y="8" width="11" height="11" rx="2.5"></rect>
-            <rect x="5" y="5" width="11" height="11" rx="2.5"></rect>
-          </svg>
-        </button>
-      `;
-
-      rail.addEventListener("click", (event) => {
-        if (event.target.closest(".tokens-copy-chip")) return;
-        activeToken = item.symbol;
-        renderTokens();
-      });
-
-      rail.querySelector(".tokens-copy-chip").addEventListener("click", async (event) => {
-        event.stopPropagation();
-        await tokensCopyText(item.cfg.address);
-      });
-
-      tokensRailList.appendChild(rail);
-
-      const row = document.createElement("div");
-      row.className = `tokens-data-row${active ? " active" : ""}`;
-      row.innerHTML = `
-        <div class="tokens-d-cell">${formatUsd(item.metrics?.price || 0)}</div>
-        <div class="tokens-d-cell">${item.metrics?.holders || "—"}</div>
-        <div class="tokens-d-cell">${formatAmount(item.metrics?.supply || 0, 2)}</div>
-        <div class="tokens-d-cell">${formatUsd(item.metrics?.volume || 0)}</div>
-        <div class="tokens-d-cell">${formatUsd(item.metrics?.marketCap || 0)}</div>
-        <div class="tokens-d-cell soft">${shortWallet(item.cfg.address)}</div>
-      `;
-
-      row.addEventListener("click", () => {
-        activeToken = item.symbol;
-        renderTokens();
-      });
-
-      tokensTableRows.appendChild(row);
-    });
-  }
-
-  function filterTokens(value) {
-    const query = String(value || "").trim().toLowerCase();
-
-    filteredTokens = ["LMTV", "USDC", "EURC"].filter(symbol => {
-      const cfg = TOKEN_CONFIG[symbol];
-      return symbol.toLowerCase().includes(query) || cfg.address.toLowerCase().includes(query);
-    });
-
-    if (!filteredTokens.includes(activeToken)) {
-      activeToken = filteredTokens[0] || "LMTV";
-    }
-
-    renderTokens();
-  }
-
-  function tokensShowCopied(message) {
-    tokensCopiedTip.textContent = message;
-    tokensCopiedTip.classList.add("show");
-    clearTimeout(tokensCopiedTimer);
-    tokensCopiedTimer = setTimeout(() => tokensCopiedTip.classList.remove("show"), 1200);
-  }
-
-  async function safeCopyText(text, successMessage, failureMessage) {
-    try {
-      if (navigator.clipboard && window.isSecureContext) {
-        await navigator.clipboard.writeText(text);
-      } else {
-        const area = document.createElement("textarea");
-        area.value = text;
-        area.style.position = "fixed";
-        area.style.left = "-9999px";
-        document.body.appendChild(area);
-        area.focus();
-        area.select();
-        document.execCommand("copy");
-        area.remove();
-      }
-      return { ok: true, message: successMessage };
-    } catch {
-      return { ok: false, message: failureMessage };
-    }
-  }
-
-  async function tokensCopyText(text) {
-    const result = await safeCopyText(text, "Contract copied", "Copy failed");
-    tokensShowCopied(result.message);
-  }
-
-  function openTokensSearch() {
-    tokensSearchPill.classList.add("open");
-    requestAnimationFrame(() => {
-      setTimeout(() => tokensSearchInput.focus(), 60);
-    });
-  }
-
-  function closeTokensSearch() {
-    tokensSearchInput.value = "";
-    filteredTokens = ["LMTV", "USDC", "EURC"];
-    activeToken = "LMTV";
-    renderTokens();
-    tokensSearchPill.classList.remove("open");
-  }
-
-  function activateMoreView(key) {
-    const idMap = {
-      overview: "moreOverview",
-      requests: "moreRequests",
-      transactions: "moreTransactions"
-    };
-
-    moreTabs.forEach(tab => tab.classList.toggle("active", tab.dataset.tab === key));
-    moreViews.forEach(view => view.classList.remove("active"));
-
-    const target = document.getElementById(idMap[key]);
-    if (target) target.classList.add("active");
-  }
-
-  function renderMoreViews() {
-    const requests = getStoredList(STORAGE_KEYS.requests);
-    const txs = getStoredList(STORAGE_KEYS.transactions);
-
-    const openCount = requests.filter(x => x.status === "open").length;
-    const paidCount = requests.filter(x => x.status === "paid").length;
-    const expiredCount = requests.filter(x => x.status === "expired").length;
-    const settledTotal = txs.reduce((s, x) => s + Number(x.receiveAmount || 0), 0);
-
-    moreOverview.innerHTML = `
-      <div class="more-section-top">
-        <div class="more-section-left">
-          <div class="more-section-kicker">System view</div>
-          <div class="more-section-title">Account flow</div>
-          <div class="more-section-desc">
-            Dados reais da Arc Testnet para tokens e ações registradas dentro da StableFlow.
-          </div>
-        </div>
-        <div class="more-side-chip">Arc</div>
-      </div>
-
-      <div class="more-metric-row">
-        <div class="more-metric">
-          <div class="more-metric-label">Open requests</div>
-          <div class="more-metric-value">${String(openCount).padStart(2, "0")}</div>
-          <div class="more-metric-sub">${paidCount} paid • ${expiredCount} expired</div>
-        </div>
-
-        <div class="more-metric">
-          <div class="more-metric-label">Settled</div>
-          <div class="more-metric-value">${formatUsd(settledTotal)}</div>
-          <div class="more-metric-sub">${txs.length} local actions</div>
-        </div>
-      </div>
-
-      <div class="more-rail-list">
-        <div class="more-rail">
-          <div class="more-rail-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.05" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M12 3v18"></path>
-              <path d="M16.8 8.2c0-1.8-2.15-3.2-4.8-3.2s-4.8 1.4-4.8 3.2 2.15 3.2 4.8 3.2 4.8 1.4 4.8 3.2-2.15 3.2-4.8 3.2-4.8-1.4-4.8-3.2"/>
-            </svg>
-          </div>
-          <div class="more-rail-main">
-            <div class="more-rail-top">
-              <div class="more-rail-title">Preferred settlement</div>
-              <span class="more-badge gold">${gpState.asset}</span>
-            </div>
-            <div class="more-rail-sub">Swap & Pay entrega em USDC ou EURC usando as pools reais da Arc Testnet.</div>
-          </div>
-          <div class="more-rail-side">
-            <div class="more-rail-big">${ARC.chainName}</div>
-            <div class="more-rail-small">live network</div>
-          </div>
-        </div>
-
-        <div class="more-rail">
-          <div class="more-rail-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.05" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M8 17l4 4 4-4"/>
-              <path d="M12 12v9"/>
-              <path d="M20.5 17.2A4.8 4.8 0 0 0 17 9h-1.1A7.2 7.2 0 0 0 3.7 16"/>
-            </svg>
-          </div>
-          <div class="more-rail-main">
-            <div class="more-rail-top">
-              <div class="more-rail-title">Request delivery</div>
-              <span class="more-badge blue">Link + QR</span>
-            </div>
-            <div class="more-rail-sub">Get Paid já gera payload real da cobrança com wallet, valor e ativo.</div>
-          </div>
-          <div class="more-rail-side">
-            <div class="more-rail-big">${requests.length}</div>
-            <div class="more-rail-small">stored</div>
-          </div>
-        </div>
-
-        <div class="more-rail">
-          <div class="more-rail-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.05" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M4 7h16"></path>
-              <path d="M4 12h16"></path>
-              <path d="M4 17h11"></path>
-            </svg>
-          </div>
-          <div class="more-rail-main">
-            <div class="more-rail-top">
-              <div class="more-rail-title">Interface direction</div>
-              <span class="more-badge green">Onchain</span>
-            </div>
-            <div class="more-rail-sub">Tokens, quotes e swaps agora usam contratos reais em vez de números fake.</div>
-          </div>
-          <div class="more-rail-side">
-            <div class="more-rail-big">2 pools</div>
-            <div class="more-rail-small">active</div>
-          </div>
-        </div>
-      </div>
-
-      <div class="more-mini-grid">
-        <div class="more-mini-box">
-          <div class="more-mini-label">LMTV</div>
-          <div class="more-mini-value">${formatAmount(tokenBalances.LMTV || 0, 4)}</div>
-        </div>
-        <div class="more-mini-box">
-          <div class="more-mini-label">USDC</div>
-          <div class="more-mini-value">${formatAmount(tokenBalances.USDC || 0, 4)}</div>
-        </div>
-        <div class="more-mini-box">
-          <div class="more-mini-label">EURC</div>
-          <div class="more-mini-value">${formatAmount(tokenBalances.EURC || 0, 4)}</div>
-        </div>
-      </div>
-
-      <div class="more-note">
-        Overview agora mostra o estado real do app e saldos da carteira conectada quando houver conexão.
-      </div>
-    `;
-
-    moreRequests.innerHTML = requests.length ? `
-      <div class="more-section-top">
-        <div class="more-section-left">
-          <div class="more-section-kicker">Collection flow</div>
-          <div class="more-section-title">Requests</div>
-          <div class="more-section-desc">Cobranças geradas no Get Paid, com status salvo no app.</div>
-        </div>
-        <div class="more-side-chip">${requests.length} total</div>
-      </div>
-
-      <div class="more-rail-list">
-        ${requests.slice(0, 12).map(item => `
-          <div class="more-rail">
-            <div class="more-rail-icon">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.05" stroke-linecap="round" stroke-linejoin="round">
-                <rect x="4" y="5" width="16" height="14" rx="3"></rect>
-                <path d="M8 10h8"></path>
-                <path d="M8 14h5"></path>
-              </svg>
-            </div>
-            <div class="more-rail-main">
-              <div class="more-rail-top">
-                <div class="more-rail-title">${item.title || "Payment request"}</div>
-                <span class="more-badge ${item.receiveAsset === "EURC" ? "gold" : "blue"}">${item.receiveAsset}</span>
-                <span class="more-badge ${item.status === "paid" ? "green" : item.status === "expired" ? "red" : "orange"}">${item.status}</span>
-              </div>
-              <div class="more-rail-sub">${shortWallet(item.wallet)} • ${item.note ? item.note : "No note"}</div>
-            </div>
-            <div class="more-rail-side">
-              <div class="more-rail-big">${formatAmount(item.receiveAmount, 2)}</div>
-              <div class="more-rail-small">${humanTime(item.createdAt)}</div>
-            </div>
-          </div>
-        `).join("")}
-      </div>
-
-      <div class="more-mini-grid">
-        <div class="more-mini-box"><div class="more-mini-label">Paid</div><div class="more-mini-value">${paidCount}</div></div>
-        <div class="more-mini-box"><div class="more-mini-label">Open</div><div class="more-mini-value">${openCount}</div></div>
-        <div class="more-mini-box"><div class="more-mini-label">Expired</div><div class="more-mini-value">${expiredCount}</div></div>
-      </div>
-    ` : `
-      <div class="more-section-top">
-        <div class="more-section-left">
-          <div class="more-section-kicker">Collection flow</div>
-          <div class="more-section-title">Requests</div>
-          <div class="more-section-desc">Ainda não há cobranças geradas.</div>
-        </div>
-        <div class="more-side-chip">0 total</div>
-      </div>
-      <div class="more-empty">Crie uma cobrança em Get Paid para começar a preencher esta área.</div>
-    `;
-
-    moreTransactions.innerHTML = txs.length ? `
-      <div class="more-section-top">
-        <div class="more-section-left">
-          <div class="more-section-kicker">Settlement log</div>
-          <div class="more-section-title">Transactions</div>
-          <div class="more-section-desc">Ações concluídas dentro da StableFlow.</div>
-        </div>
-        <div class="more-side-chip">Recent</div>
-      </div>
-
-      <div class="more-rail-list">
-        ${txs.slice(0, 14).map(item => `
-          <div class="more-rail">
-            <div class="more-rail-icon">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.05" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M7 17L17 7"></path>
-                <path d="M8 7h9v9"></path>
-              </svg>
-            </div>
-            <div class="more-rail-main">
-              <div class="more-rail-top">
-                <div class="more-rail-title">${item.kind === "swap" ? "Swap completed" : "Swap & Pay completed"}</div>
-                <span class="more-badge green">success</span>
-              </div>
-              <div class="more-rail-sub">
-                ${formatAmount(item.sendAmount, 4)} ${item.sendAsset} → ${formatAmount(item.receiveAmount, 4)} ${item.receiveAsset}
-              </div>
-            </div>
-            <div class="more-rail-side">
-              <div class="more-rail-big">${item.txHash ? shortWallet(item.txHash) : "local"}</div>
-              <div class="more-rail-small">${humanTime(item.createdAt)}</div>
-            </div>
-          </div>
-        `).join("")}
-      </div>
-
-      <div class="more-note">
-        Quando houver hash onchain, ele será salvo no histórico local da interface.
-      </div>
-    ` : `
-      <div class="more-section-top">
-        <div class="more-section-left">
-          <div class="more-section-kicker">Settlement log</div>
-          <div class="more-section-title">Transactions</div>
-          <div class="more-section-desc">Nenhuma ação concluída ainda.</div>
-        </div>
-        <div class="more-side-chip">Empty</div>
-      </div>
-      <div class="more-empty">Conecte a carteira e execute um swap para começar a preencher o histórico.</div>
-    `;
-  }
-  const ERC20_RUNTIME_MIN_ABI = [
-    "function approve(address spender,uint256 amount) returns (bool)",
-    "function allowance(address owner,address spender) view returns (uint256)",
-    "function balanceOf(address owner) view returns (uint256)",
-    "function transfer(address to,uint256 amount) returns (bool)"
-  ];
-
-  let swapQuoteTimer = null;
-  let payQuoteTimer = null;
-
-  function getTokenWriteContract(symbol) {
-    if (!signer) return null;
-    return new ethers.Contract(TOKEN_CONFIG[symbol].address, ERC20_RUNTIME_MIN_ABI, signer);
-  }
-
-  function getTokenReadContract(symbol) {
-    return new ethers.Contract(TOKEN_CONFIG[symbol].address, ERC20_RUNTIME_MIN_ABI, readProvider);
-  }
-
-  function isValidAddress(value) {
-    try {
-      return ethers.utils.isAddress(String(value || "").trim());
-    } catch {
-      return false;
-    }
-  }
-
-  function getActiveSlippagePercent() {
-    if (swapSlipValue === "auto") return 0.5;
-    const n = Number(swapSlipValue);
-    return Number.isFinite(n) && n > 0 ? n : 0.5;
-  }
-
-  function clearSwapOutputs() {
-    swapBottomInput.value = "";
-    renderSwapRate();
-    updateQuickVisibility();
-    refreshSwapButtonState();
-  }
-
-  async function refreshSwapQuote(direction = "fromTop") {
-    renderSwapUiStatic();
-    renderSwapRate();
-
-    const topVal = parseFloat(sanitizeNumeric(swapTopInput.value || ""));
-    const bottomVal = parseFloat(sanitizeNumeric(swapBottomInput.value || ""));
-
-    if (direction === "fromBottom") {
-      if (!Number.isFinite(bottomVal) || bottomVal <= 0) {
-        swapTopInput.value = "";
-        updateQuickVisibility();
-        refreshSwapButtonState();
-        return;
-      }
-
-      const needed = calcAmountInForDesiredOut(
-        bottomVal,
-        swapState.topToken,
-        swapState.bottomToken
-      );
-
-      swapTopInput.value = needed > 0 ? formatAmount(needed, 6) : "";
-      renderSwapRate();
-      updateQuickVisibility();
-      refreshSwapButtonState();
-      return;
-    }
-
-    if (!Number.isFinite(topVal) || topVal <= 0) {
-      clearSwapOutputs();
-      return;
-    }
-
-    const quote = calcAmountOutRaw(topVal, swapState.topToken, swapState.bottomToken);
-    swapBottomInput.value = quote > 0 ? formatAmount(quote, 6) : "";
-
-    renderSwapRate();
-    updateQuickVisibility();
-    refreshSwapButtonState();
-  }
-
-  function debouncedRefreshSwapQuote(direction = "fromTop") {
-    clearTimeout(swapQuoteTimer);
-    swapQuoteTimer = setTimeout(() => {
-      refreshSwapQuote(direction);
-    }, 120);
-  }
-
-  async function approveIfNeeded(symbol, spender, amountBn) {
-    const token = getTokenWriteContract(symbol);
-    if (!token) throw new Error("Wallet not connected");
-
-    const allowance = await token.allowance(currentAccount, spender);
-    if (allowance.gte(amountBn)) return null;
-
-    const tx = await token.approve(spender, ethers.constants.MaxUint256);
-    await tx.wait();
-    return tx.hash;
-  }
-
-  function saveLocalTransaction(entry) {
-    const list = getStoredList(STORAGE_KEYS.transactions);
-    list.unshift({
-      id: makeId("tx"),
-      createdAt: Date.now(),
-      ...entry
-    });
-    saveStoredList(STORAGE_KEYS.transactions, list.slice(0, 80));
-  }
-
-  function saveLocalRequest(entry) {
-    const list = getStoredList(STORAGE_KEYS.requests);
-    list.unshift({
-      id: makeId("req"),
-      createdAt: Date.now(),
-      status: "open",
-      ...entry
-    });
-    saveStoredList(STORAGE_KEYS.requests, list.slice(0, 80));
-  }
-
-  function markMatchingRequestPaid({ wallet, receiveAsset, receiveAmount }) {
-    const list = getStoredList(STORAGE_KEYS.requests);
-    let changed = false;
-
-    const next = list.map(item => {
-      if (changed || item.status !== "open") return item;
-
-      const sameWallet = String(item.wallet || "").toLowerCase() === String(wallet || "").toLowerCase();
-      const sameAsset = item.receiveAsset === receiveAsset;
-      const sameAmount = Math.abs(Number(item.receiveAmount || 0) - Number(receiveAmount || 0)) < 0.0001;
-
-      if (sameWallet && sameAsset && sameAmount) {
-        changed = true;
-        return {
-          ...item,
-          status: "paid",
-          paidAt: Date.now()
-        };
-      }
-
-      return item;
-    });
-
-    if (changed) {
-      saveStoredList(STORAGE_KEYS.requests, next);
-    }
-  }
-
-  async function performSwapTransaction() {
-    if (!ensureWalletOrOpenSheet()) return;
-
-    const amountIn = parseFloat(sanitizeNumeric(swapTopInput.value || ""));
-    if (!Number.isFinite(amountIn) || amountIn <= 0) return;
-
-    const available = Number(tokenBalances[swapState.topToken] || 0);
-    if (amountIn > available) {
-      refreshSwapButtonState();
-      return;
-    }
-
-    const pairKey = getPairKey(swapState.topToken, swapState.bottomToken);
-    if (!pairKey || !pairContractsWrite[pairKey]) {
-      alert("Pool não disponível para este par.");
-      return;
-    }
-
-    const pair = pairContractsWrite[pairKey];
-    const tokenInDecimals = tokenMeta[swapState.topToken]?.decimals || 18;
-    const tokenOutDecimals = tokenMeta[swapState.bottomToken]?.decimals || 18;
-    const expectedOut = calcAmountOutRaw(amountIn, swapState.topToken, swapState.bottomToken);
-
-    const amountInBn = ethers.utils.parseUnits(
-      sanitizeNumeric(String(amountIn)),
-      tokenInDecimals
-    );
-
-    const oldText = swapActionBtn.textContent;
-
-    try {
-      swapActionBtn.classList.remove("disabled");
-      swapActionBtn.textContent = "Approving...";
-      swapActionBtn.disabled = true;
-
-      await approveIfNeeded(swapState.topToken, PAIR_CONFIG[pairKey].address, amountInBn);
-
-      swapActionBtn.textContent = "Swapping...";
-
-      const tx = await pair.swap(TOKEN_CONFIG[swapState.topToken].address, amountInBn);
-      const receipt = await tx.wait();
-
-      saveLocalTransaction({
-        kind: "swap",
-        sendAsset: swapState.topToken,
-        sendAmount: amountIn,
-        receiveAsset: swapState.bottomToken,
-        receiveAmount: Number(expectedOut.toFixed(6)),
-        txHash: receipt.transactionHash
-      });
-
-      swapTopInput.value = "";
-      swapBottomInput.value = "";
-
-      swapActionBtn.textContent = "Completed";
-
-      await refreshAllOnchain(false);
-
-      setTimeout(() => {
-        swapActionBtn.disabled = false;
-        refreshSwapButtonState();
-      }, 500);
-    } catch (error) {
-      console.error(error);
-      swapActionBtn.disabled = false;
-      swapActionBtn.textContent = oldText;
-      refreshSwapButtonState();
-      alert("Swap falhou ou foi cancelado.");
-    }
-  }
-
-  function spGetDesiredAmount() {
-    const amount = parseFloat(sanitizeNumeric(spReceiveAmount.value || ""));
-    return Number.isFinite(amount) ? amount : 0;
-  }
-
-  function spGetRequiredLmtv() {
-    const desired = spGetDesiredAmount();
-    if (desired <= 0) return 0;
-    return calcAmountInForDesiredOut(desired, "LMTV", spSelectedAsset);
-  }
-
-  function spSyncEntryState() {
-    spWalletShell.dataset.empty = spRecipientWallet.value.trim() ? "false" : "true";
-    spAmountShell.dataset.empty = spReceiveAmount.value.trim() ? "false" : "true";
-  }
-
-  function spFormIsValid() {
-    return isValidAddress(spRecipientWallet.value.trim()) && spGetDesiredAmount() > 0;
-  }
-
-  function spUpdatePreview() {
-    const desired = spGetDesiredAmount();
-    const required = spGetRequiredLmtv();
-    const minReceived = desired > 0
-      ? desired * (1 - getActiveSlippagePercent() / 100)
-      : 0;
-
-    spRecipientAmountMirror.textContent = desired > 0 ? formatAmount(desired, 4) : "0.00";
-    spPayerAmount.textContent = required > 0 ? formatAmount(required, 6) : "0.00";
-
-    spPreviewLeft.textContent = `${required > 0 ? formatAmount(required, 6) : "0.00"} LMTV`;
-    spPreviewRight.textContent = `${desired > 0 ? formatAmount(desired, 4) : "0.00"} ${spSelectedAsset}`;
-    spPreviewRoute.textContent = `LMTV → ${spSelectedAsset}`;
-    spPreviewSlippage.textContent = `${getActiveSlippagePercent().toFixed(2)}%`;
-    spPreviewFee.textContent = "Arc gas";
-    spPreviewMin.textContent = `${minReceived > 0 ? formatAmount(minReceived, 4) : "0.00"} ${spSelectedAsset}`;
-    spPreviewNote.textContent = `Note: ${spNoteInput.value.trim() ? spNoteInput.value.trim() : "none"}`;
-  }
-
-  function spUpdateMath() {
-    spSyncEntryState();
-    spUpdatePreview();
-    spUpdateSwapButton();
-  }
-
-  function spUpdateSwapButton() {
-    const desired = spGetDesiredAmount();
-    const required = spGetRequiredLmtv();
-    const available = Number(tokenBalances.LMTV || 0);
-
-    spSwapBtn.classList.remove("processing", "done");
-
-    if (spProcessStep > 0) {
-      spSwapBtn.classList.remove("disabled");
-      if (spProcessStep === 1) {
-        spSwapBtn.classList.add("processing");
-        spSwapBtn.textContent = "Approve LMTV";
-      }
-      if (spProcessStep === 2) {
-        spSwapBtn.classList.add("processing");
-        spSwapBtn.textContent = "Swap to stable";
-      }
-      if (spProcessStep === 3) {
-        spSwapBtn.classList.add("processing");
-        spSwapBtn.textContent = "Transfer to recipient";
-      }
-      if (spProcessStep === 4) {
-        spSwapBtn.classList.add("done");
-        spSwapBtn.textContent = "Completed";
-      }
-      return;
-    }
-
-    if (!isWalletConnected) {
-      spSwapBtn.classList.remove("disabled");
-      spSwapBtn.textContent = "Connect wallet";
-      return;
-    }
-
-    if (!spFormIsValid() || desired <= 0) {
-      spSwapBtn.classList.add("disabled");
-      spSwapBtn.textContent = "Swap & Pay";
-      return;
-    }
-
-    if (required <= 0 || required > available) {
-      spSwapBtn.classList.add("disabled");
-      spSwapBtn.textContent = "Insufficient LMTV";
-      return;
-    }
-
-    spSwapBtn.classList.remove("disabled");
-    spSwapBtn.textContent = "Swap & Pay";
-  }
-
-  function debouncedRefreshPayQuote() {
-    clearTimeout(payQuoteTimer);
-    payQuoteTimer = setTimeout(() => {
-      spUpdateMath();
-    }, 120);
-  }
-
-  async function performSwapAndPay() {
-    if (!ensureWalletOrOpenSheet()) return;
-
-    if (!spFormIsValid()) {
-      spUpdateSwapButton();
-      return;
-    }
-
-    const recipient = spRecipientWallet.value.trim();
-    const desired = spGetDesiredAmount();
-    const requiredLmtv = spGetRequiredLmtv();
-    const availableLmtv = Number(tokenBalances.LMTV || 0);
-
-    if (!Number.isFinite(requiredLmtv) || requiredLmtv <= 0 || requiredLmtv > availableLmtv) {
-      spUpdateSwapButton();
-      return;
-    }
-
-    const pairKey = getPairForStable(spSelectedAsset);
-    const pair = pairContractsWrite[pairKey];
-    if (!pair) {
-      alert("Pool não encontrada para Swap & Pay.");
-      return;
-    }
-
-    const lmtvDecimals = tokenMeta.LMTV?.decimals || 18;
-    const stableDecimals = tokenMeta[spSelectedAsset]?.decimals || 6;
-
-    const lmtvBn = ethers.utils.parseUnits(
-      sanitizeNumeric(String(requiredLmtv)),
-      lmtvDecimals
-    );
-
-    const stableRead = getTokenReadContract(spSelectedAsset);
-    const stableWrite = getTokenWriteContract(spSelectedAsset);
-
-    try {
-      spPreviewPanel.classList.add("show");
-      spCenterCircle.classList.add("active", "spin");
-
-      spProcessStep = 1;
-      spSetProcessUi(1);
-      spUpdateSwapButton();
-
-      await approveIfNeeded("LMTV", PAIR_CONFIG[pairKey].address, lmtvBn);
-
-      spProcessStep = 2;
-      spSetProcessUi(2);
-      spUpdateSwapButton();
-
-      const balanceBefore = await stableRead.balanceOf(currentAccount);
-      const swapTx = await pair.swap(TOKEN_CONFIG.LMTV.address, lmtvBn);
-      const swapReceipt = await swapTx.wait();
-      const balanceAfter = await stableRead.balanceOf(currentAccount);
-
-      let receivedBn = balanceAfter.sub(balanceBefore);
-      if (receivedBn.lte(0)) {
-        const fallbackOut = calcAmountOutRaw(requiredLmtv, "LMTV", spSelectedAsset);
-        receivedBn = ethers.utils.parseUnits(
-          sanitizeNumeric(String(fallbackOut || 0)),
-          stableDecimals
+      ];
+
+      let filteredTokens = [...TOKENS];
+      let activeToken = TOKENS[0].name;
+      let tokensCopiedTimer = null;
+
+      const ACTIVITY_DEFAULT_LABELS = ["Mon","Tue","Wed","Thu","Fri","Sat","Sun"];
+      const activityState = {
+        autoCycle: true,
+        cycleMs: 4500,
+        live: true,
+        currentMode: "volume",
+        datasets: {
+          volume: {
+            title: "StableFlow usage",
+            values: [18, 31, 26, 44, 33, 57, 43],
+            labels: ACTIVITY_DEFAULT_LABELS,
+            peakText: "$34.8",
+            metricA: "<b>$126.4</b> weekly",
+            metricB: "<b>+18%</b> today",
+            metricC: "<b>EURC</b> output",
+            note: "Demo graph only. LMTV exists to demonstrate flow, Get Paid generates QR payment requests, and profile trophies will unlock as transactions grow."
+          },
+          requests: {
+            title: "Request activity",
+            values: [2, 4, 3, 6, 5, 7, 5],
+            labels: ACTIVITY_DEFAULT_LABELS,
+            peakText: "7",
+            metricA: "<b>04</b> created",
+            metricB: "<b>Sat</b> best day",
+            metricC: "<b>03</b> waiting",
+            note: "Get Paid requests are still demo data for now, but the structure is ready to receive real usage."
+          },
+          stable: {
+            title: "Stable output usage",
+            values: [42, 44, 39, 48, 46, 61, 57],
+            labels: ACTIVITY_DEFAULT_LABELS,
+            peakText: "EURC",
+            metricA: "<b>61%</b> EURC",
+            metricB: "<b>39%</b> USDC",
+            metricC: "<b>EURC ↑</b> trend",
+            note: "Stable output selection is shown as a demonstration of settlement preference between USDC and EURC."
+          }
+        }
+      };
+
+      let activityAutoCycle = null;
+      let activityOrbFrame = null;
+
+      const payRates = {
+        USDC: 0.91,
+        EURC: 0.87
+      };
+
+      function anySheetOpen(){
+        return (
+          walletSheet.classList.contains("show") ||
+          tokensSheet.classList.contains("show") ||
+          moreSheet.classList.contains("show")
         );
       }
 
-      spProcessStep = 3;
-      spSetProcessUi(3);
-      spUpdateSwapButton();
+      function anyModuleOpen(){
+        return (
+          swapPanel.classList.contains("show") ||
+          payPanel.classList.contains("show") ||
+          getPaidPanel.classList.contains("show")
+        );
+      }
 
-      const transferTx = await stableWrite.transfer(recipient, receivedBn);
-      const transferReceipt = await transferTx.wait();
+      function syncUiLocks(){
+        const showSheets = anySheetOpen();
+        const showModules = anyModuleOpen();
+        const lockAll = showSheets || showModules;
 
-      const finalReceived = bnToFloat(receivedBn, stableDecimals);
+        overlay.classList.toggle("show", showSheets);
+        moduleUnderlay.classList.toggle("show", showModules);
 
-      saveLocalTransaction({
-        kind: "pay",
-        sendAsset: "LMTV",
-        sendAmount: Number(requiredLmtv.toFixed(6)),
-        receiveAsset: spSelectedAsset,
-        receiveAmount: Number(finalReceived.toFixed(6)),
-        recipient,
-        note: spNoteInput.value.trim(),
-        txHash: transferReceipt.transactionHash,
-        swapTxHash: swapReceipt.transactionHash
-      });
+        body.classList.toggle("sheet-open", lockAll);
+        html.style.overflow = lockAll ? "hidden" : "";
+        body.style.overflow = lockAll ? "hidden" : "";
 
-      markMatchingRequestPaid({
-        wallet: recipient,
-        receiveAsset: spSelectedAsset,
-        receiveAmount: Number(finalReceived.toFixed(4))
-      });
-
-      spProcessStep = 4;
-      spSetProcessUi(4);
-      spUpdateSwapButton();
-
-      await refreshAllOnchain(false);
-
-      setTimeout(() => {
-        spResetAll();
-      }, 1200);
-    } catch (error) {
-      console.error(error);
-      spProcessStep = 0;
-      spCenterCircle.classList.remove("spin");
-      spUpdateSwapButton();
-      alert("Swap & Pay falhou ou foi cancelado.");
-    }
-  }
-
-  function gpShortWallet(address) {
-    if (!address || address.length < 10) return address || "";
-    return `${address.slice(0, 6)}...${address.slice(-4)}`;
-  }
-
-  function gpSyncWalletUI() {
-    gpWalletBox.textContent = gpState.fullWallet ? gpShortWallet(gpState.fullWallet) : "Set receiver wallet";
-  }
-
-  function gpGetAmount() {
-    const n = parseFloat(sanitizeNumeric(gpAmountInput.value || ""));
-    return Number.isFinite(n) ? n : 0;
-  }
-
-  function gpGetEstimatedLmtv() {
-    const amount = gpGetAmount();
-    if (amount <= 0) return 0;
-    return calcAmountInForDesiredOut(amount, "LMTV", gpState.asset);
-  }
-
-  function gpBuildLink() {
-    const payload = {
-      app: "StableFlow",
-      network: ARC.chainName,
-      wallet: gpState.fullWallet,
-      asset: gpState.asset,
-      amount: Number(gpGetAmount().toFixed(4)),
-      estimatedLmtv: Number(gpGetEstimatedLmtv().toFixed(6)),
-      createdAt: Date.now()
-    };
-
-    const base =
-      window.location && /^https?:/.test(window.location.href)
-        ? `${window.location.origin}${window.location.pathname}`
-        : "stableflow://request";
-
-    return `${base}?stableflow_request=${encodeURIComponent(JSON.stringify(payload))}`;
-  }
-
-  function gpDrawFallback(text) {
-    const ctx = gpQrCanvas.getContext("2d");
-    const size = gpQrCanvas.width;
-    const cells = 21;
-    const cell = size / cells;
-
-    ctx.fillStyle = "#fff";
-    ctx.fillRect(0, 0, size, size);
-
-    let seed = 0;
-    for (let i = 0; i < text.length; i++) {
-      seed = (seed * 31 + text.charCodeAt(i)) >>> 0;
-    }
-
-    function rand() {
-      seed = (seed * 1664525 + 1013904223) >>> 0;
-      return seed / 4294967296;
-    }
-
-    function finder(x, y) {
-      ctx.fillStyle = "#000";
-      ctx.fillRect(x * cell, y * cell, 7 * cell, 7 * cell);
-      ctx.fillStyle = "#fff";
-      ctx.fillRect((x + 1) * cell, (y + 1) * cell, 5 * cell, 5 * cell);
-      ctx.fillStyle = "#000";
-      ctx.fillRect((x + 2) * cell, (y + 2) * cell, 3 * cell, 3 * cell);
-    }
-
-    finder(1, 1);
-    finder(13, 1);
-    finder(1, 13);
-
-    ctx.fillStyle = "#000";
-    for (let y = 0; y < cells; y++) {
-      for (let x = 0; x < cells; x++) {
-        const inFinder =
-          (x >= 1 && x <= 7 && y >= 1 && y <= 7) ||
-          (x >= 13 && x <= 19 && y >= 1 && y <= 7) ||
-          (x >= 1 && x <= 7 && y >= 13 && y <= 19);
-
-        if (inFinder) continue;
-        if (rand() > 0.58) {
-          ctx.fillRect(
-            Math.floor(x * cell),
-            Math.floor(y * cell),
-            Math.ceil(cell),
-            Math.ceil(cell)
-          );
+        if(mainPage){
+          mainPage.style.pointerEvents = showModules ? "none" : "";
+          mainPage.setAttribute("aria-hidden", showModules ? "true" : "false");
         }
       }
-    }
-  }
 
-  async function gpRenderQR(text) {
-    if (window.QRCode && QRCode.toCanvas) {
-      try {
-        await QRCode.toCanvas(gpQrCanvas, text, {
-          width: 100,
-          margin: 1,
-          color: { dark: "#000000", light: "#ffffff" }
+      function clearActiveNav(){
+        [openSwapBtn, openPayBtn, openTokensBtn, openGetPaidBtn, openMoreNav, homeBtn].forEach(btn=>{
+          btn.classList.remove("active");
         });
-        return;
-      } catch {}
-    }
-    gpDrawFallback(text);
-  }
-
-  async function gpGenerateReceipt() {
-    const amount = gpGetAmount();
-    const wallet = String(gpState.fullWallet || "").trim();
-    const estimatedLmtv = gpGetEstimatedLmtv();
-
-    if (!isValidAddress(wallet)) {
-      gpStatusText.textContent = "Set a valid receiver wallet first.";
-      return;
-    }
-
-    if (amount <= 0) {
-      gpStatusText.textContent = "Enter a value first.";
-      return;
-    }
-
-    gpState.requestLink = gpBuildLink();
-
-    gpReceiptAmountBig.textContent = formatAmount(amount, 2);
-    gpReceiptAssetBig.textContent = gpState.asset;
-    gpReceiptDesc.textContent = `Recipient receives ${formatAmount(amount, 2)} ${gpState.asset}.`;
-    gpReceiptWallet.textContent = gpShortWallet(wallet);
-    gpReceiptPayer.textContent = `≈ ${formatAmount(estimatedLmtv, 6)} LMTV`;
-    gpReceiptDate.textContent = new Date().toLocaleString();
-
-    await gpRenderQR(gpState.requestLink);
-
-    gpReceiptShell.classList.add("show");
-    gpStatusText.textContent = "Payment QR generated.";
-
-    saveLocalRequest({
-      title: "Payment request",
-      wallet,
-      receiveAsset: gpState.asset,
-      receiveAmount: Number(amount.toFixed(4)),
-      estimatedLmtv: Number(estimatedLmtv.toFixed(6)),
-      link: gpState.requestLink
-    });
-
-    renderMoreViews();
-    rebuildActivityFromStorage();
-  }
-
-  async function gpCopyText(text, message) {
-    const result = await safeCopyText(text, message, "Could not copy on this device.");
-    gpStatusText.textContent = result.message;
-  }
-
-  async function gpDownloadReceipt() {
-    if (!gpReceiptShell.classList.contains("show")) {
-      gpStatusText.textContent = "Generate the receipt first.";
-      return;
-    }
-
-    if (!window.html2canvas) {
-      gpStatusText.textContent = "Download is not available right now.";
-      return;
-    }
-
-    try {
-      const canvas = await html2canvas(gpReceiptPaper, {
-        backgroundColor: null,
-        scale: 2
-      });
-
-      const link = document.createElement("a");
-      link.download = `stableflow-receipt-${Date.now()}.png`;
-      link.href = canvas.toDataURL("image/png");
-      link.click();
-
-      gpStatusText.textContent = "Receipt downloaded.";
-    } catch {
-      gpStatusText.textContent = "Could not download the receipt.";
-    }
-  }
-
-  function gpResetRequest() {
-    gpAmountInput.value = "";
-    gpReceiptShell.classList.remove("show");
-    gpStatusText.textContent = "Ready for a new request.";
-    gpState.requestLink = "";
-  }
-  function escapeHtml(value) {
-    return String(value ?? "")
-      .replace(/&/g, "&amp;")
-      .replace(/</g, "&lt;")
-      .replace(/>/g, "&gt;")
-      .replace(/"/g, "&quot;")
-      .replace(/'/g, "&#39;");
-  }
-
-  function compactNumber(value, digits = 2) {
-    const num = Number(value || 0);
-    if (!Number.isFinite(num)) return "0";
-    return new Intl.NumberFormat("en-US", {
-      notation: "compact",
-      maximumFractionDigits: digits
-    }).format(num);
-  }
-
-  function formatUsd(value, digits = 4) {
-    const num = Number(value || 0);
-    if (!Number.isFinite(num)) return "$0";
-    if (num >= 1000) return `$${compactNumber(num, 2)}`;
-    return `$${num.toFixed(digits).replace(/0+$/, "").replace(/\.$/, "")}`;
-  }
-
-  function formatTokenSupply(value, decimals = 2) {
-    const num = Number(value || 0);
-    if (!Number.isFinite(num)) return "0";
-    if (num >= 1000000) return compactNumber(num, decimals);
-    return num.toLocaleString("en-US", { maximumFractionDigits: decimals });
-  }
-
-  function formatShortAddress(address) {
-    if (!address) return "—";
-    return `${address.slice(0, 6)}...${address.slice(-4)}`;
-  }
-
-  function formatRelativeTime(ts) {
-    if (!ts) return "now";
-    const diff = Date.now() - Number(ts);
-    const sec = Math.max(1, Math.floor(diff / 1000));
-    if (sec < 60) return `${sec}s ago`;
-    const min = Math.floor(sec / 60);
-    if (min < 60) return `${min}m ago`;
-    const hr = Math.floor(min / 60);
-    if (hr < 24) return `${hr}h ago`;
-    const day = Math.floor(hr / 24);
-    return `${day}d ago`;
-  }
-
-  function renderSwapUI() {
-    setTokenMedia(swapTopTokenIcon, swapState.topToken);
-    setTokenMedia(swapBottomTokenIcon, swapState.bottomToken);
-
-    swapTopTokenLabel.textContent = swapState.topToken;
-    swapBottomTokenLabel.textContent = swapState.bottomToken;
-
-    const topBal = Number(tokenBalances?.[swapState.topToken] || 0);
-    const bottomBal = Number(tokenBalances?.[swapState.bottomToken] || 0);
-
-    swapTopBalance.textContent = `Balance ${formatAmount(topBal, 6)}`;
-    swapBottomBalance.textContent = `Balance ${formatAmount(bottomBal, 6)}`;
-
-    renderSwapRate();
-  }
-
-  function renderSwapUiStatic() {
-    renderSwapUI();
-    renderSwapRate();
-  }
-
-  function refreshSwapButtonState() {
-    const amountIn = parseFloat(sanitizeNumeric(swapTopInput.value || ""));
-    const available = Number(tokenBalances?.[swapState.topToken] || 0);
-
-    if (!isWalletConnected) {
-      swapActionBtn.classList.remove("disabled");
-      swapActionBtn.textContent = "Connect wallet";
-      return;
-    }
-
-    if (!Number.isFinite(amountIn) || amountIn <= 0) {
-      swapActionBtn.classList.add("disabled");
-      swapActionBtn.textContent = "Swap tokens";
-      return;
-    }
-
-    if (amountIn > available) {
-      swapActionBtn.classList.add("disabled");
-      swapActionBtn.textContent = `Insufficient ${swapState.topToken}`;
-      return;
-    }
-
-    swapActionBtn.classList.remove("disabled");
-    swapActionBtn.textContent = "Swap tokens";
-  }
-
-  function getLiveTokenRows() {
-    const state = typeof tokenState !== "undefined" ? tokenState : {};
-    return ["LMTV", "USDC", "EURC"].map(symbol => {
-      const meta = TOKEN_CONFIG[symbol];
-      const totalSupply = Number(state?.[symbol]?.totalSupply || 0);
-      let priceUsd = 1;
-
-      if (symbol === "LMTV") {
-        const quoted = Number(calcAmountOutRaw(1, "LMTV", "USDC") || 0);
-        priceUsd = quoted > 0 ? quoted : 0;
       }
 
-      const marketCap = priceUsd * totalSupply;
-      const holders = state?.[symbol]?.holdersText || "—";
-      const volume = state?.[symbol]?.volumeText || "—";
+      function setHomeActive(){
+        clearActiveNav();
+        homeBtn.classList.add("active");
+      }
 
-      return {
-        name: symbol,
-        priceValue: priceUsd,
-        price: symbol === "LMTV" ? formatUsd(priceUsd, 6) : "$1.00",
-        holders,
-        supply: totalSupply > 0 ? formatTokenSupply(totalSupply, 2) : "—",
-        volume,
-        marketCap: marketCap > 0 ? formatUsd(marketCap, 2) : "—",
-        contract: meta.address,
-        image: meta.image,
-        fallback: meta.fallback
-      };
-    });
-  }
+      function setSwapActive(){
+        clearActiveNav();
+        openSwapBtn.classList.add("active");
+      }
 
-  function renderTokens() {
-    const allRows = getLiveTokenRows();
-    const query = (tokensSearchInput.value || "").trim().toLowerCase();
+      function setPayActive(){
+        clearActiveNav();
+        openPayBtn.classList.add("active");
+      }
 
-    filteredTokens = allRows.filter(token =>
-      !query ||
-      token.name.toLowerCase().includes(query) ||
-      token.contract.toLowerCase().includes(query)
-    );
+      function setTokensActive(){
+        clearActiveNav();
+        openTokensBtn.classList.add("active");
+      }
 
-    if (!filteredTokens.some(token => token.name === activeToken)) {
-      activeToken = filteredTokens[0]?.name || "LMTV";
-    }
+      function setGetPaidActive(){
+        clearActiveNav();
+        openGetPaidBtn.classList.add("active");
+      }
 
-    tokensRailList.innerHTML = "";
-    tokensTableRows.innerHTML = "";
+      function setMoreActive(){
+        clearActiveNav();
+        openMoreNav.classList.add("active");
+      }
 
-    if (!filteredTokens.length) {
-      tokensEmptyState.classList.add("show");
-      return;
-    }
+      function closeModules(){
+        swapPanel.classList.remove("show");
+        payPanel.classList.remove("show");
+        getPaidPanel.classList.remove("show");
+        syncUiLocks();
+      }
 
-    tokensEmptyState.classList.remove("show");
+      function closeSheets(){
+        walletSheet.classList.remove("show");
+        tokensSheet.classList.remove("show");
+        moreSheet.classList.remove("show");
+        moreLangControl.classList.remove("open");
+        syncUiLocks();
+      }
 
-    filteredTokens.forEach(token => {
-      const isActive = token.name === activeToken;
+      function restoreNavAfterClose(){
+        if(tokensSheet.classList.contains("show")){
+          setTokensActive();
+          return;
+        }
+        if(moreSheet.classList.contains("show")){
+          setMoreActive();
+          return;
+        }
+        if(swapPanel.classList.contains("show")){
+          setSwapActive();
+          return;
+        }
+        if(payPanel.classList.contains("show")){
+          setPayActive();
+          return;
+        }
+        if(getPaidPanel.classList.contains("show")){
+          setGetPaidActive();
+          return;
+        }
+        setHomeActive();
+      }
 
-      const railItem = document.createElement("div");
-      railItem.className = `tokens-token-item${isActive ? " active" : ""}`;
-      railItem.dataset.token = token.name;
-      railItem.innerHTML = `
-        <div class="tokens-token-orb">
-          <img src="${token.image}" alt="${token.name}" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
-          <span style="display:none;">${token.fallback}</span>
-        </div>
-        <span class="tokens-token-name">${token.name}</span>
-        <button class="tokens-copy-chip" type="button" aria-label="Copy ${token.name} contract">
-          <svg viewBox="0 0 24 24" aria-hidden="true">
-            <rect x="8" y="8" width="11" height="11" rx="2.5"></rect>
-            <rect x="5" y="5" width="11" height="11" rx="2.5"></rect>
-          </svg>
-        </button>
-      `;
+      function openHomeView(){
+        closeSheets();
+        closeModules();
+        setHomeActive();
+      }
 
-      railItem.addEventListener("click", event => {
-        if (event.target.closest(".tokens-copy-chip")) return;
-        activeToken = token.name;
-        renderTokens();
-      });
+      function openWalletSheet(){
+        closeSheets();
+        walletSheet.classList.add("show");
+        syncUiLocks();
+      }
 
-      railItem.querySelector(".tokens-copy-chip").addEventListener("click", async event => {
-        event.stopPropagation();
-        await tokensCopyText(token.contract);
-      });
+      function openTokensSheet(){
+        closeSheets();
+        tokensSheet.classList.add("show");
+        setTokensActive();
+        syncUiLocks();
+      }
 
-      tokensRailList.appendChild(railItem);
+      function openMoreSheet(){
+        closeSheets();
+        moreSheet.classList.add("show");
+        setMoreActive();
+        syncUiLocks();
+      }
 
-      const row = document.createElement("div");
-      row.className = `tokens-data-row${isActive ? " active" : ""}`;
-      row.innerHTML = `
-        <div class="tokens-d-cell">${token.price}</div>
-        <div class="tokens-d-cell">${token.holders}</div>
-        <div class="tokens-d-cell">${token.supply}</div>
-        <div class="tokens-d-cell">${token.volume}</div>
-        <div class="tokens-d-cell">${token.marketCap}</div>
-        <div class="tokens-d-cell soft">${formatShortAddress(token.contract)}</div>
-      `;
-      row.addEventListener("click", () => {
-        activeToken = token.name;
-        renderTokens();
-      });
+      function openSwapPanel(){
+        closeSheets();
+        closeModules();
+        swapPanel.classList.add("show");
+        setSwapActive();
+        syncUiLocks();
+      }
 
-      tokensTableRows.appendChild(row);
-    });
-  }
+      function openPayPanel(){
+        closeSheets();
+        closeModules();
+        payPanel.classList.add("show");
+        setPayActive();
+        syncUiLocks();
+      }
 
-  function openTokensSearch() {
-    tokensSearchPill.classList.add("open");
-    setTimeout(() => tokensSearchInput.focus(), 50);
-  }
+      function openGetPaidPanel(){
+        closeSheets();
+        closeModules();
+        getPaidPanel.classList.add("show");
+        setGetPaidActive();
+        syncUiLocks();
+      }
 
-  function closeTokensSearch() {
-    tokensSearchInput.value = "";
-    tokensSearchPill.classList.remove("open");
-    renderTokens();
-  }
+      function shortWallet(address){
+        if(!address || address.length < 10) return address || "";
+        return address.slice(0, 4) + "..." + address.slice(-4);
+      }
 
-  function renderProfileFromState() {
-    const txs = getStoredList(STORAGE_KEYS.transactions);
-    const doneCount = txs.filter(item => item.kind === "pay").length;
-    const lvValueEl = document.querySelector(".lv-value");
-    const trophySlots = [...document.querySelectorAll(".achievements .mark-slot")];
+      function sanitizeNumeric(value){
+        return value.replace(/,/g, ".").replace(/[^\d.]/g, "").replace(/(\..*?)\..*/g, "$1");
+      }
 
-    if (lvValueEl) {
-      lvValueEl.textContent = String(Math.floor(doneCount / 3));
-    }
+      function sanitizeInteger(value){
+        return value.replace(/\D/g, "");
+      }
 
-    const progressPct = Math.max(8, Math.min(100, (doneCount / 12) * 100));
-    profileProgressFill.style.width = `${progressPct}%`;
+      function formatSwapNumber(value){
+        if(value === "" || value === null || typeof value === "undefined" || isNaN(value)) return "";
+        const fixed = Number(value);
+        if(!isFinite(fixed)) return "";
+        if(Math.abs(fixed) >= 1000) return fixed.toFixed(2);
+        if(Math.abs(fixed) >= 1) return fixed.toFixed(2);
+        if(fixed === 0) return "0";
+        return fixed.toFixed(4).replace(/0+$/, "").replace(/\.$/, "");
+      }
 
-    trophySlots.forEach((slot, idx) => {
-      const unlocked = doneCount >= [1, 3, 5, 8, 12][idx];
-      slot.classList.toggle("inactive", !unlocked);
-      if (unlocked && !slot.querySelector("svg")) {
-        slot.innerHTML = `
-          <svg viewBox="0 0 24 24" aria-hidden="true">
-            <path d="M8 5h8v2.2c0 2.3-1.8 4.2-4 4.2s-4-1.9-4-4.2V5Z"></path>
-            <path d="M9.5 15h5"></path>
-            <path d="M10 18h4"></path>
-            <path d="M7 6H5c0 2 1.2 3.5 3 4"></path>
-            <path d="M17 6h2c0 2-1.2 3.5-3 4"></path>
-          </svg>
+      function tokenMeta(symbol){
+        if(symbol === "USDC"){
+          return { cls:"token-media token-media-usdc", image:"usdc.png", fallback:"$" };
+        }
+        if(symbol === "EURC"){
+          return { cls:"token-media token-media-eurc", image:"eurc.png", fallback:"€" };
+        }
+        return { cls:"token-media token-media-lmtv", image:"lmtv.png", fallback:"L" };
+      }
+
+      function setTokenMedia(el, symbol){
+        const meta = tokenMeta(symbol);
+        el.className = meta.cls;
+        el.innerHTML = `<img src="${meta.image}" alt="${symbol}" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" /><span style="display:none;">${meta.fallback}</span>`;
+      }
+
+      function setWalletConnected(walletName){
+        isWalletConnected = true;
+        currentWalletLabel = walletName;
+        currentWalletAddress = "0x56d1...c444";
+
+        openWalletMain.textContent = "Connected";
+        openWalletMain.classList.add("connected");
+
+        statusPill.textContent = walletName.toUpperCase();
+        statusPill.classList.add("connected");
+
+        walletRibbon.classList.add("connected");
+        walletIdText.textContent = shortWallet(currentWalletAddress);
+
+        closeSheets();
+      }
+
+      function ensureWalletOrOpenSheet(){
+        if(isWalletConnected) return true;
+        openWalletSheet();
+        return false;
+      }
+
+      function renderSwapRate(){
+        if(swapState.topToken === "LMTV" && swapState.bottomToken === "USDC"){
+          swapRateValue.textContent = "1 LMTV = 0.0987 USDC";
+          return;
+        }
+        if(swapState.topToken === "USDC" && swapState.bottomToken === "LMTV"){
+          swapRateValue.textContent = "1 USDC = 10.1317 LMTV";
+          return;
+        }
+        swapRateValue.textContent = `1 ${swapState.topToken} = 1 ${swapState.bottomToken}`;
+      }
+
+      function renderSwapUI(){
+        setTokenMedia(swapTopTokenIcon, swapState.topToken);
+        setTokenMedia(swapBottomTokenIcon, swapState.bottomToken);
+
+        swapTopTokenLabel.textContent = swapState.topToken;
+        swapBottomTokenLabel.textContent = swapState.bottomToken;
+
+        swapTopBalance.textContent = `Balance ${formatSwapNumber(balances[swapState.topToken] || 0)}`;
+        swapBottomBalance.textContent = `Balance ${formatSwapNumber(balances[swapState.bottomToken] || 0)}`;
+
+        renderSwapRate();
+      }
+
+      function convertAmount(value, fromToken, toToken){
+        const amount = Number(value);
+        if(!isFinite(amount)) return 0;
+        if(fromToken === toToken) return amount;
+        if(fromToken === "LMTV" && toToken === "USDC") return amount * 0.0987;
+        if(fromToken === "USDC" && toToken === "LMTV") return amount / 0.0987;
+        return amount;
+      }
+
+      function updateQuickVisibility(){
+        const topValue = parseFloat(sanitizeNumeric(swapTopInput.value));
+        const bottomValue = parseFloat(sanitizeNumeric(swapBottomInput.value));
+        const hasValue =
+          (!isNaN(topValue) && topValue > 0) ||
+          (!isNaN(bottomValue) && bottomValue > 0);
+
+        swapQuickRow.classList.toggle("show", hasValue);
+        swapActionBtn.classList.toggle("disabled", !hasValue);
+      }
+
+      function updateSwapFromTop(){
+        const topValue = parseFloat(sanitizeNumeric(swapTopInput.value));
+
+        if(isNaN(topValue) || topValue <= 0){
+          swapBottomInput.value = "";
+          updateQuickVisibility();
+          return;
+        }
+
+        const converted = convertAmount(topValue, swapState.topToken, swapState.bottomToken);
+        swapBottomInput.value = formatSwapNumber(converted);
+        updateQuickVisibility();
+      }
+
+      function updateSwapFromBottom(){
+        const bottomValue = parseFloat(sanitizeNumeric(swapBottomInput.value));
+
+        if(isNaN(bottomValue) || bottomValue <= 0){
+          swapTopInput.value = "";
+          updateQuickVisibility();
+          return;
+        }
+
+        const converted = convertAmount(bottomValue, swapState.bottomToken, swapState.topToken);
+        swapTopInput.value = formatSwapNumber(converted);
+        updateQuickVisibility();
+      }
+
+      function formatSlipLabel(value){
+        if(value === "auto") return "Slippage Auto";
+        const num = Number(value);
+        if(!isFinite(num)) return "Slippage Auto";
+        const text = Number.isInteger(num) ? num.toFixed(1) : String(num);
+        return `Slippage ${text}%`;
+      }
+
+      function formatSlipStat(value){
+        if(value === "auto") return "Auto";
+        const num = Number(value);
+        if(!isFinite(num)) return "Auto";
+        return `${num.toFixed(2)}%`;
+      }
+
+      function renderSlippage(){
+        swapSlipSummary.textContent = formatSlipLabel(swapSlipValue);
+        swapStatSlippage.textContent = formatSlipStat(swapSlipValue);
+
+        swapSlipOptions.forEach(option=>{
+          const isActive = String(option.dataset.slip) === String(swapSlipValue);
+          option.classList.toggle("active", isActive);
+        });
+
+        if(swapSlipValue === "auto"){
+          swapSlipInput.value = "";
+          swapSlipInputWrap.classList.remove("manual-active");
+        }else{
+          const num = Number(swapSlipValue);
+          const presetMatch = Array.from(swapSlipOptions).some(option => Number(option.dataset.slip) === num);
+          swapSlipInput.value = presetMatch ? "" : String(num);
+          swapSlipInputWrap.classList.toggle("manual-active", !presetMatch);
+        }
+      }
+
+      function openSlippage(){
+        swapSlipControl.classList.add("open");
+        swapSlipToggle.setAttribute("aria-expanded", "true");
+      }
+
+      function closeSlippage(){
+        swapSlipControl.classList.remove("open");
+        swapSlipToggle.setAttribute("aria-expanded", "false");
+      }
+
+      function applyManualSlippage(){
+        const raw = sanitizeNumeric(swapSlipInput.value).trim();
+        const value = parseFloat(raw);
+
+        if(isNaN(value) || value <= 0){
+          renderSlippage();
+          closeSlippage();
+          return;
+        }
+
+        swapSlipValue = Number(value.toFixed(2));
+        renderSlippage();
+        closeSlippage();
+      }
+
+      function simulateSwapAction(){
+        if(swapActionBtn.classList.contains("disabled")) return;
+        if(!ensureWalletOrOpenSheet()) return;
+
+        const original = swapActionBtn.textContent;
+        swapActionBtn.textContent = "Swap ready";
+        swapActionBtn.disabled = true;
+
+        setTimeout(()=>{
+          swapActionBtn.textContent = original;
+          swapActionBtn.disabled = false;
+        }, 900);
+      }
+
+      function moveProfileCard(clientX, clientY){
+        const rect = profileStage.getBoundingClientRect();
+        const x = clientX - rect.left;
+        const y = clientY - rect.top;
+        const px = (x / rect.width) - 0.5;
+        const py = (y / rect.height) - 0.5;
+
+        const rotateY = px * 4;
+        const rotateX = py * -3;
+
+        slimCard.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+      }
+
+      function resetProfileCard(){
+        slimCard.style.transform = "rotateX(0deg) rotateY(0deg)";
+      }
+
+      function spClearResetTimers(){
+        spResetTimers.forEach(timer => clearTimeout(timer));
+        spResetTimers = [];
+      }
+
+      function spParseAmount(value){
+        const n = parseFloat(value);
+        return Number.isFinite(n) ? n : 0;
+      }
+
+      function spFormatAmount(value){
+        return Number(value).toFixed(2);
+      }
+
+      function spCurrentFee(){
+        return spSelectedAsset === "USDC" ? 0.12 : 0.10;
+      }
+
+      function spCurrentSlippage(){
+        return 0.50;
+      }
+
+      function spSyncEntryState(){
+        spWalletShell.dataset.empty = spRecipientWallet.value.trim() ? "false" : "true";
+        spAmountShell.dataset.empty = spReceiveAmount.value.trim() ? "false" : "true";
+      }
+
+      function spUpdateMath(){
+        const receive = spParseAmount(spReceiveAmount.value);
+        const payer = receive > 0 ? receive / payRates[spSelectedAsset] : 0;
+
+        spRecipientAmountMirror.textContent = receive > 0 ? spFormatAmount(receive) : "0.00";
+        spPayerAmount.textContent = payer > 0 ? spFormatAmount(payer) : "0.00";
+
+        spUpdatePreview();
+        spUpdateSwapButton();
+        spSyncEntryState();
+      }
+
+      function spUpdatePreview(){
+        const payer = spParseAmount(spPayerAmount.textContent);
+        const receive = spParseAmount(spRecipientAmountMirror.textContent);
+        const minReceived = receive > 0 ? receive * (1 - spCurrentSlippage() / 100) : 0;
+
+        spPreviewLeft.textContent = `${payer > 0 ? spFormatAmount(payer) : "0.00"} LMTV`;
+        spPreviewRight.textContent = `${receive > 0 ? spFormatAmount(receive) : "0.00"} ${spSelectedAsset}`;
+        spPreviewRoute.textContent = `LMTV → ${spSelectedAsset}`;
+        spPreviewSlippage.textContent = `${spCurrentSlippage().toFixed(2)}%`;
+        spPreviewFee.textContent = `${spCurrentFee().toFixed(2)}`;
+        spPreviewMin.textContent = `${minReceived > 0 ? spFormatAmount(minReceived) : "0.00"} ${spSelectedAsset}`;
+        spPreviewNote.textContent = `Note: ${spNoteInput.value.trim() ? spNoteInput.value.trim() : "none"}`;
+      }
+
+      function spFormIsValid(){
+        return spRecipientWallet.value.trim().length > 4 && spParseAmount(spReceiveAmount.value) > 0;
+      }
+
+      function spUpdateSwapButton(){
+        spSwapBtn.classList.remove("processing", "done");
+
+        if(spProcessStep === 0){
+          spSwapBtn.textContent = "Swap & Pay";
+          spSwapBtn.classList.toggle("disabled", !spFormIsValid());
+          return;
+        }
+
+        spSwapBtn.classList.remove("disabled");
+        spSwapBtn.classList.add("processing");
+
+        if(spProcessStep === 1) spSwapBtn.textContent = "Confirm 1/3";
+        if(spProcessStep === 2) spSwapBtn.textContent = "Confirm 2/3";
+        if(spProcessStep === 3) spSwapBtn.textContent = "Confirm 3/3";
+
+        if(spProcessStep === 4){
+          spSwapBtn.classList.remove("processing");
+          spSwapBtn.classList.add("done");
+          spSwapBtn.textContent = "Completed";
+        }
+      }
+
+      function spSetProcessUi(step){
+        const steps = {
+          1: {
+            badge: "1/3",
+            core: "1",
+            title: "Wallet confirmation",
+            sub: "Confirm the action to prepare the trade route."
+          },
+          2: {
+            badge: "2/3",
+            core: "2",
+            title: "Swap routing",
+            sub: `Routing LMTV into ${spSelectedAsset} with protected slippage.`
+          },
+          3: {
+            badge: "3/3",
+            core: "3",
+            title: "Settlement ready",
+            sub: `Stable output prepared for recipient delivery in ${spSelectedAsset}.`
+          },
+          4: {
+            badge: "Done",
+            core: "✓",
+            title: "Payment completed",
+            sub: "All steps completed. Resetting for the next payment."
+          }
+        };
+
+        const current = steps[step];
+        spProgressBadge.textContent = current.badge;
+        spLoaderCore.textContent = current.core;
+        spLoaderStep.textContent = current.title;
+        spLoaderSub.textContent = current.sub;
+      }
+
+      function spOpenPreviewIfNeeded(){
+        spPreviewPanel.classList.add("show");
+        spCenterCircle.classList.add("active", "spin");
+      }
+
+      function spFinishAndReset(){
+        spProcessStep = 4;
+        spSetProcessUi(4);
+        spUpdateSwapButton();
+
+        spResetTimers.push(setTimeout(() => {
+          spCenterCircle.classList.remove("spin");
+        }, 250));
+
+        spResetTimers.push(setTimeout(() => {
+          spResetAll();
+        }, 1200));
+      }
+
+      function spHandleSwapFlow(){
+        if(spProcessStep === 0){
+          if(!spFormIsValid()) return;
+          if(!ensureWalletOrOpenSheet()) return;
+          spClearResetTimers();
+          spProcessStep = 1;
+          spOpenPreviewIfNeeded();
+          spSetProcessUi(1);
+          spUpdatePreview();
+          spUpdateSwapButton();
+          return;
+        }
+
+        if(spProcessStep === 1){
+          spProcessStep = 2;
+          spSetProcessUi(2);
+          spUpdateSwapButton();
+          return;
+        }
+
+        if(spProcessStep === 2){
+          spProcessStep = 3;
+          spSetProcessUi(3);
+          spUpdateSwapButton();
+          return;
+        }
+
+        if(spProcessStep === 3){
+          spFinishAndReset();
+        }
+      }
+
+      function spSetAsset(asset){
+        if(spProcessStep > 0) return;
+        spSelectedAsset = asset;
+        spAssetUsdc.classList.toggle("active", asset === "USDC");
+        spAssetEurc.classList.toggle("active", asset === "EURC");
+        spQuoteReceiveLabel.textContent = asset;
+        spUpdateMath();
+      }
+
+      function spToggleNoteVisibility(){
+        if(spProcessStep > 0) return;
+        const willHide = !spNoteToggle.classList.contains("off");
+        spNoteToggle.classList.toggle("off", willHide);
+        spNoteRow.classList.toggle("hidden", willHide);
+      }
+
+      function spResetAll(){
+        spClearResetTimers();
+
+        spProcessStep = 0;
+        spSelectedAsset = "USDC";
+
+        spRecipientWallet.value = "";
+        spReceiveAmount.value = "";
+        spNoteInput.value = "";
+
+        spPayerAmount.textContent = "0.00";
+        spRecipientAmountMirror.textContent = "0.00";
+
+        spAssetUsdc.classList.add("active");
+        spAssetEurc.classList.remove("active");
+        spQuoteReceiveLabel.textContent = "USDC";
+
+        spNoteToggle.classList.remove("off");
+        spNoteRow.classList.remove("hidden");
+
+        spPreviewPanel.classList.remove("show");
+        spCenterCircle.classList.remove("active", "spin");
+
+        spSetProcessUi(1);
+        spSyncEntryState();
+        spUpdatePreview();
+        spUpdateSwapButton();
+      }
+
+      async function spOpenScanner(){
+        if(spProcessStep > 0) return;
+
+        if(!window.isSecureContext){
+          spScannerStatus.textContent = "Camera scanner needs HTTPS. Open this page from Vercel or another secure URL.";
+          spScannerModal.classList.add("show");
+          return;
+        }
+
+        spScannerStatus.textContent = "Requesting camera access…";
+        spScannerModal.classList.add("show");
+
+        try{
+          spScanStream = await navigator.mediaDevices.getUserMedia({
+            video:{ facingMode:{ ideal:"environment" } },
+            audio:false
+          });
+
+          spScannerVideo.srcObject = spScanStream;
+          await spScannerVideo.play();
+
+          if("BarcodeDetector" in window){
+            spBarcodeDetector = new BarcodeDetector({ formats:["qr_code"] });
+            spScannerStatus.textContent = "Point the camera at a wallet QR code.";
+            spScanLoop();
+          } else {
+            spScannerStatus.textContent = "Camera opened, but QR reading is not supported in this browser.";
+          }
+        } catch(error){
+          spScannerStatus.textContent = "Camera access was denied or unavailable.";
+        }
+      }
+
+      async function spScanLoop(){
+        if(!spScannerModal.classList.contains("show") || !spBarcodeDetector || !spScannerVideo.srcObject) return;
+
+        try{
+          const codes = await spBarcodeDetector.detect(spScannerVideo);
+          if(codes && codes.length){
+            const rawValue = (codes[0].rawValue || "").trim();
+            if(rawValue){
+              spRecipientWallet.value = rawValue;
+              spCloseScanner();
+              spSyncEntryState();
+              spUpdateSwapButton();
+              return;
+            }
+          }
+        } catch(error){}
+
+        spScanFrame = requestAnimationFrame(spScanLoop);
+      }
+
+      function spCloseScanner(){
+        if(spScanFrame){
+          cancelAnimationFrame(spScanFrame);
+          spScanFrame = null;
+        }
+
+        if(spScanStream){
+          spScanStream.getTracks().forEach(track => track.stop());
+          spScanStream = null;
+        }
+
+        spScannerVideo.srcObject = null;
+        spScannerModal.classList.remove("show");
+        spScannerStatus.textContent = "Point the camera at a wallet QR code.";
+      }
+
+      function gpShortWallet(address){
+        if(!address || address.length < 10) return address || "";
+        return address.slice(0, 6) + "..." + address.slice(-4);
+      }
+
+      function gpSyncWalletUI(){
+        gpWalletBox.textContent = gpShortWallet(gpState.fullWallet);
+      }
+
+      function gpOpenWalletModal(){
+        gpWalletInput.value = gpState.fullWallet;
+        gpWalletModal.classList.add("show");
+        setTimeout(() => gpWalletInput.focus(), 20);
+      }
+
+      function gpCloseWalletModal(){
+        gpWalletModal.classList.remove("show");
+      }
+
+      function gpEnforceAmountLimit(){
+        gpAmountInput.value = sanitizeInteger(gpAmountInput.value);
+
+        if(gpAmountInput.value === ""){
+          gpStatusText.textContent = "Fill the amount and generate the QR.";
+          return;
+        }
+
+        let value = parseInt(gpAmountInput.value, 10);
+
+        if(isNaN(value)){
+          gpAmountInput.value = "";
+          gpStatusText.textContent = "Fill the amount and generate the QR.";
+          return;
+        }
+
+        if(value > 100){
+          gpAmountInput.value = "100";
+          gpStatusText.textContent = "Allowed up to 100 by system.";
+          return;
+        }
+
+        gpStatusText.textContent = "Ready to generate the QR.";
+      }
+
+      function gpGetAmount(){
+        const n = parseInt(gpAmountInput.value, 10);
+        return (!isNaN(n) && n > 0) ? n : 0;
+      }
+
+      function gpFormatAmount(value){
+        if(!value || isNaN(value)) return "0.00";
+        return Number(value).toFixed(2);
+      }
+
+      function gpFormatPayer(value){
+        if(!value || isNaN(value)) return "≈ 0.000 LMTV";
+        return `≈ ${Number(value).toFixed(3)} LMTV`;
+      }
+
+      function gpSetAsset(asset){
+        gpState.asset = asset;
+        const isUSDC = asset === "USDC";
+
+        gpUsdcBtn.className = "gp-asset-box usdc";
+        gpEurcBtn.className = "gp-asset-box eurc";
+
+        if(isUSDC){
+          gpUsdcBtn.classList.add("active");
+          gpEurcBtn.classList.add("inactive");
+          gpSwitchKnob.className = "gp-switch-knob left";
+        } else {
+          gpEurcBtn.classList.add("active");
+          gpUsdcBtn.classList.add("inactive");
+          gpSwitchKnob.className = "gp-switch-knob right";
+        }
+
+        gpOrbAssetText.textContent = gpState.asset;
+      }
+
+      function gpBuildLink(){
+        const amount = gpGetAmount();
+        const payer = amount * gpRates[gpState.asset];
+
+        const payload = {
+          app: "StableFlow",
+          type: "get_paid_request",
+          asset: gpState.asset,
+          amount: Number(gpFormatAmount(amount)),
+          wallet: gpState.fullWallet,
+          ifUsingSwapAndPay: {
+            asset: "LMTV",
+            approxAmount: Number(payer.toFixed(3))
+          }
+        };
+
+        return "stableflow://request?data=" + encodeURIComponent(JSON.stringify(payload));
+      }
+
+      function gpDrawFallback(text){
+        const ctx = gpQrCanvas.getContext("2d");
+        const size = gpQrCanvas.width;
+        const cells = 21;
+        const cell = size / cells;
+
+        ctx.fillStyle = "#fff";
+        ctx.fillRect(0, 0, size, size);
+
+        let seed = 0;
+        for(let i = 0; i < text.length; i++){
+          seed = (seed * 31 + text.charCodeAt(i)) >>> 0;
+        }
+
+        function rand(){
+          seed = (seed * 1664525 + 1013904223) >>> 0;
+          return seed / 4294967296;
+        }
+
+        function finder(x, y){
+          ctx.fillStyle = "#000";
+          ctx.fillRect(x * cell, y * cell, 7 * cell, 7 * cell);
+          ctx.fillStyle = "#fff";
+          ctx.fillRect((x + 1) * cell, (y + 1) * cell, 5 * cell, 5 * cell);
+          ctx.fillStyle = "#000";
+          ctx.fillRect((x + 2) * cell, (y + 2) * cell, 3 * cell, 3 * cell);
+        }
+
+        finder(1,1);
+        finder(13,1);
+        finder(1,13);
+
+        ctx.fillStyle = "#000";
+        for(let y = 0; y < cells; y++){
+          for(let x = 0; x < cells; x++){
+            const inFinder =
+              (x >= 1 && x <= 7 && y >= 1 && y <= 7) ||
+              (x >= 13 && x <= 19 && y >= 1 && y <= 7) ||
+              (x >= 1 && x <= 7 && y >= 13 && y <= 19);
+
+            if(inFinder) continue;
+            if(rand() > 0.58){
+              ctx.fillRect(Math.floor(x * cell), Math.floor(y * cell), Math.ceil(cell), Math.ceil(cell));
+            }
+          }
+        }
+      }
+
+      async function gpRenderQR(text){
+        if(window.QRCode && QRCode.toCanvas){
+          try{
+            await QRCode.toCanvas(gpQrCanvas, text, {
+              width: 100,
+              margin: 1,
+              color: { dark: "#000000", light: "#ffffff" }
+            });
+            return;
+          } catch(e){}
+        }
+        gpDrawFallback(text);
+      }
+
+      async function gpGenerateReceipt(){
+        const amount = gpGetAmount();
+
+        if(amount <= 0){
+          gpStatusText.textContent = "Enter a value first.";
+          return;
+        }
+
+        const payer = amount * gpRates[gpState.asset];
+        const now = new Date();
+
+        gpState.requestLink = gpBuildLink();
+
+        gpReceiptAmountBig.textContent = gpFormatAmount(amount);
+        gpReceiptAssetBig.textContent = gpState.asset;
+        gpReceiptDesc.textContent = `Recipient receives ${gpFormatAmount(amount)} ${gpState.asset}.`;
+        gpReceiptWallet.textContent = gpShortWallet(gpState.fullWallet);
+        gpReceiptPayer.textContent = gpFormatPayer(payer);
+        gpReceiptDate.textContent = now.toLocaleString();
+
+        await gpRenderQR(gpState.requestLink);
+
+        gpReceiptShell.classList.add("show");
+        gpStatusText.textContent = "Payment QR generated.";
+      }
+
+      async function safeCopyText(text, successMessage, failureMessage){
+        try{
+          if(navigator.clipboard && window.isSecureContext){
+            await navigator.clipboard.writeText(text);
+          }else{
+            const area = document.createElement("textarea");
+            area.value = text;
+            area.style.position = "fixed";
+            area.style.left = "-9999px";
+            document.body.appendChild(area);
+            area.focus();
+            area.select();
+            document.execCommand("copy");
+            area.remove();
+          }
+          return { ok:true, message:successMessage };
+        }catch{
+          return { ok:false, message:failureMessage };
+        }
+      }
+
+      async function gpCopyText(text, message){
+        const result = await safeCopyText(text, message, "Could not copy on this device.");
+        gpStatusText.textContent = result.message;
+      }
+
+      async function gpDownloadReceipt(){
+        if(!gpReceiptShell.classList.contains("show")){
+          gpStatusText.textContent = "Generate the receipt first.";
+          return;
+        }
+
+        if(!window.html2canvas){
+          gpStatusText.textContent = "Download is not available right now.";
+          return;
+        }
+
+        try{
+          const canvas = await html2canvas(gpReceiptPaper, {
+            backgroundColor: null,
+            scale: 2
+          });
+
+          const link = document.createElement("a");
+          link.download = `stableflow-receipt-${Date.now()}.png`;
+          link.href = canvas.toDataURL("image/png");
+          link.click();
+
+          gpStatusText.textContent = "Receipt downloaded.";
+        }catch{
+          gpStatusText.textContent = "Could not download the receipt.";
+        }
+      }
+
+      function gpResetRequest(){
+        gpAmountInput.value = "";
+        gpReceiptShell.classList.remove("show");
+        gpStatusText.textContent = "Ready for a new request.";
+        gpState.requestLink = "";
+      }
+
+      function tokensShortAddress(address){
+        return `${address.slice(0, 4)}...${address.slice(-4)}`;
+      }
+
+      function tokensShowCopied(message){
+        tokensCopiedTip.textContent = message;
+        tokensCopiedTip.classList.add("show");
+        clearTimeout(tokensCopiedTimer);
+        tokensCopiedTimer = setTimeout(() => tokensCopiedTip.classList.remove("show"), 1200);
+      }
+
+      async function tokensCopyText(text){
+        const result = await safeCopyText(text, "Contract copied", "Copy failed");
+        tokensShowCopied(result.message);
+      }
+
+      function tokensOrbMarkup(token){
+        return `
+          <div class="tokens-token-orb">
+            <img src="${token.image}" alt="${token.name}" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
+            <span style="display:none;">${token.fallback}</span>
+          </div>
         `;
       }
-      if (!unlocked && !slot.querySelector(".mark-dot")) {
-        slot.innerHTML = `<div class="mark-dot"></div>`;
-      }
-    });
 
-    if (isWalletConnected && currentAccount) {
-      walletIdText.textContent = shortWallet(currentAccount);
-      walletRibbon.classList.add("connected");
-      statusPill.textContent = "ARC READY";
-      statusPill.classList.add("connected");
-    } else {
-      walletIdText.textContent = "Not connected";
-      walletRibbon.classList.remove("connected");
-      statusPill.textContent = "READY";
-      statusPill.classList.remove("connected");
-    }
-  }
+      function renderTokens(){
+        tokensRailList.innerHTML = "";
+        tokensTableRows.innerHTML = "";
 
-  function renderMoreViews() {
-    const overviewEl = document.getElementById("moreOverview");
-    const requestsEl = document.getElementById("moreRequests");
-    const txEl = document.getElementById("moreTransactions");
-
-    const requests = getStoredList(STORAGE_KEYS.requests);
-    const txs = getStoredList(STORAGE_KEYS.transactions);
-
-    const openRequests = requests.filter(item => item.status === "open").length;
-    const paidRequests = requests.filter(item => item.status === "paid").length;
-    const expiredRequests = requests.filter(item => item.status === "expired").length;
-
-    const totalStableSettled = txs.reduce((sum, item) => {
-      if (item.receiveAsset === "USDC" || item.receiveAsset === "EURC") {
-        return sum + Number(item.receiveAmount || 0);
-      }
-      return sum;
-    }, 0);
-
-    const walletLabel = isWalletConnected && currentAccount
-      ? shortWallet(currentAccount)
-      : "Not connected";
-
-    const lmtvBal = Number(tokenBalances?.LMTV || 0);
-    const usdcBal = Number(tokenBalances?.USDC || 0);
-    const eurcBal = Number(tokenBalances?.EURC || 0);
-
-    overviewEl.innerHTML = `
-      <div class="more-section-top">
-        <div class="more-section-left">
-          <div class="more-section-kicker">System view</div>
-          <div class="more-section-title">Account flow</div>
-          <div class="more-section-desc">
-            Real contracts connected on Arc Testnet. Holders and volume stay blank until an indexer is added.
-          </div>
-        </div>
-        <div class="more-side-chip">${isWalletConnected ? "Live" : "Offline"}</div>
-      </div>
-
-      <div class="more-metric-row">
-        <div class="more-metric">
-          <div class="more-metric-label">Wallet</div>
-          <div class="more-metric-value">${escapeHtml(walletLabel)}</div>
-          <div class="more-metric-sub">${ARC.chainName}</div>
-        </div>
-
-        <div class="more-metric">
-          <div class="more-metric-label">Stable settled</div>
-          <div class="more-metric-value">${formatUsd(totalStableSettled, 2)}</div>
-          <div class="more-metric-sub">${txs.length} local tx saved</div>
-        </div>
-      </div>
-
-      <div class="more-rail-list">
-        <div class="more-rail">
-          <div class="more-rail-icon">L</div>
-          <div class="more-rail-main">
-            <div class="more-rail-top">
-              <div class="more-rail-title">LMTV balance</div>
-              <span class="more-badge gold">Token</span>
-            </div>
-            <div class="more-rail-sub">Main swap asset on StableFlow.</div>
-          </div>
-          <div class="more-rail-side">
-            <div class="more-rail-big">${formatAmount(lmtvBal, 6)}</div>
-            <div class="more-rail-small">wallet</div>
-          </div>
-        </div>
-
-        <div class="more-rail">
-          <div class="more-rail-icon">$</div>
-          <div class="more-rail-main">
-            <div class="more-rail-top">
-              <div class="more-rail-title">USDC balance</div>
-              <span class="more-badge blue">Stable</span>
-            </div>
-            <div class="more-rail-sub">Arc native stable supported by swap and pay.</div>
-          </div>
-          <div class="more-rail-side">
-            <div class="more-rail-big">${formatAmount(usdcBal, 4)}</div>
-            <div class="more-rail-small">wallet</div>
-          </div>
-        </div>
-
-        <div class="more-rail">
-          <div class="more-rail-icon">€</div>
-          <div class="more-rail-main">
-            <div class="more-rail-top">
-              <div class="more-rail-title">EURC balance</div>
-              <span class="more-badge green">Stable</span>
-            </div>
-            <div class="more-rail-sub">Available as recipient settlement asset.</div>
-          </div>
-          <div class="more-rail-side">
-            <div class="more-rail-big">${formatAmount(eurcBal, 4)}</div>
-            <div class="more-rail-small">wallet</div>
-          </div>
-        </div>
-      </div>
-
-      <div class="more-mini-grid">
-        <div class="more-mini-box">
-          <div class="more-mini-label">Open requests</div>
-          <div class="more-mini-value">${openRequests}</div>
-        </div>
-        <div class="more-mini-box">
-          <div class="more-mini-label">Paid requests</div>
-          <div class="more-mini-value">${paidRequests}</div>
-        </div>
-        <div class="more-mini-box">
-          <div class="more-mini-label">Expired</div>
-          <div class="more-mini-value">${expiredRequests}</div>
-        </div>
-      </div>
-
-      <div class="more-note">
-        Contracts used now are real. Values that need an explorer indexer, like holders and historical volume, stay intentionally blank instead of fake.
-      </div>
-    `;
-
-    requestsEl.innerHTML = `
-      <div class="more-section-top">
-        <div class="more-section-left">
-          <div class="more-section-kicker">Collection flow</div>
-          <div class="more-section-title">Requests</div>
-          <div class="more-section-desc">
-            Generated from Get Paid locally on this device.
-          </div>
-        </div>
-        <div class="more-side-chip">${requests.length} total</div>
-      </div>
-
-      <div class="more-rail-list">
-        ${
-          requests.length
-            ? requests.map(item => `
-              <div class="more-rail">
-                <div class="more-rail-icon">QR</div>
-                <div class="more-rail-main">
-                  <div class="more-rail-top">
-                    <div class="more-rail-title">${escapeHtml(item.title || "Payment request")}</div>
-                    <span class="more-badge ${item.status === "paid" ? "green" : item.status === "expired" ? "red" : "blue"}">
-                      ${escapeHtml(item.status || "open")}
-                    </span>
-                    <span class="more-badge gold">${escapeHtml(item.receiveAsset || "USDC")}</span>
-                  </div>
-                  <div class="more-rail-sub">Wallet ${escapeHtml(formatShortAddress(item.wallet || ""))}</div>
-                </div>
-                <div class="more-rail-side">
-                  <div class="more-rail-big">${formatAmount(item.receiveAmount || 0, 4)}</div>
-                  <div class="more-rail-small">${formatRelativeTime(item.createdAt)}</div>
-                </div>
-              </div>
-            `).join("")
-            : `
-              <div class="more-empty">
-                No requests generated yet. Use Get Paid to create the first QR request.
-              </div>
-            `
+        if(filteredTokens.length === 0){
+          tokensEmptyState.classList.add("show");
+          return;
         }
-      </div>
-    `;
 
-    txEl.innerHTML = `
-      <div class="more-section-top">
-        <div class="more-section-left">
-          <div class="more-section-kicker">Settlement log</div>
-          <div class="more-section-title">Transactions</div>
-          <div class="more-section-desc">
-            Saved after real swap or Swap &amp; Pay confirmations.
-          </div>
-        </div>
-        <div class="more-side-chip">${txs.length} recent</div>
-      </div>
+        tokensEmptyState.classList.remove("show");
 
-      <div class="more-rail-list">
-        ${
-          txs.length
-            ? txs.map(item => `
-              <div class="more-rail">
-                <div class="more-rail-icon">${item.kind === "pay" ? "→" : "⇄"}</div>
-                <div class="more-rail-main">
-                  <div class="more-rail-top">
-                    <div class="more-rail-title">${item.kind === "pay" ? "Swap & Pay" : "Swap"}</div>
-                    <span class="more-badge green">confirmed</span>
-                  </div>
-                  <div class="more-rail-sub">
-                    ${escapeHtml(item.sendAsset || "")} ${formatAmount(item.sendAmount || 0, 6)}
-                    → ${escapeHtml(item.receiveAsset || "")} ${formatAmount(item.receiveAmount || 0, 6)}
-                    ${item.recipient ? `• ${escapeHtml(formatShortAddress(item.recipient))}` : ""}
-                  </div>
-                </div>
-                <div class="more-rail-side">
-                  <div class="more-rail-big">${formatRelativeTime(item.createdAt)}</div>
-                  <div class="more-rail-small">${escapeHtml(formatShortAddress(item.txHash || ""))}</div>
-                </div>
-              </div>
-            `).join("")
-            : `
-              <div class="more-empty">
-                No confirmed transactions saved yet.
-              </div>
-            `
+        filteredTokens.forEach((token) => {
+          const active = token.name === activeToken;
+
+          const railItem = document.createElement("div");
+          railItem.className = `tokens-token-item${active ? " active" : ""}`;
+          railItem.dataset.token = token.name;
+          railItem.innerHTML = `
+            ${tokensOrbMarkup(token)}
+            <span class="tokens-token-name">${token.name}</span>
+            <button class="tokens-copy-chip" type="button" aria-label="Copy ${token.name} contract">
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <rect x="8" y="8" width="11" height="11" rx="2.5"></rect>
+                <rect x="5" y="5" width="11" height="11" rx="2.5"></rect>
+              </svg>
+            </button>
+          `;
+
+          railItem.addEventListener("click", (event) => {
+            if(event.target.closest(".tokens-copy-chip")) return;
+            activeToken = token.name;
+            renderTokens();
+          });
+
+          railItem.querySelector(".tokens-copy-chip").addEventListener("click", async (event) => {
+            event.stopPropagation();
+            await tokensCopyText(token.contract);
+          });
+
+          tokensRailList.appendChild(railItem);
+
+          const row = document.createElement("div");
+          row.className = `tokens-data-row${active ? " active" : ""}`;
+          row.innerHTML = `
+            <div class="tokens-d-cell">${token.price}</div>
+            <div class="tokens-d-cell">${token.holders}</div>
+            <div class="tokens-d-cell">${token.supply}</div>
+            <div class="tokens-d-cell">${token.volume}</div>
+            <div class="tokens-d-cell">${token.marketCap}</div>
+            <div class="tokens-d-cell soft">${tokensShortAddress(token.contract)}</div>
+          `;
+
+          row.addEventListener("click", () => {
+            activeToken = token.name;
+            renderTokens();
+          });
+
+          tokensTableRows.appendChild(row);
+        });
+      }
+
+      function filterTokens(value){
+        const query = value.trim().toLowerCase();
+
+        filteredTokens = TOKENS.filter((token) =>
+          token.name.toLowerCase().includes(query) ||
+          token.contract.toLowerCase().includes(query)
+        );
+
+        if(!filteredTokens.some((token) => token.name === activeToken)){
+          activeToken = filteredTokens[0]?.name || "";
         }
-      </div>
-    `;
-  }
 
-  function buildLast7Days() {
-    const list = [];
-    const now = new Date();
-    for (let i = 6; i >= 0; i--) {
-      const d = new Date(now);
-      d.setHours(0, 0, 0, 0);
-      d.setDate(d.getDate() - i);
-      list.push(d);
-    }
-    return list;
-  }
-
-  function sameDayTs(ts, dayDate) {
-    const d = new Date(ts);
-    return (
-      d.getFullYear() === dayDate.getFullYear() &&
-      d.getMonth() === dayDate.getMonth() &&
-      d.getDate() === dayDate.getDate()
-    );
-  }
-
-  function rebuildActivityFromStorage() {
-    const txs = getStoredList(STORAGE_KEYS.transactions);
-    const reqs = getStoredList(STORAGE_KEYS.requests);
-    const days = buildLast7Days();
-    const labels = days.map(d => d.toLocaleDateString("en-US", { weekday: "short" }));
-
-    const volumeVals = days.map(day =>
-      txs.reduce((sum, item) => {
-        if (!sameDayTs(item.createdAt, day)) return sum;
-        const stableAmount =
-          item.receiveAsset === "USDC" || item.receiveAsset === "EURC"
-            ? Number(item.receiveAmount || 0)
-            : item.sendAsset === "USDC" || item.sendAsset === "EURC"
-              ? Number(item.sendAmount || 0)
-              : 0;
-        return sum + stableAmount;
-      }, 0)
-    );
-
-    const requestVals = days.map(day =>
-      reqs.filter(item => sameDayTs(item.createdAt, day)).length
-    );
-
-    const stableVals = days.map(day =>
-      txs.reduce((sum, item) => {
-        if (!sameDayTs(item.createdAt, day)) return sum;
-        if (item.receiveAsset === "EURC") return sum + Number(item.receiveAmount || 0);
-        return sum;
-      }, 0)
-    );
-
-    const totalVolume = volumeVals.reduce((a, b) => a + b, 0);
-    const totalRequests = requestVals.reduce((a, b) => a + b, 0);
-    const totalEurc = stableVals.reduce((a, b) => a + b, 0);
-    const totalStable = txs.reduce((sum, item) => {
-      if (item.receiveAsset === "USDC" || item.receiveAsset === "EURC") {
-        return sum + Number(item.receiveAmount || 0);
+        renderTokens();
       }
-      return sum;
-    }, 0);
 
-    const eurcPct = totalStable > 0 ? (totalEurc / totalStable) * 100 : 0;
-
-    window.StableFlowActivity.replaceAllData({
-      live: isWalletConnected,
-      volume: {
-        title: "Stable volume",
-        values: volumeVals,
-        labels,
-        peakText: formatUsd(Math.max(...volumeVals, 0), 2),
-        metricA: `<b>${formatUsd(totalVolume, 2)}</b> 7d total`,
-        metricB: `<b>${txs.length}</b> tx saved`,
-        metricC: `<b>${isWalletConnected ? "Arc" : "Offline"}</b> mode`,
-        note: totalVolume > 0
-          ? "Chart rebuilt from local confirmed swaps and Swap & Pay actions."
-          : "No local stable volume yet."
-      },
-      requests: {
-        title: "Request activity",
-        values: requestVals,
-        labels,
-        peakText: String(Math.max(...requestVals, 0)),
-        metricA: `<b>${totalRequests}</b> created`,
-        metricB: `<b>${reqs.filter(r => r.status === "open").length}</b> open`,
-        metricC: `<b>${reqs.filter(r => r.status === "paid").length}</b> paid`,
-        note: totalRequests > 0
-          ? "Built from Get Paid requests saved on this device."
-          : "No request history saved yet."
-      },
-      stable: {
-        title: "EURC settlement share",
-        values: stableVals,
-        labels,
-        peakText: formatUsd(Math.max(...stableVals, 0), 2),
-        metricA: `<b>${eurcPct.toFixed(1)}%</b> EURC share`,
-        metricB: `<b>${formatUsd(totalEurc, 2)}</b> EURC total`,
-        metricC: `<b>${formatUsd(totalStable - totalEurc, 2)}</b> USDC total`,
-        note: totalStable > 0
-          ? "Compares stable settlement preference from saved transactions."
-          : "No stable settlement data yet."
-      }
-    });
-  }
-
-  function updateConnectedUi() {
-    if (isWalletConnected && currentAccount) {
-      openWalletMain.textContent = shortWallet(currentAccount);
-      openWalletMain.classList.add("connected");
-    } else {
-      openWalletMain.textContent = "Connect";
-      openWalletMain.classList.remove("connected");
-    }
-
-    renderProfileFromState();
-    renderSwapUI();
-    refreshSwapButtonState();
-    spUpdateSwapButton();
-    renderMoreViews();
-    rebuildActivityFromStorage();
-  }
-
-  function resetWalletState() {
-    isWalletConnected = false;
-    currentWalletLabel = "";
-    currentAccount = "";
-    signer = null;
-    browserProvider = null;
-    tokenBalances = { LMTV: 0, USDC: 0, EURC: 0 };
-    updateConnectedUi();
-  }
-
-  async function ensureArcNetwork() {
-    if (!window.ethereum) throw new Error("No wallet provider");
-
-    try {
-      await window.ethereum.request({
-        method: "wallet_switchEthereumChain",
-        params: [{ chainId: ARC.chainIdHex }]
-      });
-    } catch (error) {
-      if (error?.code === 4902) {
-        await window.ethereum.request({
-          method: "wallet_addEthereumChain",
-          params: [{
-            chainId: ARC.chainIdHex,
-            chainName: ARC.chainName,
-            nativeCurrency: ARC.nativeCurrency,
-            rpcUrls: ARC.rpcUrls,
-            blockExplorerUrls: ARC.blockExplorerUrls
-          }]
+      function openTokensSearch(){
+        tokensSearchPill.classList.add("open");
+        requestAnimationFrame(() => {
+          setTimeout(() => tokensSearchInput.focus(), 60);
         });
-      } else if (error?.code !== 4001) {
-        throw error;
-      } else {
-        throw error;
-      }
-    }
-  }
-
-  async function connectInjectedWallet(walletLabel = "Wallet") {
-    if (!window.ethereum || !window.ethers) {
-      alert("MetaMask ou wallet EVM não encontrada.");
-      return;
-    }
-
-    try {
-      await ensureArcNetwork();
-
-      browserProvider = new ethers.providers.Web3Provider(window.ethereum, "any");
-      await browserProvider.send("eth_requestAccounts", []);
-      signer = browserProvider.getSigner();
-      currentAccount = await signer.getAddress();
-
-      const net = await browserProvider.getNetwork();
-      currentChainId = Number(net.chainId);
-
-      if (currentChainId !== Number(ARC.chainId)) {
-        await ensureArcNetwork();
       }
 
-      isWalletConnected = true;
-      currentWalletLabel = walletLabel;
-
-      closeSheets();
-      updateConnectedUi();
-      await refreshAllOnchain(true);
-    } catch (error) {
-      console.error(error);
-      if (error?.code !== 4001) {
-        alert("Não foi possível conectar na Arc Testnet.");
-      }
-    }
-  }
-
-  async function bootstrapInjectedSession() {
-    if (!window.ethereum || !window.ethers) return;
-
-    try {
-      browserProvider = new ethers.providers.Web3Provider(window.ethereum, "any");
-      const accounts = await browserProvider.listAccounts();
-      const network = await browserProvider.getNetwork();
-      currentChainId = Number(network.chainId);
-
-      if (accounts.length && currentChainId === Number(ARC.chainId)) {
-        signer = browserProvider.getSigner();
-        currentAccount = accounts[0];
-        isWalletConnected = true;
-        currentWalletLabel = "Wallet";
-        updateConnectedUi();
-        await refreshAllOnchain(true);
-      } else {
-        updateConnectedUi();
-      }
-    } catch (error) {
-      console.error(error);
-    }
-  }
-
-  if (window.ethereum) {
-    window.ethereum.on("accountsChanged", async accounts => {
-      if (!accounts || !accounts.length) {
-        resetWalletState();
-        return;
+      function closeTokensSearch(){
+        tokensSearchInput.value = "";
+        filteredTokens = [...TOKENS];
+        activeToken = TOKENS[0].name;
+        renderTokens();
+        tokensSearchPill.classList.remove("open");
       }
 
-      try {
-        browserProvider = new ethers.providers.Web3Provider(window.ethereum, "any");
-        signer = browserProvider.getSigner();
-        currentAccount = accounts[0];
-        isWalletConnected = true;
-        updateConnectedUi();
-        await refreshAllOnchain(true);
-      } catch (error) {
-        console.error(error);
-      }
-    });
+      function activateMoreView(key){
+        const idMap = {
+          overview: "moreOverview",
+          requests: "moreRequests",
+          transactions: "moreTransactions"
+        };
 
-    window.ethereum.on("chainChanged", async chainIdHex => {
-      const parsed = parseInt(chainIdHex, 16);
-      currentChainId = parsed;
+        moreTabs.forEach((tab) => tab.classList.toggle("active", tab.dataset.tab === key));
+        moreViews.forEach((view) => view.classList.remove("active"));
 
-      if (parsed !== Number(ARC.chainId)) {
-        isWalletConnected = !!currentAccount;
-        updateConnectedUi();
-        return;
+        const target = document.getElementById(idMap[key]);
+        if(target) target.classList.add("active");
       }
 
-      try {
-        browserProvider = new ethers.providers.Web3Provider(window.ethereum, "any");
-        if (currentAccount) signer = browserProvider.getSigner();
-        updateConnectedUi();
-        await refreshAllOnchain(true);
-      } catch (error) {
-        console.error(error);
+      function activityClamp(value, min, max){
+        return Math.max(min, Math.min(max, value));
       }
-    });
-  }
 
-  openWalletMain.addEventListener("click", () => {
-    if (isWalletConnected) {
-      openWalletSheet();
-    } else {
-      openWalletSheet();
-    }
-  });
+      function activityClearNode(node){
+        while(node.firstChild) node.removeChild(node.firstChild);
+      }
 
-  walletConnectItems.forEach(item => {
-    item.addEventListener("click", async () => {
-      await connectInjectedWallet(item.dataset.wallet || "Wallet");
-    });
-  });
-
-  swapTopInput.addEventListener("input", () => {
-    swapTopInput.value = sanitizeNumeric(swapTopInput.value);
-    debouncedRefreshSwapQuote("fromTop");
-  });
-
-  swapBottomInput.addEventListener("input", () => {
-    swapBottomInput.value = sanitizeNumeric(swapBottomInput.value);
-    debouncedRefreshSwapQuote("fromBottom");
-  });
-
-  document.querySelectorAll(".swap-quick-btn").forEach(btn => {
-    btn.addEventListener("click", () => {
-      const percent = Number(btn.dataset.percent || "0");
-      const available = Number(tokenBalances?.[swapState.topToken] || 0);
-      const amount = available * (percent / 100);
-      swapTopInput.value = amount > 0 ? formatAmount(amount, 6) : "";
-      refreshSwapQuote("fromTop");
-    });
-  });
-
-  swapActionBtn.addEventListener("click", async () => {
-    if (!isWalletConnected) {
-      openWalletSheet();
-      return;
-    }
-    await performSwapTransaction();
-  });
-
-  swapFlipBtn.addEventListener("click", () => {
-    const oldTopValue = swapTopInput.value;
-    const oldBottomValue = swapBottomInput.value;
-
-    const prevTopToken = swapState.topToken;
-    swapState.topToken = swapState.bottomToken;
-    swapState.bottomToken = prevTopToken;
-
-    swapTopInput.value = oldBottomValue;
-    swapBottomInput.value = oldTopValue;
-
-    flipRotation += 180;
-    swapFlipBtn.style.setProperty("--flip-rotation", `${flipRotation}deg`);
-
-    renderSwapUI();
-    refreshSwapQuote("fromTop");
-  });
-
-  spAssetUsdc.addEventListener("click", () => {
-    if (spProcessStep > 0) return;
-    spSelectedAsset = "USDC";
-    spAssetUsdc.classList.add("active");
-    spAssetEurc.classList.remove("active");
-    spQuoteReceiveLabel.textContent = "USDC";
-    debouncedRefreshPayQuote();
-  });
-
-  spAssetEurc.addEventListener("click", () => {
-    if (spProcessStep > 0) return;
-    spSelectedAsset = "EURC";
-    spAssetEurc.classList.add("active");
-    spAssetUsdc.classList.remove("active");
-    spQuoteReceiveLabel.textContent = "EURC";
-    debouncedRefreshPayQuote();
-  });
-
-  spRecipientWallet.addEventListener("input", () => {
-    spSyncEntryState();
-    spUpdateSwapButton();
-  });
-
-  spReceiveAmount.addEventListener("input", () => {
-    if (spProcessStep > 0) return;
-    spReceiveAmount.value = sanitizeNumeric(spReceiveAmount.value);
-    debouncedRefreshPayQuote();
-  });
-
-  spNoteInput.addEventListener("input", () => {
-    if (spProcessStep > 0) return;
-    spUpdatePreview();
-  });
-
-  spSwapBtn.addEventListener("click", async () => {
-    if (!isWalletConnected) {
-      openWalletSheet();
-      return;
-    }
-    await performSwapAndPay();
-  });
-
-  gpChangeWalletBtn.addEventListener("click", gpOpenWalletModal);
-  gpWalletCancelBtn.addEventListener("click", gpCloseWalletModal);
-
-  gpWalletSaveBtn.addEventListener("click", () => {
-    const cleaned = gpWalletInput.value.trim();
-    if (!isValidAddress(cleaned)) {
-      gpStatusText.textContent = "Invalid wallet address.";
-      return;
-    }
-    gpState.fullWallet = cleaned;
-    gpSyncWalletUI();
-    gpCloseWalletModal();
-    gpStatusText.textContent = "Receiver wallet updated.";
-  });
-
-  gpWalletInput.addEventListener("keydown", e => {
-    if (e.key === "Enter") gpWalletSaveBtn.click();
-  });
-
-  gpWalletModal.addEventListener("click", e => {
-    if (e.target === gpWalletModal) gpCloseWalletModal();
-  });
-
-  gpUsdcBtn.addEventListener("click", () => gpSetAsset("USDC"));
-  gpEurcBtn.addEventListener("click", () => gpSetAsset("EURC"));
-  gpSwitchTrack.addEventListener("click", () => {
-    gpSetAsset(gpState.asset === "USDC" ? "EURC" : "USDC");
-  });
-
-  gpAmountInput.addEventListener("input", () => {
-    gpAmountInput.value = sanitizeNumeric(gpAmountInput.value).slice(0, 8);
-    gpStatusText.textContent = gpGetAmount() > 0 ? "Ready to generate the QR." : "Fill the amount and generate the QR.";
-  });
-
-  document.querySelectorAll(".gp-quick-btn").forEach(btn => {
-    btn.addEventListener("click", () => {
-      gpAmountInput.value = btn.dataset.value || "";
-      gpStatusText.textContent = "Ready to generate the QR.";
-    });
-  });
-
-  gpGenerateBtn.addEventListener("click", gpGenerateReceipt);
-
-  gpCopyBtn.addEventListener("click", async () => {
-    if (!gpState.requestLink) return;
-    await gpCopyText(gpState.requestLink, "Request link copied.");
-  });
-
-  gpShareBtn.addEventListener("click", async () => {
-    if (!gpState.requestLink) return;
-
-    const text =
-      `StableFlow payment request\n` +
-      `Recipient gets: ${formatAmount(gpGetAmount(), 2)} ${gpState.asset}\n` +
-      `Wallet: ${gpState.fullWallet}\n` +
-      `${gpState.requestLink}`;
-
-    if (navigator.share) {
-      try {
-        await navigator.share({
-          title: "StableFlow payment request",
-          text
+      function activityFormatLabels(labels){
+        const finalLabels = Array.isArray(labels) && labels.length ? labels.slice(0, 7) : ACTIVITY_DEFAULT_LABELS;
+        while(finalLabels.length < 7) finalLabels.push("");
+        activityClearNode(activityLabelRow);
+        finalLabels.forEach(text => {
+          const span = document.createElement("span");
+          span.textContent = text;
+          activityLabelRow.appendChild(span);
         });
-        gpStatusText.textContent = "Request shared.";
-        return;
-      } catch {}
-    }
+      }
 
-    await gpCopyText(text, "Share text copied.");
-  });
+      function activityBuildRodHeights(values){
+        const minValue = Math.min(...values);
+        const maxValue = Math.max(...values);
+        const minH = 28;
+        const maxH = 78;
 
-  gpDownloadBtn.addEventListener("click", gpDownloadReceipt);
-  gpNewRequestBtn.addEventListener("click", () => {
-    gpResetRequest();
-    renderMoreViews();
-    rebuildActivityFromStorage();
-  });
+        return values.map(v => {
+          const ratio = (v - minValue) / ((maxValue - minValue) || 1);
+          return Math.round(minH + ratio * (maxH - minH));
+        });
+      }
 
-  tokensSearchPill.addEventListener("click", event => {
-    if (event.target.closest(".tokens-search-close-btn")) return;
-    if (!tokensSearchPill.classList.contains("open")) openTokensSearch();
-  });
+      function activitySanitizeDataset(raw){
+        const safeValues = Array.isArray(raw?.values) && raw.values.length
+          ? raw.values.slice(0, 7).map(n => Number(n) || 0)
+          : [0,0,0,0,0,0,0];
 
-  tokensSearchClose.addEventListener("pointerdown", event => {
-    event.preventDefault();
-    event.stopPropagation();
-    closeTokensSearch();
-  });
+        while(safeValues.length < 7) safeValues.push(0);
 
-  tokensSearchInput.addEventListener("input", renderTokens);
+        return {
+          title: raw?.title || "StableFlow usage",
+          values: safeValues,
+          labels: Array.isArray(raw?.labels) && raw.labels.length ? raw.labels.slice(0, 7) : ACTIVITY_DEFAULT_LABELS,
+          peakText: raw?.peakText || String(Math.max(...safeValues)),
+          metricA: raw?.metricA || "<b>0</b> data",
+          metricB: raw?.metricB || "<b>--</b> trend",
+          metricC: raw?.metricC || "<b>--</b> output",
+          note: raw?.note || "Waiting for live activity."
+        };
+      }
 
-  tokensSearchInput.addEventListener("keydown", event => {
-    if (event.key === "Escape") closeTokensSearch();
-  });
+      function activitySmoothPath(points){
+        if(!points.length) return "";
+        let d = `M ${points[0].x} ${points[0].y}`;
+        for(let i = 0; i < points.length - 1; i++){
+          const p0 = points[i];
+          const p1 = points[i + 1];
+          const c1x = p0.x + (p1.x - p0.x) * 0.5;
+          const c1y = p0.y;
+          const c2x = p0.x + (p1.x - p0.x) * 0.5;
+          const c2y = p1.y;
+          d += ` C ${c1x} ${c1y}, ${c2x} ${c2y}, ${p1.x} ${p1.y}`;
+        }
+        return d;
+      }
 
-  moreThemeSwitch.addEventListener("click", () => {
-    moreThemeSwitch.classList.toggle("off");
-    morePanelUi.classList.toggle("more-theme-soft");
-    moreThemeLabel.textContent = moreThemeSwitch.classList.contains("off") ? "Soft" : "Dark";
-  });
+      function activityGetPoints(values){
+        const svgW = 340;
+        const svgH = 120;
+        const topPad = 11;
+        const bottomPad = 22;
+        const leftPad = 10;
+        const rightPad = 10;
+        const usableW = svgW - leftPad - rightPad;
+        const usableH = svgH - topPad - bottomPad;
+        const stepX = usableW / (values.length - 1);
+        const max = Math.max(...values);
+        const min = Math.min(...values);
 
-  moreTabs.forEach(tab => {
-    tab.addEventListener("click", () => {
-      activateMoreView(tab.dataset.tab);
-    });
-  });
+        return values.map((value, i) => {
+          const x = leftPad + stepX * i;
+          const ratio = (value - min) / ((max - min) || 1);
+          const y = topPad + (usableH - ratio * usableH);
+          return { x, y, value };
+        });
+      }
 
-  moreLangTrigger.addEventListener("click", event => {
-    event.stopPropagation();
-    moreLangControl.classList.toggle("open");
-  });
+      function activityMakeCallout(point, text){
+        activityClearNode(activityCalloutGroup);
 
-  moreLangOptions.forEach(option => {
-    option.addEventListener("click", event => {
-      event.stopPropagation();
-      moreLangValue.textContent = option.dataset.lang;
-      moreLangOptions.forEach(item => {
-        item.classList.remove("active");
-        const oldTick = item.querySelector(".tick");
-        if (oldTick) oldTick.remove();
+        const svgW = 340;
+        const width = Math.max(46, String(text).length * 6.8);
+        const height = 22;
+        const x = Math.max(8, Math.min(point.x - width / 2, svgW - width - 8));
+        const y = Math.max(4, point.y - 28);
+
+        const rect = document.createElementNS("http://www.w3.org/2000/svg", "rect");
+        rect.setAttribute("x", x);
+        rect.setAttribute("y", y);
+        rect.setAttribute("width", width);
+        rect.setAttribute("height", height);
+        rect.setAttribute("rx", 10);
+        rect.setAttribute("class", "activity-callout-box");
+
+        const label = document.createElementNS("http://www.w3.org/2000/svg", "text");
+        label.setAttribute("x", x + width / 2);
+        label.setAttribute("y", y + 14.2);
+        label.setAttribute("class", "activity-callout-value");
+        label.textContent = String(text);
+
+        activityCalloutGroup.appendChild(rect);
+        activityCalloutGroup.appendChild(label);
+      }
+
+      function activityDrawRods(points, rodHeights){
+        activityClearNode(activityRodGroup);
+        const chartFloor = 98;
+
+        points.forEach((p, i) => {
+          const h = rodHeights[i];
+          const rodW = 5.2;
+          const glowW = 16;
+          const x = p.x - rodW / 2;
+          const y = chartFloor - h;
+          const glowX = p.x - glowW / 2;
+          const glowY = chartFloor - h - 7;
+
+          const g = document.createElementNS("http://www.w3.org/2000/svg", "g");
+          g.setAttribute("class", "activity-rod-group");
+
+          const glow = document.createElementNS("http://www.w3.org/2000/svg", "rect");
+          glow.setAttribute("x", glowX);
+          glow.setAttribute("y", glowY);
+          glow.setAttribute("width", glowW);
+          glow.setAttribute("height", h + 12);
+          glow.setAttribute("rx", glowW / 2);
+          glow.setAttribute("class", "activity-rod-glow");
+
+          const core = document.createElementNS("http://www.w3.org/2000/svg", "rect");
+          core.setAttribute("x", x);
+          core.setAttribute("y", y);
+          core.setAttribute("width", rodW);
+          core.setAttribute("height", h);
+          core.setAttribute("rx", rodW / 2);
+          core.setAttribute("class", "activity-rod-core");
+
+          const shine = document.createElementNS("http://www.w3.org/2000/svg", "rect");
+          shine.setAttribute("x", p.x - .75);
+          shine.setAttribute("y", y + 5);
+          shine.setAttribute("width", 1.5);
+          shine.setAttribute("height", Math.max(14, h - 10));
+          shine.setAttribute("rx", .75);
+          shine.setAttribute("class", "activity-rod-shine");
+
+          const cap = document.createElementNS("http://www.w3.org/2000/svg", "rect");
+          cap.setAttribute("x", p.x - 2.1);
+          cap.setAttribute("y", y - .2);
+          cap.setAttribute("width", 4.2);
+          cap.setAttribute("height", 2.1);
+          cap.setAttribute("rx", 1.05);
+          cap.setAttribute("class", "activity-rod-cap");
+
+          g.appendChild(glow);
+          g.appendChild(core);
+          g.appendChild(shine);
+          g.appendChild(cap);
+          activityRodGroup.appendChild(g);
+        });
+      }
+
+      function activityAnimateLine(pathEl){
+        const len = pathEl.getTotalLength();
+        pathEl.style.strokeDasharray = len;
+        pathEl.style.strokeDashoffset = len;
+        pathEl.getBoundingClientRect();
+        pathEl.style.transition = "stroke-dashoffset .9s cubic-bezier(.2,.8,.2,1)";
+        pathEl.style.strokeDashoffset = "0";
+      }
+
+      function activityAnimateOrb(pathEl){
+        if(activityOrbFrame) cancelAnimationFrame(activityOrbFrame);
+
+        const len = pathEl.getTotalLength();
+        const start = performance.now();
+
+        function frame(now){
+          const elapsed = (now - start) % 2600;
+          const progress = elapsed / 2600;
+          const point = pathEl.getPointAtLength(len * progress);
+          activityMoveOrb.setAttribute("cx", point.x);
+          activityMoveOrb.setAttribute("cy", point.y);
+          activityOrbFrame = requestAnimationFrame(frame);
+        }
+
+        activityOrbFrame = requestAnimationFrame(frame);
+      }
+
+      function activityUpdateLiveUI(){
+        activityLivePill.classList.toggle("idle", !activityState.live);
+      }
+
+      function activityRender(mode, first = false){
+        activityState.currentMode = mode;
+        activityTabs.forEach(tab => tab.classList.toggle("active", tab.dataset.mode === mode));
+
+        const data = activitySanitizeDataset(activityState.datasets[mode]);
+        const points = activityGetPoints(data.values);
+        const rods = activityBuildRodHeights(data.values);
+        const line = activitySmoothPath(points);
+        const area = `${line} L ${points[points.length - 1].x} 98 L ${points[0].x} 98 Z`;
+
+        activityMiniTitle.textContent = data.title;
+        activityMetricA.innerHTML = data.metricA;
+        activityMetricB.innerHTML = data.metricB;
+        activityMetricC.innerHTML = data.metricC;
+        activitySubnote.textContent = data.note;
+        activityFormatLabels(data.labels);
+        activityUpdateLiveUI();
+
+        activityDrawRods(points, rods);
+
+        activityAreaPath.setAttribute("d", area);
+        activityShadowPath.setAttribute("d", line);
+        activityLinePath.setAttribute("d", line);
+
+        activityClearNode(activityDotGroup);
+        points.forEach((p, i) => {
+          const dot = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+          dot.setAttribute("cx", p.x);
+          dot.setAttribute("cy", p.y);
+          dot.setAttribute("r", i === points.length - 1 ? "4.8" : "3.7");
+          dot.setAttribute("class", i === points.length - 1 ? "activity-dot last" : "activity-dot");
+          activityDotGroup.appendChild(dot);
+        });
+
+        const peak = Math.max(...data.values);
+        const peakIndex = data.values.indexOf(peak);
+        activityMakeCallout(points[peakIndex], data.peakText);
+
+        activityLinePath.style.transition = "none";
+        activityLinePath.style.strokeDasharray = "none";
+        activityLinePath.style.strokeDashoffset = "0";
+
+        requestAnimationFrame(() => activityAnimateLine(activityLinePath));
+
+        if(first){
+          activityAnimateOrb(activityLinePath);
+        } else {
+          setTimeout(() => activityAnimateOrb(activityLinePath), 120);
+        }
+      }
+
+      function activityStartCycle(){
+        clearInterval(activityAutoCycle);
+        if(!activityState.autoCycle) return;
+
+        const order = ["volume","requests","stable"];
+        activityAutoCycle = setInterval(() => {
+          const next = (order.indexOf(activityState.currentMode) + 1) % order.length;
+          activityRender(order[next]);
+        }, activityState.cycleMs);
+      }
+
+      function activitySetMode(mode){
+        if(!activityState.datasets[mode]) return;
+        activityRender(mode);
+        activityStartCycle();
+      }
+
+      window.StableFlowActivity = {
+        setMode: activitySetMode,
+        setLive(isLive){
+          activityState.live = !!isLive;
+          activityUpdateLiveUI();
+        },
+        replaceAllData(nextData){
+          const safeModes = ["volume","requests","stable"];
+          safeModes.forEach(mode => {
+            if(nextData && nextData[mode]){
+              activityState.datasets[mode] = {
+                ...activityState.datasets[mode],
+                ...nextData[mode]
+              };
+            }
+          });
+
+          if(typeof nextData?.live === "boolean"){
+            activityState.live = nextData.live;
+          }
+
+          if(typeof nextData?.autoCycle === "boolean"){
+            activityState.autoCycle = nextData.autoCycle;
+          }
+
+          if(typeof nextData?.cycleMs === "number"){
+            activityState.cycleMs = activityClamp(nextData.cycleMs, 2000, 12000);
+          }
+
+          activityRender(activityState.currentMode);
+          activityStartCycle();
+        },
+        pushValue(mode, value, label){
+          if(!activityState.datasets[mode]) return;
+          const current = activitySanitizeDataset(activityState.datasets[mode]);
+          const nextValues = current.values.slice(1);
+          nextValues.push(Number(value) || 0);
+
+          const nextLabels = current.labels.slice(1);
+          nextLabels.push(label || "");
+
+          activityState.datasets[mode] = {
+            ...current,
+            values: nextValues,
+            labels: nextLabels,
+            peakText: String(Math.max(...nextValues))
+          };
+
+          if(activityState.currentMode === mode){
+            activityRender(mode);
+          }
+        }
+      };
+
+      activityTabs.forEach(tab => {
+        tab.addEventListener("click", () => {
+          activitySetMode(tab.dataset.mode);
+        });
       });
-      option.classList.add("active");
-      const tick = document.createElement("span");
-      tick.className = "tick";
-      option.appendChild(tick);
-      moreLangControl.classList.remove("open");
-    });
-  });
 
-  document.addEventListener("click", event => {
-    if (!moreLangControl.contains(event.target)) {
-      moreLangControl.classList.remove("open");
-    }
-  });
+      profileStage.addEventListener("mousemove", (e) => moveProfileCard(e.clientX, e.clientY));
+      profileStage.addEventListener("mouseleave", resetProfileCard);
+      profileStage.addEventListener("touchmove", (e) => {
+        const t = e.touches[0];
+        if(t) moveProfileCard(t.clientX, t.clientY);
+      }, { passive:true });
+      profileStage.addEventListener("touchend", resetProfileCard);
 
-  closeTokensBtn.addEventListener("click", () => {
-    closeSheets();
-    restoreNavAfterClose();
-  });
+      openWalletMain.addEventListener("click", openWalletSheet);
+      openSwapBtn.addEventListener("click", openSwapPanel);
+      openPayBtn.addEventListener("click", openPayPanel);
+      openTokensBtn.addEventListener("click", () => {
+        closeModules();
+        openTokensSheet();
+      });
+      openGetPaidBtn.addEventListener("click", openGetPaidPanel);
+      openMoreNav.addEventListener("click", () => {
+        closeModules();
+        openMoreSheet();
+      });
+      homeBtn.addEventListener("click", openHomeView);
 
-  closeMoreBtn.addEventListener("click", () => {
-    closeSheets();
-    restoreNavAfterClose();
-  });
+      closeTokensBtn.addEventListener("click", () => {
+        closeSheets();
+        restoreNavAfterClose();
+      });
 
-  overlay.addEventListener("click", () => {
-    closeSheets();
-    restoreNavAfterClose();
-  });
+      closeMoreBtn.addEventListener("click", () => {
+        closeSheets();
+        restoreNavAfterClose();
+      });
 
-  document.querySelectorAll("[data-close='wallet']").forEach(el => {
-    el.addEventListener("click", () => {
-      closeSheets();
+      overlay.addEventListener("click", () => {
+        closeSheets();
+        restoreNavAfterClose();
+      });
+
+      document.querySelectorAll("[data-close='wallet']").forEach((el) => {
+        el.addEventListener("click", () => {
+          closeSheets();
+          restoreNavAfterClose();
+        });
+      });
+
+      walletConnectItems.forEach((item) => {
+        item.addEventListener("click", () => {
+          setWalletConnected(item.dataset.wallet || "Wallet");
+        });
+      });
+
+      swapSlipToggle.addEventListener("click", (e) => {
+        e.stopPropagation();
+        if(swapSlipControl.classList.contains("open")){
+          closeSlippage();
+        }else{
+          openSlippage();
+        }
+      });
+
+      swapSlipControl.addEventListener("click", (e) => {
+        e.stopPropagation();
+      });
+
+      swapSlipExpand.addEventListener("wheel", (e) => {
+        if(Math.abs(e.deltaY) > Math.abs(e.deltaX)){
+          e.preventDefault();
+          swapSlipExpand.scrollLeft += e.deltaY;
+        }
+      }, { passive:false });
+
+      swapSlipOptions.forEach((option) => {
+        option.addEventListener("click", () => {
+          const value = option.dataset.slip;
+          swapSlipValue = value === "auto" ? "auto" : Number(value);
+          renderSlippage();
+          closeSlippage();
+        });
+      });
+
+      swapSlipInput.addEventListener("input", () => {
+        swapSlipInput.value = sanitizeNumeric(swapSlipInput.value);
+        swapSlipInputWrap.classList.add("manual-active");
+      });
+
+      swapSlipInput.addEventListener("focus", () => {
+        openSlippage();
+        swapSlipInputWrap.classList.add("manual-active");
+      });
+
+      swapSlipInput.addEventListener("keydown", (e) => {
+        if(e.key === "Enter"){
+          e.preventDefault();
+          applyManualSlippage();
+        }
+      });
+
+      swapSlipInput.addEventListener("blur", () => {
+        setTimeout(() => {
+          if(document.activeElement !== swapSlipInput){
+            applyManualSlippage();
+          }
+        }, 80);
+      });
+
+      document.addEventListener("click", () => {
+        closeSlippage();
+      });
+
+      swapTopInput.addEventListener("input", () => {
+        swapTopInput.value = sanitizeNumeric(swapTopInput.value);
+        updateSwapFromTop();
+      });
+
+      swapBottomInput.addEventListener("input", () => {
+        swapBottomInput.value = sanitizeNumeric(swapBottomInput.value);
+        updateSwapFromBottom();
+      });
+
+      document.querySelectorAll(".swap-quick-btn").forEach((btn) => {
+        btn.addEventListener("click", () => {
+          const percent = Number(btn.dataset.percent || "0");
+          const amount = (balances[swapState.topToken] || 0) * (percent / 100);
+          swapTopInput.value = formatSwapNumber(amount);
+          updateSwapFromTop();
+        });
+      });
+
+      swapFlipBtn.addEventListener("click", () => {
+        const oldTopValue = swapTopInput.value;
+        const oldBottomValue = swapBottomInput.value;
+
+        const prevTopToken = swapState.topToken;
+        swapState.topToken = swapState.bottomToken;
+        swapState.bottomToken = prevTopToken;
+
+        swapTopInput.value = oldBottomValue;
+        swapBottomInput.value = oldTopValue;
+
+        flipRotation += 180;
+        swapFlipBtn.style.setProperty("--flip-rotation", `${flipRotation}deg`);
+
+        renderSwapUI();
+        updateQuickVisibility();
+      });
+
+      swapActionBtn.addEventListener("click", simulateSwapAction);
+
+      spAssetUsdc.addEventListener("click", () => spSetAsset("USDC"));
+      spAssetEurc.addEventListener("click", () => spSetAsset("EURC"));
+
+      spReceiveAmount.addEventListener("input", (event) => {
+        if(spProcessStep > 0) return;
+        event.target.value = sanitizeNumeric(event.target.value);
+        spUpdateMath();
+      });
+
+      spRecipientWallet.addEventListener("input", () => {
+        if(spProcessStep > 0) return;
+        spSyncEntryState();
+        spUpdateSwapButton();
+      });
+
+      spNoteInput.addEventListener("input", () => {
+        if(spProcessStep > 0) return;
+        spUpdatePreview();
+      });
+
+      spNoteToggle.addEventListener("click", spToggleNoteVisibility);
+      spSwapBtn.addEventListener("click", spHandleSwapFlow);
+
+      spQrBtn.addEventListener("click", spOpenScanner);
+      spScannerClose.addEventListener("click", spCloseScanner);
+      spScannerModal.addEventListener("click", (event) => {
+        if(event.target === spScannerModal) spCloseScanner();
+      });
+
+      gpChangeWalletBtn.addEventListener("click", gpOpenWalletModal);
+
+      gpWalletCancelBtn.addEventListener("click", gpCloseWalletModal);
+
+      gpWalletSaveBtn.addEventListener("click", () => {
+        const cleaned = gpWalletInput.value.trim();
+
+        if(cleaned.length < 8){
+          gpStatusText.textContent = "Wallet not updated.";
+          return;
+        }
+
+        gpState.fullWallet = cleaned;
+        gpSyncWalletUI();
+        gpCloseWalletModal();
+        gpStatusText.textContent = "Receiver wallet updated.";
+      });
+
+      gpWalletInput.addEventListener("keydown", (e) => {
+        if(e.key === "Enter"){
+          gpWalletSaveBtn.click();
+        }
+      });
+
+      gpWalletModal.addEventListener("click", (e) => {
+        if(e.target === gpWalletModal) gpCloseWalletModal();
+      });
+
+      gpUsdcBtn.addEventListener("click", () => gpSetAsset("USDC"));
+      gpEurcBtn.addEventListener("click", () => gpSetAsset("EURC"));
+      gpSwitchTrack.addEventListener("click", () => {
+        gpSetAsset(gpState.asset === "USDC" ? "EURC" : "USDC");
+      });
+
+      gpAmountInput.addEventListener("input", gpEnforceAmountLimit);
+
+      document.querySelectorAll(".gp-quick-btn").forEach((btn) => {
+        btn.addEventListener("click", () => {
+          gpAmountInput.value = btn.dataset.value || "";
+          gpStatusText.textContent = "Ready to generate the QR.";
+        });
+      });
+
+      gpGenerateBtn.addEventListener("click", gpGenerateReceipt);
+
+      gpCopyBtn.addEventListener("click", async () => {
+        if(!gpState.requestLink) return;
+        await gpCopyText(gpState.requestLink, "Request link copied.");
+      });
+
+      gpShareBtn.addEventListener("click", async () => {
+        if(!gpState.requestLink) return;
+
+        const text =
+          `StableFlow payment request\n` +
+          `Recipient gets: ${gpFormatAmount(gpGetAmount())} ${gpState.asset}\n` +
+          `Wallet: ${gpState.fullWallet}\n` +
+          `${gpState.requestLink}`;
+
+        if(navigator.share){
+          try{
+            await navigator.share({
+              title: "StableFlow payment request",
+              text
+            });
+            gpStatusText.textContent = "Request shared.";
+            return;
+          }catch{}
+        }
+
+        await gpCopyText(text, "Share text copied.");
+      });
+
+      gpDownloadBtn.addEventListener("click", gpDownloadReceipt);
+      gpNewRequestBtn.addEventListener("click", gpResetRequest);
+
+      tokensSearchPill.addEventListener("click", (event) => {
+        if(event.target.closest(".tokens-search-close-btn")) return;
+        if(tokensSearchPill.classList.contains("open")) return;
+        openTokensSearch();
+      });
+
+      tokensSearchClose.addEventListener("pointerdown", (event) => {
+        event.preventDefault();
+        event.stopPropagation();
+        closeTokensSearch();
+      });
+
+      tokensSearchClose.addEventListener("click", (event) => {
+        event.preventDefault();
+        event.stopPropagation();
+      });
+
+      tokensSearchInput.addEventListener("input", (event) => {
+        filterTokens(event.target.value);
+      });
+
+      tokensSearchInput.addEventListener("keydown", (event) => {
+        if(event.key === "Escape") closeTokensSearch();
+      });
+
+      moreThemeSwitch.addEventListener("click", () => {
+        moreThemeSwitch.classList.toggle("off");
+        morePanelUi.classList.toggle("more-theme-soft");
+        moreThemeLabel.textContent = moreThemeSwitch.classList.contains("off") ? "Soft" : "Dark";
+      });
+
+      moreTabs.forEach((tab) => {
+        tab.addEventListener("click", () => {
+          activateMoreView(tab.dataset.tab);
+        });
+      });
+
+      moreLangTrigger.addEventListener("click", (event) => {
+        event.stopPropagation();
+        moreLangControl.classList.toggle("open");
+      });
+
+      moreLangOptions.forEach((option) => {
+        option.addEventListener("click", (event) => {
+          event.stopPropagation();
+          moreLangValue.textContent = option.dataset.lang;
+
+          moreLangOptions.forEach((item) => {
+            item.classList.remove("active");
+            const oldTick = item.querySelector(".tick");
+            if(oldTick) oldTick.remove();
+          });
+
+          option.classList.add("active");
+          const tick = document.createElement("span");
+          tick.className = "tick";
+          option.appendChild(tick);
+
+          moreLangControl.classList.remove("open");
+        });
+      });
+
+      document.addEventListener("click", (event) => {
+        if(!moreLangControl.contains(event.target)){
+          moreLangControl.classList.remove("open");
+        }
+      });
+
+      profileProgressFill.style.width = "12%";
+
+      renderSwapUI();
+      renderSlippage();
+      updateQuickVisibility();
+
+      spSetProcessUi(1);
+      spSyncEntryState();
+      spUpdatePreview();
+      spUpdateSwapButton();
+
+      gpSyncWalletUI();
+      gpSetAsset("USDC");
+
+      renderTokens();
+      activateMoreView("overview");
       restoreNavAfterClose();
-    });
-  });
+      syncUiLocks();
 
-  openSwapBtn.addEventListener("click", openSwapPanel);
-  openPayBtn.addEventListener("click", openPayPanel);
-  openTokensBtn.addEventListener("click", () => {
-    closeModules();
-    openTokensSheet();
-  });
-  openGetPaidBtn.addEventListener("click", openGetPaidPanel);
-  openMoreNav.addEventListener("click", () => {
-    closeModules();
-    openMoreSheet();
-  });
-  homeBtn.addEventListener("click", openHomeView);
-
-  profileProgressFill.style.width = "8%";
-
-  gpState.fullWallet = gpState.fullWallet || "";
-  gpSyncWalletUI();
-  gpSetAsset("USDC");
-  spSetProcessUi(1);
-  spSyncEntryState();
-  spUpdatePreview();
-  spUpdateSwapButton();
-  renderSwapUI();
-  renderSlippage();
-  renderTokens();
-  renderMoreViews();
-  renderProfileFromState();
-  restoreNavAfterClose();
-  syncUiLocks();
-  bootstrapInjectedSession().finally(() => {
-    rebuildActivityFromStorage();
-    refreshSwapButtonState();
-    spUpdateSwapButton();
-  });
-})();
+      activityRender(activityState.currentMode, true);
+      activityStartCycle();
+    })();
   </script>
 </body>
-</html>
+  </html>
