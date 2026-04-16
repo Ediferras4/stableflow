@@ -2259,6 +2259,7 @@
       position:relative;
       z-index:1;
     }
+
     /* PAY */
     .pay-panel .module-scroll{
       padding:12px;
@@ -3994,7 +3995,8 @@
       background:linear-gradient(180deg, #182734 0%, #101c27 100%);
       color:#d7e2ee;
       border:1px solid rgba(154,214,255,.16);
-  }
+    }
+
     /* TOKENS SHEET */
     .tokens-shell-ui{
       width:100%;
@@ -5866,7 +5868,6 @@
       </section>
     </div>
   </main>
-
   <div class="module-underlay" id="moduleUnderlay"></div>
 
   <section class="module-panel" id="swapPanel">
@@ -6358,7 +6359,6 @@
       </button>
     </div>
   </section>
-
   <section class="sheet tokens-sheet" id="tokensSheet">
     <div class="tokens-shell-ui">
       <div class="tokens-inner">
@@ -7113,7 +7113,7 @@
             metricA: "<b>$126.4</b> weekly",
             metricB: "<b>+18%</b> today",
             metricC: "<b>EURC</b> output",
-            note: "Demo graph only. LMTV exists to demonstrate flow, Get Paid generates QR payment requests, and profile trophies will unlock as transactions grow."
+            note: "Demo graph only. Get Paid generates payment QR codes, and the profile evolves with completed transactions: 1 transaction lights 1 trophy, 5 transactions light 2 trophies, 10 transactions light 3 trophies."
           },
           requests: {
             title: "Request activity",
@@ -8187,7 +8187,6 @@
         const target = document.getElementById(idMap[key]);
         if(target) target.classList.add("active");
       }
-
       function activityClamp(value, min, max){
         return Math.max(min, Math.min(max, value));
       }
@@ -8637,8 +8636,18 @@
       document.querySelectorAll(".swap-quick-btn").forEach((btn) => {
         btn.addEventListener("click", () => {
           const percent = Number(btn.dataset.percent || "0");
-          const amount = (balances[swapState.topToken] || 0) * (percent / 100);
-          swapTopInput.value = formatSwapNumber(amount);
+          const balance = Number(balances[swapState.topToken] || 0);
+          let amount = balance * (percent / 100);
+
+          if(percent === 100){
+            const precision = swapState.topToken === "LMTV" ? 6 : 4;
+            const dustBuffer = swapState.topToken === "LMTV" ? 0.000001 : 0.0001;
+            amount = Math.max(balance - dustBuffer, 0);
+            swapTopInput.value = Number(amount).toFixed(precision).replace(/0+$/, "").replace(/\.$/, "");
+          } else {
+            swapTopInput.value = formatSwapNumber(amount);
+          }
+
           updateSwapFromTop();
         });
       });
@@ -8860,4 +8869,4 @@
     })();
   </script>
 </body>
-    </html>
+</html>
