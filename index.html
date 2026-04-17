@@ -6575,11 +6575,13 @@
 <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.4/build/qrcode.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/ethers@5.7.2/dist/ethers.umd.min.js"></script>
-<script>
+  ];
+
+  <script>
 (() => {
   const APP = {
-    chainIdHex: "0x4CF672",
     chainId: 5042002,
+    chainIdHex: `0x${(5042002).toString(16)}`,
     chainName: "Arc Testnet",
     nativeCurrency: {
       name: "USDC",
@@ -7100,7 +7102,7 @@
 
     try{
       const chainId = await window.ethereum.request({ method: "eth_chainId" });
-      if(chainId === APP.chainIdHex) return true;
+      if(chainId?.toLowerCase() === APP.chainIdHex.toLowerCase()) return true;
 
       try{
         await window.ethereum.request({
@@ -7847,7 +7849,12 @@
     moreSettlementDecimals.textContent = `${APP.tokens[state.getPaid.asset].decimals} dec`;
     moreDeliveryState.textContent = state.getPaid.requestLink ? "Prepared" : "Ready";
     moreQuoteBadge.textContent = state.activity.live ? "Onchain" : "Waiting";
-    morePairState.textContent = `${state.pairData.LMTV_USDC.ready ? 1 : 0 + state.pairData.LMTV_EURC.ready ? 1 : 0} pools`;
+
+    const readyPools =
+      (state.pairData.LMTV_USDC.ready ? 1 : 0) +
+      (state.pairData.LMTV_EURC.ready ? 1 : 0);
+
+    morePairState.textContent = `${readyPools} pools`;
     moreMiniUsdc.textContent = state.pairData.LMTV_USDC.ready ? "Ready" : "Wait";
     moreMiniEurc.textContent = state.pairData.LMTV_EURC.ready ? "Ready" : "Wait";
     moreMiniWallet.textContent = state.walletConnected ? "On" : "Off";
@@ -8607,6 +8614,6 @@
     renderEverything();
   });
 })();
-</script>
+  </script>
 </body>
 </html>
