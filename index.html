@@ -14,9 +14,10 @@
 
     :root{
       --shell:#030303;
-      --shell-2:#080808;
-      --shell-3:#111111;
-      --shell-line:rgba(255,255,255,.045);
+      --shell-2:#060606;
+      --shell-3:#0d0d0d;
+      --shell-4:#141414;
+      --shell-line:rgba(255,255,255,.03);
 
       --panel:#050505;
       --panel-2:#0a0a0a;
@@ -80,7 +81,7 @@
     .bottom-bar,
     .sidebar{
       background:
-        linear-gradient(180deg, var(--shell-3) 0%, var(--shell-2) 44%, var(--shell) 100%);
+        linear-gradient(180deg, var(--shell-4) 0%, var(--shell-3) 38%, var(--shell-2) 72%, var(--shell) 100%);
     }
 
     .top-bar{
@@ -91,30 +92,18 @@
       height:var(--top-h);
       z-index:40;
       box-shadow:
-        inset 0 1px 0 var(--shell-line),
         inset 0 -1px 0 rgba(255,255,255,.012),
-        0 6px 12px rgba(0,0,0,.055);
+        inset 0 -16px 24px rgba(0,0,0,.24),
+        0 6px 14px rgba(0,0,0,.06);
     }
 
     .top-bar::before{
       content:"";
       position:absolute;
-      left:18px;
-      right:18px;
-      bottom:12px;
-      height:2px;
-      border-radius:999px;
+      inset:0;
       background:
-        linear-gradient(90deg,
-          transparent 0%,
-          rgba(255,255,255,.012) 12%,
-          rgba(255,255,255,.05) 50%,
-          rgba(255,255,255,.012) 88%,
-          transparent 100%);
-      box-shadow:
-        inset 0 1px 0 rgba(255,255,255,.014),
-        inset 0 -1px 0 rgba(0,0,0,.36);
-      opacity:.9;
+        linear-gradient(180deg, rgba(255,255,255,.015) 0%, transparent 26%, transparent 100%);
+      pointer-events:none;
     }
 
     .top-bar::after{
@@ -124,7 +113,8 @@
       right:0;
       bottom:0;
       height:1px;
-      background:rgba(255,255,255,.015);
+      background:rgba(255,255,255,.01);
+      opacity:.6;
     }
 
     .bottom-bar{
@@ -135,29 +125,48 @@
       height:var(--bottom-h);
       z-index:40;
       box-shadow:
-        inset 0 1px 0 var(--shell-line),
+        inset 0 1px 0 rgba(255,255,255,.014),
+        inset 0 18px 24px rgba(0,0,0,.22),
         0 -4px 10px rgba(0,0,0,.05);
     }
 
     .bottom-bar::before{
       content:"";
       position:absolute;
-      left:22px;
-      right:22px;
-      top:12px;
+      left:20px;
+      right:20px;
+      top:10px;
       height:2px;
       border-radius:999px;
       background:
         linear-gradient(90deg,
           transparent 0%,
-          rgba(255,255,255,.01) 12%,
-          rgba(255,255,255,.038) 50%,
-          rgba(255,255,255,.01) 88%,
+          rgba(255,255,255,.006) 12%,
+          rgba(255,255,255,.024) 50%,
+          rgba(255,255,255,.006) 88%,
           transparent 100%);
       box-shadow:
-        inset 0 1px 0 rgba(255,255,255,.012),
-        inset 0 -1px 0 rgba(0,0,0,.30);
-      opacity:.82;
+        inset 0 1px 0 rgba(255,255,255,.008),
+        inset 0 -1px 0 rgba(0,0,0,.34);
+      opacity:.58;
+    }
+
+    .bottom-bar::after{
+      content:"";
+      position:absolute;
+      left:32px;
+      right:32px;
+      top:18px;
+      height:1px;
+      border-radius:999px;
+      background:
+        linear-gradient(90deg,
+          transparent 0%,
+          rgba(0,0,0,.28) 18%,
+          rgba(255,255,255,.012) 50%,
+          rgba(0,0,0,.28) 82%,
+          transparent 100%);
+      opacity:.46;
     }
 
     .sidebar{
@@ -609,8 +618,8 @@
       height:1px;
       background:
         linear-gradient(90deg,
-          rgba(215,176,106,.26) 0%,
-          rgba(215,176,106,.06) 58%,
+          rgba(215,176,106,.22) 0%,
+          rgba(215,176,106,.05) 58%,
           transparent 100%);
     }
 
@@ -1071,15 +1080,11 @@
     }
 
     function setLockedState(locked){
-      pageButtons.forEach(btn => {
-        btn.classList.toggle("is-locked", locked);
-      });
+      pageButtons.forEach(btn => btn.classList.toggle("is-locked", locked));
     }
 
     function clearNavState(){
-      pageButtons.forEach(btn => {
-        btn.classList.remove("is-seq-on", "is-active");
-      });
+      pageButtons.forEach(btn => btn.classList.remove("is-seq-on", "is-active"));
     }
 
     function runTopToBottomSequence(){
@@ -1087,9 +1092,7 @@
       clearNavState();
 
       pageButtons.forEach((btn, index) => {
-        const timer = setTimeout(() => {
-          btn.classList.add("is-seq-on");
-        }, index * 95);
+        const timer = setTimeout(() => btn.classList.add("is-seq-on"), index * 95);
         timers.push(timer);
       });
     }
@@ -1099,9 +1102,7 @@
 
       if(mode === "idle" || mode === "open"){
         startLabel.textContent = "CONNECT";
-      }
-
-      if(mode === "connected"){
+      } else if(mode === "connected"){
         startLabel.textContent = "CONNECTED";
         startBtn.classList.add("is-seq-on", "is-connected");
       }
@@ -1122,10 +1123,7 @@
       setLockedState(false);
       setStartMode("connected");
       runTopToBottomSequence();
-
-      connectedCopy.textContent =
-        walletName + " connected. Navigation is now unlocked and you can move through the app modules.";
-
+      connectedCopy.textContent = `${walletName} connected. Navigation is now unlocked and you can move through the app modules.`;
       showPage("home");
       document.querySelector('.btn[data-page="home"]')?.classList.add("is-active");
     }
@@ -1169,7 +1167,6 @@
     pageButtons.forEach(btn => {
       btn.addEventListener("click", () => {
         if(!isConnected) return;
-
         pageButtons.forEach(item => item.classList.remove("is-active"));
         btn.classList.add("is-active");
         showPage(btn.dataset.page);
@@ -1177,4 +1174,4 @@
     });
   </script>
 </body>
-</html>
+                </html>
