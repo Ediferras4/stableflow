@@ -6578,18 +6578,16 @@
 <script>
 (() => {
   const APP = {
-    chainIdHex: "0x4CF672",
+    chainIdHex: "0x4cef52",
     chainId: 5042002,
     chainName: "Arc Testnet",
     nativeCurrency: {
       name: "USDC",
       symbol: "USDC",
-      decimals: 6
+      decimals: 18
     },
     rpcUrls: ["https://rpc.testnet.arc.network"],
     blockExplorerUrls: ["https://testnet.arcscan.app"],
-
-    walletAddress: "0x584b3BFa665Ba812Aa2252D9Ff38a3B678D41d7E",
 
     tokens: {
       LMTV: {
@@ -6660,6 +6658,8 @@
     provider: null,
     signer: null,
     readProvider: null,
+    injectedProvider: null,
+    boundProvider: null,
     userAddress: "",
     walletName: "",
     walletConnected: false,
@@ -6771,7 +6771,6 @@
   const swapSlipInput = document.getElementById("swapSlipInput");
   const swapSlipInputWrap = document.getElementById("swapSlipInputWrap");
   const swapStatSlippage = document.getElementById("swapStatSlippage");
-  const swapSlipExpand = document.getElementById("swapSlipExpand");
   const swapSlipOptions = [...document.querySelectorAll(".swap-slip-option")];
 
   const spAssetUsdc = document.getElementById("spAssetUsdc");
@@ -7074,12 +7073,6 @@
     syncUiLocks();
   }
 
-  function ensureWallet(){
-    if(state.walletConnected) return true;
-    openWalletSheet();
-    return false;
-  }
-
   function tokenMeta(symbol){
     return APP.tokens[symbol];
   }
@@ -7095,22 +7088,69 @@
     `;
   }
 
-  async function ensureArcNetwork(){
-    if(!window.ethereum) return false;
+  function matchProvider(provider, walletName){
+    if(!provider) return false;
+    const name = String(walletName || "").toLowerCase();
+
+    if(name.includes("metamask")) return !!provider.isMetaMask;
+    if(name.includes("rabby")) return !!provider.isRabby;
+    if(name.includes("okx")) return !!provider.isOkxWallet || !!provider.isOKExWallet;
+    if(name.includes("base")) return !!provider.isCoinbaseWallet;
+
+    return false;
+  }
+
+  function getInjectedProvider(walletName){
+    const eth = window.ethereum;
+    if(!eth) return null;
+
+    const providers = Array.isArray(eth.providers) && eth.providers.length
+      ? eth.providers
+      : [eth];
+
+    return providers.find(p => matchProvider(p, walletName)) || providers[0] || eth;
+  }
+
+  function setStatusOffline(text = "OFFLINE"){
+    state.walletConnected = false;
+    state.userAddress = "";
+    state.walletName = "";
+    state.provider = null;
+    state.signer = null;
+    state.injectedProvider = null;
+
+    state.balances.LMTV = null;
+    state.balances.USDC = null;
+    state.balances.EURC = null;
+
+    openWalletMain.textContent = "Connect";
+    openWalletMain.classList.remove("connected");
+
+    walletIdText.textContent = "Wallet not connected";
+    walletRibbon.classList.remove("connected");
+
+    statusPill.textContent = text;
+    statusPill.classList.remove("connected");
+
+    moreMiniWallet.textContent = "Off";
+  }
+
+  async function ensureArcNetwork(injected){
+    if(!injected || typeof injected.request !== "function") return false;
 
     try{
-      const chainId = await window.ethereum.request({ method: "eth_chainId" });
-      if(chainId === APP.chainIdHex) return true;
+      const chainId = await injected.request({ method: "eth_chainId" });
+      if(String(chainId).toLowerCase() === APP.chainIdHex.toLowerCase()) return true;
 
       try{
-        await window.ethereum.request({
+        await injected.request({
           method: "wallet_switchEthereumChain",
           params: [{ chainId: APP.chainIdHex }]
         });
         return true;
       }catch(switchError){
         if(switchError && switchError.code === 4902){
-          await window.ethereum.request({
+          await injected.request({
             method: "wallet_addEthereumChain",
             params: [{
               chainId: APP.chainIdHex,
@@ -7120,6 +7160,12 @@
               blockExplorerUrls: APP.blockExplorerUrls
             }]
           });
+
+          await injected.request({
+            method: "wallet_switchEthereumChain",
+            params: [{ chainId: APP.chainIdHex }]
+          });
+
           return true;
         }
         throw switchError;
@@ -7130,26 +7176,55 @@
     }
   }
 
+  function unbindProviderEvents(){
+    if(!state.boundProvider || typeof state.boundProvider.removeListener !== "function") return;
+    state.boundProvider.removeListener("accountsChanged", handleAccountsChanged);
+    state.boundProvider.removeListener("chainChanged", handleChainChanged);
+    state.boundProvider = null;
+  }
+
+  function bindProviderEvents(provider){
+    unbindProviderEvents();
+    if(!provider || typeof provider.on !== "function") return;
+    provider.on("accountsChanged", handleAccountsChanged);
+    provider.on("chainChanged", handleChainChanged);
+    state.boundProvider = provider;
+  }
+
   async function connectInjectedWallet(walletName){
-    if(!window.ethereum){
+    const injected = getInjectedProvider(walletName);
+
+    if(!injected){
       statusPill.textContent = "NO WALLET";
+      gpStatusText.textContent = "Open the page inside a wallet browser or use a browser with wallet extension.";
+      pushLog("No injected wallet found in this browser.", "info");
       return;
     }
 
     try{
-      const ok = await ensureArcNetwork();
+      const ok = await ensureArcNetwork(injected);
       if(!ok){
         statusPill.textContent = "NETWORK";
+        gpStatusText.textContent = "Could not switch to Arc Testnet.";
         return;
       }
 
-      await window.ethereum.request({ method: "eth_requestAccounts" });
+      const accounts = await injected.request({ method: "eth_requestAccounts" });
+      const userAddress = accounts && accounts[0] ? accounts[0] : "";
 
-      state.provider = new ethers.providers.Web3Provider(window.ethereum, "any");
+      if(!userAddress){
+        statusPill.textContent = "NO ACCOUNT";
+        return;
+      }
+
+      state.injectedProvider = injected;
+      state.provider = new ethers.providers.Web3Provider(injected, "any");
       state.signer = state.provider.getSigner();
-      state.userAddress = await state.signer.getAddress();
+      state.userAddress = userAddress;
       state.walletName = walletName;
       state.walletConnected = true;
+
+      bindProviderEvents(injected);
 
       openWalletMain.textContent = shortWallet(state.userAddress);
       openWalletMain.classList.add("connected");
@@ -7162,22 +7237,26 @@
 
       moreMiniWallet.textContent = "On";
       closeSheets();
+
       await refreshAllOnchainData();
       pushLog(`Wallet connected via ${walletName}`, "success");
       renderEverything();
     }catch(error){
       console.error("Wallet connect error:", error);
       statusPill.textContent = "ERROR";
+      gpStatusText.textContent = "Wallet connection failed.";
     }
   }
 
   function getReadProvider(){
     if(state.provider) return state.provider;
     if(state.readProvider) return state.readProvider;
+
     state.readProvider = new ethers.providers.JsonRpcProvider(APP.rpcUrls[0], {
       name: APP.chainName,
       chainId: APP.chainId
     });
+
     return state.readProvider;
   }
 
@@ -7190,20 +7269,27 @@
     }
 
     const provider = getReadProvider();
-
     const lmtv = new ethers.Contract(APP.tokens.LMTV.address, ERC20_ABI, provider);
     const usdc = new ethers.Contract(APP.tokens.USDC.address, ERC20_ABI, provider);
     const eurc = new ethers.Contract(APP.tokens.EURC.address, ERC20_ABI, provider);
 
-    const [lmtvBal, usdcBal, eurcBal] = await Promise.all([
+    const results = await Promise.allSettled([
       lmtv.balanceOf(state.userAddress),
       usdc.balanceOf(state.userAddress),
       eurc.balanceOf(state.userAddress)
     ]);
 
-    state.balances.LMTV = formatUnitsSafe(lmtvBal, APP.tokens.LMTV.decimals);
-    state.balances.USDC = formatUnitsSafe(usdcBal, APP.tokens.USDC.decimals);
-    state.balances.EURC = formatUnitsSafe(eurcBal, APP.tokens.EURC.decimals);
+    state.balances.LMTV = results[0].status === "fulfilled"
+      ? formatUnitsSafe(results[0].value, APP.tokens.LMTV.decimals)
+      : null;
+
+    state.balances.USDC = results[1].status === "fulfilled"
+      ? formatUnitsSafe(results[1].value, APP.tokens.USDC.decimals)
+      : null;
+
+    state.balances.EURC = results[2].status === "fulfilled"
+      ? formatUnitsSafe(results[2].value, APP.tokens.EURC.decimals)
+      : null;
   }
 
   async function readPairData(pairKey){
@@ -7222,21 +7308,19 @@
     const outToken = APP.tokens[pairConf.tokenOut];
 
     const token0Lower = String(token0).toLowerCase();
+    const token1Lower = String(token1).toLowerCase();
     const inLower = inToken.address.toLowerCase();
     const outLower = outToken.address.toLowerCase();
 
-    let reserveIn;
-    let reserveOut;
+    let reserveIn = 0;
+    let reserveOut = 0;
 
-    if(token0Lower === inLower){
+    if(token0Lower === inLower && token1Lower === outLower){
       reserveIn = formatUnitsSafe(reserve0, inToken.decimals);
       reserveOut = formatUnitsSafe(reserve1, outToken.decimals);
-    }else if(token0Lower === outLower){
+    } else if(token0Lower === outLower && token1Lower === inLower){
       reserveIn = formatUnitsSafe(reserve1, inToken.decimals);
       reserveOut = formatUnitsSafe(reserve0, outToken.decimals);
-    }else{
-      reserveIn = 0;
-      reserveOut = 0;
     }
 
     const rate = reserveIn > 0 ? (reserveOut / reserveIn) : 0;
@@ -7250,17 +7334,23 @@
   }
 
   async function refreshAllOnchainData(){
-    try{
-      await Promise.all([
-        state.userAddress ? readBalances() : Promise.resolve(),
-        readPairData("LMTV_USDC"),
-        readPairData("LMTV_EURC")
-      ]);
-      state.activity.live = true;
-    }catch(error){
-      console.error("Onchain refresh error:", error);
-      state.activity.live = false;
+    const tasks = [
+      readPairData("LMTV_USDC"),
+      readPairData("LMTV_EURC")
+    ];
+
+    if(state.userAddress){
+      tasks.push(readBalances());
     }
+
+    const results = await Promise.allSettled(tasks);
+    state.activity.live = results.some(r => r.status === "fulfilled");
+
+    results.forEach(r => {
+      if(r.status === "rejected"){
+        console.error("Onchain refresh item failed:", r.reason);
+      }
+    });
   }
 
   function getPairKeyForStable(stable){
@@ -7839,6 +7929,9 @@
 
   function renderMore(){
     const quotaLeft = Math.max(0, APP.demo.maxRequestsPerDay - state.getPaid.requestsToday);
+    const poolCount =
+      (state.pairData.LMTV_USDC.ready ? 1 : 0) +
+      (state.pairData.LMTV_EURC.ready ? 1 : 0);
 
     moreOverviewChip.textContent = state.walletConnected ? "Live" : "Offline";
     moreMetricRequests.textContent = String(state.getPaid.requests.length);
@@ -7847,7 +7940,7 @@
     moreSettlementDecimals.textContent = `${APP.tokens[state.getPaid.asset].decimals} dec`;
     moreDeliveryState.textContent = state.getPaid.requestLink ? "Prepared" : "Ready";
     moreQuoteBadge.textContent = state.activity.live ? "Onchain" : "Waiting";
-    morePairState.textContent = `${state.pairData.LMTV_USDC.ready ? 1 : 0 + state.pairData.LMTV_EURC.ready ? 1 : 0} pools`;
+    morePairState.textContent = `${poolCount} pools`;
     moreMiniUsdc.textContent = state.pairData.LMTV_USDC.ready ? "Ready" : "Wait";
     moreMiniEurc.textContent = state.pairData.LMTV_EURC.ready ? "Ready" : "Wait";
     moreMiniWallet.textContent = state.walletConnected ? "On" : "Off";
@@ -8114,6 +8207,7 @@
     activityCalloutGroup.appendChild(text);
 
     if(state.activity.orbFrame) cancelAnimationFrame(state.activity.orbFrame);
+
     const pathLen = activityLinePath.getTotalLength();
     const start = performance.now();
 
@@ -8124,6 +8218,7 @@
       activityMoveOrb.setAttribute("cy", point.y);
       state.activity.orbFrame = requestAnimationFrame(moveOrb);
     }
+
     state.activity.orbFrame = requestAnimationFrame(moveOrb);
   }
 
@@ -8142,6 +8237,7 @@
   function startActivityCycle(){
     if(state.activity.interval) clearInterval(state.activity.interval);
     if(!state.activity.autoCycle) return;
+
     const order = ["volume", "requests", "stable"];
     state.activity.interval = setInterval(() => {
       const currentIndex = order.indexOf(state.activity.mode);
@@ -8283,6 +8379,31 @@
     if(payPanel.classList.contains("show")) return setNavActive("pay");
     if(getPaidPanel.classList.contains("show")) return setNavActive("getpaid");
     setNavActive("home");
+  }
+
+  async function handleAccountsChanged(accounts){
+    if(!accounts || !accounts.length){
+      setStatusOffline("OFFLINE");
+      renderEverything();
+      return;
+    }
+
+    state.userAddress = accounts[0];
+    state.walletConnected = true;
+    openWalletMain.textContent = shortWallet(state.userAddress);
+    openWalletMain.classList.add("connected");
+
+    walletIdText.textContent = shortWallet(state.userAddress);
+    walletRibbon.classList.add("connected");
+
+    await refreshAllOnchainData();
+    renderEverything();
+  }
+
+  async function handleChainChanged(){
+    if(!state.walletConnected) return;
+    await refreshAllOnchainData();
+    renderEverything();
   }
 
   openWalletMain.addEventListener("click", openWalletSheet);
@@ -8566,32 +8687,6 @@
   }, { passive: true });
   profileStage.addEventListener("touchend", resetProfileCard);
 
-  if(window.ethereum){
-    window.ethereum.on("accountsChanged", async (accounts) => {
-      if(!accounts || !accounts.length){
-        state.walletConnected = false;
-        state.userAddress = "";
-        state.walletName = "";
-        state.balances.LMTV = null;
-        state.balances.USDC = null;
-        state.balances.EURC = null;
-        renderEverything();
-        return;
-      }
-      state.userAddress = accounts[0];
-      state.walletConnected = true;
-      await refreshAllOnchainData();
-      renderEverything();
-    });
-
-    window.ethereum.on("chainChanged", async () => {
-      if(state.walletConnected){
-        await refreshAllOnchainData();
-        renderEverything();
-      }
-    });
-  }
-
   loadRequestCounters();
   syncGetPaidWallet();
   setGetPaidAsset("USDC");
@@ -8601,12 +8696,13 @@
   syncUiLocks();
   startActivityCycle();
 
-  refreshAllOnchainData().then(() => {
-    renderEverything();
-  }).catch(() => {
-    renderEverything();
-  });
+  refreshAllOnchainData()
+    .then(renderEverything)
+    .catch((error) => {
+      console.error("Initial refresh failed:", error);
+      renderEverything();
+    });
 })();
-</script>
+  </script>  
 </body>
   </html>
