@@ -165,6 +165,65 @@
       margin:0 auto;
     }
 
+    .swap-page,
+    .pay-page{
+      background:
+        linear-gradient(180deg,rgba(126,149,170,.11) 0%,rgba(88,109,128,.12) 36%,rgba(51,66,80,.12) 100%);
+    }
+
+    .page-stage{
+      position:relative;
+      padding:11px;
+      border-radius:28px;
+      background:
+        radial-gradient(circle at 12% 0%,rgba(156,198,234,.12) 0%,transparent 22%),
+        radial-gradient(circle at 90% 8%,rgba(239,173,99,.06) 0%,transparent 18%),
+        linear-gradient(180deg,#24303a 0%,#1b2630 42%,#141c24 100%);
+      border:1px solid rgba(76,99,122,.38);
+      box-shadow:
+        inset 0 1px 0 rgba(255,255,255,.06),
+        inset 0 0 0 1px rgba(255,255,255,.018),
+        0 16px 30px rgba(0,0,0,.16);
+      overflow:hidden;
+    }
+    .page-stage::before{
+      content:"";
+      position:absolute;inset:0;
+      background:linear-gradient(180deg,rgba(255,255,255,.025) 0%,transparent 26%,transparent 100%);
+      pointer-events:none;
+    }
+    .page-stage::after{
+      content:"";
+      position:absolute;
+      inset:6px;
+      border-radius:22px;
+      border:1px solid rgba(122,150,177,.16);
+      pointer-events:none;
+    }
+
+    .swap-stage .section-head,
+    .pay-stage .section-head{
+      position:relative;
+      z-index:2;
+      padding:2px 2px 0;
+    }
+    .swap-stage .eyebrow,
+    .pay-stage .eyebrow{
+      color:#ddb36a;
+    }
+    .swap-stage .hero-title,
+    .pay-stage .hero-title{
+      color:#b9c7d5;
+    }
+    .swap-stage .hero-title strong,
+    .pay-stage .hero-title strong{
+      color:#f4f8ff;
+    }
+    .swap-stage .hero-title em,
+    .pay-stage .hero-title em{
+      color:#e0b46b;
+    }
+
     .cover{
       position:absolute;inset:0;z-index:10;overflow:hidden;
       background:
@@ -274,6 +333,22 @@
     }
     .module::after{
       content:"";position:absolute;inset:5px;border-radius:17px;border:1px solid rgba(16,31,48,.65);pointer-events:none
+    }
+
+    .module.swap-card,
+    .module.pay-card{
+      background:
+        radial-gradient(circle at top,rgba(143,213,255,.048) 0%,transparent 22%),
+        linear-gradient(180deg,#0a141f 0%,#08111b 58%,#060e17 100%);
+      border-color:rgba(38,61,84,.96);
+      box-shadow:
+        inset 0 0 0 1px rgba(255,255,255,.016),
+        0 10px 22px rgba(0,0,0,.12),
+        0 0 0 1px rgba(10,18,28,.32);
+    }
+    .module.swap-card::after,
+    .module.pay-card::after{
+      border:1px solid rgba(45,73,101,.44);
     }
 
     .module-row{display:flex;align-items:center;justify-content:space-between;gap:8px}
@@ -411,8 +486,23 @@
       min-width:46px;height:30px;padding:0 10px;display:grid;place-items:center;font-weight:900;font-size:12px;cursor:pointer
     }
 
-    .swap-main-row{display:flex;align-items:stretch;gap:7px}
-    .token-box{width:39%;min-height:68px;padding:9px 10px;display:flex;align-items:center}
+    .swap-main-row{
+      display:grid;
+      grid-template-columns:minmax(0,.96fr) minmax(0,1.04fr);
+      align-items:stretch;
+      gap:8px
+    }
+    .swap-pane .token-box,
+    .swap-pane .input-box{
+      min-height:72px;
+      border-radius:20px;
+    }
+    .token-box{
+      width:auto;
+      padding:10px 11px;
+      display:flex;
+      align-items:center
+    }
     .token-line{display:flex;align-items:center;gap:8px;width:100%}
     .token-badge{
       width:34px;height:34px;border-radius:50%;display:grid;place-items:center;overflow:hidden;flex:0 0 auto;
@@ -420,14 +510,21 @@
     }
     .token-badge img{width:100%;height:100%;object-fit:cover;display:block}
     .token-name{font-size:14px;font-weight:900}
+    .swap-pane .token-name{font-size:15px}
     .token-arrow{font-size:15px;color:#dfeaff;margin-left:auto}
-    .input-box{flex:1;min-height:68px;padding:9px 10px;display:flex;flex-direction:column;justify-content:space-between;position:relative}
+    .swap-pane .token-arrow{display:none}
+    .input-box{
+      flex:1;
+      min-height:72px;
+      padding:10px 11px;
+      display:flex;flex-direction:column;justify-content:space-between;position:relative
+    }
     .amount-input{
-      width:100%;background:none;border:none;outline:none;color:#f8fbff;text-align:right;font-size:31px;font-weight:900;line-height:1
+      width:100%;background:none;border:none;outline:none;color:#f8fbff;text-align:right;font-size:32px;font-weight:900;line-height:1
     }
     .amount-input::placeholder{color:#314155}
     .input-box.empty-caret::after{
-      content:"";position:absolute;right:10px;top:16px;width:3px;height:34px;border-radius:999px;background:linear-gradient(180deg,#ffb25d 0%,#ff8a1e 100%);
+      content:"";position:absolute;right:11px;top:18px;width:3px;height:34px;border-radius:999px;background:linear-gradient(180deg,#ffb25d 0%,#ff8a1e 100%);
       box-shadow:0 0 10px rgba(255,138,30,.16);animation:blinkCaret 1s infinite
     }
     @keyframes blinkCaret{0%,45%{opacity:1}50%,100%{opacity:.16}}
@@ -631,6 +728,8 @@
     @media (max-width:520px){
       .page{padding:4px 2px 9px}
       .page-scroll{width:calc(100% - 1px)}
+      .page-stage{padding:9px;border-radius:24px}
+      .page-stage::after{inset:5px;border-radius:19px}
       .module{padding:7px;border-radius:20px}
       .module::after{inset:4px;border-radius:15px}
       .swap-pane-head{
@@ -641,9 +740,15 @@
         width:100%;
         justify-content:space-between;
       }
-      .swap-main-row{gap:6px}
-      .token-box{width:40%}
-      .amount-input{font-size:30px}
+      .swap-main-row{
+        grid-template-columns:minmax(0,.95fr) minmax(0,1.05fr);
+        gap:7px
+      }
+      .swap-pane .token-box,
+      .swap-pane .input-box{
+        min-height:70px
+      }
+      .amount-input{font-size:31px}
       .swap-stats{padding-top:8px}
       .pay-title-line{gap:7px}
       .pay-metrics{grid-template-columns:1fr 52px 1fr}
@@ -653,6 +758,7 @@
     @media (min-width:760px){
       .page{padding:8px 6px 14px}
       .page-scroll{width:min(1020px,calc(100% - 4px))}
+      .page-stage{padding:14px}
       .pay-title-line{flex-direction:row;align-items:flex-start;justify-content:space-between}
       .note-toggle{justify-content:flex-end}
       .hero-title{font-size:12px}
@@ -795,210 +901,214 @@
           </div>
         </section>
 
-        <section class="page" data-view="swap">
+        <section class="page swap-page" data-view="swap">
           <div class="page-scroll">
-            <div class="section-head swap-top-copy">
-              <div class="eyebrow">Swap demo</div>
-              <div class="hero-title">
-                <strong>You can swap <em>USDC ⇄ LMTV</em> here for test flows inside the dapp.</strong><br>
-                Demo limit: <strong>up to 10 dollars per swap</strong> and <strong>5 swaps per day</strong>. You can test both <em>USDC → LMTV</em> and <em>LMTV → USDC</em>.
-              </div>
-            </div>
-
-            <div class="module swap-card">
-              <div class="slippage-shell">
-                <div class="slippage-pill" id="swapSlippagePill">
-                  <div class="slippage-orb"></div>
-                  <div class="slippage-text" id="swapSlippageText">Slippage 0.5%</div>
-                  <div class="slippage-controls">
-                    <button class="slip-btn" type="button" id="swapSlipDown">−</button>
-                    <input class="slip-input" id="swapSlipInput" value="0.5" />
-                    <button class="slip-btn" type="button" id="swapSlipUp">+</button>
-                  </div>
+            <div class="page-stage swap-stage">
+              <div class="section-head swap-top-copy">
+                <div class="eyebrow">Swap demo</div>
+                <div class="hero-title">
+                  <strong>You can swap <em>USDC ⇄ LMTV</em> here for test flows inside the dapp.</strong><br>
+                  Demo limit: <strong>up to 10 dollars per swap</strong> and <strong>5 swaps per day</strong>. You can test both <em>USDC → LMTV</em> and <em>LMTV → USDC</em>.
                 </div>
               </div>
 
-              <div class="swap-layout">
-                <div class="swap-pane">
-                  <div class="swap-pane-head">
-                    <div class="field-mid">From</div>
-                    <div class="module-row wrap">
-                      <div class="quick-row" id="swapQuickRow">
-                        <button class="pill-btn" data-pct="25" type="button">25%</button>
-                        <button class="pill-btn" data-pct="50" type="button">50%</button>
-                        <button class="pill-btn" data-pct="100" type="button">MAX</button>
-                      </div>
-                      <div class="field-mid" id="swapFromBalance">Balance 0.00</div>
-                    </div>
-                  </div>
-
-                  <div class="swap-main-row">
-                    <div class="token-box">
-                      <div class="token-line">
-                        <div class="token-badge" id="swapFromBadge"><img src="lmtv.png" alt="LMTV"></div>
-                        <div class="token-name" id="swapFromTokenName">LMTV</div>
-                        <div class="token-arrow">▼</div>
-                      </div>
-                    </div>
-
-                    <div class="input-box empty-caret" id="swapAmountWrap">
-                      <div class="field-caption">AMOUNT</div>
-                      <input id="swapAmountInput" class="amount-input" inputmode="decimal" placeholder="0" />
+              <div class="module swap-card">
+                <div class="slippage-shell">
+                  <div class="slippage-pill" id="swapSlippagePill">
+                    <div class="slippage-orb"></div>
+                    <div class="slippage-text" id="swapSlippageText">Slippage 0.5%</div>
+                    <div class="slippage-controls">
+                      <button class="slip-btn" type="button" id="swapSlipDown">−</button>
+                      <input class="slip-input" id="swapSlipInput" value="0.5" />
+                      <button class="slip-btn" type="button" id="swapSlipUp">+</button>
                     </div>
                   </div>
                 </div>
 
-                <div class="flip-shell">
-                  <button class="flip-btn" id="swapFlipBtn" type="button">⇅</button>
-                </div>
-
-                <div class="swap-pane">
-                  <div class="swap-pane-head">
-                    <div class="field-mid">To</div>
-                    <div class="field-mid" id="swapToBalance">Balance 0.00</div>
-                  </div>
-
-                  <div class="swap-main-row">
-                    <div class="token-box">
-                      <div class="token-line">
-                        <div class="token-badge" id="swapToBadge"><img src="usdc.png" alt="USDC"></div>
-                        <div class="token-name" id="swapToTokenName">USDC</div>
-                        <div class="token-arrow">▼</div>
+                <div class="swap-layout">
+                  <div class="swap-pane">
+                    <div class="swap-pane-head">
+                      <div class="field-mid">From</div>
+                      <div class="module-row wrap">
+                        <div class="quick-row" id="swapQuickRow">
+                          <button class="pill-btn" data-pct="25" type="button">25%</button>
+                          <button class="pill-btn" data-pct="50" type="button">50%</button>
+                          <button class="pill-btn" data-pct="100" type="button">MAX</button>
+                        </div>
+                        <div class="field-mid" id="swapFromBalance">Balance 0.00</div>
                       </div>
                     </div>
 
-                    <div class="input-box">
-                      <div class="field-caption">QUOTE</div>
-                      <div class="field-big" id="swapQuoteValue">0.0000</div>
+                    <div class="swap-main-row">
+                      <div class="token-box">
+                        <div class="token-line">
+                          <div class="token-badge" id="swapFromBadge"><img src="lmtv.png" alt="LMTV"></div>
+                          <div class="token-name" id="swapFromTokenName">LMTV</div>
+                          <div class="token-arrow">▼</div>
+                        </div>
+                      </div>
+
+                      <div class="input-box empty-caret" id="swapAmountWrap">
+                        <div class="field-caption">AMOUNT</div>
+                        <input id="swapAmountInput" class="amount-input" inputmode="decimal" placeholder="0" />
+                      </div>
                     </div>
                   </div>
-                </div>
 
-                <div class="swap-stats">
-                  <div class="left">Rate</div><div class="right" id="swapRateText">—</div>
-                  <div class="left">Network fee</div><div class="right" id="swapFeeText">—</div>
-                  <div class="left">Slippage</div><div class="right" id="swapSlipSummary">0.50%</div>
-                  <div class="left">Daily swaps left</div><div class="right" id="swapDailyText">5</div>
-                </div>
+                  <div class="flip-shell">
+                    <button class="flip-btn" id="swapFlipBtn" type="button">⇅</button>
+                  </div>
 
-                <div class="swap-alert" id="swapAlert">
-                  Connect your wallet to load balances and test the demo swap on Arc Testnet.
-                </div>
+                  <div class="swap-pane">
+                    <div class="swap-pane-head">
+                      <div class="field-mid">To</div>
+                      <div class="field-mid" id="swapToBalance">Balance 0.00</div>
+                    </div>
 
-                <button class="primary-btn" id="swapActionBtn" type="button" disabled>Swap tokens</button>
+                    <div class="swap-main-row">
+                      <div class="token-box">
+                        <div class="token-line">
+                          <div class="token-badge" id="swapToBadge"><img src="usdc.png" alt="USDC"></div>
+                          <div class="token-name" id="swapToTokenName">USDC</div>
+                          <div class="token-arrow">▼</div>
+                        </div>
+                      </div>
+
+                      <div class="input-box">
+                        <div class="field-caption">QUOTE</div>
+                        <div class="field-big" id="swapQuoteValue">0.0000</div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="swap-stats">
+                    <div class="left">Rate</div><div class="right" id="swapRateText">—</div>
+                    <div class="left">Network fee</div><div class="right" id="swapFeeText">—</div>
+                    <div class="left">Slippage</div><div class="right" id="swapSlipSummary">0.50%</div>
+                    <div class="left">Daily swaps left</div><div class="right" id="swapDailyText">5</div>
+                  </div>
+
+                  <div class="swap-alert" id="swapAlert">
+                    Connect your wallet to load balances and test the demo swap on Arc Testnet.
+                  </div>
+
+                  <button class="primary-btn" id="swapActionBtn" type="button" disabled>Swap tokens</button>
+                </div>
               </div>
             </div>
           </div>
         </section>
 
-        <section class="page" data-view="pay">
+        <section class="page pay-page" data-view="pay">
           <div class="page-scroll">
-            <div class="section-head pay-top-copy">
-              <div class="eyebrow">Swap & Pay</div>
-              <div class="hero-title">
-                <strong>Pay with tokens and let the receiver get stability.</strong><br>
-                In this demo you pay with <em>LMTV</em>. The recipient can receive <em>USDC</em> or <em>EURC</em> on Arc Testnet.
-              </div>
-            </div>
-
-            <div class="module pay-card">
-              <div class="pay-title-line">
-                <div class="pay-card-head">
-                  <div class="eyebrow" style="margin-bottom:3px;">Swap & Pay</div>
-                  <div class="field-mid" style="font-size:14px;color:#b8c6db;">Pay with tokens</div>
-                </div>
-                <div class="note-toggle">
-                  <span id="payNoteLabel">Hide note</span>
-                  <button class="toggle-switch" id="payHideNoteToggle" type="button"><span class="toggle-ball"></span></button>
+            <div class="page-stage pay-stage">
+              <div class="section-head pay-top-copy">
+                <div class="eyebrow">Swap & Pay</div>
+                <div class="hero-title">
+                  <strong>Pay with tokens and let the receiver get stability.</strong><br>
+                  In this demo you pay with <em>LMTV</em>. The recipient can receive <em>USDC</em> or <em>EURC</em> on Arc Testnet.
                 </div>
               </div>
 
-              <div class="pay-grid">
-                <div class="recipient-row">
-                  <button class="qr-btn" id="payScanBtn" type="button" aria-label="Scan QR">
-                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
-                      <path d="M4 4h6v6H4z"/><path d="M14 4h6v6h-6z"/><path d="M4 14h6v6H4z"/><path d="M15 15h1"/><path d="M19 15h1"/><path d="M15 19h1"/><path d="M17 17h1"/><path d="M19 19h1"/>
-                    </svg>
-                  </button>
-
-                  <div class="recipient-input-shell empty" id="payRecipientWrap">
-                    <input class="recipient-input" id="payRecipientInput" placeholder="Recipient wallet" />
+              <div class="module pay-card">
+                <div class="pay-title-line">
+                  <div class="pay-card-head">
+                    <div class="eyebrow" style="margin-bottom:3px;">Swap & Pay</div>
+                    <div class="field-mid" style="font-size:14px;color:#b8c6db;">Pay with tokens</div>
+                  </div>
+                  <div class="note-toggle">
+                    <span id="payNoteLabel">Hide note</span>
+                    <button class="toggle-switch" id="payHideNoteToggle" type="button"><span class="toggle-ball"></span></button>
                   </div>
                 </div>
 
-                <div class="amount-stable-row">
-                  <button class="select-chip active" data-stable="USDC" type="button">USDC</button>
+                <div class="pay-grid">
+                  <div class="recipient-row">
+                    <button class="qr-btn" id="payScanBtn" type="button" aria-label="Scan QR">
+                      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M4 4h6v6H4z"/><path d="M14 4h6v6h-6z"/><path d="M4 14h6v6H4z"/><path d="M15 15h1"/><path d="M19 15h1"/><path d="M15 19h1"/><path d="M17 17h1"/><path d="M19 19h1"/>
+                      </svg>
+                    </button>
 
-                  <div class="amount-center-wrap empty" id="payAmountWrap">
-                    <div class="center-amount">
-                      <div class="amount-center-caption">AMOUNT</div>
-                      <input class="amount-center-input" id="payAmountInput" inputmode="decimal" placeholder="0" />
+                    <div class="recipient-input-shell empty" id="payRecipientWrap">
+                      <input class="recipient-input" id="payRecipientInput" placeholder="Recipient wallet" />
                     </div>
                   </div>
 
-                  <button class="select-chip" data-stable="EURC" type="button">EURC</button>
-                </div>
+                  <div class="amount-stable-row">
+                    <button class="select-chip active" data-stable="USDC" type="button">USDC</button>
 
-                <div class="you-pay-row">
-                  <div class="metric-kicker">YOU PAY</div>
-                  <div class="you-pay-chip">
-                    <span class="coin" id="payCoinWrap"><img src="lmtv.png" alt="LMTV"></span>
-                    LMTV
-                  </div>
-                </div>
+                    <div class="amount-center-wrap empty" id="payAmountWrap">
+                      <div class="center-amount">
+                        <div class="amount-center-caption">AMOUNT</div>
+                        <input class="amount-center-input" id="payAmountInput" inputmode="decimal" placeholder="0" />
+                      </div>
+                    </div>
 
-                <div class="note-box" id="payNoteBox" style="display:none;">
-                  <span class="note-icon">✎</span>
-                  <input id="payNoteInput" placeholder="Add note" />
-                </div>
-
-                <div class="pay-metrics">
-                  <div class="preview-metric">
-                    <div class="metric-kicker">LMTV</div>
-                    <div class="metric-value" id="payYouSend">0.00</div>
-                    <div class="metric-sub">YOU SEND</div>
+                    <button class="select-chip" data-stable="EURC" type="button">EURC</button>
                   </div>
 
-                  <button class="pay-orb" id="payOrbBtn" type="button">⇄</button>
-
-                  <div class="preview-metric">
-                    <div class="metric-kicker" id="payReceiveTicker">USDC</div>
-                    <div class="metric-value" id="payReceiverGets">0.00</div>
-                    <div class="metric-sub">RECEIVER GETS</div>
-                  </div>
-                </div>
-
-                <div class="preview-panel" id="payPreviewPanel">
-                  <div class="preview-head">
-                    <div class="field-mid" style="font-size:15px;">Trade preview</div>
-                    <div class="preview-badge" id="payStepBadge">1/3</div>
-                  </div>
-
-                  <div class="step-card">
-                    <div class="step-ring" id="payStepRing">1</div>
-                    <div class="step-copy">
-                      <h4 id="payStepTitle">Approve LMTV</h4>
-                      <p id="payStepCopy">Allow the selected pool to spend your LMTV for this payment route.</p>
+                  <div class="you-pay-row">
+                    <div class="metric-kicker">YOU PAY</div>
+                    <div class="you-pay-chip">
+                      <span class="coin" id="payCoinWrap"><img src="lmtv.png" alt="LMTV"></span>
+                      LMTV
                     </div>
                   </div>
 
-                  <div class="route-big">
-                    <span class="from" id="payRouteFrom">0.00 LMTV</span>
-                    <span class="arrowx">→</span>
-                    <span class="to" id="payRouteTo">0.00 USDC</span>
+                  <div class="note-box" id="payNoteBox" style="display:none;">
+                    <span class="note-icon">✎</span>
+                    <input id="payNoteInput" placeholder="Add note" />
                   </div>
 
-                  <div class="preview-grid">
-                    <div class="item"><strong>Route</strong> • <span id="payRouteMini">LMTV → USDC</span></div>
-                    <div class="item"><strong>Slippage</strong> • <span id="paySlipMini">0.50%</span></div>
-                    <div class="item"><strong>Estimated fee</strong> • <span id="payFeeMini">—</span></div>
-                    <div class="item"><strong>Min received</strong> • <span id="payMinMini">—</span></div>
+                  <div class="pay-metrics">
+                    <div class="preview-metric">
+                      <div class="metric-kicker">LMTV</div>
+                      <div class="metric-value" id="payYouSend">0.00</div>
+                      <div class="metric-sub">YOU SEND</div>
+                    </div>
+
+                    <button class="pay-orb" id="payOrbBtn" type="button">⇄</button>
+
+                    <div class="preview-metric">
+                      <div class="metric-kicker" id="payReceiveTicker">USDC</div>
+                      <div class="metric-value" id="payReceiverGets">0.00</div>
+                      <div class="metric-sub">RECEIVER GETS</div>
+                    </div>
                   </div>
 
-                  <div class="preview-note" id="payNoteMini">Note: none</div>
+                  <div class="preview-panel" id="payPreviewPanel">
+                    <div class="preview-head">
+                      <div class="field-mid" style="font-size:15px;">Trade preview</div>
+                      <div class="preview-badge" id="payStepBadge">1/3</div>
+                    </div>
+
+                    <div class="step-card">
+                      <div class="step-ring" id="payStepRing">1</div>
+                      <div class="step-copy">
+                        <h4 id="payStepTitle">Approve LMTV</h4>
+                        <p id="payStepCopy">Allow the selected pool to spend your LMTV for this payment route.</p>
+                      </div>
+                    </div>
+
+                    <div class="route-big">
+                      <span class="from" id="payRouteFrom">0.00 LMTV</span>
+                      <span class="arrowx">→</span>
+                      <span class="to" id="payRouteTo">0.00 USDC</span>
+                    </div>
+
+                    <div class="preview-grid">
+                      <div class="item"><strong>Route</strong> • <span id="payRouteMini">LMTV → USDC</span></div>
+                      <div class="item"><strong>Slippage</strong> • <span id="paySlipMini">0.50%</span></div>
+                      <div class="item"><strong>Estimated fee</strong> • <span id="payFeeMini">—</span></div>
+                      <div class="item"><strong>Min received</strong> • <span id="payMinMini">—</span></div>
+                    </div>
+
+                    <div class="preview-note" id="payNoteMini">Note: none</div>
+                  </div>
+
+                  <button class="primary-btn" id="payActionBtn" type="button" disabled>Swap &amp; Pay</button>
                 </div>
-
-                <button class="primary-btn" id="payActionBtn" type="button" disabled>Swap &amp; Pay</button>
               </div>
             </div>
           </div>
@@ -1654,14 +1764,6 @@
       homeNetwork.textContent = state.chainId && isArcChain(state.chainId) ? 'Arc Testnet' : 'Arc Testnet';
     }
 
-    function setTokenBadge(el, tokenKey) {
-      el.innerHTML = `<img src="${TOKENS[tokenKey].icon}" alt="${tokenKey}">`;
-    }
-
-    function setPayCoin(tokenKey) {
-      payEls.payCoinWrap.innerHTML = `<img src="${TOKENS[tokenKey].icon}" alt="${tokenKey}">`;
-    }
-
     function renderSwap() {
       const fromToken = getSwapFromToken();
       const toToken = getSwapToToken();
@@ -2246,4 +2348,4 @@
     });
   </script>
 </body>
-  </html>
+              </html>
