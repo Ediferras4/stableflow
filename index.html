@@ -27,16 +27,16 @@
       --paper-3:#e8ecf0;
 
       --white:#f8f9fb;
-      --white-soft:rgba(248,249,251,.88);
+      --white-soft:rgba(248,249,251,.90);
 
-      --gray:#7d8590;
-      --gray-line:rgba(158,166,176,.50);
+      --gray:#8d949d;
+      --gray-line:rgba(176,183,192,.58);
 
       --blue:#93d6ff;
       --blue-line:#b4e6ff;
       --blue-soft:rgba(147,214,255,.09);
       --blue-soft-2:rgba(147,214,255,.035);
-      --blue-deep:#688aa1;
+      --blue-deep:#69879c;
 
       --amber:#efa55d;
       --amber-line:#f4bb84;
@@ -46,8 +46,9 @@
       --gold-soft:rgba(216,177,107,.085);
       --gold-mid:rgba(216,177,107,.28);
 
-      --ink:#10141a;
-      --ink-soft:#66707c;
+      --ink:#0f141a;
+      --ink-soft:#5f6873;
+      --ink-dim:#7a838e;
 
       --top-h:56px;
       --bottom-h:44px;
@@ -309,7 +310,7 @@
     .connect-kicker{
       font-size:10px;
       letter-spacing:.16em;
-      font-weight:800;
+      font-weight:900;
       color:var(--blue-deep);
       margin-bottom:8px;
     }
@@ -319,15 +320,16 @@
       line-height:1.18;
       font-weight:900;
       color:var(--ink);
-      margin-bottom:8px;
+      margin-bottom:10px;
       max-width:22ch;
     }
 
     .connect-copy{
-      font-size:clamp(12px, 1.5vw, 15px);
-      line-height:1.5;
+      font-size:clamp(13px, 1.5vw, 15px);
+      line-height:1.52;
       color:var(--ink-soft);
-      max-width:40ch;
+      max-width:41ch;
+      font-weight:500;
     }
 
     .wallet-list{
@@ -396,15 +398,15 @@
     }
 
     .wallet-name{
-      font-size:14px;
+      font-size:15px;
       font-weight:900;
-      color:var(--ink);
+      color:#12171d;
       letter-spacing:.01em;
     }
 
     .wallet-arrow{
-      color:#87919b;
-      font-size:16px;
+      color:#7e8791;
+      font-size:17px;
       line-height:1;
       padding-right:2px;
       font-weight:700;
@@ -432,7 +434,7 @@
       display:flex;
       align-items:center;
       justify-content:center;
-      color:#7b8794;
+      color:#707b87;
       transition:
         transform .18s var(--ease),
         border-color .22s var(--ease),
@@ -473,9 +475,9 @@
 
     .placeholder-kicker{
       font-size:10px;
-      font-weight:800;
+      font-weight:900;
       letter-spacing:.14em;
-      color:#6d8294;
+      color:#708392;
       margin-bottom:8px;
     }
 
@@ -491,6 +493,7 @@
       line-height:1.5;
       color:var(--ink-soft);
       max-width:34ch;
+      font-weight:500;
     }
 
     .cover{
@@ -579,6 +582,7 @@
       letter-spacing:.16em;
       color:rgba(216,177,107,.84);
       text-transform:uppercase;
+      font-weight:700;
     }
 
     .cover-brand::after{
@@ -774,6 +778,7 @@
 
     .btn.is-locked{
       cursor:default;
+      opacity:.96;
     }
 
     .sidebar-foot{
