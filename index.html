@@ -21,7 +21,6 @@
       --paper:#e8edf2;
       --paper-2:#e2e8ee;
       --paper-3:#dce4eb;
-      --paper-4:#d7e0e8;
 
       --white:#f8f9fb;
       --white-soft:rgba(248,249,251,.92);
@@ -32,7 +31,6 @@
       --blue:#8fd5ff;
       --blue-line:#b5e7ff;
       --blue-soft:rgba(143,213,255,.12);
-      --blue-soft-2:rgba(143,213,255,.05);
 
       --amber:#efad63;
       --amber-line:#f5c287;
@@ -70,8 +68,7 @@
     }
 
     .top-bar,.bottom-bar,.sidebar{
-      background:
-        linear-gradient(180deg,var(--shell-4) 0%,var(--shell-3) 42%,var(--shell-2) 76%,var(--shell) 100%);
+      background:linear-gradient(180deg,var(--shell-4) 0%,var(--shell-3) 42%,var(--shell-2) 76%,var(--shell) 100%);
     }
 
     .top-bar{
@@ -83,12 +80,6 @@
         inset 0 -1px 0 rgba(255,255,255,.012),
         inset 0 -18px 24px rgba(0,0,0,.24),
         0 6px 14px rgba(0,0,0,.055);
-    }
-    .top-bar::before{
-      content:"";
-      position:absolute;inset:0;
-      background:linear-gradient(180deg,rgba(255,255,255,.012) 0%,transparent 22%,transparent 100%);
-      pointer-events:none;
     }
     .top-bar::after{
       content:"";
@@ -105,8 +96,7 @@
       z-index:40;
       box-shadow:
         inset 0 1px 0 rgba(255,255,255,.012),
-        inset 0 18px 24px rgba(0,0,0,.22),
-        0 -4px 10px rgba(0,0,0,.05);
+        inset 0 18px 24px rgba(0,0,0,.22);
     }
     .bottom-bar::before{
       content:"";
@@ -114,13 +104,6 @@
       left:18px;right:18px;top:11px;height:1px;border-radius:999px;
       background:linear-gradient(90deg,transparent 0%,rgba(255,255,255,.012) 10%,rgba(255,255,255,.05) 50%,rgba(255,255,255,.012) 90%,transparent 100%);
       opacity:.65;
-    }
-    .bottom-bar::after{
-      content:"";
-      position:absolute;
-      left:0;right:0;top:0;height:14px;
-      background:linear-gradient(180deg,rgba(255,255,255,.02) 0%,transparent 100%);
-      opacity:.18;
     }
 
     .sidebar{
@@ -130,9 +113,7 @@
       left:0;
       width:var(--side-w);
       z-index:30;
-      box-shadow:
-        inset -1px 0 0 rgba(255,255,255,.02),
-        10px 0 18px rgba(0,0,0,.06);
+      box-shadow:inset -1px 0 0 rgba(255,255,255,.02),10px 0 18px rgba(0,0,0,.06);
     }
     .sidebar::before{
       content:"";
@@ -159,10 +140,6 @@
       background:
         radial-gradient(circle at top center,rgba(143,213,255,.03) 0%,transparent 20%),
         linear-gradient(180deg,rgba(255,255,255,.008) 0%,rgba(255,255,255,.003) 100%);
-      box-shadow:
-        inset 0 0 0 1px rgba(255,255,255,.01),
-        inset 0 -16px 22px rgba(0,0,0,.15),
-        inset -10px 0 18px rgba(143,213,255,.04);
     }
 
     .content{
@@ -192,15 +169,6 @@
           transparent 100%);
       opacity:.72;
     }
-    .content::after{
-      content:"";
-      position:absolute;
-      top:0;bottom:0;left:0;width:54px;
-      z-index:2;
-      pointer-events:none;
-      background:linear-gradient(90deg,rgba(255,255,255,.09) 0%,rgba(255,255,255,.03) 24%,rgba(216,177,107,.04) 52%,transparent 100%);
-      opacity:.38;
-    }
 
     .reveal{
       position:absolute;inset:0;
@@ -212,15 +180,6 @@
         inset 0 1px 0 rgba(255,255,255,.62),
         inset 0 0 0 1px rgba(72,92,113,.06);
     }
-    .reveal::before{
-      content:"";
-      position:absolute;inset:0;
-      pointer-events:none;
-      background:
-        linear-gradient(90deg,rgba(255,255,255,.09) 0%,transparent 30%),
-        linear-gradient(180deg,rgba(255,255,255,.05) 0%,transparent 14%,transparent 86%,rgba(0,0,0,.025) 100%);
-      opacity:.42;
-    }
     .reveal::after{
       content:"";
       position:absolute;
@@ -231,7 +190,12 @@
       pointer-events:none;
     }
 
-    .page-layer{position:absolute;inset:0;z-index:4;pointer-events:none}
+    .page-layer{
+      position:absolute;
+      inset:0;
+      z-index:4;
+      pointer-events:none;
+    }
     .page{
       position:absolute;
       inset:0;
@@ -242,71 +206,105 @@
       overflow:auto;
       pointer-events:none;
     }
-    .page.is-visible{opacity:1;visibility:visible;pointer-events:auto}
+    .page.is-visible{
+      opacity:1;
+      visibility:visible;
+      pointer-events:auto;
+    }
     .page-scroll{
       width:min(980px,calc(100% - 2px));
       margin:0 auto;
     }
 
     .cover{
-      position:absolute;inset:0;z-index:10;overflow:hidden;
+      position:absolute;
+      inset:0;
+      z-index:10;
+      overflow:hidden;
       background:
         radial-gradient(circle at 16% 40%,rgba(255,255,255,.018) 0%,transparent 17%),
         linear-gradient(180deg,var(--panel-3) 0%,var(--panel-2) 26%,var(--panel) 100%);
       transition:transform .76s cubic-bezier(.2,.72,.12,1);
-      box-shadow:
-        inset 1px 0 0 rgba(255,255,255,.028),
-        inset 0 1px 0 rgba(255,255,255,.016);
+      box-shadow:inset 1px 0 0 rgba(255,255,255,.028),inset 0 1px 0 rgba(255,255,255,.016);
     }
     .cover.slide{transform:translateX(100%)}
     .cover::before{
       content:"";
-      position:absolute;left:0;top:0;bottom:0;width:1px;background:rgba(255,255,255,.035);
-    }
-    .cover::after{
-      content:"";
-      position:absolute;inset:0;
-      background:linear-gradient(180deg,rgba(255,255,255,.008) 0%,transparent 18%,transparent 82%,rgba(255,255,255,.005) 100%);
-      pointer-events:none;
+      position:absolute;
+      left:0;top:0;bottom:0;width:1px;
+      background:rgba(255,255,255,.035);
     }
 
     .cover-content{
-      position:absolute;inset:0;
-      display:flex;align-items:flex-start;justify-content:flex-start;
+      position:absolute;
+      inset:0;
+      display:flex;
+      align-items:flex-start;
+      justify-content:flex-start;
       padding:16px 18px 18px 22px;
     }
     .cover-brand{
-      display:flex;align-items:center;gap:8px;padding-top:2px;position:relative;z-index:2;
+      display:flex;
+      align-items:center;
+      gap:8px;
+      padding-top:2px;
+      position:relative;
+      z-index:2;
     }
     .cover-brand img{
-      width:34px;height:34px;object-fit:contain;display:block;
+      width:34px;
+      height:34px;
+      object-fit:contain;
+      display:block;
       filter:drop-shadow(0 0 4px rgba(216,177,107,.07)) drop-shadow(0 0 8px rgba(216,177,107,.03));
     }
-    .cover-brand-text{display:flex;flex-direction:column;gap:3px;line-height:1}
+    .cover-brand-text{
+      display:flex;
+      flex-direction:column;
+      gap:3px;
+      line-height:1;
+    }
     .cover-brand-name{
-      font-size:17px;font-weight:900;letter-spacing:.07em;color:var(--white);text-transform:uppercase;text-shadow:0 0 6px rgba(255,255,255,.03);
+      font-size:17px;
+      font-weight:900;
+      letter-spacing:.07em;
+      color:var(--white);
+      text-transform:uppercase;
     }
     .cover-brand-sub{
-      font-size:8px;letter-spacing:.16em;color:rgba(216,177,107,.84);text-transform:uppercase;font-weight:700;
-    }
-    .cover-brand::after{
-      content:"";
-      position:absolute;
-      left:42px;width:132px;bottom:-10px;height:1px;
-      background:linear-gradient(90deg,rgba(216,177,107,.24) 0%,rgba(216,177,107,.06) 72%,transparent 100%);
+      font-size:8px;
+      letter-spacing:.16em;
+      color:rgba(216,177,107,.84);
+      text-transform:uppercase;
+      font-weight:700;
     }
 
     .btn-stack{
-      position:relative;z-index:4;width:100%;height:100%;
+      position:relative;
+      z-index:4;
+      width:100%;
+      height:100%;
       padding:18px 0 16px;
-      display:flex;flex-direction:column;align-items:center;gap:14px;
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      gap:14px;
     }
     .btn{
-      width:70px;min-height:46px;border:none;border-radius:16px;color:var(--gray);
+      width:70px;
+      min-height:46px;
+      border:none;
+      border-radius:16px;
+      color:var(--gray);
       background:
         radial-gradient(circle at 50% 0,rgba(255,255,255,.018) 0%,transparent 44%),
         linear-gradient(180deg,#0b0b0b 0%,#020202 100%);
-      display:flex;align-items:center;justify-content:center;cursor:pointer;position:relative;overflow:hidden;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      cursor:pointer;
+      position:relative;
+      overflow:hidden;
       transition:transform .18s var(--ease),box-shadow .22s var(--ease),color .22s var(--ease),background .22s var(--ease),opacity .22s var(--ease);
       box-shadow:
         inset 0 0 0 1px rgba(255,255,255,.013),
@@ -315,14 +313,12 @@
     }
     .btn::before{
       content:"";
-      position:absolute;inset:4px;border-radius:12px;border:2px solid var(--gray-line);box-shadow:inset 0 0 0 1px rgba(255,255,255,.013);
+      position:absolute;
+      inset:4px;
+      border-radius:12px;
+      border:2px solid var(--gray-line);
+      box-shadow:inset 0 0 0 1px rgba(255,255,255,.013);
       transition:border-color .22s var(--ease),box-shadow .22s var(--ease),opacity .22s var(--ease);
-      pointer-events:none;
-    }
-    .btn::after{
-      content:"";
-      position:absolute;inset:0;
-      background:linear-gradient(180deg,rgba(255,255,255,.018) 0%,transparent 32%);
       pointer-events:none;
     }
     .btn:active{transform:scale(.985)}
@@ -331,48 +327,62 @@
       margin-top:6px;
       margin-bottom:14px;
       color:var(--white);
-      box-shadow:
-        inset 0 0 0 1px rgba(255,255,255,.013),
-        inset 0 -8px 14px rgba(0,0,0,.21),
-        0 7px 12px rgba(0,0,0,.13),
-        0 0 8px rgba(255,255,255,.016);
     }
-    .btn.start::before{
-      border-color:var(--white-soft);
-      box-shadow:inset 0 0 0 1px rgba(255,255,255,.016),0 0 5px rgba(255,255,255,.025);
-    }
-    .btn.start.is-connected .label{font-size:7px;letter-spacing:.04em}
+    .btn.start::before{border-color:var(--white-soft)}
     .btn.start .label{font-size:8px;letter-spacing:.08em}
-    .btn.home{width:72px;height:72px;border-radius:50%;margin:8px 0 10px}
+    .btn.start.is-connected .label{font-size:7px;letter-spacing:.04em}
+    .btn.home{
+      width:72px;
+      height:72px;
+      border-radius:50%;
+      margin:8px 0 10px;
+    }
     .btn.home::before{border-radius:50%}
-    .btn-inner{position:relative;z-index:2;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px}
-    .icon{width:16px;height:16px;color:inherit;opacity:.98;filter:drop-shadow(0 0 2px rgba(255,255,255,.012))}
+    .btn-inner{
+      position:relative;
+      z-index:2;
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      justify-content:center;
+      gap:4px;
+    }
+    .icon{
+      width:16px;
+      height:16px;
+      color:inherit;
+      opacity:.98;
+    }
     .btn.home .icon{width:17px;height:17px}
-    .label{font-size:10px;font-weight:800;letter-spacing:.06em;line-height:1;color:inherit;user-select:none;text-shadow:0 0 2px rgba(255,255,255,.01)}
+    .label{
+      font-size:10px;
+      font-weight:800;
+      letter-spacing:.06em;
+      line-height:1;
+      color:inherit;
+      user-select:none;
+    }
     .btn.is-seq-on{
       color:var(--blue);
       background:radial-gradient(circle at 50% 0,rgba(143,213,255,.038) 0%,transparent 46%),linear-gradient(180deg,#101317 0%,#030405 100%);
-      box-shadow:inset 0 0 0 1px rgba(255,255,255,.016),0 0 0 1px rgba(143,213,255,.022),0 0 7px var(--blue-soft),0 7px 12px rgba(0,0,0,.14);
     }
-    .btn.is-seq-on::before{
-      border-color:var(--blue-line);
-      box-shadow:inset 0 0 0 1px rgba(255,255,255,.014),0 0 4px rgba(143,213,255,.07);
-    }
+    .btn.is-seq-on::before{border-color:var(--blue-line)}
     .btn.is-active{
       color:var(--amber);
       background:radial-gradient(circle at 50% 0,rgba(239,173,99,.045) 0%,transparent 46%),linear-gradient(180deg,#171109 0%,#060403 100%);
-      box-shadow:inset 0 0 0 1px rgba(255,255,255,.016),0 0 0 1px rgba(239,173,99,.026),0 0 7px var(--amber-soft),0 8px 14px rgba(0,0,0,.15);
     }
-    .btn.is-active::before{
-      border-color:var(--amber-line);
-      box-shadow:inset 0 0 0 1px rgba(255,255,255,.014),0 0 4px rgba(239,173,99,.07);
-    }
+    .btn.is-active::before{border-color:var(--amber-line)}
     .btn.is-locked{cursor:default;opacity:.96}
     .sidebar-foot{width:100%;flex:1;position:relative}
     .sidebar-foot::before{
       content:"";
-      position:absolute;left:50%;bottom:14px;transform:translateX(-50%);
-      width:16px;height:16px;border-radius:50%;
+      position:absolute;
+      left:50%;
+      bottom:14px;
+      transform:translateX(-50%);
+      width:16px;
+      height:16px;
+      border-radius:50%;
       background:#101010;
       box-shadow:inset 0 1px 0 rgba(255,255,255,.05),0 0 0 1px rgba(255,255,255,.022);
       opacity:.95;
@@ -380,10 +390,18 @@
 
     .section-head{margin-bottom:7px}
     .eyebrow{
-      font-size:10px;font-weight:900;letter-spacing:.18em;text-transform:uppercase;color:var(--amber-deep);margin-bottom:5px;
+      font-size:10px;
+      font-weight:900;
+      letter-spacing:.18em;
+      text-transform:uppercase;
+      color:var(--amber-deep);
+      margin-bottom:5px;
     }
     .hero-title{
-      font-size:11px;line-height:1.45;color:var(--ink-soft);font-weight:700;
+      font-size:11px;
+      line-height:1.45;
+      color:var(--ink-soft);
+      font-weight:700;
     }
     .hero-title strong{color:var(--ink);font-weight:900}
     .hero-title em{color:var(--amber-deep);font-style:normal;font-weight:900}
@@ -402,12 +420,6 @@
       position:relative;
       overflow:hidden;
       color:var(--white);
-    }
-    .module::before{
-      content:"";
-      position:absolute;inset:0;
-      background:linear-gradient(180deg,rgba(255,255,255,.018) 0%,transparent 30%,transparent 100%);
-      pointer-events:none;
     }
     .module::after{
       content:"";
@@ -443,24 +455,25 @@
       display:flex;
       align-items:center;
       justify-content:space-between;
-      transition:transform .18s var(--ease),box-shadow .22s var(--ease),border-color .22s var(--ease),background .22s var(--ease);
     }
-    .wallet-btn:active{transform:scale(.988)}
     .wallet-left{display:flex;align-items:center;gap:11px;min-width:0}
     .wallet-badge{
-      width:33px;height:33px;border-radius:11px;
+      width:33px;
+      height:33px;
+      border-radius:11px;
       background:linear-gradient(180deg,#16233a 0%,#06090d 100%);
       color:#f7fbff;
-      display:grid;place-items:center;
-      font-size:10px;font-weight:900;letter-spacing:.02em;
-      box-shadow:inset 0 0 0 1px rgba(255,255,255,.04),0 6px 12px rgba(0,0,0,.08);
+      display:grid;
+      place-items:center;
+      font-size:10px;
+      font-weight:900;
+      letter-spacing:.02em;
       flex:0 0 auto;
     }
     .wallet-name{
       font-size:14px;
       font-weight:900;
       color:#11161c;
-      letter-spacing:.01em;
       white-space:nowrap;
       overflow:hidden;
       text-overflow:ellipsis;
@@ -483,11 +496,14 @@
       padding-bottom:2px;
     }
     .link-box{
-      width:36px;height:36px;border-radius:11px;
+      width:36px;
+      height:36px;
+      border-radius:11px;
       border:1px solid rgba(16,20,26,.055);
       background:linear-gradient(180deg,#fbfbfb 0%,#f0f0f0 100%);
-      box-shadow:inset 0 1px 0 rgba(255,255,255,.8),0 6px 12px rgba(0,0,0,.035);
-      display:flex;align-items:center;justify-content:center;
+      display:flex;
+      align-items:center;
+      justify-content:center;
       color:#6f7a86;
     }
     .link-box svg{width:14px;height:14px;display:block}
@@ -495,12 +511,13 @@
     .slippage-shell{display:flex;justify-content:flex-end;margin-bottom:8px}
     .slippage-pill{
       min-height:38px;
-      display:flex;align-items:center;gap:8px;
+      display:flex;
+      align-items:center;
+      gap:8px;
       padding:0 11px;
       border-radius:999px;
       background:linear-gradient(180deg,#1b150d 0%,#100d08 100%);
       border:1px solid rgba(111,83,34,.45);
-      box-shadow:inset 0 0 0 1px rgba(255,255,255,.02),0 8px 18px rgba(0,0,0,.12);
       color:#f2ce8f;
       cursor:pointer;
       transition:all .22s var(--ease);
@@ -509,32 +526,50 @@
     }
     .slippage-pill.open{max-width:286px;padding-right:8px}
     .slippage-orb{
-      width:14px;height:14px;border-radius:50%;
+      width:14px;
+      height:14px;
+      border-radius:50%;
       background:linear-gradient(180deg,#e4c06d 0%,#c59036 100%);
-      box-shadow:0 0 10px rgba(228,192,109,.18);
     }
     .slippage-text{font-weight:900;font-size:11px;white-space:nowrap}
     .slippage-controls{
-      display:flex;align-items:center;gap:6px;
-      opacity:0;max-width:0;pointer-events:none;
+      display:flex;
+      align-items:center;
+      gap:6px;
+      opacity:0;
+      max-width:0;
+      pointer-events:none;
       transition:all .18s var(--ease);
     }
     .slippage-pill.open .slippage-controls{opacity:1;max-width:160px;pointer-events:auto}
     .slip-btn,.slip-input{
-      height:26px;border-radius:999px;border:1px solid rgba(255,255,255,.08);background:rgba(255,255,255,.04);color:#f6d59a;
+      height:26px;
+      border-radius:999px;
+      border:1px solid rgba(255,255,255,.08);
+      background:rgba(255,255,255,.04);
+      color:#f6d59a;
     }
-    .slip-btn{width:26px;display:grid;place-items:center;font-weight:900;cursor:pointer}
-    .slip-input{width:50px;text-align:center;font-weight:800;outline:none}
+    .slip-btn{
+      width:26px;
+      display:grid;
+      place-items:center;
+      font-weight:900;
+      cursor:pointer;
+    }
+    .slip-input{
+      width:50px;
+      text-align:center;
+      font-weight:800;
+      outline:none;
+    }
 
     .swap-card,.pay-card{position:relative;z-index:1}
-
     .token-box,.input-box,.note-box,.preview-metric,.pill-btn,.primary-btn,.preview-panel,.select-chip{
       background:linear-gradient(180deg,#08111a 0%,#05090e 100%);
       border:1px solid rgba(18,33,48,.92);
       box-shadow:inset 0 0 0 1px rgba(255,255,255,.014),0 8px 16px rgba(0,0,0,.08);
       color:var(--white);
     }
-
     .token-box,.input-box,.note-box,.preview-metric,.preview-panel{border-radius:16px}
     .pill-btn,.select-chip{border-radius:14px}
     .primary-btn{border-radius:22px}
@@ -552,9 +587,7 @@
       border-radius:18px;
       background:linear-gradient(180deg,#07101a 0%,#050a10 100%);
       border:1px solid rgba(16,30,45,.88);
-      box-shadow:inset 0 0 0 1px rgba(255,255,255,.012);
     }
-
     .swap-pane-head{
       display:grid;
       grid-template-columns:minmax(0,1fr) auto;
@@ -568,10 +601,13 @@
       gap:8px;
       min-width:0;
     }
-
     .quick-row{
-      display:flex;align-items:center;gap:6px;
-      opacity:0;max-height:0;overflow:hidden;
+      display:flex;
+      align-items:center;
+      gap:6px;
+      opacity:0;
+      max-height:0;
+      overflow:hidden;
       transition:all .18s var(--ease);
     }
     .quick-row.show{opacity:1;max-height:34px}
@@ -579,7 +615,8 @@
       min-width:44px;
       height:28px;
       padding:0 10px;
-      display:grid;place-items:center;
+      display:grid;
+      place-items:center;
       font-weight:900;
       font-size:11px;
       cursor:pointer;
@@ -603,7 +640,6 @@
       overflow:hidden;
       flex:0 0 auto;
       background:#0d1723;
-      box-shadow:0 6px 12px rgba(0,0,0,.14);
     }
     .token-badge img{
       width:100%;
@@ -627,7 +663,6 @@
       justify-content:space-between;
       position:relative;
     }
-
     .amount-input{
       width:100%;
       background:none;
@@ -645,7 +680,8 @@
       position:absolute;
       right:9px;
       top:13px;
-      width:3px;height:30px;
+      width:3px;
+      height:30px;
       border-radius:999px;
       background:linear-gradient(180deg,#ffb25d 0%,#ff8a1e 100%);
       box-shadow:0 0 10px rgba(255,138,30,.16);
@@ -659,12 +695,14 @@
 
     .flip-shell{display:flex;justify-content:center;margin:0}
     .flip-btn{
-      width:42px;height:42px;border-radius:15px;
-      display:grid;place-items:center;
+      width:42px;
+      height:42px;
+      border-radius:15px;
+      display:grid;
+      place-items:center;
       cursor:pointer;
       background:linear-gradient(180deg,#0b1622 0%,#07101a 100%);
       border:1px solid rgba(25,45,67,.9);
-      box-shadow:inset 0 0 0 1px rgba(255,255,255,.018),0 10px 20px rgba(0,0,0,.16);
       color:#edf5ff;
       font-size:22px;
       transition:transform .22s var(--ease),box-shadow .22s var(--ease);
@@ -727,7 +765,6 @@
       gap:8px;
       margin-bottom:8px;
     }
-
     .note-toggle{
       display:flex;
       align-items:center;
@@ -739,20 +776,23 @@
       text-transform:uppercase;
       font-size:10px;
     }
-
     .toggle-switch{
-      width:62px;height:32px;border-radius:999px;
+      width:62px;
+      height:32px;
+      border-radius:999px;
       background:linear-gradient(180deg,#0b1622 0%,#07101a 100%);
       border:1px solid rgba(25,45,67,.9);
       position:relative;
-      box-shadow:inset 0 0 0 1px rgba(255,255,255,.018),0 8px 18px rgba(0,0,0,.12);
       cursor:pointer;
     }
     .toggle-ball{
-      position:absolute;top:3px;left:3px;
-      width:24px;height:24px;border-radius:50%;
+      position:absolute;
+      top:3px;
+      left:3px;
+      width:24px;
+      height:24px;
+      border-radius:50%;
       background:linear-gradient(180deg,#f0c76a 0%,#c89430 100%);
-      box-shadow:0 0 12px rgba(240,199,106,.16);
       transition:left .22s var(--ease),background .22s var(--ease);
     }
     .toggle-switch.on .toggle-ball{
@@ -765,13 +805,15 @@
 
     .recipient-row{display:flex;gap:8px}
     .qr-btn{
-      width:50px;min-width:50px;height:50px;
+      width:50px;
+      min-width:50px;
+      height:50px;
       border-radius:15px;
       background:linear-gradient(180deg,#1a1912 0%,#0d1015 100%);
       border:1px solid rgba(101,83,36,.58);
       color:#e8c06c;
-      display:grid;place-items:center;
-      box-shadow:inset 0 0 0 1px rgba(255,255,255,.018),0 10px 18px rgba(0,0,0,.12);
+      display:grid;
+      place-items:center;
       cursor:pointer;
     }
 
@@ -797,7 +839,8 @@
       left:13px;
       top:50%;
       transform:translateY(-50%);
-      width:3px;height:22px;
+      width:3px;
+      height:22px;
       border-radius:999px;
       background:linear-gradient(180deg,#ffb25d 0%,#ff8a1e 100%);
       box-shadow:0 0 10px rgba(255,138,30,.16);
@@ -812,7 +855,8 @@
     }
     .select-chip{
       min-height:42px;
-      display:grid;place-items:center;
+      display:grid;
+      place-items:center;
       font-size:13px;
       font-weight:900;
       color:#9aabc0;
@@ -844,7 +888,8 @@
     .amount-center-input::placeholder{color:transparent}
     .amount-center-caption{
       position:absolute;
-      top:5px;left:50%;
+      top:5px;
+      left:50%;
       transform:translateX(-50%);
       font-size:9px;
       color:#8fa2bb;
@@ -856,9 +901,11 @@
     .amount-center-wrap.empty::after{
       content:"";
       position:absolute;
-      left:50%;top:50%;
+      left:50%;
+      top:50%;
       transform:translate(-50%,-50%);
-      width:3px;height:18px;
+      width:3px;
+      height:18px;
       border-radius:999px;
       background:linear-gradient(180deg,#ffb25d 0%,#ff8a1e 100%);
       box-shadow:0 0 10px rgba(255,138,30,.16);
@@ -869,26 +916,33 @@
       min-height:42px;
       border-radius:15px;
       padding:0 10px;
-      display:flex;align-items:center;justify-content:space-between;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
       background:linear-gradient(180deg,#08111a 0%,#05090e 100%);
       border:1px solid rgba(18,33,48,.92);
-      box-shadow:inset 0 0 0 1px rgba(255,255,255,.014);
     }
     .you-pay-chip{
-      display:flex;align-items:center;gap:8px;
+      display:flex;
+      align-items:center;
+      gap:8px;
       font-size:13px;
       font-weight:900;
       color:#f0c670;
     }
     .coin{
-      width:28px;height:28px;border-radius:50%;
-      display:grid;place-items:center;
+      width:28px;
+      height:28px;
+      border-radius:50%;
+      display:grid;
+      place-items:center;
       overflow:hidden;
       flex:0 0 auto;
       background:#11161c;
     }
     .coin img{
-      width:100%;height:100%;
+      width:100%;
+      height:100%;
       object-fit:cover;
       display:block;
     }
@@ -896,10 +950,18 @@
     .note-box{
       min-height:42px;
       padding:0 12px;
-      display:flex;align-items:center;gap:10px;
+      display:flex;
+      align-items:center;
+      gap:10px;
     }
     .note-box input{
-      flex:1;border:none;background:none;outline:none;color:#f8fbff;font-size:13px;font-weight:700;
+      flex:1;
+      border:none;
+      background:none;
+      outline:none;
+      color:#f8fbff;
+      font-size:13px;
+      font-weight:700;
     }
     .note-icon{font-size:16px;color:#e6bc67}
 
@@ -939,14 +1001,17 @@
     }
 
     .pay-orb{
-      width:54px;height:54px;border-radius:50%;
-      display:grid;place-items:center;margin:0 auto;
+      width:54px;
+      height:54px;
+      border-radius:50%;
+      display:grid;
+      place-items:center;
+      margin:0 auto;
       background:
         radial-gradient(circle at 60% 38%,rgba(103,182,255,.20) 0%,rgba(103,182,255,.03) 26%,transparent 55%),
         radial-gradient(circle at 40% 70%,rgba(240,198,108,.22) 0%,rgba(240,198,108,.03) 26%,transparent 55%),
         linear-gradient(180deg,#09111b 0%,#05090e 100%);
       border:1px solid rgba(31,49,70,.92);
-      box-shadow:inset 0 0 0 1px rgba(255,255,255,.018),0 10px 20px rgba(0,0,0,.14);
       color:#eef6ff;
       font-size:24px;
     }
@@ -960,19 +1025,33 @@
       overflow:hidden;
       transition:max-height .34s var(--ease),opacity .26s var(--ease),margin-top .26s var(--ease);
     }
-    .preview-panel.open{max-height:420px;opacity:1}
+    .preview-panel.open{
+      max-height:420px;
+      opacity:1;
+    }
     .preview-head{
-      display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:8px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:8px;
+      margin-bottom:8px;
     }
     .preview-badge{
-      min-width:58px;height:32px;border-radius:999px;
+      min-width:58px;
+      height:32px;
+      border-radius:999px;
       background:rgba(255,255,255,.04);
       border:1px solid rgba(255,255,255,.07);
-      display:grid;place-items:center;
-      font-size:13px;font-weight:900;color:#e8f2ff;
+      display:grid;
+      place-items:center;
+      font-size:13px;
+      font-weight:900;
+      color:#e8f2ff;
     }
     .step-card{
-      display:flex;gap:8px;align-items:flex-start;
+      display:flex;
+      gap:8px;
+      align-items:flex-start;
       padding:8px;
       border-radius:16px;
       background:rgba(255,255,255,.022);
@@ -980,15 +1059,30 @@
       margin-bottom:8px;
     }
     .step-ring{
-      width:40px;height:40px;border-radius:50%;
-      display:grid;place-items:center;flex:0 0 auto;
+      width:40px;
+      height:40px;
+      border-radius:50%;
+      display:grid;
+      place-items:center;
+      flex:0 0 auto;
       background:radial-gradient(circle at center,rgba(255,255,255,.03) 0%,transparent 45%),linear-gradient(180deg,#07101a 0%,#05090e 100%);
       border:1px solid rgba(25,44,67,.95);
       box-shadow:0 0 0 4px rgba(143,213,255,.05),0 0 16px rgba(143,213,255,.08);
-      font-size:14px;font-weight:900;color:#f2f7ff;
+      font-size:14px;
+      font-weight:900;
+      color:#f2f7ff;
     }
-    .step-copy h4{font-size:13px;font-weight:900;color:#f5f9ff;margin-bottom:4px}
-    .step-copy p{font-size:11px;line-height:1.42;color:#a4b4c6}
+    .step-copy h4{
+      font-size:13px;
+      font-weight:900;
+      color:#f5f9ff;
+      margin-bottom:4px;
+    }
+    .step-copy p{
+      font-size:11px;
+      line-height:1.42;
+      color:#a4b4c6;
+    }
 
     .route-big{
       font-size:15px;
@@ -1013,18 +1107,43 @@
     .preview-note{font-size:11px;color:#97a8be}
 
     .toast-wrap{
-      position:fixed;left:50%;bottom:66px;transform:translateX(-50%);z-index:100;display:flex;flex-direction:column;gap:10px;pointer-events:none;
+      position:fixed;
+      left:50%;
+      bottom:66px;
+      transform:translateX(-50%);
+      z-index:100;
+      display:flex;
+      flex-direction:column;
+      gap:10px;
+      pointer-events:none;
     }
     .toast{
-      min-width:220px;max-width:88vw;padding:12px 14px;border-radius:16px;background:linear-gradient(180deg,#10161d 0%,#091019 100%);
-      border:1px solid rgba(255,255,255,.06);color:#eef5ff;box-shadow:0 12px 24px rgba(0,0,0,.14);font-size:13px;font-weight:700;opacity:0;transform:translateY(10px);transition:all .18s var(--ease);
+      min-width:220px;
+      max-width:88vw;
+      padding:12px 14px;
+      border-radius:16px;
+      background:linear-gradient(180deg,#10161d 0%,#091019 100%);
+      border:1px solid rgba(255,255,255,.06);
+      color:#eef5ff;
+      font-size:13px;
+      font-weight:700;
+      opacity:0;
+      transform:translateY(10px);
+      transition:all .18s var(--ease);
     }
     .toast.show{opacity:1;transform:translateY(0)}
     .toast.warn{border-color:rgba(239,173,99,.22);color:#ffd9af}
     .toast.ok{border-color:rgba(119,224,172,.22);color:#c7ffe0}
 
     .scanner-modal{
-      position:fixed;inset:0;background:rgba(4,8,12,.88);display:none;align-items:center;justify-content:center;z-index:110;padding:18px;
+      position:fixed;
+      inset:0;
+      background:rgba(4,8,12,.88);
+      display:none;
+      align-items:center;
+      justify-content:center;
+      z-index:110;
+      padding:18px;
     }
     .scanner-modal.open{display:flex}
     .scanner-shell{
@@ -1032,14 +1151,27 @@
       background:linear-gradient(180deg,#09111b 0%,#05090e 100%);
       border:1px solid rgba(18,35,52,.95);
       border-radius:24px;
-      box-shadow:0 18px 36px rgba(0,0,0,.24);
       padding:14px;
       color:#eef5ff;
     }
-    .scanner-head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:12px}
+    .scanner-head{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
+      margin-bottom:12px;
+    }
     .scanner-head h3{font-size:16px;font-weight:900}
     .scanner-close{
-      width:38px;height:38px;border-radius:12px;display:grid;place-items:center;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);color:#eef5ff;cursor:pointer;
+      width:38px;
+      height:38px;
+      border-radius:12px;
+      display:grid;
+      place-items:center;
+      background:rgba(255,255,255,.04);
+      border:1px solid rgba(255,255,255,.07);
+      color:#eef5ff;
+      cursor:pointer;
     }
     .scanner-video{
       width:100%;
@@ -1049,10 +1181,26 @@
       object-fit:cover;
       border:1px solid rgba(255,255,255,.06);
     }
-    .scanner-foot{margin-top:10px;font-size:13px;line-height:1.45;color:#a4b4c6}
-    .scanner-actions{display:flex;gap:10px;margin-top:12px}
+    .scanner-foot{
+      margin-top:10px;
+      font-size:13px;
+      line-height:1.45;
+      color:#a4b4c6;
+    }
+    .scanner-actions{
+      display:flex;
+      gap:10px;
+      margin-top:12px;
+    }
     .scanner-actions button{
-      flex:1;height:44px;border-radius:16px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);color:#eef5ff;font-weight:800;cursor:pointer;
+      flex:1;
+      height:44px;
+      border-radius:16px;
+      background:rgba(255,255,255,.04);
+      border:1px solid rgba(255,255,255,.07);
+      color:#eef5ff;
+      font-weight:800;
+      cursor:pointer;
     }
 
     @media (max-width:520px){
@@ -1071,7 +1219,6 @@
       .swap-main-row{gap:6px}
       .token-box{width:36%}
       .amount-input{font-size:27px}
-      .swap-stats{padding-top:8px}
       .pay-title-line{gap:7px}
       .pay-metrics{grid-template-columns:1fr 52px 1fr}
       .pay-orb{width:52px;height:52px;font-size:22px}
@@ -1080,7 +1227,11 @@
     @media (min-width:760px){
       .page{padding:8px 6px 14px}
       .page-scroll{width:min(1020px,calc(100% - 4px))}
-      .pay-title-line{flex-direction:row;align-items:flex-start;justify-content:space-between}
+      .pay-title-line{
+        flex-direction:row;
+        align-items:flex-start;
+        justify-content:space-between;
+      }
       .note-toggle{justify-content:flex-end}
       .hero-title{font-size:12px}
     }
@@ -1494,73 +1645,72 @@
 
   <script>
     const ARC_NETWORK = {
-      chainIdHex: '0x4cef52',
+      chainIdHex: "0x4cef52",
       chainId: 5042002,
-      chainName: 'Arc Testnet',
-      rpcUrls: ['https://rpc.testnet.arc.network'],
-      blockExplorerUrls: ['https://testnet.arcscan.app'],
-      nativeCurrency: { name: 'USDC', symbol: 'USDC', decimals: 18 }
+      chainName: "Arc Testnet",
+      rpcUrls: ["https://rpc.testnet.arc.network"],
+      blockExplorerUrls: ["https://testnet.arcscan.app"],
+      nativeCurrency: { name: "USDC", symbol: "USDC", decimals: 18 }
     };
 
     const TOKENS = {
-      LMTV: { address: '0xd9D382085Fb4E4dBCf0A6B85c76D42eaB0A1be2d', fallbackDecimals: 18, badge: 'L', icon: 'lmtv.png' },
-      USDC: { address: '0x3600000000000000000000000000000000000000', fallbackDecimals: 18, badge: '$', icon: 'usdc.png' },
-      EURC: { address: '0x89B50855Aa3bE2F677cD6303Cec089B5F319D72a', fallbackDecimals: 6, badge: '€', icon: 'eurc.png' }
+      LMTV: { address: "0xd9D382085Fb4E4dBCf0A6B85c76D42eaB0A1be2d", fallbackDecimals: 18, icon: "lmtv.png" },
+      USDC: { address: "0x3600000000000000000000000000000000000000", fallbackDecimals: 18, icon: "usdc.png" },
+      EURC: { address: "0x89B50855Aa3bE2F677cD6303Cec089B5F319D72a", fallbackDecimals: 6, icon: "eurc.png" }
     };
 
     const POOLS = {
-      LMTV_USDC: { address: '0x0681304E26184f3c97a38E915B49CF5F5E8cB983', tokenIn: 'LMTV', tokenOut: 'USDC' },
-      LMTV_EURC: { address: '0xD41E9D32eacF8a3680750625602286318FD3c3E4', tokenIn: 'LMTV', tokenOut: 'EURC' }
+      LMTV_USDC: { address: "0x0681304E26184f3c97a38E915B49CF5F5E8cB983" },
+      LMTV_EURC: { address: "0xD41E9D32eacF8a3680750625602286318FD3c3E4" }
     };
 
     const ERC20_ABI = [
-      'function balanceOf(address) view returns (uint256)',
-      'function allowance(address,address) view returns (uint256)',
-      'function approve(address,uint256) returns (bool)',
-      'function decimals() view returns (uint8)',
-      'function symbol() view returns (string)',
-      'function transfer(address,uint256) returns (bool)'
+      "function balanceOf(address) view returns (uint256)",
+      "function allowance(address,address) view returns (uint256)",
+      "function approve(address,uint256) returns (bool)",
+      "function decimals() view returns (uint8)",
+      "function symbol() view returns (string)",
+      "function transfer(address,uint256) returns (bool)"
     ];
 
     const POOL_ABI = [
-      'function swap(address tokenIn, uint256 amountIn)',
-      'function getAmountOut(address tokenIn, uint256 amountIn) view returns (uint256)',
-      'function reserve0() view returns (uint256)',
-      'function reserve1() view returns (uint256)',
-      'function token0() view returns (address)',
-      'function token1() view returns (address)'
+      "function swap(address tokenIn, uint256 amountIn)",
+      "function getAmountOut(address tokenIn, uint256 amountIn) view returns (uint256)",
+      "function reserve0() view returns (uint256)",
+      "function reserve1() view returns (uint256)",
+      "function token0() view returns (address)",
+      "function token1() view returns (address)"
     ];
 
     const state = {
       rawProvider: null,
       provider: null,
       signer: null,
-      address: '',
-      shortAddress: '',
-      walletName: '',
+      address: "",
+      shortAddress: "",
+      walletName: "",
       chainId: null,
       tokenMeta: {
-        LMTV: { symbol: 'LMTV', decimals: 18 },
-        USDC: { symbol: 'USDC', decimals: 18 },
-        EURC: { symbol: 'EURC', decimals: 6 }
+        LMTV: { symbol: "LMTV", decimals: 18 },
+        USDC: { symbol: "USDC", decimals: 18 },
+        EURC: { symbol: "EURC", decimals: 6 }
       },
       balances: { LMTV: ethers.BigNumber.from(0), USDC: ethers.BigNumber.from(0), EURC: ethers.BigNumber.from(0) },
       allowances: {},
       feeEstimate: ethers.BigNumber.from(0),
       swap: {
-        from: 'LMTV',
-        amountText: '',
+        from: "LMTV",
+        amountText: "",
         quoteRaw: ethers.BigNumber.from(0),
         slippage: 0.5
       },
       pay: {
-        stable: 'USDC',
-        recipient: '',
-        amountText: '',
-        note: '',
+        stable: "USDC",
+        recipient: "",
+        amountText: "",
+        note: "",
         hideNote: true,
         requiredInputRaw: ethers.BigNumber.from(0),
-        baseInputRaw: ethers.BigNumber.from(0),
         previewOpen: false,
         step: 1,
         routeReceivedRaw: ethers.BigNumber.from(0),
@@ -1568,254 +1718,280 @@
       }
     };
 
-    const discoveredProviders = [];
-
-    const app = document.getElementById('app');
-    const cover = document.getElementById('cover');
-    const startBtn = document.getElementById('startBtn');
-    const startLabel = document.getElementById('startLabel');
-    const pageButtons = [...document.querySelectorAll('.btn[data-page]')];
-    const pages = [...document.querySelectorAll('.page')];
-    const walletButtons = [...document.querySelectorAll('.wallet-btn')];
-    const homeAddress = document.getElementById('homeAddress');
-    const homeWalletText = document.getElementById('homeWalletText');
-    const homeNetwork = document.getElementById('homeNetwork');
+    const app = document.getElementById("app");
+    const cover = document.getElementById("cover");
+    const startBtn = document.getElementById("startBtn");
+    const startLabel = document.getElementById("startLabel");
+    const pageButtons = [...document.querySelectorAll(".btn[data-page]")];
+    const pages = [...document.querySelectorAll(".page")];
+    const walletButtons = [...document.querySelectorAll(".wallet-btn")];
+    const homeAddress = document.getElementById("homeAddress");
+    const homeWalletText = document.getElementById("homeWalletText");
+    const homeNetwork = document.getElementById("homeNetwork");
 
     const swapEls = {
-      slippagePill: document.getElementById('swapSlippagePill'),
-      slippageText: document.getElementById('swapSlippageText'),
-      slippageInput: document.getElementById('swapSlipInput'),
-      slippageSummary: document.getElementById('swapSlipSummary'),
-      slipDown: document.getElementById('swapSlipDown'),
-      slipUp: document.getElementById('swapSlipUp'),
-      amountInput: document.getElementById('swapAmountInput'),
-      amountWrap: document.getElementById('swapAmountWrap'),
-      fromBalance: document.getElementById('swapFromBalance'),
-      toBalance: document.getElementById('swapToBalance'),
-      fromName: document.getElementById('swapFromTokenName'),
-      toName: document.getElementById('swapToTokenName'),
-      fromBadge: document.getElementById('swapFromBadge'),
-      toBadge: document.getElementById('swapToBadge'),
-      quickRow: document.getElementById('swapQuickRow'),
-      quickBtns: [...document.querySelectorAll('#swapQuickRow .pill-btn')],
-      flipBtn: document.getElementById('swapFlipBtn'),
-      quoteValue: document.getElementById('swapQuoteValue'),
-      rateText: document.getElementById('swapRateText'),
-      feeText: document.getElementById('swapFeeText'),
-      dailyText: document.getElementById('swapDailyText'),
-      alert: document.getElementById('swapAlert'),
-      actionBtn: document.getElementById('swapActionBtn')
+      slippagePill: document.getElementById("swapSlippagePill"),
+      slippageText: document.getElementById("swapSlippageText"),
+      slippageInput: document.getElementById("swapSlipInput"),
+      slippageSummary: document.getElementById("swapSlipSummary"),
+      slipDown: document.getElementById("swapSlipDown"),
+      slipUp: document.getElementById("swapSlipUp"),
+      amountInput: document.getElementById("swapAmountInput"),
+      amountWrap: document.getElementById("swapAmountWrap"),
+      fromBalance: document.getElementById("swapFromBalance"),
+      toBalance: document.getElementById("swapToBalance"),
+      fromName: document.getElementById("swapFromTokenName"),
+      toName: document.getElementById("swapToTokenName"),
+      fromBadge: document.getElementById("swapFromBadge"),
+      toBadge: document.getElementById("swapToBadge"),
+      quickRow: document.getElementById("swapQuickRow"),
+      quickBtns: [...document.querySelectorAll("#swapQuickRow .pill-btn")],
+      flipBtn: document.getElementById("swapFlipBtn"),
+      quoteValue: document.getElementById("swapQuoteValue"),
+      rateText: document.getElementById("swapRateText"),
+      feeText: document.getElementById("swapFeeText"),
+      dailyText: document.getElementById("swapDailyText"),
+      alert: document.getElementById("swapAlert"),
+      actionBtn: document.getElementById("swapActionBtn")
     };
 
     const payEls = {
-      stableBtns: [...document.querySelectorAll('.select-chip[data-stable]')],
-      recipientInput: document.getElementById('payRecipientInput'),
-      recipientWrap: document.getElementById('payRecipientWrap'),
-      scanBtn: document.getElementById('payScanBtn'),
-      amountInput: document.getElementById('payAmountInput'),
-      amountWrap: document.getElementById('payAmountWrap'),
-      hideNoteToggle: document.getElementById('payHideNoteToggle'),
-      noteLabel: document.getElementById('payNoteLabel'),
-      noteBox: document.getElementById('payNoteBox'),
-      noteInput: document.getElementById('payNoteInput'),
-      youSend: document.getElementById('payYouSend'),
-      receiverGets: document.getElementById('payReceiverGets'),
-      receiveTicker: document.getElementById('payReceiveTicker'),
-      orbBtn: document.getElementById('payOrbBtn'),
-      previewPanel: document.getElementById('payPreviewPanel'),
-      stepBadge: document.getElementById('payStepBadge'),
-      stepRing: document.getElementById('payStepRing'),
-      stepTitle: document.getElementById('payStepTitle'),
-      stepCopy: document.getElementById('payStepCopy'),
-      routeFrom: document.getElementById('payRouteFrom'),
-      routeTo: document.getElementById('payRouteTo'),
-      routeMini: document.getElementById('payRouteMini'),
-      slipMini: document.getElementById('paySlipMini'),
-      feeMini: document.getElementById('payFeeMini'),
-      minMini: document.getElementById('payMinMini'),
-      noteMini: document.getElementById('payNoteMini'),
-      actionBtn: document.getElementById('payActionBtn'),
-      payCoinWrap: document.getElementById('payCoinWrap')
+      stableBtns: [...document.querySelectorAll(".select-chip[data-stable]")],
+      recipientInput: document.getElementById("payRecipientInput"),
+      recipientWrap: document.getElementById("payRecipientWrap"),
+      scanBtn: document.getElementById("payScanBtn"),
+      amountInput: document.getElementById("payAmountInput"),
+      amountWrap: document.getElementById("payAmountWrap"),
+      hideNoteToggle: document.getElementById("payHideNoteToggle"),
+      noteLabel: document.getElementById("payNoteLabel"),
+      noteBox: document.getElementById("payNoteBox"),
+      noteInput: document.getElementById("payNoteInput"),
+      youSend: document.getElementById("payYouSend"),
+      receiverGets: document.getElementById("payReceiverGets"),
+      receiveTicker: document.getElementById("payReceiveTicker"),
+      orbBtn: document.getElementById("payOrbBtn"),
+      previewPanel: document.getElementById("payPreviewPanel"),
+      stepBadge: document.getElementById("payStepBadge"),
+      stepRing: document.getElementById("payStepRing"),
+      stepTitle: document.getElementById("payStepTitle"),
+      stepCopy: document.getElementById("payStepCopy"),
+      routeFrom: document.getElementById("payRouteFrom"),
+      routeTo: document.getElementById("payRouteTo"),
+      routeMini: document.getElementById("payRouteMini"),
+      slipMini: document.getElementById("paySlipMini"),
+      feeMini: document.getElementById("payFeeMini"),
+      minMini: document.getElementById("payMinMini"),
+      noteMini: document.getElementById("payNoteMini"),
+      actionBtn: document.getElementById("payActionBtn"),
+      payCoinWrap: document.getElementById("payCoinWrap")
     };
 
     const scannerEls = {
-      modal: document.getElementById('scannerModal'),
-      video: document.getElementById('scannerVideo'),
-      close: document.getElementById('scannerClose'),
-      stop: document.getElementById('scannerStop'),
-      paste: document.getElementById('scannerPaste')
+      modal: document.getElementById("scannerModal"),
+      video: document.getElementById("scannerVideo"),
+      close: document.getElementById("scannerClose"),
+      stop: document.getElementById("scannerStop"),
+      paste: document.getElementById("scannerPaste")
     };
 
+    let discoveredProviders = [];
+    let providerEventsBound = false;
+    let toastTimer = null;
+    let payQuoteTimer = null;
+    let sequenceTimers = [];
     let scannerStream = null;
     let scannerFrame = null;
     let scannerDetector = null;
-    let providerEventBound = false;
-    let payQuoteTimer = null;
-    let timers = [];
 
-    function showPage(viewName) {
-      pages.forEach(page => page.classList.toggle('is-visible', page.dataset.view === viewName));
+    function showPage(viewName){
+      pages.forEach(page => page.classList.toggle("is-visible", page.dataset.view === viewName));
     }
 
-    function setLockedState(locked) {
-      pageButtons.forEach(btn => btn.classList.toggle('is-locked', locked));
+    function setLockedState(locked){
+      pageButtons.forEach(btn => btn.classList.toggle("is-locked", locked));
     }
 
-    function clearNavState() {
-      pageButtons.forEach(btn => btn.classList.remove('is-seq-on', 'is-active'));
+    function clearNavState(){
+      pageButtons.forEach(btn => btn.classList.remove("is-seq-on", "is-active"));
     }
 
-    function stopSequence() {
-      timers.forEach(clearTimeout);
-      timers = [];
+    function stopSequence(){
+      sequenceTimers.forEach(clearTimeout);
+      sequenceTimers = [];
     }
 
-    function runTopToBottomSequence() {
+    function runTopToBottomSequence(){
       stopSequence();
       clearNavState();
       pageButtons.forEach((btn, index) => {
-        timers.push(setTimeout(() => btn.classList.add('is-seq-on'), index * 95));
+        sequenceTimers.push(setTimeout(() => btn.classList.add("is-seq-on"), index * 95));
       });
     }
 
-    function setStartMode(mode) {
-      startBtn.classList.remove('is-seq-on', 'is-connected');
-      if (mode === 'connected') {
-        startLabel.textContent = 'CONNECTED';
-        startBtn.classList.add('is-seq-on', 'is-connected');
+    function setStartMode(mode){
+      startBtn.classList.remove("is-seq-on", "is-connected");
+      if(mode === "connected"){
+        startLabel.textContent = "CONNECTED";
+        startBtn.classList.add("is-seq-on", "is-connected");
       } else {
-        startLabel.textContent = 'CONNECT';
+        startLabel.textContent = "CONNECT";
       }
     }
 
-    function shortAddr(addr) {
-      return addr ? `${addr.slice(0,6)}...${addr.slice(-4)}` : '—';
+    function shortAddr(addr){
+      return addr ? `${addr.slice(0,6)}...${addr.slice(-4)}` : "—";
     }
 
-    function formatAmount(value, decimals, precision = 4) {
-      try {
+    function formatAmount(value, decimals, precision = 4){
+      try{
         const n = parseFloat(ethers.utils.formatUnits(value || 0, decimals));
-        if (!isFinite(n)) return '0.00';
-        return n.toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: precision });
-      } catch {
-        return '0.00';
+        if(!isFinite(n)) return "0.00";
+        return n.toLocaleString(undefined,{ minimumFractionDigits:0, maximumFractionDigits:precision });
+      }catch{
+        return "0.00";
       }
     }
 
-    function parseInputToBN(text, decimals) {
-      const clean = String(text || '').replace(',', '.').trim();
-      if (!clean || clean === '.') return null;
-      try {
+    function parseInputToBN(text, decimals){
+      const clean = String(text || "").replace(",", ".").trim();
+      if(!clean || clean === ".") return null;
+      try{
         return ethers.utils.parseUnits(clean, decimals);
-      } catch {
+      }catch{
         return null;
       }
     }
 
-    function clampSlippage(value) {
+    function clampSlippage(value){
       const n = Math.max(0.1, Math.min(5, Number(value) || 0.5));
       return Math.round(n * 10) / 10;
     }
 
-    function isArcChain(chainId) {
-      if (!chainId) return false;
-      if (typeof chainId === 'string') return Number(chainId) === ARC_NETWORK.chainId || chainId.toLowerCase() === ARC_NETWORK.chainIdHex;
+    function isArcChain(chainId){
+      if(!chainId) return false;
+      if(typeof chainId === "string"){
+        return Number(chainId) === ARC_NETWORK.chainId || chainId.toLowerCase() === ARC_NETWORK.chainIdHex;
+      }
       return Number(chainId) === ARC_NETWORK.chainId;
     }
 
-    function showToast(text, type = '') {
-      const wrap = document.getElementById('toastWrap');
-      const el = document.createElement('div');
+    function showToast(text, type = ""){
+      const wrap = document.getElementById("toastWrap");
+      const el = document.createElement("div");
       el.className = `toast ${type}`.trim();
       el.textContent = text;
       wrap.appendChild(el);
-      requestAnimationFrame(() => el.classList.add('show'));
-      setTimeout(() => {
-        el.classList.remove('show');
+      requestAnimationFrame(() => el.classList.add("show"));
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(() => {
+        el.classList.remove("show");
         setTimeout(() => el.remove(), 220);
       }, 2600);
     }
 
-    function getTodayKey(address, tag) {
+    function getTodayKey(address, tag){
       const d = new Date();
-      const day = `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+      const day = `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`;
       return `stableflow_${tag}_${address.toLowerCase()}_${day}`;
     }
 
-    function getDailyCount(tag) {
-      if (!state.address) return 0;
+    function getDailyCount(tag){
+      if(!state.address) return 0;
       return Number(localStorage.getItem(getTodayKey(state.address, tag)) || 0);
     }
 
-    function bumpDailyCount(tag) {
+    function bumpDailyCount(tag){
       const key = getTodayKey(state.address, tag);
       const count = Number(localStorage.getItem(key) || 0) + 1;
       localStorage.setItem(key, String(count));
       return count;
     }
 
-    function setTokenBadge(el, tokenKey) {
+    function setTokenBadge(el, tokenKey){
       el.innerHTML = `<img src="${TOKENS[tokenKey].icon}" alt="${tokenKey}">`;
     }
 
-    function setPayCoin(tokenKey) {
+    function setPayCoin(tokenKey){
       payEls.payCoinWrap.innerHTML = `<img src="${TOKENS[tokenKey].icon}" alt="${tokenKey}">`;
     }
 
-    async function discoverInjectedProviders() {
-      if (discoveredProviders.length) return discoveredProviders;
+    async function discoverInjectedProviders(){
+      if(discoveredProviders.length) return discoveredProviders;
 
+      const found = [];
       const seen = new Set();
-      function pushProvider(detail) {
+
+      function pushProvider(detail){
         const provider = detail?.provider;
-        if (!provider) return;
+        if(!provider) return;
         const key = detail?.info?.rdns || detail?.info?.name || Math.random().toString(36);
-        if (seen.has(key)) return;
+        if(seen.has(key)) return;
         seen.add(key);
-        discoveredProviders.push(detail);
+        found.push(detail);
       }
 
-      window.addEventListener('eip6963:announceProvider', (event) => pushProvider(event.detail));
-      window.dispatchEvent(new Event('eip6963:requestProvider'));
+      window.addEventListener("eip6963:announceProvider", (event) => pushProvider(event.detail));
+      window.dispatchEvent(new Event("eip6963:requestProvider"));
 
       await new Promise(resolve => setTimeout(resolve, 180));
 
-      if (!discoveredProviders.length && window.ethereum) {
+      if(!found.length && window.ethereum){
         const eth = window.ethereum;
-        if (Array.isArray(eth.providers)) {
-          eth.providers.forEach((provider, idx) => pushProvider({ info: { name: provider.isRabby ? 'Rabby' : provider.isMetaMask ? 'MetaMask' : provider.isOkxWallet ? 'OKX' : provider.isCoinbaseWallet ? 'Base' : `Wallet ${idx+1}` }, provider }));
-        } else {
-          pushProvider({ info: { name: eth.isRabby ? 'Rabby' : eth.isMetaMask ? 'MetaMask' : eth.isOkxWallet ? 'OKX' : eth.isCoinbaseWallet ? 'Base' : 'Injected Wallet' }, provider: eth });
+        if(Array.isArray(eth.providers)){
+          eth.providers.forEach((provider, idx) => {
+            pushProvider({
+              info:{
+                name: provider.isRabby ? "Rabby" :
+                      provider.isMetaMask ? "MetaMask" :
+                      provider.isOkxWallet ? "OKX" :
+                      provider.isCoinbaseWallet ? "Base" : `Wallet ${idx+1}`
+              },
+              provider
+            });
+          });
+        }else{
+          pushProvider({
+            info:{
+              name: eth.isRabby ? "Rabby" :
+                    eth.isMetaMask ? "MetaMask" :
+                    eth.isOkxWallet ? "OKX" :
+                    eth.isCoinbaseWallet ? "Base" : "Injected Wallet"
+            },
+            provider: eth
+          });
         }
       }
+
+      discoveredProviders = found;
       return discoveredProviders;
     }
 
-    function pickProvider(walletKey) {
+    function pickProvider(walletKey){
       const all = discoveredProviders.map(item => item.provider);
-      const match = (fn) => all.find(fn);
-      if (walletKey === 'metamask') return match(p => p.isMetaMask && !p.isRabby) || match(p => p.isMetaMask) || all[0];
-      if (walletKey === 'rabby') return match(p => p.isRabby) || all[0];
-      if (walletKey === 'okx') return match(p => p.isOkxWallet || p.isOKExWallet) || all[0];
-      if (walletKey === 'base') return match(p => p.isCoinbaseWallet) || all[0];
+      const match = fn => all.find(fn);
+
+      if(walletKey === "metamask") return match(p => p.isMetaMask && !p.isRabby) || match(p => p.isMetaMask) || all[0] || null;
+      if(walletKey === "rabby") return match(p => p.isRabby) || all[0] || null;
+      if(walletKey === "okx") return match(p => p.isOkxWallet || p.isOKExWallet) || all[0] || null;
+      if(walletKey === "base") return match(p => p.isCoinbaseWallet) || all[0] || null;
       return all[0] || null;
     }
 
-    async function ensureArcNetwork(rawProvider) {
-      const currentChain = await rawProvider.request({ method: 'eth_chainId' });
-      if (String(currentChain).toLowerCase() === ARC_NETWORK.chainIdHex) return true;
+    async function ensureArcNetwork(rawProvider){
+      const currentChain = await rawProvider.request({ method:"eth_chainId" });
+      if(String(currentChain).toLowerCase() === ARC_NETWORK.chainIdHex) return true;
 
-      try {
+      try{
         await rawProvider.request({
-          method: 'wallet_switchEthereumChain',
-          params: [{ chainId: ARC_NETWORK.chainIdHex }]
+          method:"wallet_switchEthereumChain",
+          params:[{ chainId: ARC_NETWORK.chainIdHex }]
         });
         return true;
-      } catch (error) {
-        if (error?.code === 4902 || String(error?.message || '').toLowerCase().includes('unrecognized chain')) {
+      }catch(error){
+        if(error?.code === 4902 || String(error?.message || "").toLowerCase().includes("unrecognized chain")){
           await rawProvider.request({
-            method: 'wallet_addEthereumChain',
-            params: [{
+            method:"wallet_addEthereumChain",
+            params:[{
               chainId: ARC_NETWORK.chainIdHex,
               chainName: ARC_NETWORK.chainName,
               rpcUrls: ARC_NETWORK.rpcUrls,
@@ -1829,166 +2005,247 @@
       }
     }
 
-    async function bindProviderEvents(rawProvider) {
-      if (!rawProvider?.on || providerEventBound) return;
-      providerEventBound = true;
+    async function bindProviderEvents(rawProvider){
+      if(!rawProvider?.on || providerEventsBound) return;
+      providerEventsBound = true;
 
-      rawProvider.on('accountsChanged', async (accounts) => {
-        if (!accounts || !accounts.length) {
+      rawProvider.on("accountsChanged", async (accounts) => {
+        if(!accounts || !accounts.length){
           disconnectWallet();
           return;
         }
         state.address = accounts[0];
         state.shortAddress = shortAddr(accounts[0]);
         homeAddress.textContent = state.shortAddress;
-        homeWalletText.textContent = `${state.walletName || 'Wallet'} connected — navigation is now unlocked.`;
+        homeWalletText.textContent = `${state.walletName || "Wallet"} connected — navigation is now unlocked.`;
         await refreshOnchainState();
       });
 
-      rawProvider.on('chainChanged', async (chainId) => {
-        state.chainId = typeof chainId === 'string' ? parseInt(chainId, 16) : Number(chainId);
-        if (!isArcChain(chainId)) {
-          showToast('Switch back to Arc Testnet to keep using the live flows.', 'warn');
+      rawProvider.on("chainChanged", async (chainId) => {
+        state.chainId = typeof chainId === "string" ? parseInt(chainId, 16) : Number(chainId);
+        homeNetwork.textContent = isArcChain(state.chainId) ? "Arc Testnet" : "Wrong network";
+        if(!isArcChain(state.chainId)){
+          showToast("Switch back to Arc Testnet to keep using the live flows.", "warn");
         }
-        homeNetwork.textContent = isArcChain(chainId) ? 'Arc Testnet' : `Wrong network`;
         await refreshOnchainState();
       });
     }
 
-    async function connectWallet(walletKey) {
-      try {
+    async function connectWallet(walletKey){
+      try{
         await discoverInjectedProviders();
         const rawProvider = pickProvider(walletKey);
-        if (!rawProvider) {
-          showToast('No compatible wallet provider was found here.', 'warn');
+        if(!rawProvider){
+          showToast("No compatible wallet provider was found here.", "warn");
           return;
         }
 
         await ensureArcNetwork(rawProvider);
-        const accounts = await rawProvider.request({ method: 'eth_requestAccounts' });
-        if (!accounts?.length) {
-          showToast('Wallet connection was cancelled.', 'warn');
+        const accounts = await rawProvider.request({ method:"eth_requestAccounts" });
+        if(!accounts?.length){
+          showToast("Wallet connection was cancelled.", "warn");
           return;
         }
 
         state.rawProvider = rawProvider;
-        state.provider = new ethers.providers.Web3Provider(rawProvider, 'any');
+        state.provider = new ethers.providers.Web3Provider(rawProvider, "any");
         state.signer = state.provider.getSigner();
         state.address = accounts[0];
         state.shortAddress = shortAddr(accounts[0]);
-        state.walletName = walletKey === 'metamask' ? 'MetaMask' : walletKey === 'rabby' ? 'Rabby' : walletKey === 'okx' ? 'OKX' : 'Base';
-        state.chainId = Number(await rawProvider.request({ method: 'eth_chainId' }));
+        state.walletName =
+          walletKey === "metamask" ? "MetaMask" :
+          walletKey === "rabby" ? "Rabby" :
+          walletKey === "okx" ? "OKX" : "Base";
+
+        const rawChain = await rawProvider.request({ method:"eth_chainId" });
+        state.chainId = Number(rawChain);
 
         await bindProviderEvents(rawProvider);
 
-        app.classList.add('is-open');
-        cover.classList.add('slide');
-        setStartMode('connected');
+        app.classList.add("is-open");
+        cover.classList.add("slide");
+        setStartMode("connected");
         setLockedState(false);
         runTopToBottomSequence();
-        showPage('home');
-        pageButtons.forEach(btn => btn.classList.remove('is-active'));
-        document.querySelector('.btn[data-page="home"]')?.classList.add('is-active');
+        showPage("home");
+
+        pageButtons.forEach(btn => btn.classList.remove("is-active"));
+        document.querySelector('.btn[data-page="home"]')?.classList.add("is-active");
 
         homeAddress.textContent = state.shortAddress;
         homeWalletText.textContent = `${state.walletName} connected — navigation is now unlocked.`;
-        homeNetwork.textContent = isArcChain(state.chainId) ? 'Arc Testnet' : 'Wrong network';
+        homeNetwork.textContent = isArcChain(state.chainId) ? "Arc Testnet" : "Wrong network";
 
         await refreshOnchainState();
-        showToast(`${state.walletName} connected.`, 'ok');
-      } catch (error) {
+        showToast(`${state.walletName} connected.`, "ok");
+      }catch(error){
         console.error(error);
-        showToast(error?.message?.slice(0, 140) || 'Could not connect the wallet.', 'warn');
+        showToast(error?.message?.slice(0, 140) || "Could not connect the wallet.", "warn");
       }
     }
 
-    function disconnectWallet() {
+    function disconnectWallet(){
       state.rawProvider = null;
       state.provider = null;
       state.signer = null;
-      state.address = '';
-      state.shortAddress = '';
-      state.walletName = '';
+      state.address = "";
+      state.shortAddress = "";
+      state.walletName = "";
       state.chainId = null;
       state.balances = { LMTV: ethers.BigNumber.from(0), USDC: ethers.BigNumber.from(0), EURC: ethers.BigNumber.from(0) };
       state.allowances = {};
-      state.swap.amountText = '';
+      state.swap.amountText = "";
       state.swap.quoteRaw = ethers.BigNumber.from(0);
-      state.pay.amountText = '';
-      state.pay.recipient = '';
-      state.pay.note = '';
+      state.pay.amountText = "";
+      state.pay.recipient = "";
+      state.pay.note = "";
       state.pay.previewOpen = false;
       state.pay.step = 1;
       state.pay.routeReceivedRaw = ethers.BigNumber.from(0);
+      state.pay.processing = false;
 
-      app.classList.remove('is-open');
-      cover.classList.remove('slide');
+      swapEls.amountInput.value = "";
+      payEls.amountInput.value = "";
+      payEls.recipientInput.value = "";
+      payEls.noteInput.value = "";
+
+      app.classList.remove("is-open");
+      cover.classList.remove("slide");
       stopSequence();
       clearNavState();
       setLockedState(true);
-      setStartMode('idle');
-      showPage('connect');
-
-      swapEls.amountInput.value = '';
-      payEls.amountInput.value = '';
-      payEls.recipientInput.value = '';
-      payEls.noteInput.value = '';
+      setStartMode("idle");
+      showPage("connect");
       renderAll();
-      showToast('Wallet disconnected.');
+      showToast("Wallet disconnected.");
     }
 
-    async function loadTokenMeta() {
-      if (!state.provider) return;
-      for (const [key, cfg] of Object.entries(TOKENS)) {
-        try {
+    async function loadTokenMeta(){
+      if(!state.provider) return;
+      for(const [key, cfg] of Object.entries(TOKENS)){
+        try{
           const c = new ethers.Contract(cfg.address, ERC20_ABI, state.provider);
           const [symbol, decimals] = await Promise.all([
             c.symbol().catch(() => key),
             c.decimals().catch(() => cfg.fallbackDecimals)
           ]);
           state.tokenMeta[key] = { symbol, decimals: Number(decimals) };
-        } catch {
+        }catch{
           state.tokenMeta[key] = { symbol: key, decimals: cfg.fallbackDecimals };
         }
       }
     }
 
-    async function estimateFee() {
-      if (!state.provider) return;
-      try {
+    async function estimateFee(){
+      if(!state.provider) return;
+      try{
         const feeData = await state.provider.getFeeData();
         const gasPrice = feeData.gasPrice || feeData.maxFeePerGas || ethers.BigNumber.from(0);
         state.feeEstimate = gasPrice.mul(180000);
-      } catch {
+      }catch{
         state.feeEstimate = ethers.BigNumber.from(0);
       }
     }
 
-    async function refreshBalances() {
-      if (!state.provider || !state.address) return;
+    async function refreshBalances(){
+      if(!state.provider || !state.address) return;
       const entries = Object.entries(TOKENS);
       await Promise.all(entries.map(async ([key, cfg]) => {
-        try {
+        try{
           const c = new ethers.Contract(cfg.address, ERC20_ABI, state.provider);
           state.balances[key] = await c.balanceOf(state.address);
-        } catch {
+        }catch{
           state.balances[key] = ethers.BigNumber.from(0);
         }
       }));
     }
 
-    async function refreshAllowances() {
-      if (!state.provider || !state.address) return;
+    async function refreshAllowances(){
+      if(!state.provider || !state.address) return;
       const lmtv = new ethers.Contract(TOKENS.LMTV.address, ERC20_ABI, state.provider);
       const usdc = new ethers.Contract(TOKENS.USDC.address, ERC20_ABI, state.provider);
 
-      try { state.allowances['LMTV:USDC'] = await lmtv.allowance(state.address, POOLS.LMTV_USDC.address); } catch { state.allowances['LMTV:USDC'] = ethers.BigNumber.from(0); }
-      try { state.allowances['USDC:LMTV'] = await usdc.allowance(state.address, POOLS.LMTV_USDC.address); } catch { state.allowances['USDC:LMTV'] = ethers.BigNumber.from(0); }
-      try { state.allowances['LMTV:EURC'] = await lmtv.allowance(state.address, POOLS.LMTV_EURC.address); } catch { state.allowances['LMTV:EURC'] = ethers.BigNumber.from(0); }
+      try{ state.allowances["LMTV:USDC"] = await lmtv.allowance(state.address, POOLS.LMTV_USDC.address); }catch{ state.allowances["LMTV:USDC"] = ethers.BigNumber.from(0); }
+      try{ state.allowances["USDC:LMTV"] = await usdc.allowance(state.address, POOLS.LMTV_USDC.address); }catch{ state.allowances["USDC:LMTV"] = ethers.BigNumber.from(0); }
+      try{ state.allowances["LMTV:EURC"] = await lmtv.allowance(state.address, POOLS.LMTV_EURC.address); }catch{ state.allowances["LMTV:EURC"] = ethers.BigNumber.from(0); }
     }
 
-    async function refreshOnchainState() {
-      if (!state.provider || !state.address) {
+    function getSwapFromToken(){
+      return state.swap.from;
+    }
+
+    function getSwapToToken(){
+      return state.swap.from === "LMTV" ? "USDC" : "LMTV";
+    }
+
+    async function updateSwapQuote(){
+      const fromToken = getSwapFromToken();
+      const amountRaw = parseInputToBN(state.swap.amountText, state.tokenMeta[fromToken].decimals);
+      state.swap.quoteRaw = ethers.BigNumber.from(0);
+
+      if(!amountRaw || amountRaw.lte(0) || !state.provider){
+        renderSwap();
+        return;
+      }
+
+      try{
+        const pool = new ethers.Contract(POOLS.LMTV_USDC.address, POOL_ABI, state.provider);
+        state.swap.quoteRaw = await pool.getAmountOut(TOKENS[fromToken].address, amountRaw);
+      }catch(error){
+        console.error(error);
+      }
+      renderSwap();
+    }
+
+    async function estimateLmtvForStableOutput(targetRaw, stableKey){
+      if(!state.provider || !targetRaw || targetRaw.lte(0)) return ethers.BigNumber.from(0);
+      const poolAddress = stableKey === "USDC" ? POOLS.LMTV_USDC.address : POOLS.LMTV_EURC.address;
+      const pool = new ethers.Contract(poolAddress, POOL_ABI, state.provider);
+
+      let low = ethers.BigNumber.from(1);
+      let high = ethers.utils.parseUnits("1000000", state.tokenMeta.LMTV.decimals);
+
+      for(let i = 0; i < 26; i++){
+        const mid = low.add(high).div(2);
+        const out = await pool.getAmountOut(TOKENS.LMTV.address, mid);
+        if(out.gte(targetRaw)){
+          high = mid;
+        }else{
+          low = mid.add(1);
+        }
+      }
+      return high;
+    }
+
+    async function updatePayQuote(){
+      state.pay.requiredInputRaw = ethers.BigNumber.from(0);
+      state.pay.routeReceivedRaw = ethers.BigNumber.from(0);
+
+      const targetRaw = parseInputToBN(state.pay.amountText, state.tokenMeta[state.pay.stable].decimals);
+      if(!targetRaw || targetRaw.lte(0) || !state.provider){
+        renderPay();
+        return;
+      }
+
+      try{
+        const baseRequired = await estimateLmtvForStableOutput(targetRaw, state.pay.stable);
+        const slipBps = Math.round(state.swap.slippage * 100);
+        const buffered = baseRequired.mul(10000 + slipBps).div(10000);
+        const poolAddress = state.pay.stable === "USDC" ? POOLS.LMTV_USDC.address : POOLS.LMTV_EURC.address;
+        const pool = new ethers.Contract(poolAddress, POOL_ABI, state.provider);
+        const routeOut = await pool.getAmountOut(TOKENS.LMTV.address, buffered);
+
+        state.pay.requiredInputRaw = buffered;
+        state.pay.routeReceivedRaw = routeOut;
+      }catch(error){
+        console.error(error);
+      }
+
+      renderPay();
+    }
+
+    async function refreshOnchainState(){
+      if(!state.provider || !state.address){
         renderAll();
         return;
       }
@@ -1998,103 +2255,30 @@
       renderAll();
     }
 
-    function getSwapPair() {
-      return POOLS.LMTV_USDC;
+    function renderHome(){
+      homeAddress.textContent = state.shortAddress || "—";
+      homeWalletText.textContent = state.address
+        ? `${state.walletName || "Wallet"} connected — navigation is now unlocked.`
+        : "Navigation is locked until a wallet is connected.";
+      homeNetwork.textContent = state.chainId && isArcChain(state.chainId) ? "Arc Testnet" : "Arc Testnet";
     }
 
-    function getSwapFromToken() {
-      return state.swap.from;
-    }
-
-    function getSwapToToken() {
-      return state.swap.from === 'LMTV' ? 'USDC' : 'LMTV';
-    }
-
-    async function updateSwapQuote() {
-      const fromToken = getSwapFromToken();
-      const toToken = getSwapToToken();
-      state.swap.quoteRaw = ethers.BigNumber.from(0);
-
-      const amountRaw = parseInputToBN(state.swap.amountText, state.tokenMeta[fromToken].decimals);
-      if (!amountRaw || amountRaw.lte(0) || !state.provider) {
-        renderSwap();
-        return;
-      }
-      try {
-        const pool = new ethers.Contract(getSwapPair().address, POOL_ABI, state.provider);
-        state.swap.quoteRaw = await pool.getAmountOut(TOKENS[fromToken].address, amountRaw);
-      } catch (e) {
-        console.error(e);
-      }
-      renderSwap();
-    }
-
-    async function estimateLmtvForStableOutput(targetRaw, stableKey) {
-      if (!state.provider || !targetRaw || targetRaw.lte(0)) return ethers.BigNumber.from(0);
-      const poolAddress = stableKey === 'USDC' ? POOLS.LMTV_USDC.address : POOLS.LMTV_EURC.address;
-      const pool = new ethers.Contract(poolAddress, POOL_ABI, state.provider);
-
-      let low = ethers.BigNumber.from(1);
-      let high = ethers.utils.parseUnits('1000000', state.tokenMeta.LMTV.decimals);
-
-      for (let i = 0; i < 26; i++) {
-        const mid = low.add(high).div(2);
-        const out = await pool.getAmountOut(TOKENS.LMTV.address, mid);
-        if (out.gte(targetRaw)) {
-          high = mid;
-        } else {
-          low = mid.add(1);
-        }
-      }
-      return high;
-    }
-
-    async function updatePayQuote() {
-      state.pay.baseInputRaw = ethers.BigNumber.from(0);
-      state.pay.requiredInputRaw = ethers.BigNumber.from(0);
-      state.pay.routeReceivedRaw = ethers.BigNumber.from(0);
-
-      const targetRaw = parseInputToBN(state.pay.amountText, state.tokenMeta[state.pay.stable].decimals);
-      if (!targetRaw || targetRaw.lte(0) || !state.provider) {
-        renderPay();
-        return;
-      }
-      try {
-        const baseRequired = await estimateLmtvForStableOutput(targetRaw, state.pay.stable);
-        const slipBps = Math.round(state.swap.slippage * 100);
-        const buffered = baseRequired.mul(10000 + slipBps).div(10000);
-        const poolAddress = state.pay.stable === 'USDC' ? POOLS.LMTV_USDC.address : POOLS.LMTV_EURC.address;
-        const pool = new ethers.Contract(poolAddress, POOL_ABI, state.provider);
-        const routeOut = await pool.getAmountOut(TOKENS.LMTV.address, buffered);
-        state.pay.baseInputRaw = baseRequired;
-        state.pay.requiredInputRaw = buffered;
-        state.pay.routeReceivedRaw = routeOut;
-      } catch (e) {
-        console.error(e);
-      }
-      renderPay();
-    }
-
-    function renderHome() {
-      homeAddress.textContent = state.shortAddress || '—';
-      homeWalletText.textContent = state.address ? `${state.walletName || 'Wallet'} connected — navigation is now unlocked.` : 'Navigation is locked until a wallet is connected.';
-      homeNetwork.textContent = state.chainId && isArcChain(state.chainId) ? 'Arc Testnet' : 'Arc Testnet';
-    }
-
-    function renderSwap() {
+    function renderSwap(){
       const fromToken = getSwapFromToken();
       const toToken = getSwapToToken();
 
       swapEls.fromName.textContent = state.tokenMeta[fromToken].symbol;
       swapEls.toName.textContent = state.tokenMeta[toToken].symbol;
-
       setTokenBadge(swapEls.fromBadge, fromToken);
       setTokenBadge(swapEls.toBadge, toToken);
 
       swapEls.fromBalance.textContent = `Balance ${formatAmount(state.balances[fromToken], state.tokenMeta[fromToken].decimals, 4)}`;
       swapEls.toBalance.textContent = `Balance ${formatAmount(state.balances[toToken], state.tokenMeta[toToken].decimals, 4)}`;
 
-      swapEls.quoteValue.textContent = state.swap.quoteRaw.gt(0) ? formatAmount(state.swap.quoteRaw, state.tokenMeta[toToken].decimals, 4) : '0.0000';
+      swapEls.quoteValue.textContent = state.swap.quoteRaw.gt(0)
+        ? formatAmount(state.swap.quoteRaw, state.tokenMeta[toToken].decimals, 4)
+        : "0.0000";
+
       swapEls.slippageText.textContent = `Slippage ${state.swap.slippage.toFixed(1)}%`;
       swapEls.slippageSummary.textContent = `${state.swap.slippage.toFixed(2)}%`;
       swapEls.slippageInput.value = state.swap.slippage.toFixed(1);
@@ -2102,61 +2286,66 @@
       const quoteNum = parseFloat(ethers.utils.formatUnits(state.swap.quoteRaw || 0, state.tokenMeta[toToken].decimals));
       const amtRaw = parseInputToBN(state.swap.amountText, state.tokenMeta[fromToken].decimals);
       const amtNum = amtRaw ? parseFloat(ethers.utils.formatUnits(amtRaw, state.tokenMeta[fromToken].decimals)) : 0;
-      swapEls.rateText.textContent = (amtNum > 0 && quoteNum > 0) ? `1 ${state.tokenMeta[fromToken].symbol} = ${(quoteNum / amtNum).toFixed(4)} ${state.tokenMeta[toToken].symbol}` : '—';
-      swapEls.feeText.textContent = state.feeEstimate.gt(0) ? `${formatAmount(state.feeEstimate, 18, 4)} USDC` : '—';
+
+      swapEls.rateText.textContent = (amtNum > 0 && quoteNum > 0)
+        ? `1 ${state.tokenMeta[fromToken].symbol} = ${(quoteNum / amtNum).toFixed(4)} ${state.tokenMeta[toToken].symbol}`
+        : "—";
+
+      swapEls.feeText.textContent = state.feeEstimate.gt(0)
+        ? `${formatAmount(state.feeEstimate, 18, 4)} USDC`
+        : "—";
 
       const quickVisible = !!state.swap.amountText.trim();
-      swapEls.quickRow.classList.toggle('show', quickVisible);
-      swapEls.amountWrap.classList.toggle('empty-caret', !quickVisible);
+      swapEls.quickRow.classList.toggle("show", quickVisible);
+      swapEls.amountWrap.classList.toggle("empty-caret", !quickVisible);
 
-      const usedToday = state.address ? getDailyCount('swapdemo') : 0;
+      const usedToday = state.address ? getDailyCount("swapdemo") : 0;
       const leftToday = Math.max(0, 5 - usedToday);
       swapEls.dailyText.textContent = String(leftToday);
 
-      let swapBtnText = 'Swap tokens';
+      let swapBtnText = "Swap tokens";
       let swapDisabled = true;
-      let alertText = 'Enter an amount to test the swap route.';
-      let alertType = '';
+      let alertText = "Enter an amount to test the swap route.";
+      let alertType = "";
 
-      if (!state.address) {
-        swapBtnText = 'Connect wallet';
-        alertText = 'Connect your wallet to load balances and test the demo swap on Arc Testnet.';
-      } else if (!isArcChain(state.chainId)) {
-        swapBtnText = 'Wrong network';
-        alertText = 'Switch the connected wallet to Arc Testnet before using the live swap.';
-        alertType = 'warn';
-      } else if (!amtRaw || amtRaw.lte(0)) {
-        swapBtnText = 'Enter amount';
-      } else if (leftToday <= 0) {
-        swapBtnText = 'Daily limit reached';
-        alertText = 'This demo allows up to 5 swaps per day for each wallet.';
-        alertType = 'warn';
-      } else {
+      if(!state.address){
+        swapBtnText = "Connect wallet";
+        alertText = "Connect your wallet to load balances and test the demo swap on Arc Testnet.";
+      }else if(!isArcChain(state.chainId)){
+        swapBtnText = "Wrong network";
+        alertText = "Switch the connected wallet to Arc Testnet before using the live swap.";
+        alertType = "warn";
+      }else if(!amtRaw || amtRaw.lte(0)){
+        swapBtnText = "Enter amount";
+      }else if(leftToday <= 0){
+        swapBtnText = "Daily limit reached";
+        alertText = "This demo allows up to 5 swaps per day for each wallet.";
+        alertType = "warn";
+      }else{
         const balanceRaw = state.balances[fromToken] || ethers.BigNumber.from(0);
-        const stableEquivalent = fromToken === 'USDC' ? amtRaw : state.swap.quoteRaw;
-        const stableDecimals = state.tokenMeta.USDC.decimals;
-        const stableNum = stableEquivalent ? parseFloat(ethers.utils.formatUnits(stableEquivalent, stableDecimals)) : 0;
-        const allowanceKey = fromToken === 'LMTV' ? 'LMTV:USDC' : 'USDC:LMTV';
+        const stableEquivalent = fromToken === "USDC" ? amtRaw : state.swap.quoteRaw;
+        const stableNum = stableEquivalent ? parseFloat(ethers.utils.formatUnits(stableEquivalent, state.tokenMeta.USDC.decimals)) : 0;
+        const allowanceKey = fromToken === "LMTV" ? "LMTV:USDC" : "USDC:LMTV";
         const allowance = state.allowances[allowanceKey] || ethers.BigNumber.from(0);
 
-        if (amtRaw.gt(balanceRaw)) {
-          swapBtnText = 'Insufficient balance';
+        if(amtRaw.gt(balanceRaw)){
+          swapBtnText = "Insufficient balance";
           alertText = `Your ${fromToken} balance is too low for this swap.`;
-          alertType = 'warn';
-        } else if (stableNum > 10.000001) {
-          swapBtnText = 'Over demo limit';
-          alertText = 'For this demo, each swap is limited to 10 dollars.';
-          alertType = 'warn';
-        } else if (!state.swap.quoteRaw || state.swap.quoteRaw.lte(0)) {
-          swapBtnText = 'No route';
-          alertText = 'Could not compute a valid quote from the current pool state.';
-          alertType = 'warn';
-        } else if (allowance.lt(amtRaw)) {
+          alertType = "warn";
+        }else if(stableNum > 10.000001){
+          swapBtnText = "Over demo limit";
+          alertText = "For this demo, each swap is limited to 10 dollars.";
+          alertType = "warn";
+        }else if(!state.swap.quoteRaw || state.swap.quoteRaw.lte(0)){
+          swapBtnText = "No route";
+          alertText = "Could not compute a valid quote from the current pool state.";
+          alertType = "warn";
+        }else if(allowance.lt(amtRaw)){
           swapBtnText = `Approve ${fromToken}`;
           alertText = `Approval is needed before the pool can use your ${fromToken}.`;
           swapDisabled = false;
-        } else {
-          swapBtnText = 'Swap tokens';
+        }else{
+          swapBtnText = "Swap tokens";
           alertText = `Ready to swap ${formatAmount(amtRaw, state.tokenMeta[fromToken].decimals, 4)} ${fromToken} for about ${formatAmount(state.swap.quoteRaw, state.tokenMeta[toToken].decimals, 4)} ${toToken}.`;
           swapDisabled = false;
         }
@@ -2168,44 +2357,42 @@
       swapEls.alert.className = `swap-alert ${alertType}`.trim();
     }
 
-    function getPayPoolAddress() {
-      return state.pay.stable === 'USDC' ? POOLS.LMTV_USDC.address : POOLS.LMTV_EURC.address;
-    }
-
-    function renderPay() {
-      payEls.stableBtns.forEach(btn => btn.classList.toggle('active', btn.dataset.stable === state.pay.stable));
+    function renderPay(){
+      payEls.stableBtns.forEach(btn => btn.classList.toggle("active", btn.dataset.stable === state.pay.stable));
       payEls.receiveTicker.textContent = state.pay.stable;
-      payEls.receiverGets.textContent = state.pay.amountText.trim() ? state.pay.amountText.trim() : '0.00';
-      payEls.youSend.textContent = state.pay.requiredInputRaw.gt(0) ? formatAmount(state.pay.requiredInputRaw, state.tokenMeta.LMTV.decimals, 4) : '0.00';
+      payEls.receiverGets.textContent = state.pay.amountText.trim() ? state.pay.amountText.trim() : "0.00";
+      payEls.youSend.textContent = state.pay.requiredInputRaw.gt(0)
+        ? formatAmount(state.pay.requiredInputRaw, state.tokenMeta.LMTV.decimals, 4)
+        : "0.00";
 
-      payEls.recipientWrap.classList.toggle('empty', !state.pay.recipient.trim());
-      payEls.amountWrap.classList.toggle('empty', !state.pay.amountText.trim());
+      payEls.recipientWrap.classList.toggle("empty", !state.pay.recipient.trim());
+      payEls.amountWrap.classList.toggle("empty", !state.pay.amountText.trim());
 
-      payEls.hideNoteToggle.classList.toggle('on', state.pay.hideNote);
-      payEls.noteLabel.textContent = state.pay.hideNote ? 'Hide note' : 'Show note';
-      payEls.noteBox.style.display = state.pay.hideNote ? 'none' : 'flex';
+      payEls.hideNoteToggle.classList.toggle("on", state.pay.hideNote);
+      payEls.noteLabel.textContent = state.pay.hideNote ? "Hide note" : "Show note";
+      payEls.noteBox.style.display = state.pay.hideNote ? "none" : "flex";
 
-      setPayCoin('LMTV');
+      setPayCoin("LMTV");
 
       const targetRaw = parseInputToBN(state.pay.amountText, state.tokenMeta[state.pay.stable].decimals);
       const minReceived = state.pay.routeReceivedRaw.gt(0)
         ? state.pay.routeReceivedRaw.mul(10000 - Math.round(state.swap.slippage * 100)).div(10000)
         : ethers.BigNumber.from(0);
 
-      payEls.routeFrom.textContent = `${state.pay.requiredInputRaw.gt(0) ? formatAmount(state.pay.requiredInputRaw, state.tokenMeta.LMTV.decimals, 4) : '0.00'} LMTV`;
-      payEls.routeTo.textContent = `${targetRaw ? formatAmount(targetRaw, state.tokenMeta[state.pay.stable].decimals, 2) : '0.00'} ${state.pay.stable}`;
+      payEls.routeFrom.textContent = `${state.pay.requiredInputRaw.gt(0) ? formatAmount(state.pay.requiredInputRaw, state.tokenMeta.LMTV.decimals, 4) : "0.00"} LMTV`;
+      payEls.routeTo.textContent = `${targetRaw ? formatAmount(targetRaw, state.tokenMeta[state.pay.stable].decimals, 2) : "0.00"} ${state.pay.stable}`;
       payEls.routeMini.textContent = `LMTV → ${state.pay.stable}`;
       payEls.slipMini.textContent = `${state.swap.slippage.toFixed(2)}%`;
-      payEls.feeMini.textContent = state.feeEstimate.gt(0) ? `${formatAmount(state.feeEstimate, 18, 4)} USDC` : '—';
-      payEls.minMini.textContent = minReceived.gt(0) ? `${formatAmount(minReceived, state.tokenMeta[state.pay.stable].decimals, 2)} ${state.pay.stable}` : '—';
-      payEls.noteMini.textContent = `Note: ${state.pay.note.trim() || 'none'}`;
+      payEls.feeMini.textContent = state.feeEstimate.gt(0) ? `${formatAmount(state.feeEstimate, 18, 4)} USDC` : "—";
+      payEls.minMini.textContent = minReceived.gt(0) ? `${formatAmount(minReceived, state.tokenMeta[state.pay.stable].decimals, 2)} ${state.pay.stable}` : "—";
+      payEls.noteMini.textContent = `Note: ${state.pay.note.trim() || "none"}`;
 
-      payEls.previewPanel.classList.toggle('open', state.pay.previewOpen);
+      payEls.previewPanel.classList.toggle("open", state.pay.previewOpen);
 
       const paySteps = [
-        { title: 'Approve LMTV', copy: 'Allow the selected pool to spend your LMTV for this payment route.' },
+        { title: "Approve LMTV", copy: "Allow the selected pool to spend your LMTV for this payment route." },
         { title: `Swap to ${state.pay.stable}`, copy: `Convert your LMTV into ${state.pay.stable} through the selected Arc Testnet pool.` },
-        { title: 'Send stable to receiver', copy: `Transfer the requested ${state.pay.stable} amount to the recipient wallet.` }
+        { title: "Send stable to receiver", copy: `Transfer the requested ${state.pay.stable} amount to the recipient wallet.` }
       ];
 
       const stepIndex = Math.max(1, Math.min(3, state.pay.step));
@@ -2214,92 +2401,92 @@
       payEls.stepTitle.textContent = paySteps[stepIndex - 1].title;
       payEls.stepCopy.textContent = paySteps[stepIndex - 1].copy;
 
-      let payBtnText = 'Swap & Pay';
+      let payBtnText = "Swap & Pay";
       let payDisabled = true;
 
       const poolAllowance = state.allowances[`LMTV:${state.pay.stable}`] || ethers.BigNumber.from(0);
 
-      if (!state.address) {
-        payBtnText = 'Connect wallet';
-      } else if (!isArcChain(state.chainId)) {
-        payBtnText = 'Wrong network';
-      } else if (!state.pay.recipient.trim()) {
-        payBtnText = 'Enter recipient';
-      } else if (!ethers.utils.isAddress(state.pay.recipient.trim())) {
-        payBtnText = 'Invalid wallet';
-      } else if (!targetRaw || targetRaw.lte(0)) {
-        payBtnText = 'Enter amount';
-      } else if (state.pay.requiredInputRaw.lte(0)) {
-        payBtnText = 'No route';
-      } else if (state.pay.requiredInputRaw.gt(state.balances.LMTV || ethers.BigNumber.from(0))) {
-        payBtnText = 'Insufficient LMTV';
-      } else if (!state.pay.previewOpen) {
-        payBtnText = 'Swap & Pay';
+      if(!state.address){
+        payBtnText = "Connect wallet";
+      }else if(!isArcChain(state.chainId)){
+        payBtnText = "Wrong network";
+      }else if(!state.pay.recipient.trim()){
+        payBtnText = "Enter recipient";
+      }else if(!ethers.utils.isAddress(state.pay.recipient.trim())){
+        payBtnText = "Invalid wallet";
+      }else if(!targetRaw || targetRaw.lte(0)){
+        payBtnText = "Enter amount";
+      }else if(state.pay.requiredInputRaw.lte(0)){
+        payBtnText = "No route";
+      }else if(state.pay.requiredInputRaw.gt(state.balances.LMTV || ethers.BigNumber.from(0))){
+        payBtnText = "Insufficient LMTV";
+      }else if(!state.pay.previewOpen){
+        payBtnText = "Swap & Pay";
         payDisabled = false;
-      } else if (state.pay.processing) {
+      }else if(state.pay.processing){
         payBtnText = `Working ${state.pay.step}/3`;
-      } else if (state.pay.step === 1) {
-        payBtnText = poolAllowance.gte(state.pay.requiredInputRaw) ? 'Confirm 2/3' : 'Confirm 1/3';
+      }else if(state.pay.step === 1){
+        payBtnText = poolAllowance.gte(state.pay.requiredInputRaw) ? "Confirm 2/3" : "Confirm 1/3";
         payDisabled = false;
-      } else if (state.pay.step === 2) {
-        payBtnText = 'Confirm 2/3';
+      }else if(state.pay.step === 2){
+        payBtnText = "Confirm 2/3";
         payDisabled = false;
-      } else if (state.pay.step === 3) {
-        payBtnText = 'Confirm 3/3';
+      }else if(state.pay.step === 3){
+        payBtnText = "Confirm 3/3";
         payDisabled = false;
-      } else {
-        payBtnText = 'Completed';
+      }else{
+        payBtnText = "Completed";
       }
 
       payEls.actionBtn.textContent = payBtnText;
       payEls.actionBtn.disabled = payDisabled;
     }
 
-    function renderAll() {
+    function renderAll(){
       renderHome();
       renderSwap();
       renderPay();
     }
 
-    async function handleSwapAction() {
-      if (!state.address) {
-        showToast('Connect a wallet first.', 'warn');
+    async function handleSwapAction(){
+      if(!state.address){
+        showToast("Connect a wallet first.", "warn");
         return;
       }
-      if (!isArcChain(state.chainId)) {
-        showToast('Switch to Arc Testnet first.', 'warn');
+      if(!isArcChain(state.chainId)){
+        showToast("Switch to Arc Testnet first.", "warn");
         return;
       }
 
       const fromToken = getSwapFromToken();
       const amountRaw = parseInputToBN(state.swap.amountText, state.tokenMeta[fromToken].decimals);
-      if (!amountRaw || amountRaw.lte(0)) return;
+      if(!amountRaw || amountRaw.lte(0)) return;
 
-      const leftToday = Math.max(0, 5 - getDailyCount('swapdemo'));
-      if (leftToday <= 0) {
-        showToast('The 5 swaps per day demo limit has been reached.', 'warn');
+      const leftToday = Math.max(0, 5 - getDailyCount("swapdemo"));
+      if(leftToday <= 0){
+        showToast("The 5 swaps per day demo limit has been reached.", "warn");
         return;
       }
 
-      const stableEquivalent = fromToken === 'USDC' ? amountRaw : state.swap.quoteRaw;
-      if (parseFloat(ethers.utils.formatUnits(stableEquivalent, state.tokenMeta.USDC.decimals)) > 10.000001) {
-        showToast('This demo swap is limited to 10 dollars.', 'warn');
+      const stableEquivalent = fromToken === "USDC" ? amountRaw : state.swap.quoteRaw;
+      if(parseFloat(ethers.utils.formatUnits(stableEquivalent, state.tokenMeta.USDC.decimals)) > 10.000001){
+        showToast("This demo swap is limited to 10 dollars.", "warn");
         return;
       }
 
-      try {
-        const spender = getSwapPair().address;
-        const allowanceKey = fromToken === 'LMTV' ? 'LMTV:USDC' : 'USDC:LMTV';
+      try{
+        const spender = POOLS.LMTV_USDC.address;
+        const allowanceKey = fromToken === "LMTV" ? "LMTV:USDC" : "USDC:LMTV";
         const allowance = state.allowances[allowanceKey] || ethers.BigNumber.from(0);
 
-        if (allowance.lt(amountRaw)) {
+        if(allowance.lt(amountRaw)){
           const token = new ethers.Contract(TOKENS[fromToken].address, ERC20_ABI, state.signer);
           swapEls.actionBtn.disabled = true;
           swapEls.actionBtn.textContent = `Approving ${fromToken}...`;
           const tx = await token.approve(spender, ethers.constants.MaxUint256);
           showToast(`Approval sent for ${fromToken}.`);
           await tx.wait();
-          showToast(`${fromToken} approved.`, 'ok');
+          showToast(`${fromToken} approved.`, "ok");
           await refreshAllowances();
           renderSwap();
           return;
@@ -2307,82 +2494,83 @@
 
         const pool = new ethers.Contract(spender, POOL_ABI, state.signer);
         swapEls.actionBtn.disabled = true;
-        swapEls.actionBtn.textContent = 'Swapping...';
+        swapEls.actionBtn.textContent = "Swapping...";
         const tx = await pool.swap(TOKENS[fromToken].address, amountRaw);
-        showToast('Swap transaction sent.');
+        showToast("Swap transaction sent.");
         await tx.wait();
-        bumpDailyCount('swapdemo');
-        state.swap.amountText = '';
-        swapEls.amountInput.value = '';
+
+        bumpDailyCount("swapdemo");
+        state.swap.amountText = "";
+        swapEls.amountInput.value = "";
         await refreshOnchainState();
         renderSwap();
-        showToast('Swap complete.', 'ok');
-      } catch (error) {
+        showToast("Swap complete.", "ok");
+      }catch(error){
         console.error(error);
-        showToast(error?.message?.slice(0, 140) || 'Swap failed.', 'warn');
+        showToast(error?.message?.slice(0, 140) || "Swap failed.", "warn");
         renderSwap();
       }
     }
 
-    function openPayPreview() {
+    function openPayPreview(){
       state.pay.previewOpen = true;
       state.pay.step = 1;
-      payEls.orbBtn.classList.add('pay-rotate');
-      setTimeout(() => payEls.orbBtn.classList.remove('pay-rotate'), 560);
+      payEls.orbBtn.classList.add("pay-rotate");
+      setTimeout(() => payEls.orbBtn.classList.remove("pay-rotate"), 560);
       renderPay();
     }
 
-    async function handlePayAction() {
-      if (!state.address) {
-        showToast('Connect a wallet first.', 'warn');
+    async function handlePayAction(){
+      if(!state.address){
+        showToast("Connect a wallet first.", "warn");
         return;
       }
-      if (!isArcChain(state.chainId)) {
-        showToast('Switch to Arc Testnet first.', 'warn');
+      if(!isArcChain(state.chainId)){
+        showToast("Switch to Arc Testnet first.", "warn");
         return;
       }
-      if (!ethers.utils.isAddress(state.pay.recipient.trim())) {
-        showToast('Enter a valid recipient wallet.', 'warn');
+      if(!ethers.utils.isAddress(state.pay.recipient.trim())){
+        showToast("Enter a valid recipient wallet.", "warn");
         return;
       }
 
       const targetRaw = parseInputToBN(state.pay.amountText, state.tokenMeta[state.pay.stable].decimals);
-      if (!targetRaw || targetRaw.lte(0)) {
-        showToast('Enter the stable amount the receiver should get.', 'warn');
+      if(!targetRaw || targetRaw.lte(0)){
+        showToast("Enter the stable amount the receiver should get.", "warn");
         return;
       }
-      if (state.pay.requiredInputRaw.lte(0)) {
-        showToast('Could not calculate the payment route.', 'warn');
+      if(state.pay.requiredInputRaw.lte(0)){
+        showToast("Could not calculate the payment route.", "warn");
         return;
       }
-      if (state.pay.requiredInputRaw.gt(state.balances.LMTV)) {
-        showToast('Not enough LMTV for this payment.', 'warn');
+      if(state.pay.requiredInputRaw.gt(state.balances.LMTV)){
+        showToast("Not enough LMTV for this payment.", "warn");
         return;
       }
 
-      if (!state.pay.previewOpen) {
+      if(!state.pay.previewOpen){
         openPayPreview();
         return;
       }
 
-      const poolAddress = getPayPoolAddress();
+      const poolAddress = state.pay.stable === "USDC" ? POOLS.LMTV_USDC.address : POOLS.LMTV_EURC.address;
       const poolAllowance = state.allowances[`LMTV:${state.pay.stable}`] || ethers.BigNumber.from(0);
       const stableTokenAddress = TOKENS[state.pay.stable].address;
 
-      try {
+      try{
         state.pay.processing = true;
         renderPay();
 
-        if (state.pay.step === 1) {
-          if (poolAllowance.lt(state.pay.requiredInputRaw)) {
+        if(state.pay.step === 1){
+          if(poolAllowance.lt(state.pay.requiredInputRaw)){
             const token = new ethers.Contract(TOKENS.LMTV.address, ERC20_ABI, state.signer);
             const tx = await token.approve(poolAddress, ethers.constants.MaxUint256);
-            showToast('Approval transaction sent.');
+            showToast("Approval transaction sent.");
             await tx.wait();
-            showToast('LMTV approved.', 'ok');
+            showToast("LMTV approved.", "ok");
             await refreshAllowances();
-          } else {
-            showToast('Allowance already ready.', 'ok');
+          }else{
+            showToast("Allowance already ready.", "ok");
           }
           state.pay.step = 2;
           state.pay.processing = false;
@@ -2390,33 +2578,34 @@
           return;
         }
 
-        if (state.pay.step === 2) {
+        if(state.pay.step === 2){
           const stableContract = new ethers.Contract(stableTokenAddress, ERC20_ABI, state.provider);
           const beforeBal = await stableContract.balanceOf(state.address);
 
           const pool = new ethers.Contract(poolAddress, POOL_ABI, state.signer);
           const tx = await pool.swap(TOKENS.LMTV.address, state.pay.requiredInputRaw);
-          showToast('Swap transaction sent.');
+          showToast("Swap transaction sent.");
           await tx.wait();
 
           const afterBal = await stableContract.balanceOf(state.address);
           const delta = afterBal.sub(beforeBal);
           state.pay.routeReceivedRaw = delta.gt(0) ? delta : state.pay.routeReceivedRaw;
+
           state.pay.step = 3;
           await refreshBalances();
           state.pay.processing = false;
           renderPay();
-          showToast(`LMTV swapped to ${state.pay.stable}.`, 'ok');
+          showToast(`LMTV swapped to ${state.pay.stable}.`, "ok");
           return;
         }
 
-        if (state.pay.step === 3) {
+        if(state.pay.step === 3){
           const stableContract = new ethers.Contract(stableTokenAddress, ERC20_ABI, state.signer);
           const currentBal = await stableContract.balanceOf(state.address);
-          if (currentBal.lt(targetRaw)) {
+          if(currentBal.lt(targetRaw)){
             state.pay.processing = false;
             renderPay();
-            showToast(`Not enough ${state.pay.stable} after swap to send the requested amount.`, 'warn');
+            showToast(`Not enough ${state.pay.stable} after swap to send the requested amount.`, "warn");
             return;
           }
 
@@ -2427,32 +2616,33 @@
           state.pay.processing = false;
           state.pay.previewOpen = false;
           state.pay.step = 1;
-          state.pay.amountText = '';
-          state.pay.recipient = '';
-          state.pay.note = '';
-          payEls.amountInput.value = '';
-          payEls.recipientInput.value = '';
-          payEls.noteInput.value = '';
+          state.pay.amountText = "";
+          state.pay.recipient = "";
+          state.pay.note = "";
+
+          payEls.amountInput.value = "";
+          payEls.recipientInput.value = "";
+          payEls.noteInput.value = "";
+
           await refreshOnchainState();
           renderPay();
-          showToast('Swap & Pay complete.', 'ok');
-          return;
+          showToast("Swap & Pay complete.", "ok");
         }
-      } catch (error) {
+      }catch(error){
         console.error(error);
         state.pay.processing = false;
         renderPay();
-        showToast(error?.message?.slice(0, 150) || 'Swap & Pay failed.', 'warn');
+        showToast(error?.message?.slice(0, 150) || "Swap & Pay failed.", "warn");
       }
     }
 
-    function updateSwapInputState() {
+    function updateSwapInputState(){
       state.swap.amountText = swapEls.amountInput.value.trim();
       updateSwapQuote();
       renderSwap();
     }
 
-    function updatePayInputs() {
+    function updatePayInputs(){
       state.pay.recipient = payEls.recipientInput.value.trim();
       state.pay.amountText = payEls.amountInput.value.trim();
       state.pay.note = payEls.noteInput.value.trim();
@@ -2464,10 +2654,10 @@
       }, 140);
     }
 
-    async function startScanner() {
-      if (!('mediaDevices' in navigator)) {
-        const pasted = prompt('Paste the recipient wallet address');
-        if (pasted) {
+    async function startScanner(){
+      if(!("mediaDevices" in navigator)){
+        const pasted = prompt("Paste the recipient wallet address");
+        if(pasted){
           state.pay.recipient = pasted.trim();
           payEls.recipientInput.value = state.pay.recipient;
           renderPay();
@@ -2475,45 +2665,46 @@
         return;
       }
 
-      if ('BarcodeDetector' in window) {
-        try {
-          scannerDetector = new BarcodeDetector({ formats: ['qr_code'] });
-        } catch {
+      if("BarcodeDetector" in window){
+        try{
+          scannerDetector = new BarcodeDetector({ formats:["qr_code"] });
+        }catch{
           scannerDetector = null;
         }
       }
 
-      try {
-        scannerStream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } });
+      try{
+        scannerStream = await navigator.mediaDevices.getUserMedia({ video:{ facingMode:"environment" } });
         scannerEls.video.srcObject = scannerStream;
-        scannerEls.modal.classList.add('open');
+        scannerEls.modal.classList.add("open");
 
         const scanLoop = async () => {
-          if (!scannerStream) return;
-          if (scannerDetector && scannerEls.video.readyState >= 2) {
-            try {
+          if(!scannerStream) return;
+          if(scannerDetector && scannerEls.video.readyState >= 2){
+            try{
               const barcodes = await scannerDetector.detect(scannerEls.video);
-              if (barcodes && barcodes.length) {
-                const raw = barcodes[0].rawValue || '';
+              if(barcodes && barcodes.length){
+                const raw = barcodes[0].rawValue || "";
                 const match = raw.match(/0x[a-fA-F0-9]{40}/);
-                if (match) {
+                if(match){
                   state.pay.recipient = match[0];
                   payEls.recipientInput.value = match[0];
                   stopScanner();
                   renderPay();
-                  showToast('Recipient wallet captured from QR.', 'ok');
+                  showToast("Recipient wallet captured from QR.", "ok");
                   return;
                 }
               }
-            } catch {}
+            }catch{}
           }
           scannerFrame = requestAnimationFrame(scanLoop);
         };
+
         scanLoop();
-      } catch (error) {
+      }catch(error){
         console.error(error);
-        const pasted = prompt('Camera scanner is not available here. Paste the recipient wallet address');
-        if (pasted) {
+        const pasted = prompt("Camera scanner is not available here. Paste the recipient wallet address");
+        if(pasted){
           state.pay.recipient = pasted.trim();
           payEls.recipientInput.value = state.pay.recipient;
           renderPay();
@@ -2521,46 +2712,86 @@
       }
     }
 
-    function stopScanner() {
-      if (scannerFrame) cancelAnimationFrame(scannerFrame);
+    function stopScanner(){
+      if(scannerFrame) cancelAnimationFrame(scannerFrame);
       scannerFrame = null;
-      if (scannerStream) {
+      if(scannerStream){
         scannerStream.getTracks().forEach(track => track.stop());
         scannerStream = null;
       }
       scannerEls.video.srcObject = null;
-      scannerEls.modal.classList.remove('open');
+      scannerEls.modal.classList.remove("open");
     }
 
-    swapEls.slippagePill.addEventListener('click', (e) => {
-      if (e.target.closest('.slippage-controls')) return;
-      swapEls.slippagePill.classList.toggle('open');
+    startBtn.addEventListener("click", () => {
+      if(state.address){
+        disconnectWallet();
+        return;
+      }
+
+      const isOpen = app.classList.contains("is-open");
+
+      if(!isOpen){
+        app.classList.add("is-open");
+        cover.classList.add("slide");
+        showPage("connect");
+        setLockedState(true);
+        clearNavState();
+        setStartMode("idle");
+      }else{
+        app.classList.remove("is-open");
+        cover.classList.remove("slide");
+        showPage("connect");
+        clearNavState();
+        setLockedState(true);
+        setStartMode("idle");
+      }
     });
 
-    swapEls.slippageInput.addEventListener('change', () => {
+    walletButtons.forEach(btn => {
+      btn.addEventListener("click", () => connectWallet(btn.dataset.wallet));
+    });
+
+    pageButtons.forEach(btn => {
+      btn.addEventListener("click", () => {
+        if(!state.address) return;
+        pageButtons.forEach(item => item.classList.remove("is-active"));
+        btn.classList.add("is-active");
+        showPage(btn.dataset.page);
+        if(btn.dataset.page === "swap") renderSwap();
+        if(btn.dataset.page === "pay") renderPay();
+      });
+    });
+
+    swapEls.slippagePill.addEventListener("click", (e) => {
+      if(e.target.closest(".slippage-controls")) return;
+      swapEls.slippagePill.classList.toggle("open");
+    });
+
+    swapEls.slippageInput.addEventListener("change", () => {
       state.swap.slippage = clampSlippage(swapEls.slippageInput.value);
       updateSwapQuote();
       updatePayQuote();
       renderAll();
     });
 
-    swapEls.slipDown.addEventListener('click', () => {
+    swapEls.slipDown.addEventListener("click", () => {
       state.swap.slippage = clampSlippage(state.swap.slippage - 0.1);
       updateSwapQuote();
       updatePayQuote();
       renderAll();
     });
 
-    swapEls.slipUp.addEventListener('click', () => {
+    swapEls.slipUp.addEventListener("click", () => {
       state.swap.slippage = clampSlippage(state.swap.slippage + 0.1);
       updateSwapQuote();
       updatePayQuote();
       renderAll();
     });
 
-    swapEls.amountInput.addEventListener('input', updateSwapInputState);
+    swapEls.amountInput.addEventListener("input", updateSwapInputState);
 
-    swapEls.quickBtns.forEach(btn => btn.addEventListener('click', () => {
+    swapEls.quickBtns.forEach(btn => btn.addEventListener("click", () => {
       const pct = Number(btn.dataset.pct);
       const token = getSwapFromToken();
       const bal = state.balances[token] || ethers.BigNumber.from(0);
@@ -2571,20 +2802,20 @@
       renderSwap();
     }));
 
-    swapEls.flipBtn.addEventListener('click', async () => {
+    swapEls.flipBtn.addEventListener("click", async () => {
       const currentOutput = swapEls.quoteValue.textContent;
-      state.swap.from = state.swap.from === 'LMTV' ? 'USDC' : 'LMTV';
-      swapEls.flipBtn.classList.toggle('spin');
-      setTimeout(() => swapEls.flipBtn.classList.toggle('spin'), 240);
-      swapEls.amountInput.value = currentOutput === '0.0000' ? '' : currentOutput.replace(/,/g,'');
+      state.swap.from = state.swap.from === "LMTV" ? "USDC" : "LMTV";
+      swapEls.flipBtn.classList.toggle("spin");
+      setTimeout(() => swapEls.flipBtn.classList.toggle("spin"), 240);
+      swapEls.amountInput.value = currentOutput === "0.0000" ? "" : currentOutput.replace(/,/g,"");
       state.swap.amountText = swapEls.amountInput.value;
       await updateSwapQuote();
       renderSwap();
-    }));
+    });
 
-    swapEls.actionBtn.addEventListener('click', handleSwapAction);
+    swapEls.actionBtn.addEventListener("click", handleSwapAction);
 
-    payEls.stableBtns.forEach(btn => btn.addEventListener('click', async () => {
+    payEls.stableBtns.forEach(btn => btn.addEventListener("click", async () => {
       state.pay.stable = btn.dataset.stable;
       state.pay.previewOpen = false;
       state.pay.step = 1;
@@ -2592,29 +2823,29 @@
       renderPay();
     }));
 
-    payEls.recipientInput.addEventListener('input', updatePayInputs);
-    payEls.amountInput.addEventListener('input', updatePayInputs);
-    payEls.noteInput.addEventListener('input', updatePayInputs);
+    payEls.recipientInput.addEventListener("input", updatePayInputs);
+    payEls.amountInput.addEventListener("input", updatePayInputs);
+    payEls.noteInput.addEventListener("input", updatePayInputs);
 
-    payEls.hideNoteToggle.addEventListener('click', () => {
+    payEls.hideNoteToggle.addEventListener("click", () => {
       state.pay.hideNote = !state.pay.hideNote;
       renderPay();
     });
 
-    payEls.scanBtn.addEventListener('click', startScanner);
+    payEls.scanBtn.addEventListener("click", startScanner);
 
-    payEls.orbBtn.addEventListener('click', () => {
-      payEls.orbBtn.classList.add('pay-rotate');
-      setTimeout(() => payEls.orbBtn.classList.remove('pay-rotate'), 560);
+    payEls.orbBtn.addEventListener("click", () => {
+      payEls.orbBtn.classList.add("pay-rotate");
+      setTimeout(() => payEls.orbBtn.classList.remove("pay-rotate"), 560);
     });
 
-    payEls.actionBtn.addEventListener('click', handlePayAction);
+    payEls.actionBtn.addEventListener("click", handlePayAction);
 
-    scannerEls.close.addEventListener('click', stopScanner);
-    scannerEls.stop.addEventListener('click', stopScanner);
-    scannerEls.paste.addEventListener('click', () => {
-      const pasted = prompt('Paste the recipient wallet address');
-      if (pasted) {
+    scannerEls.close.addEventListener("click", stopScanner);
+    scannerEls.stop.addEventListener("click", stopScanner);
+    scannerEls.paste.addEventListener("click", () => {
+      const pasted = prompt("Paste the recipient wallet address");
+      if(pasted){
         state.pay.recipient = pasted.trim();
         payEls.recipientInput.value = state.pay.recipient;
         renderPay();
@@ -2622,47 +2853,12 @@
       stopScanner();
     });
 
-    startBtn.addEventListener('click', async () => {
-      if (state.address) {
-        disconnectWallet();
-        return;
-      }
-
-      if (!app.classList.contains('is-open')) {
-        app.classList.add('is-open');
-        cover.classList.add('slide');
-        showPage('connect');
-        setLockedState(true);
-        clearNavState();
-        setStartMode('open');
-        return;
-      }
-
-      app.classList.remove('is-open');
-      cover.classList.remove('slide');
-      showPage('connect');
-      setStartMode('idle');
-    });
-
-    walletButtons.forEach(btn => {
-      btn.addEventListener('click', () => connectWallet(btn.dataset.wallet));
-    });
-
-    pageButtons.forEach(btn => {
-      btn.addEventListener('click', () => {
-        if (!state.address) return;
-        pageButtons.forEach(item => item.classList.remove('is-active'));
-        btn.classList.add('is-active');
-        showPage(btn.dataset.page);
-        if (btn.dataset.page === 'swap') renderSwap();
-        if (btn.dataset.page === 'pay') renderPay();
-      });
-    });
-
-    window.addEventListener('load', async () => {
+    window.addEventListener("load", async () => {
       await discoverInjectedProviders();
+      setLockedState(true);
+      showPage("connect");
       renderAll();
     });
   </script>
 </body>
-                  </html>
+                                                                </html>
