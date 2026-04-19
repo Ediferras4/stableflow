@@ -156,9 +156,6 @@
       width:min(980px,calc(100% - 2px));
       margin:0 auto;
       min-height:100%;
-      height:100%;
-      display:flex;
-      flex-direction:column;
     }
 
     .swap-page,.pay-page{
@@ -170,9 +167,7 @@
       background:radial-gradient(circle at 12% 0%,rgba(156,198,234,.12) 0%,transparent 22%),radial-gradient(circle at 90% 8%,rgba(239,173,99,.06) 0%,transparent 18%),linear-gradient(180deg,#24303a 0%,#1b2630 42%,#141c24 100%);
       border:1px solid rgba(76,99,122,.38);
       box-shadow:inset 0 1px 0 rgba(255,255,255,.06),inset 0 0 0 1px rgba(255,255,255,.018),0 16px 30px rgba(0,0,0,.16);
-      overflow:hidden;
-      flex:1;
-      min-height:100%;
+      overflow:hidden
     }
     .page-stage::before{
       content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(255,255,255,.025) 0%,transparent 26%,transparent 100%);pointer-events:none
@@ -194,9 +189,7 @@
         radial-gradient(circle at top right, rgba(170,228,255,.20), transparent 22%),
         linear-gradient(180deg,var(--sf-bg),var(--sf-bg-2));
       border:1px solid rgba(35,96,158,.10);
-      box-shadow:0 14px 28px rgba(25,70,115,.08), inset 0 1px 0 rgba(255,255,255,.35);
-      flex:1;
-      min-height:100%;
+      box-shadow:0 14px 28px rgba(25,70,115,.08), inset 0 1px 0 rgba(255,255,255,.35)
     }
     .light-stage::before{
       content:"";position:absolute;inset:0;
@@ -507,7 +500,7 @@
     .preview-grid .item strong{color:#f0f6ff}
     .preview-note{font-size:11px;color:#97a8be}
 
-    .sf-stack{display:flex;flex-direction:column;gap:10px;position:relative;z-index:1;min-height:100%}
+    .sf-stack{display:flex;flex-direction:column;gap:10px;position:relative;z-index:1}
     .sf-topbar{display:flex;align-items:flex-start;justify-content:space-between;gap:8px;padding:2px 0 4px}
     .sf-topcopy{flex:1;min-width:0}
     .sf-eyebrow{font-size:10px;font-weight:900;letter-spacing:.22em;color:var(--sf-blue);text-transform:uppercase;margin-bottom:5px}
@@ -793,11 +786,9 @@
     .get-meta-line{font-size:10px;color:#7a8ea4;font-weight:850}
 
     /* More */
-    .more-page .page-scroll{display:flex;flex-direction:column;min-height:100%;height:100%}
+    .more-page .page-scroll{min-height:100%}
     .more-shell{
       position:relative;
-      flex:1;
-      min-height:100%;
       padding:10px;
       border-radius:26px;
       border:1px solid rgba(186,214,232,.11);
@@ -823,7 +814,7 @@
       background:linear-gradient(180deg,rgba(255,255,255,.03),transparent 20%);
       pointer-events:none;
     }
-    .more-inner{position:relative;z-index:1;display:flex;flex-direction:column;gap:12px;min-height:100%}
+    .more-inner{position:relative;z-index:1;display:flex;flex-direction:column;gap:12px}
     .more-hero{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;padding:2px 0 0}
     .more-eyebrow{font-size:11px;font-weight:950;letter-spacing:.24em;text-transform:uppercase;color:#9ac7eb}
     .more-shell.light .more-eyebrow{color:#4e97d3}
@@ -837,7 +828,7 @@
     .more-card{
       border-radius:24px;border:1px solid rgba(186,214,232,.11);
       background:radial-gradient(circle at top right,rgba(255,255,255,.03),transparent 24%),linear-gradient(180deg,#171f28,#121920);
-      box-shadow:0 10px 18px rgba(0,0,0,.22);padding:10px;display:flex;flex-direction:column;gap:12px;flex:1;min-height:0
+      box-shadow:0 10px 18px rgba(0,0,0,.22);padding:10px;display:flex;flex-direction:column;gap:12px
     }
     .more-shell.light .more-card{
       background:radial-gradient(circle at top right,rgba(255,255,255,.18),transparent 24%),linear-gradient(180deg,#edf5fd,#d3e3f2);
@@ -940,7 +931,7 @@
 
     .more-section-shell{
       border-radius:22px;border:1px solid rgba(186,214,232,.11);background:linear-gradient(180deg,#171f28,#1b2530);box-shadow:0 10px 18px rgba(0,0,0,.22);
-      padding:10px;display:flex;flex-direction:column;gap:0;flex:1;min-height:0
+      padding:10px;display:flex;flex-direction:column;gap:0
     }
     .more-shell.light .more-section-shell{background:linear-gradient(180deg,#edf5fd,#f8fbff);box-shadow:0 8px 16px rgba(27,70,113,.06)}
     .more-section-head{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:2px 4px 10px}
@@ -952,7 +943,7 @@
     }
     .more-shell.light .more-section-pill{background:linear-gradient(180deg,#ffffff,#edf5fd);color:#62778e}
     .more-scroll-box{
-      max-height:none;min-height:0;flex:1;overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch;overscroll-behavior:contain;
+      max-height:62dvh;min-height:320px;overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch;overscroll-behavior:contain;
       touch-action:pan-y;border-radius:18px;border:1px solid rgba(186,214,232,.06);background:linear-gradient(180deg,rgba(255,255,255,.02),rgba(255,255,255,.01));
       padding:10px;display:grid;gap:10px;scrollbar-width:thin;scrollbar-color:rgba(154,199,235,.32) transparent
     }
@@ -1145,7 +1136,7 @@
       .more-note-value{font-size:44px}
       .more-note-value.long{font-size:38px}
       .more-note-value.xlong{font-size:32px}
-      .more-scroll-box{padding:9px}
+      .more-scroll-box{max-height:58dvh;min-height:300px;padding:9px}
     }
     @media (min-width:760px){
       .page{padding:8px 6px 14px}
@@ -1155,6 +1146,7 @@
       .note-toggle{justify-content:flex-end}
       .hero-title{font-size:12px}
       .sf-title{max-width:300px;font-size:25px}
+      .more-scroll-box{max-height:56vh}
     }
   </style>
 </head>
@@ -3161,62 +3153,7 @@
       payEls.actionBtn.disabled = payDisabled;
     }
 
-    function renderGet(){
-      const isUSDC = state.get.asset === 'USDC';
-      getEls.usdcBtn.classList.toggle('active', isUSDC);
-      getEls.eurcBtn.classList.toggle('active', !isUSDC);
-      getEls.assetSwitch.classList.toggle('eurc', !isUSDC);
-      getEls.orbShell.classList.toggle('eurc', !isUSDC);
-      getEls.hideNoteSwitch.classList.toggle('on', state.get.hideNote);
-      getEls.noteField.classList.toggle('get-hidden', state.get.hideNote);
-
-      getEls.walletInput.value = state.get.wallet;
-      getEls.amountInput.value = state.get.amountText;
-      getEls.noteInput.value = state.get.note;
-      getEls.orbAsset.textContent = state.get.asset;
-      getEls.walletInput.classList.toggle('invalid', !!state.get.wallet.trim() && !ethers.utils.isAddress(state.get.wallet.trim()));
-
-      const amountNum = Number(String(state.get.amountText || '').replace(',', '.'));
-      const capped = isFinite(amountNum) && amountNum > 0 ? Math.min(amountNum, GET_MAX_AMOUNT) : 0;
-      const orbText = capped > 0 ? getPrettyInputAmount(capped) : '0.00';
-      getEls.orbValue.textContent = orbText;
-      setGetOrbTypography(orbText);
-      setGetAmountTypography(state.get.amountText);
-      getEls.orbLimitMsg.textContent = state.get.maxReached ? 'Max 10 mil' : '';
-
-      getEls.quickBtns.forEach(btn => {
-        btn.classList.toggle('active', Number(btn.dataset.amount) === Number(state.get.amountText));
-      });
-
-      const isValidWallet = !!state.get.wallet.trim() && ethers.utils.isAddress(state.get.wallet.trim());
-      const isValidAmount = isFinite(amountNum) && amountNum > 0 && amountNum <= GET_MAX_AMOUNT;
-      getEls.generateBtn.disabled = !(isValidWallet && isValidAmount);
-
-      getEls.editorCard.classList.toggle('get-hidden', state.get.receiptOpen);
-      getEls.receiptCard.classList.toggle('get-hidden', !state.get.receiptOpen);
-
-      if(state.get.generated){
-        const g = state.get.generated;
-        getEls.receiptAmountBig.textContent = g.amountBig;
-        setGetReceiptTypography(g.amountBig);
-        getEls.receiptAssetBig.textContent = g.asset;
-        getEls.receiptDesc.textContent = `Recipient receives ${g.amountFull} ${g.asset}.`;
-        getEls.receiptWallet.textContent = shortAddr(g.wallet);
-        getEls.receiptSwapPay.textContent = state.get.approxInputRaw.gt(0)
-          ? `≈ ${formatAmount(state.get.approxInputRaw, state.tokenMeta.LMTV.decimals, 3)} LMTV`
-          : '≈ 0.000 LMTV';
-        getEls.receiptDate.textContent = g.dateText;
-        if(g.note){
-          getEls.receiptNoteRow.classList.remove('get-hidden');
-          getEls.receiptNote.textContent = g.note;
-        }else{
-          getEls.receiptNoteRow.classList.add('get-hidden');
-          getEls.receiptNote.textContent = '';
-        }
-      }
-    }
-
-    /* More */
+    /* More state + functions */
     const moreState = {
       theme: 'dark',
       language: 'English',
@@ -3841,6 +3778,61 @@
       setMoreMainRail(0);
       setMoreActivityRail(0);
       renderMoreCurrentMode();
+    }
+
+    function renderGet(){
+      const isUSDC = state.get.asset === 'USDC';
+      getEls.usdcBtn.classList.toggle('active', isUSDC);
+      getEls.eurcBtn.classList.toggle('active', !isUSDC);
+      getEls.assetSwitch.classList.toggle('eurc', !isUSDC);
+      getEls.orbShell.classList.toggle('eurc', !isUSDC);
+      getEls.hideNoteSwitch.classList.toggle('on', state.get.hideNote);
+      getEls.noteField.classList.toggle('get-hidden', state.get.hideNote);
+
+      getEls.walletInput.value = state.get.wallet;
+      getEls.amountInput.value = state.get.amountText;
+      getEls.noteInput.value = state.get.note;
+      getEls.orbAsset.textContent = state.get.asset;
+      getEls.walletInput.classList.toggle('invalid', !!state.get.wallet.trim() && !ethers.utils.isAddress(state.get.wallet.trim()));
+
+      const amountNum = Number(String(state.get.amountText || '').replace(',', '.'));
+      const capped = isFinite(amountNum) && amountNum > 0 ? Math.min(amountNum, GET_MAX_AMOUNT) : 0;
+      const orbText = capped > 0 ? getPrettyInputAmount(capped) : '0.00';
+      getEls.orbValue.textContent = orbText;
+      setGetOrbTypography(orbText);
+      setGetAmountTypography(state.get.amountText);
+      getEls.orbLimitMsg.textContent = state.get.maxReached ? 'Max 10 mil' : '';
+
+      getEls.quickBtns.forEach(btn => {
+        btn.classList.toggle('active', Number(btn.dataset.amount) === Number(state.get.amountText));
+      });
+
+      const isValidWallet = !!state.get.wallet.trim() && ethers.utils.isAddress(state.get.wallet.trim());
+      const isValidAmount = isFinite(amountNum) && amountNum > 0 && amountNum <= GET_MAX_AMOUNT;
+      getEls.generateBtn.disabled = !(isValidWallet && isValidAmount);
+
+      getEls.editorCard.classList.toggle('get-hidden', state.get.receiptOpen);
+      getEls.receiptCard.classList.toggle('get-hidden', !state.get.receiptOpen);
+
+      if(state.get.generated){
+        const g = state.get.generated;
+        getEls.receiptAmountBig.textContent = g.amountBig;
+        setGetReceiptTypography(g.amountBig);
+        getEls.receiptAssetBig.textContent = g.asset;
+        getEls.receiptDesc.textContent = `Recipient receives ${g.amountFull} ${g.asset}.`;
+        getEls.receiptWallet.textContent = shortAddr(g.wallet);
+        getEls.receiptSwapPay.textContent = state.get.approxInputRaw.gt(0)
+          ? `≈ ${formatAmount(state.get.approxInputRaw, state.tokenMeta.LMTV.decimals, 3)} LMTV`
+          : '≈ 0.000 LMTV';
+        getEls.receiptDate.textContent = g.dateText;
+        if(g.note){
+          getEls.receiptNoteRow.classList.remove('get-hidden');
+          getEls.receiptNote.textContent = g.note;
+        }else{
+          getEls.receiptNoteRow.classList.add('get-hidden');
+          getEls.receiptNote.textContent = '';
+        }
+      }
     }
 
     function renderAll(){
