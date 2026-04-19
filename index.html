@@ -44,12 +44,21 @@
       min-height:100%;
       background:var(--paper);
       font-family:Inter,Arial,Helvetica,sans-serif;
+      overflow:hidden;
+      overscroll-behavior:none;
     }
     body{overflow:hidden}
     button,input,textarea{font:inherit}
     button{border:none;background:none}
 
-    .app{width:100vw;height:100dvh;position:relative;overflow:hidden;background:var(--paper)}
+    .app{
+      width:100vw;
+      height:var(--app-h,100dvh);
+      min-height:var(--app-h,100dvh);
+      position:relative;
+      overflow:hidden;
+      background:var(--paper);
+    }
 
     .top-bar,.bottom-bar,.sidebar{
       background:linear-gradient(180deg,var(--shell-4) 0%,var(--shell-3) 42%,var(--shell-2) 76%,var(--shell) 100%);
@@ -107,7 +116,8 @@
 
     .content{
       position:absolute;top:var(--top-h);bottom:var(--bottom-h);left:var(--side-w);right:0;overflow:hidden;z-index:5;background:var(--paper);
-      box-shadow:inset 1px 0 0 rgba(0,0,0,.04)
+      box-shadow:inset 1px 0 0 rgba(0,0,0,.04);
+      overscroll-behavior:none;
     }
     .content::before{
       content:"";position:absolute;top:0;bottom:0;left:0;width:26px;z-index:3;pointer-events:none;
@@ -135,13 +145,14 @@
       box-shadow:inset 0 0 0 1px rgba(255,255,255,.04);pointer-events:none
     }
 
-    .page-layer{position:absolute;inset:0;z-index:4;pointer-events:none}
+    .page-layer{position:absolute;inset:0;z-index:4;pointer-events:none;height:100%}
     .page{
-      position:absolute;inset:0;opacity:0;visibility:hidden;transition:opacity .22s var(--ease);
-      padding:5px 3px 10px;overflow:auto;pointer-events:none
+      position:absolute;inset:0;height:100%;opacity:0;visibility:hidden;transition:opacity .22s var(--ease);
+      padding:5px 3px 10px;overflow-y:auto;overflow-x:hidden;pointer-events:none;
+      -webkit-overflow-scrolling:touch;overscroll-behavior:contain
     }
     .page.is-visible{opacity:1;visibility:visible;pointer-events:auto}
-    .page-scroll{width:min(980px,calc(100% - 2px));margin:0 auto}
+    .page-scroll{width:min(980px,calc(100% - 2px));margin:0 auto;min-height:100%}
 
     .swap-page,.pay-page{
       background:linear-gradient(180deg,rgba(126,149,170,.11) 0%,rgba(88,109,128,.12) 36%,rgba(51,66,80,.12) 100%);
@@ -152,7 +163,8 @@
       background:radial-gradient(circle at 12% 0%,rgba(156,198,234,.12) 0%,transparent 22%),radial-gradient(circle at 90% 8%,rgba(239,173,99,.06) 0%,transparent 18%),linear-gradient(180deg,#24303a 0%,#1b2630 42%,#141c24 100%);
       border:1px solid rgba(76,99,122,.38);
       box-shadow:inset 0 1px 0 rgba(255,255,255,.06),inset 0 0 0 1px rgba(255,255,255,.018),0 16px 30px rgba(0,0,0,.16);
-      overflow:hidden
+      overflow:hidden;
+      min-height:100%
     }
     .page-stage::before{
       content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(255,255,255,.025) 0%,transparent 26%,transparent 100%);pointer-events:none
@@ -174,7 +186,8 @@
         radial-gradient(circle at top right, rgba(170,228,255,.20), transparent 22%),
         linear-gradient(180deg,var(--sf-bg),var(--sf-bg-2));
       border:1px solid rgba(35,96,158,.10);
-      box-shadow:0 14px 28px rgba(25,70,115,.08), inset 0 1px 0 rgba(255,255,255,.35)
+      box-shadow:0 14px 28px rgba(25,70,115,.08), inset 0 1px 0 rgba(255,255,255,.35);
+      min-height:100%
     }
     .light-stage::before{
       content:"";position:absolute;inset:0;
@@ -486,7 +499,7 @@
     .preview-note{font-size:11px;color:#97a8be}
 
     /* Home + Get Paid */
-    .sf-stack{display:flex;flex-direction:column;gap:10px;position:relative;z-index:1}
+    .sf-stack{display:flex;flex-direction:column;gap:10px;position:relative;z-index:1;min-height:100%}
     .sf-topbar{display:flex;align-items:flex-start;justify-content:space-between;gap:8px;padding:2px 0 4px}
     .sf-topcopy{flex:1;min-width:0}
     .sf-eyebrow{font-size:10px;font-weight:900;letter-spacing:.22em;color:var(--sf-blue);text-transform:uppercase;margin-bottom:5px}
@@ -514,6 +527,10 @@
     }
     .sf-pill.live-only{min-width:44px;width:44px;padding:0}
     .sf-live-dot{width:9px;height:9px;border-radius:50%;background:var(--sf-green);box-shadow:0 0 10px rgba(87,211,159,.34);animation:pulse 1.8s infinite;flex:0 0 9px}
+    @keyframes pulse{
+      0%,100%{transform:scale(1);opacity:1}
+      50%{transform:scale(1.12);opacity:.72}
+    }
 
     .home-disconnect-group{display:flex;align-items:center;gap:4px;flex:0 0 auto;margin-top:2px}
     .home-disconnect-label{
@@ -1734,8 +1751,31 @@
     let payQuoteTimer = null;
     let getQuoteTimer = null;
     let timers = [];
+    let appHeightRAF = null;
+    let swapQuoteNonce = 0;
+    let payQuoteNonce = 0;
+    let getQuoteNonce = 0;
 
     function clamp(v, min, max){ return Math.max(min, Math.min(max, v)); }
+
+    function refreshAppHeight(){
+      const h = Math.round(window.visualViewport ? window.visualViewport.height : window.innerHeight);
+      document.documentElement.style.setProperty('--app-h', `${h}px`);
+    }
+
+    function queueAppHeightRefresh(){
+      if(appHeightRAF) cancelAnimationFrame(appHeightRAF);
+      appHeightRAF = requestAnimationFrame(refreshAppHeight);
+    }
+
+    function nextPaint(){
+      return new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve)));
+    }
+
+    function safeJSONParse(value, fallback){
+      try{ return JSON.parse(value); }
+      catch{ return fallback; }
+    }
 
     function showPage(viewName){
       pages.forEach(page => page.classList.toggle('is-visible', page.dataset.view === viewName));
@@ -1838,13 +1878,88 @@
       return count;
     }
 
+    function getActivityKey(address){
+      return `stableflow_activity_${String(address || 'guest').toLowerCase()}`;
+    }
+
+    function readActivity(address = state.address){
+      if(!address) return [];
+      return safeJSONParse(localStorage.getItem(getActivityKey(address)), []).filter(Boolean);
+    }
+
+    function writeActivity(items, address = state.address){
+      if(!address) return;
+      localStorage.setItem(getActivityKey(address), JSON.stringify((items || []).slice(-160)));
+    }
+
+    function pushActivity(type, payload = {}, address = state.address){
+      if(!address) return null;
+      const items = readActivity(address);
+      const entry = {
+        id: `${Date.now()}_${Math.random().toString(36).slice(2,8)}`,
+        type,
+        at: Date.now(),
+        ...payload
+      };
+      items.push(entry);
+      writeActivity(items, address);
+      return entry;
+    }
+
+    function getRequestStoreKey(address){
+      return `stableflow_requests_${String(address || 'guest').toLowerCase()}`;
+    }
+
+    function readSavedRequests(address = state.address || 'guest'){
+      return safeJSONParse(localStorage.getItem(getRequestStoreKey(address)), []).filter(Boolean);
+    }
+
+    function saveRequest(entry, address = state.address || 'guest'){
+      const list = readSavedRequests(address);
+      list.unshift(entry);
+      localStorage.setItem(getRequestStoreKey(address), JSON.stringify(list.slice(0, 80)));
+      return entry;
+    }
+
+    function getWeekStart(baseDate = new Date()){
+      const d = new Date(baseDate);
+      d.setHours(0,0,0,0);
+      const mondayOffset = (d.getDay() + 6) % 7;
+      d.setDate(d.getDate() - mondayOffset);
+      return d;
+    }
+
+    function getWeeklyActivitySeries(address = state.address){
+      const start = getWeekStart();
+      const series = new Array(7).fill(0);
+      readActivity(address).forEach(item => {
+        const day = new Date(item.at || 0);
+        day.setHours(0,0,0,0);
+        const index = Math.round((day - start) / 86400000);
+        if(index >= 0 && index < 7){
+          const weight = item.type === 'request' ? 0.65 : 1;
+          series[index] += weight;
+        }
+      });
+      return series;
+    }
+
+    function getWeeklyCountByType(types, address = state.address){
+      const set = new Set(Array.isArray(types) ? types : [types]);
+      const start = getWeekStart().getTime();
+      const end = start + (7 * 86400000);
+      return readActivity(address).filter(item => set.has(item.type) && item.at >= start && item.at < end).length;
+    }
+
     function getProfileTxKey(address){
       return `stableflow_profiletx_${String(address || '').toLowerCase()}`;
     }
 
     function getProfileTxCount(){
       if(!state.address) return 0;
-      return Number(localStorage.getItem(getProfileTxKey(state.address)) || 0);
+      const legacy = Number(localStorage.getItem(getProfileTxKey(state.address)) || 0);
+      const real = readActivity(state.address).filter(item => item.type === 'swap' || item.type === 'pay').length;
+      return Math.max(real, legacy);
     }
 
     function bumpProfileTxCount(){
@@ -1945,6 +2060,13 @@
       }catch{
         return null;
       }
+    }
+
+    function hydrateRequestFromLocation(){
+      const req = parseStableFlowRequest(location.href);
+      if(!req) return false;
+      applyRequestToPay(req);
+      return true;
     }
 
     async function discoverInjectedProviders(){
@@ -2067,9 +2189,12 @@
         setStartMode('connected');
         setLockedState(false);
         runTopToBottomSequence();
-        showPage('home');
+
+        const loadedRequest = hydrateRequestFromLocation();
+        const initialPage = loadedRequest ? 'pay' : 'home';
+        showPage(initialPage);
         pageButtons.forEach(btn => btn.classList.remove('is-active'));
-        document.querySelector('.btn[data-page="home"]')?.classList.add('is-active');
+        document.querySelector(`.btn[data-page="${initialPage}"]`)?.classList.add('is-active');
 
         await refreshOnchainState();
         showToast(`${state.walletName} connected.`, 'ok');
@@ -2189,6 +2314,7 @@
     function getSwapToToken(){ return state.swap.from === 'LMTV' ? 'USDC' : 'LMTV'; }
 
     async function updateSwapQuote(){
+      const requestId = ++swapQuoteNonce;
       const fromToken = getSwapFromToken();
       const toToken = getSwapToToken();
       state.swap.quoteRaw = ethers.BigNumber.from(0);
@@ -2200,7 +2326,9 @@
       }
       try{
         const pool = new ethers.Contract(getSwapPair().address, POOL_ABI, state.provider);
-        state.swap.quoteRaw = await pool.getAmountOut(TOKENS[fromToken].address, amountRaw);
+        const quote = await pool.getAmountOut(TOKENS[fromToken].address, amountRaw);
+        if(requestId !== swapQuoteNonce) return;
+        state.swap.quoteRaw = quote;
       }catch(e){
         console.error(e);
       }
@@ -2225,6 +2353,7 @@
     }
 
     async function updatePayQuote(){
+      const requestId = ++payQuoteNonce;
       state.pay.baseInputRaw = ethers.BigNumber.from(0);
       state.pay.requiredInputRaw = ethers.BigNumber.from(0);
       state.pay.routeReceivedRaw = ethers.BigNumber.from(0);
@@ -2241,6 +2370,7 @@
         const poolAddress = state.pay.stable === 'USDC' ? POOLS.LMTV_USDC.address : POOLS.LMTV_EURC.address;
         const pool = new ethers.Contract(poolAddress, POOL_ABI, state.provider);
         const routeOut = await pool.getAmountOut(TOKENS.LMTV.address, buffered);
+        if(requestId !== payQuoteNonce) return;
         state.pay.baseInputRaw = baseRequired;
         state.pay.requiredInputRaw = buffered;
         state.pay.routeReceivedRaw = routeOut;
@@ -2251,6 +2381,7 @@
     }
 
     async function updateGetPaidEstimate(){
+      const requestId = ++getQuoteNonce;
       state.get.approxInputRaw = ethers.BigNumber.from(0);
       const amountNum = Number(String(state.get.amountText || '').replace(',', '.'));
       if(!isFinite(amountNum) || amountNum <= 0) {
@@ -2266,6 +2397,7 @@
         const targetRaw = ethers.utils.parseUnits(getFullAmount(cappedAmount), state.tokenMeta[state.get.asset].decimals);
         const baseRequired = await estimateLmtvForStableOutput(targetRaw, state.get.asset);
         const slipBps = Math.round(state.swap.slippage * 100);
+        if(requestId !== getQuoteNonce) return;
         state.get.approxInputRaw = baseRequired.mul(10000 + slipBps).div(10000);
       }catch(e){
         console.error(e);
@@ -2314,13 +2446,11 @@
       homeEls.coinBadge.classList.toggle('active', tx >= 10);
     }
 
-    function homeBuildSeries(tx){
-      const base = [18, 33, 29, 48, 30, 57, 74];
-      return base.map((v, i) => {
-        const lift = tx * (i * 2.32);
-        const wave = Math.sin((i + tx) * 0.9) * 4.9;
-        return clamp(v + lift + wave, 10, 96);
-      });
+    function homeBuildSeries(rawSeries){
+      const hasActivity = rawSeries.some(v => v > 0);
+      if(!hasActivity) return rawSeries.map(() => 8);
+      const max = Math.max(...rawSeries, 1);
+      return rawSeries.map((v, i) => clamp(14 + ((v / max) * 72) + (i * 0.85), 10, 94));
     }
 
     function homeSmoothPath(points){
@@ -2335,8 +2465,8 @@
       return d;
     }
 
-    function renderHomeChart(tx){
-      const values = homeBuildSeries(tx);
+    function renderHomeChart(rawSeries){
+      const values = homeBuildSeries(rawSeries);
       const width = 340;
       const left = 16;
       const right = width - 16;
@@ -2350,10 +2480,15 @@
         return { x, y };
       });
 
-      const softPoints = values.map((value, i) => {
-        const soft = clamp(value - 15 + Math.cos((i + tx) * 0.72) * 5.5, 8, 92);
+      const softValues = values.map((value, i) => {
+        const prev = values[i - 1] ?? value;
+        const next = values[i + 1] ?? value;
+        return clamp((prev + value + next) / 3 - 5, 8, 92);
+      });
+
+      const softPoints = softValues.map((value, i) => {
         const x = left + step * i;
-        const y = bottom - ((soft / 100) * (bottom - top));
+        const y = bottom - ((value / 100) * (bottom - top));
         return { x, y };
       });
 
@@ -2364,7 +2499,7 @@
 
       const last = mainPoints[mainPoints.length - 1];
       const orbPoint = mainPoints[Math.max(0, mainPoints.length - 2)];
-      homeEls.areaPath.setAttribute('d', main + ' L ' + last.x + ' ' + bottom + ' L ' + mainPoints[0].x + ' ' + bottom + ' Z');
+      homeEls.areaPath.setAttribute('d', `${main} L ${last.x} ${bottom} L ${mainPoints[0].x} ${bottom} Z`);
       homeEls.orb.setAttribute('cx', orbPoint.x);
       homeEls.orb.setAttribute('cy', orbPoint.y);
       homeEls.lastDot.setAttribute('cx', last.x);
@@ -2379,6 +2514,17 @@
       const pct = (displayTx / 10) * 100;
       const phase = homePhaseLabel(displayTx);
 
+      const weeklySeries = getWeeklyActivitySeries();
+      const weeklyTx = getWeeklyCountByType(['swap', 'pay']);
+      const weeklyRequests = getWeeklyCountByType('request');
+
+      const firstHalf = weeklySeries.slice(0, 3).reduce((acc, v) => acc + v, 0);
+      const secondHalf = weeklySeries.slice(3).reduce((acc, v) => acc + v, 0);
+
+      let growth = 0;
+      if(firstHalf === 0 && secondHalf > 0) growth = 100;
+      else if(firstHalf > 0) growth = Math.round(((secondHalf - firstHalf) / firstHalf) * 100);
+
       homeEls.walletText.textContent = state.address ? state.shortAddress : 'Not connected';
       homeEls.levelValue.textContent = displayTx;
       homeEls.miniTx.textContent = `${totalTx} tx`;
@@ -2386,21 +2532,37 @@
       homeEls.statusPill.textContent = homeStatusLabel(displayTx);
       homeEls.progressNote.textContent = homeProgressText(displayTx);
       homeEls.progressMeta.textContent = `${displayTx} / 10`;
-      homeEls.metricTx.textContent = totalTx;
-      homeEls.metricGrowth.textContent = `+${displayTx * 10}%`;
+      homeEls.metricTx.textContent = weeklyTx;
+      homeEls.metricGrowth.textContent = `${growth >= 0 ? '+' : ''}${growth}%`;
       homeEls.metricPhase.textContent = phase;
-      homeEls.chartNote.textContent = homeChartText(displayTx);
-      homeEls.topStatusText.textContent = state.address ? (displayTx > 0 ? `Wallet active • ${phase}` : 'Wallet active • Arc Testnet') : 'Connect a wallet to activate the profile.';
+
+      if(state.address){
+        if(weeklyTx > 0) homeEls.topStatusText.textContent = `Wallet active • ${weeklyTx} tx this week`;
+        else if(weeklyRequests > 0) homeEls.topStatusText.textContent = `Wallet active • ${weeklyRequests} request${weeklyRequests === 1 ? '' : 's'} this week`;
+        else homeEls.topStatusText.textContent = 'Wallet active • Arc Testnet';
+      }else{
+        homeEls.topStatusText.textContent = 'Connect a wallet to activate the profile.';
+      }
+
+      if(weeklyTx || weeklyRequests){
+        homeEls.chartNote.textContent = `This week: ${weeklyTx} tx • ${weeklyRequests} request${weeklyRequests === 1 ? '' : 's'}.`;
+      }else{
+        homeEls.chartNote.textContent = homeChartText(displayTx);
+      }
 
       homeEls.progressFill.style.width = pct + '%';
       homeEls.progressOrb.style.left = pct + '%';
 
       homeUnlockBadges(displayTx);
-      renderHomeChart(displayTx);
+      renderHomeChart(weeklySeries);
 
       if(homeEls.avatarImg){
-        homeEls.avatarImg.onload = () => homeEls.avatar.classList.add('has-image');
-        homeEls.avatarImg.onerror = () => homeEls.avatar.classList.remove('has-image');
+        if(homeEls.avatarImg.complete && homeEls.avatarImg.naturalWidth > 0){
+          homeEls.avatar.classList.add('has-image');
+        }else{
+          homeEls.avatarImg.onload = () => homeEls.avatar.classList.add('has-image');
+          homeEls.avatarImg.onerror = () => homeEls.avatar.classList.remove('has-image');
+        }
       }
     }
 
@@ -2650,6 +2812,7 @@
       }
 
       const fromToken = getSwapFromToken();
+      const toToken = getSwapToToken();
       const amountRaw = parseInputToBN(state.swap.amountText, state.tokenMeta[fromToken].decimals);
       if(!amountRaw || amountRaw.lte(0)) return;
 
@@ -2692,6 +2855,12 @@
 
         bumpDailyCount('swapdemo');
         bumpProfileTxCount();
+        pushActivity('swap', {
+          from: fromToken,
+          to: toToken,
+          amountRaw: amountRaw.toString(),
+          outputRaw: state.swap.quoteRaw.toString()
+        });
 
         state.swap.amountText = '';
         swapEls.amountInput.value = '';
@@ -2807,6 +2976,11 @@
           await tx.wait();
 
           bumpProfileTxCount();
+          pushActivity('pay', {
+            asset: state.pay.stable,
+            amountRaw: targetRaw.toString(),
+            recipient: state.pay.recipient.trim()
+          });
 
           state.pay.processing = false;
           state.pay.previewOpen = false;
@@ -2832,10 +3006,13 @@
     }
 
     async function makeGetQR(text){
-      if(!window.QRCode) return;
+      if(!window.QRCode) throw new Error('QR library not loaded');
+      const ctx = getEls.qrCanvas.getContext('2d');
+      ctx.clearRect(0, 0, getEls.qrCanvas.width, getEls.qrCanvas.height);
       await QRCode.toCanvas(getEls.qrCanvas, text, {
         width: 180,
         margin: 1,
+        errorCorrectionLevel: 'M',
         color: { dark: '#000000', light: '#ffffff' }
       });
     }
@@ -2855,18 +3032,53 @@
       const amountBig = getPrettyInputAmount(amountNum);
       const noteValue = state.get.hideNote ? '' : state.get.note.trim();
       const link = buildRequestPayload(state.get.wallet.trim(), amountFull, state.get.asset, noteValue);
-      state.get.link = link;
-      state.get.generated = {
+
+      const entry = {
+        id: `${Date.now()}_${Math.random().toString(36).slice(2,8)}`,
+        createdAt: Date.now(),
+        creator: state.address || '',
         wallet: state.get.wallet.trim(),
         asset: state.get.asset,
         amountFull,
         amountBig,
         note: noteValue,
-        dateText: new Date().toLocaleString()
+        link
       };
+
+      state.get.link = link;
+      state.get.generated = {
+        wallet: entry.wallet,
+        asset: entry.asset,
+        amountFull: entry.amountFull,
+        amountBig: entry.amountBig,
+        note: entry.note,
+        dateText: new Date(entry.createdAt).toLocaleString(),
+        id: entry.id,
+        link: entry.link
+      };
+
+      saveRequest(entry);
+      pushActivity('request', {
+        asset: entry.asset,
+        amountFull: entry.amountFull,
+        wallet: entry.wallet
+      });
+
       state.get.receiptOpen = true;
-      await makeGetQR(link);
       renderGet();
+      await nextPaint();
+
+      try{
+        await makeGetQR(link);
+      }catch(error){
+        console.error(error);
+        state.get.receiptOpen = false;
+        renderGet();
+        showToast('Could not generate the QR right now.', 'warn');
+        return;
+      }
+
+      renderHome();
       showToast('Payment QR generated.', 'ok');
     }
 
@@ -2942,6 +3154,8 @@
         state.pay.hideNote = false;
         payEls.noteInput.value = note;
       }
+      state.pay.previewOpen = false;
+      state.pay.step = 1;
       updatePayQuote();
       renderPay();
       showToast('Payment request loaded from QR.', 'ok');
@@ -2958,6 +3172,8 @@
       state.pay.recipient = payEls.recipientInput.value.trim();
       state.pay.amountText = payEls.amountInput.value.trim();
       state.pay.note = payEls.noteInput.value.trim();
+      state.pay.previewOpen = false;
+      state.pay.step = 1;
       renderPay();
       clearTimeout(payQuoteTimer);
       payQuoteTimer = setTimeout(async () => {
@@ -3111,6 +3327,7 @@
       state.pay.stable = btn.dataset.stable;
       state.pay.previewOpen = false;
       state.pay.step = 1;
+      renderPay();
       await updatePayQuote();
       renderPay();
     }));
@@ -3139,27 +3356,27 @@
       state.get.hideNote = !state.get.hideNote;
       renderGet();
     });
-    getEls.usdcBtn.addEventListener('click', async () => {
+    getEls.usdcBtn.addEventListener('click', () => {
       state.get.asset = 'USDC';
-      await updateGetPaidEstimate();
       renderGet();
+      updateGetPaidEstimate();
     });
-    getEls.eurcBtn.addEventListener('click', async () => {
+    getEls.eurcBtn.addEventListener('click', () => {
       state.get.asset = 'EURC';
-      await updateGetPaidEstimate();
       renderGet();
+      updateGetPaidEstimate();
     });
-    getEls.assetSwitch.addEventListener('click', async () => {
+    getEls.assetSwitch.addEventListener('click', () => {
       state.get.asset = state.get.asset === 'USDC' ? 'EURC' : 'USDC';
-      await updateGetPaidEstimate();
       renderGet();
+      updateGetPaidEstimate();
     });
-    getEls.quickBtns.forEach(btn => btn.addEventListener('click', async () => {
+    getEls.quickBtns.forEach(btn => btn.addEventListener('click', () => {
       state.get.amountText = btn.dataset.amount;
       state.get.maxReached = false;
       getEls.amountInput.value = state.get.amountText;
-      await updateGetPaidEstimate();
       renderGet();
+      updateGetPaidEstimate();
     }));
     getEls.generateBtn.addEventListener('click', handleGetGenerate);
     getEls.copyBtn.addEventListener('click', handleGetCopy);
@@ -3187,10 +3404,7 @@
     });
 
     startBtn.addEventListener('click', async () => {
-      if(state.address){
-        disconnectWallet();
-        return;
-      }
+      if(state.address) return;
 
       if(!app.classList.contains('is-open')){
         app.classList.add('is-open');
@@ -3242,9 +3456,27 @@
     };
 
     window.addEventListener('load', async () => {
+      queueAppHeightRefresh();
       await discoverInjectedProviders();
+      hydrateRequestFromLocation();
       renderAll();
+    });
+
+    window.addEventListener('resize', queueAppHeightRefresh);
+    window.addEventListener('orientationchange', queueAppHeightRefresh);
+    if(window.visualViewport){
+      window.visualViewport.addEventListener('resize', queueAppHeightRefresh);
+      window.visualViewport.addEventListener('scroll', queueAppHeightRefresh);
+    }
+
+    window.addEventListener('hashchange', () => {
+      const loaded = hydrateRequestFromLocation();
+      if(loaded && state.address){
+        pageButtons.forEach(item => item.classList.remove('is-active'));
+        document.querySelector('.btn[data-page="pay"]')?.classList.add('is-active');
+        showPage('pay');
+      }
     });
   </script>
 </body>
-  </html>
+                        </html>
