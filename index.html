@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-  <title>StableFlow Shell • Home + Swap + Pay + Get Paid</title>
+  <title>StableFlow Shell • Home + Swap + Pay + Get Paid + More</title>
   <script src="https://cdn.jsdelivr.net/npm/ethers@5.7.2/dist/ethers.umd.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.3/build/qrcode.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
@@ -42,9 +42,9 @@
       width:100%;
       height:100%;
       min-height:100%;
-      background:var(--paper);
-      font-family:Inter,Arial,Helvetica,sans-serif;
       overflow:hidden;
+      background:#f4f6f8;
+      font-family:Inter,Arial,Helvetica,sans-serif;
       overscroll-behavior:none;
     }
     body{overflow:hidden}
@@ -53,8 +53,8 @@
 
     .app{
       width:100vw;
-      height:var(--app-h,100dvh);
-      min-height:var(--app-h,100dvh);
+      height:100dvh;
+      min-height:100dvh;
       position:relative;
       overflow:hidden;
       background:var(--paper);
@@ -145,14 +145,21 @@
       box-shadow:inset 0 0 0 1px rgba(255,255,255,.04);pointer-events:none
     }
 
-    .page-layer{position:absolute;inset:0;z-index:4;pointer-events:none;height:100%}
+    .page-layer{position:absolute;inset:0;z-index:4;pointer-events:none}
     .page{
-      position:absolute;inset:0;height:100%;opacity:0;visibility:hidden;transition:opacity .22s var(--ease);
+      position:absolute;inset:0;opacity:0;visibility:hidden;transition:opacity .22s var(--ease);
       padding:5px 3px 10px;overflow-y:auto;overflow-x:hidden;pointer-events:none;
       -webkit-overflow-scrolling:touch;overscroll-behavior:contain
     }
     .page.is-visible{opacity:1;visibility:visible;pointer-events:auto}
-    .page-scroll{width:min(980px,calc(100% - 2px));margin:0 auto;min-height:100%}
+    .page-scroll{
+      width:min(980px,calc(100% - 2px));
+      margin:0 auto;
+      min-height:100%;
+      height:100%;
+      display:flex;
+      flex-direction:column;
+    }
 
     .swap-page,.pay-page{
       background:linear-gradient(180deg,rgba(126,149,170,.11) 0%,rgba(88,109,128,.12) 36%,rgba(51,66,80,.12) 100%);
@@ -164,7 +171,8 @@
       border:1px solid rgba(76,99,122,.38);
       box-shadow:inset 0 1px 0 rgba(255,255,255,.06),inset 0 0 0 1px rgba(255,255,255,.018),0 16px 30px rgba(0,0,0,.16);
       overflow:hidden;
-      min-height:100%
+      flex:1;
+      min-height:100%;
     }
     .page-stage::before{
       content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(255,255,255,.025) 0%,transparent 26%,transparent 100%);pointer-events:none
@@ -187,7 +195,8 @@
         linear-gradient(180deg,var(--sf-bg),var(--sf-bg-2));
       border:1px solid rgba(35,96,158,.10);
       box-shadow:0 14px 28px rgba(25,70,115,.08), inset 0 1px 0 rgba(255,255,255,.35);
-      min-height:100%
+      flex:1;
+      min-height:100%;
     }
     .light-stage::before{
       content:"";position:absolute;inset:0;
@@ -498,7 +507,6 @@
     .preview-grid .item strong{color:#f0f6ff}
     .preview-note{font-size:11px;color:#97a8be}
 
-    /* Home + Get Paid */
     .sf-stack{display:flex;flex-direction:column;gap:10px;position:relative;z-index:1;min-height:100%}
     .sf-topbar{display:flex;align-items:flex-start;justify-content:space-between;gap:8px;padding:2px 0 4px}
     .sf-topcopy{flex:1;min-width:0}
@@ -559,6 +567,7 @@
     .home-avatar{width:100%;height:100%;border-radius:50%;overflow:hidden;position:relative;background:radial-gradient(circle at 36% 28%,#ffffff,#dbe7f3 36%,#adbccf 66%,#8798ab 100%);border:2px solid rgba(255,255,255,.94);display:grid;place-items:center}
     .home-avatar img{width:100%;height:100%;object-fit:cover;display:none}
     .home-avatar.has-image img{display:block}
+    .home-avatar.has-image .home-avatar-fallback{display:none}
     .home-avatar-fallback{position:absolute;inset:0;display:grid;place-items:center;font-size:14px;font-weight:1000;color:#fff}
     .home-profile-copy{min-width:0;display:flex;flex-direction:column;gap:7px}
     .home-wallet-pill{
@@ -783,6 +792,314 @@
     .get-receipt-footer{position:relative;z-index:1;text-align:center;padding:9px 8px 2px;color:#6b83a0;font-size:10px;font-weight:800}
     .get-meta-line{font-size:10px;color:#7a8ea4;font-weight:850}
 
+    /* More */
+    .more-page .page-scroll{display:flex;flex-direction:column;min-height:100%;height:100%}
+    .more-shell{
+      position:relative;
+      flex:1;
+      min-height:100%;
+      padding:10px;
+      border-radius:26px;
+      border:1px solid rgba(186,214,232,.11);
+      background:
+        radial-gradient(circle at top, rgba(170,205,231,.08), transparent 20%),
+        radial-gradient(circle at top right, rgba(245,203,126,.05), transparent 18%),
+        linear-gradient(180deg,#090c10,#10151b);
+      box-shadow:0 18px 34px rgba(0,0,0,.30);
+      color:#eef4fb;
+      overflow:hidden;
+    }
+    .more-shell.light{
+      background:
+        radial-gradient(circle at top, rgba(170,205,231,.08), transparent 20%),
+        radial-gradient(circle at top right, rgba(245,203,126,.05), transparent 18%),
+        linear-gradient(180deg,#e8f2fa,#f2f8ff);
+      color:#13263b;
+      box-shadow:0 14px 28px rgba(27,70,113,.08);
+    }
+    .more-shell::before{
+      content:"";
+      position:absolute;inset:0;
+      background:linear-gradient(180deg,rgba(255,255,255,.03),transparent 20%);
+      pointer-events:none;
+    }
+    .more-inner{position:relative;z-index:1;display:flex;flex-direction:column;gap:12px;min-height:100%}
+    .more-hero{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;padding:2px 0 0}
+    .more-eyebrow{font-size:11px;font-weight:950;letter-spacing:.24em;text-transform:uppercase;color:#9ac7eb}
+    .more-shell.light .more-eyebrow{color:#4e97d3}
+    .more-badge{
+      min-height:26px;padding:0 9px;border-radius:10px;border:1px solid rgba(224,176,98,.22);
+      background:linear-gradient(180deg,rgba(255,224,177,.15),rgba(224,176,98,.07));box-shadow:0 4px 10px rgba(0,0,0,.16);
+      color:#d79d49;font-size:10px;font-weight:950;display:flex;align-items:center;justify-content:center;white-space:nowrap
+    }
+    .more-shell.light .more-badge{box-shadow:0 3px 8px rgba(27,70,113,.04)}
+
+    .more-card{
+      border-radius:24px;border:1px solid rgba(186,214,232,.11);
+      background:radial-gradient(circle at top right,rgba(255,255,255,.03),transparent 24%),linear-gradient(180deg,#171f28,#121920);
+      box-shadow:0 10px 18px rgba(0,0,0,.22);padding:10px;display:flex;flex-direction:column;gap:12px;flex:1;min-height:0
+    }
+    .more-shell.light .more-card{
+      background:radial-gradient(circle at top right,rgba(255,255,255,.18),transparent 24%),linear-gradient(180deg,#edf5fd,#d3e3f2);
+      box-shadow:0 8px 16px rgba(27,70,113,.06)
+    }
+
+    .more-top-tools{
+      position:relative;z-index:3;display:grid;grid-template-columns:54px 1fr 1fr;gap:8px;align-items:end;padding-bottom:12px;border-bottom:1px solid rgba(186,214,232,.06)
+    }
+    .more-tool-block,.more-bell-wrap{position:relative;min-width:0}
+    .more-tool-label{font-size:10px;font-weight:950;letter-spacing:.15em;text-transform:uppercase;color:#738293;margin-bottom:5px;padding-left:2px}
+    .more-shell.light .more-tool-label{color:#8397ae}
+    .more-bell-box,.more-switch-wrap,.more-language-trigger{
+      height:48px;border-radius:16px;border:1px solid rgba(186,214,232,.11);background:linear-gradient(180deg,#202b38,#171f28);
+      box-shadow:0 4px 10px rgba(0,0,0,.16);display:flex;align-items:center;justify-content:space-between;gap:9px;padding:0 11px
+    }
+    .more-bell-box{width:100%;justify-content:center;position:relative;cursor:pointer;padding:0}
+    .more-shell.light .more-bell-box,.more-shell.light .more-switch-wrap,.more-shell.light .more-language-trigger{
+      background:linear-gradient(180deg,#ffffff,#edf5fd);box-shadow:0 3px 8px rgba(27,70,113,.04)
+    }
+    .more-bell-dot{
+      position:absolute;top:9px;right:9px;width:7px;height:7px;border-radius:50%;background:#e0b062;box-shadow:0 0 8px rgba(224,176,98,.22)
+    }
+    .more-bell-dot.hidden{display:none}
+    .more-bell-icon{width:19px;height:19px;stroke:currentColor;stroke-width:2.05;fill:none;color:#f7fbff}
+    .more-shell.light .more-bell-icon{color:#12263e}
+    .more-switch-text,.more-language-value{font-size:13px;font-weight:950;letter-spacing:-.01em;color:#f7fbff}
+    .more-shell.light .more-switch-text,.more-shell.light .more-language-value{color:#12263e}
+    .more-switch{
+      width:50px;height:28px;border-radius:999px;border:1px solid rgba(186,214,232,.11);background:linear-gradient(180deg,#131b24,#0d141c);padding:2px;
+      display:flex;align-items:center;justify-content:flex-start;cursor:pointer;box-shadow:0 4px 10px rgba(0,0,0,.16);flex:0 0 50px
+    }
+    .more-shell.light .more-switch{background:linear-gradient(180deg,#eef7ff,#ddeefd);box-shadow:0 3px 8px rgba(27,70,113,.04)}
+    .more-switch-ball{
+      width:22px;height:22px;border-radius:50%;transform:translateX(22px);
+      background:radial-gradient(circle at 35% 28%,#ffe8b8,#ffc96f 60%,#dc9831 100%);
+      box-shadow:0 0 0 2px rgba(255,255,255,.12),0 4px 10px rgba(224,176,98,.15);transition:.2s ease
+    }
+    .more-shell.light .more-switch-ball{
+      transform:translateX(0);
+      background:radial-gradient(circle at 35% 28%,#ffffff,#eef6fd 58%,#d9e6f2 100%);
+      box-shadow:0 0 0 2px rgba(255,255,255,.9),0 4px 10px rgba(79,151,211,.08)
+    }
+    .more-language-trigger{cursor:pointer}
+    .more-language-caret{
+      width:0;height:0;border-left:6px solid transparent;border-right:6px solid transparent;border-top:8px solid #a5b4c5;flex:0 0 auto;margin-top:2px
+    }
+    .more-shell.light .more-language-caret{border-top-color:#62778e}
+
+    .more-bell-panel,.more-language-panel{
+      position:absolute;top:56px;left:0;display:none;z-index:35;border-radius:16px;border:1px solid rgba(186,214,232,.11);
+      background:linear-gradient(180deg,#202b38,#171f28);box-shadow:0 18px 34px rgba(0,0,0,.30);padding:8px
+    }
+    .more-shell.light .more-bell-panel,.more-shell.light .more-language-panel{
+      background:linear-gradient(180deg,#ffffff,#edf5fd);box-shadow:0 14px 28px rgba(27,70,113,.08)
+    }
+    .more-bell-panel{width:230px}
+    .more-language-panel{left:auto;right:0;width:100%;padding:7px}
+    .more-bell-panel.show,.more-language-panel.show{display:grid;gap:7px}
+    .more-bell-item{
+      border-radius:12px;border:1px solid rgba(186,214,232,.06);background:rgba(255,255,255,.03);padding:9px;display:grid;gap:4px
+    }
+    .more-shell.light .more-bell-item{background:rgba(255,255,255,.10)}
+    .more-bell-kicker{font-size:8px;font-weight:950;letter-spacing:.18em;text-transform:uppercase;color:#738293}
+    .more-shell.light .more-bell-kicker{color:#8397ae}
+    .more-bell-text{font-size:11px;line-height:1.35;color:#f7fbff;font-weight:850}
+    .more-shell.light .more-bell-text{color:#12263e}
+
+    .more-language-option{
+      min-height:40px;border:none;border-radius:12px;border:1px solid rgba(186,214,232,.06);background:rgba(255,255,255,.03);
+      color:#f7fbff;font-size:13px;font-weight:950;cursor:pointer;display:flex;align-items:center;justify-content:space-between;padding:0 11px
+    }
+    .more-shell.light .more-language-option{background:rgba(255,255,255,.12);color:#12263e}
+    .more-language-option.active{
+      border-color:rgba(154,199,235,.18);box-shadow:0 4px 10px rgba(154,199,235,.05);background:linear-gradient(180deg,#151e27,#101821)
+    }
+    .more-shell.light .more-language-option.active{background:linear-gradient(180deg,#eef8ff,#deeeff)}
+    .more-lang-check{width:7px;height:7px;border-radius:50%;background:transparent}
+    .more-language-option.active .more-lang-check{background:#63d6a2;box-shadow:0 0 8px rgba(99,214,162,.20)}
+
+    .more-mode-rail{
+      position:relative;padding:4px;border-radius:18px;border:1px solid rgba(186,214,232,.11);background:linear-gradient(180deg,#202b38,#171f28);box-shadow:0 4px 10px rgba(0,0,0,.16)
+    }
+    .more-shell.light .more-mode-rail{background:linear-gradient(180deg,#ffffff,#edf5fd);box-shadow:0 3px 8px rgba(27,70,113,.04)}
+    .more-mode-indicator{
+      position:absolute;top:4px;left:4px;width:calc(33.333% - 3px);height:42px;border-radius:14px;background:linear-gradient(180deg,#141d26,#101821);
+      border:1px solid rgba(186,214,232,.10);box-shadow:0 5px 12px rgba(0,0,0,.12);transform:translateX(var(--more-main-rail-x,0%));transition:.22s ease
+    }
+    .more-shell.light .more-mode-indicator{background:linear-gradient(180deg,#eef8ff,#deeeff);border-color:rgba(79,151,211,.12);box-shadow:0 5px 10px rgba(27,70,113,.05)}
+    .more-mode-list{position:relative;display:grid;grid-template-columns:repeat(3,1fr);gap:6px}
+    .more-mode-btn{
+      min-height:42px;border:none;border-radius:14px;background:transparent;color:#a5b4c5;font-size:13px;font-weight:950;letter-spacing:-.02em;
+      cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;position:relative;z-index:1
+    }
+    .more-shell.light .more-mode-btn{color:#62778e}
+    .more-mode-btn.active{color:#f7fbff}
+    .more-shell.light .more-mode-btn.active{color:#12263e}
+    .more-mode-dot{width:8px;height:8px;border-radius:50%;background:#c8e2f7;box-shadow:0 0 8px rgba(154,199,235,.16);transition:.18s ease}
+    .more-mode-btn.active .more-mode-dot{background:#63d6a2;box-shadow:0 0 8px rgba(99,214,162,.18)}
+
+    .more-section-shell{
+      border-radius:22px;border:1px solid rgba(186,214,232,.11);background:linear-gradient(180deg,#171f28,#1b2530);box-shadow:0 10px 18px rgba(0,0,0,.22);
+      padding:10px;display:flex;flex-direction:column;gap:0;flex:1;min-height:0
+    }
+    .more-shell.light .more-section-shell{background:linear-gradient(180deg,#edf5fd,#f8fbff);box-shadow:0 8px 16px rgba(27,70,113,.06)}
+    .more-section-head{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:2px 4px 10px}
+    .more-section-title{font-size:11px;font-weight:950;letter-spacing:.22em;text-transform:uppercase;color:#9ac7eb}
+    .more-shell.light .more-section-title{color:#4e97d3}
+    .more-section-pill{
+      min-height:21px;padding:0 8px;border-radius:999px;border:1px solid rgba(186,214,232,.11);background:linear-gradient(180deg,#0e141a,#1b2530);color:#a5b4c5;
+      font-size:10px;font-weight:950;display:flex;align-items:center;justify-content:center;white-space:nowrap
+    }
+    .more-shell.light .more-section-pill{background:linear-gradient(180deg,#ffffff,#edf5fd);color:#62778e}
+    .more-scroll-box{
+      max-height:none;min-height:0;flex:1;overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch;overscroll-behavior:contain;
+      touch-action:pan-y;border-radius:18px;border:1px solid rgba(186,214,232,.06);background:linear-gradient(180deg,rgba(255,255,255,.02),rgba(255,255,255,.01));
+      padding:10px;display:grid;gap:10px;scrollbar-width:thin;scrollbar-color:rgba(154,199,235,.32) transparent
+    }
+    .more-shell.light .more-scroll-box{background:linear-gradient(180deg,rgba(255,255,255,.16),rgba(255,255,255,.05))}
+    .more-scroll-box::-webkit-scrollbar{width:8px}
+    .more-scroll-box::-webkit-scrollbar-thumb{background:rgba(154,199,235,.26);border-radius:999px}
+
+    .more-empty{
+      min-height:220px;border-radius:18px;border:1px dashed rgba(186,214,232,.11);display:grid;place-items:center;padding:22px 18px;text-align:center;color:#a5b4c5;
+      background:linear-gradient(180deg,rgba(255,255,255,.015),rgba(255,255,255,.008))
+    }
+    .more-shell.light .more-empty{color:#62778e}
+    .more-empty-inner{width:100%;max-width:230px;display:grid;gap:14px;justify-items:center}
+    .more-empty-icon{
+      width:58px;height:58px;border-radius:18px;border:1px solid rgba(186,214,232,.11);background:linear-gradient(180deg,#202b38,#171f28);box-shadow:0 4px 10px rgba(0,0,0,.16);position:relative
+    }
+    .more-shell.light .more-empty-icon{background:linear-gradient(180deg,#ffffff,#edf5fd);box-shadow:0 3px 8px rgba(27,70,113,.04)}
+    .more-empty-icon.requests::before,.more-empty-icon.requests::after{
+      content:"";position:absolute;width:24px;height:24px;border-radius:9px;border:2px solid #9ac7eb;left:14px;top:13px
+    }
+    .more-empty-icon.requests::after{border-color:#e0b062;left:28px;top:28px;background:rgba(224,176,98,.04)}
+    .more-empty-icon.generic::before{
+      content:"";position:absolute;left:15px;right:15px;top:18px;height:2px;background:#9ac7eb;box-shadow:0 8px 0 #9ac7eb,0 16px 0 #9ac7eb;opacity:.9
+    }
+    .more-empty-title{color:#f7fbff;font-size:17px;line-height:1.05;font-weight:1000;letter-spacing:-.03em}
+    .more-shell.light .more-empty-title{color:#12263e}
+    .more-empty-sub{color:#a5b4c5;font-size:13px;line-height:1.5;font-weight:820}
+    .more-shell.light .more-empty-sub{color:#62778e}
+
+    .more-request-note{
+      border-radius:20px;overflow:hidden;border:1px solid rgba(186,214,232,.11);background:linear-gradient(180deg,#dce9f8,#d5e5f5);box-shadow:0 4px 10px rgba(0,0,0,.16)
+    }
+    .more-shell:not(.light) .more-request-note{background:linear-gradient(180deg,rgba(255,255,255,.02),rgba(255,255,255,.01)),linear-gradient(180deg,#202b38,#1b2530)}
+    .more-note-topline{height:4px;width:100%}
+    .more-note-topline.pending{background:linear-gradient(90deg,#eea33b,#f4cc8c)}
+    .more-note-topline.paid{background:linear-gradient(90deg,#33b977,#63d6a2)}
+    .more-note-topline.expired{background:linear-gradient(90deg,#ff7676,#ffb1b1)}
+    .more-note-sheet{padding:12px;display:grid;gap:12px}
+    .more-note-head{display:flex;align-items:flex-start;justify-content:space-between;gap:10px}
+    .more-note-brand{display:grid;gap:4px}
+    .more-note-brand span{font-size:10px;color:#738293;font-weight:900;letter-spacing:.16em;text-transform:uppercase}
+    .more-shell.light .more-note-brand span{color:#8397ae}
+    .more-note-brand h3{font-size:14px;line-height:1;font-weight:1000;letter-spacing:-.03em;color:#12263e}
+    .more-shell:not(.light) .more-note-brand h3{color:#f7fbff}
+    .more-status-chip{
+      min-height:24px;padding:0 10px;border-radius:999px;font-size:10px;font-weight:1000;display:flex;align-items:center;justify-content:center;white-space:nowrap;border:1px solid transparent
+    }
+    .more-status-chip.pending{color:#ae6d1d;background:rgba(238,163,59,.14);border-color:rgba(238,163,59,.18)}
+    .more-status-chip.paid{color:#1f8a4c;background:rgba(99,214,162,.13);border-color:rgba(99,214,162,.18)}
+    .more-status-chip.expired{color:#a04747;background:rgba(255,118,118,.12);border-color:rgba(255,118,118,.16)}
+    .more-note-main{display:grid;grid-template-columns:72px minmax(0,1fr);gap:12px;align-items:start}
+    .more-note-qr{
+      width:72px;height:72px;border-radius:15px;border:4px solid #1b2940;background:linear-gradient(135deg,rgba(255,255,255,.04),rgba(255,255,255,.01)),linear-gradient(180deg,#ffffff,#f2f5f9);
+      position:relative;overflow:hidden
+    }
+    .more-note-qr::before,.more-note-qr::after{
+      content:"";position:absolute;inset:8px;border-radius:8px;
+      background:linear-gradient(90deg,transparent 0 7%,#111 7% 13%,transparent 13% 20%,#111 20% 26%,transparent 26% 34%,#111 34% 40%,transparent 40% 100%),linear-gradient(transparent 0 7%,#111 7% 13%,transparent 13% 20%,#111 20% 26%,transparent 26% 34%,#111 34% 40%,transparent 40% 100%);
+      opacity:.9;mix-blend-mode:multiply
+    }
+    .more-note-qr::after{
+      inset:auto;width:15px;height:15px;left:10px;top:10px;background:#111;border-radius:4px;box-shadow:34px 0 0 #111,0 34px 0 #111,34px 34px 0 #111,17px 17px 0 #111,34px 17px 0 #111,17px 34px 0 #111
+    }
+    .more-note-amount{min-width:0;display:grid;gap:4px}
+    .more-note-kicker{font-size:10px;font-weight:950;letter-spacing:.18em;text-transform:uppercase;color:#738293}
+    .more-shell.light .more-note-kicker{color:#8397ae}
+    .more-note-value{font-size:52px;line-height:.84;letter-spacing:-.08em;font-weight:1000;color:#12263e;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+    .more-shell:not(.light) .more-note-value{color:#f7fbff}
+    .more-note-value.long{font-size:42px}
+    .more-note-value.xlong{font-size:34px}
+    .more-note-asset{font-size:15px;font-weight:1000;color:#e0b062;line-height:1}
+    .more-note-desc{font-size:12px;line-height:1.38;color:#a5b4c5;font-weight:850}
+    .more-shell.light .more-note-desc{color:#62778e}
+    .more-note-rows{border-top:1px dashed rgba(186,214,232,.18);display:grid}
+    .more-note-row{
+      min-height:40px;display:grid;grid-template-columns:1fr auto;gap:10px;align-items:center;border-bottom:1px dashed rgba(186,214,232,.06);padding:0 2px
+    }
+    .more-note-row span{font-size:12px;color:#a5b4c5;font-weight:850}
+    .more-shell.light .more-note-row span{color:#62778e}
+    .more-note-row strong{font-size:12px;color:#12263e;font-weight:1000;text-align:right;max-width:170px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+    .more-shell:not(.light) .more-note-row strong{color:#f7fbff}
+    .more-note-actions{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+    .more-note-btn{height:38px;border:none;border-radius:13px;font-size:12px;font-weight:1000;cursor:pointer;box-shadow:0 4px 10px rgba(0,0,0,.16)}
+    .more-note-btn.download{background:linear-gradient(180deg,#dce9f6,#c9dae8);color:#24496d}
+    .more-shell:not(.light) .more-note-btn.download{background:linear-gradient(180deg,#172534,#111b27);color:#f4f8ff;border:1px solid rgba(186,214,232,.08)}
+    .more-note-btn.delete{background:linear-gradient(180deg,#43131a,#321017);color:#fff}
+    .more-note-footer{display:flex;align-items:center;justify-content:space-between;gap:10px;color:#738293;font-size:11px;font-weight:900}
+    .more-shell.light .more-note-footer{color:#8397ae}
+    .more-note-footer-line{width:18px;height:3px;border-radius:999px;background:#63d6a2;box-shadow:0 0 8px rgba(99,214,162,.18)}
+
+    .more-activity-toolbar{
+      position:relative;padding:4px;border-radius:15px;border:1px solid rgba(186,214,232,.06);background:linear-gradient(180deg,rgba(255,255,255,.02),rgba(255,255,255,.01))
+    }
+    .more-shell.light .more-activity-toolbar{background:linear-gradient(180deg,rgba(255,255,255,.16),rgba(255,255,255,.05))}
+    .more-activity-toolbar-indicator{
+      position:absolute;top:4px;left:4px;width:calc(25% - 3px);height:34px;border-radius:11px;background:linear-gradient(180deg,#0e141a,#1b2530);
+      border:1px solid rgba(186,214,232,.06);transform:translateX(var(--more-activity-rail-x,0%));transition:.22s ease
+    }
+    .more-shell.light .more-activity-toolbar-indicator{background:linear-gradient(180deg,#eef8ff,#deeeff)}
+    .more-activity-toolbar-list{position:relative;display:grid;grid-template-columns:repeat(4,1fr);gap:4px}
+    .more-activity-filter{
+      min-height:34px;border:none;border-radius:11px;background:transparent;color:#a5b4c5;font-size:11px;font-weight:950;cursor:pointer;position:relative;z-index:1
+    }
+    .more-shell.light .more-activity-filter{color:#62778e}
+    .more-activity-filter.active{color:#f7fbff}
+    .more-shell.light .more-activity-filter.active{color:#12263e}
+    .more-activity-list{
+      display:grid;gap:0;border-radius:16px;overflow:hidden;border:1px solid rgba(186,214,232,.06);background:linear-gradient(180deg,rgba(255,255,255,.02),rgba(255,255,255,.01))
+    }
+    .more-shell.light .more-activity-list{background:linear-gradient(180deg,rgba(255,255,255,.16),rgba(255,255,255,.05))}
+    .more-activity-row{
+      min-height:58px;display:grid;grid-template-columns:10px minmax(0,1fr) auto;gap:10px;align-items:center;padding:10px 12px;border-bottom:1px solid rgba(186,214,232,.06)
+    }
+    .more-activity-row:last-child{border-bottom:none}
+    .more-activity-dot{width:8px;height:8px;border-radius:50%;background:#9ac7eb;box-shadow:0 0 8px rgba(154,199,235,.16)}
+    .more-activity-copy{min-width:0;display:grid;gap:3px}
+    .more-activity-title{font-size:13px;font-weight:950;color:#f7fbff;letter-spacing:-.01em}
+    .more-shell.light .more-activity-title{color:#12263e}
+    .more-activity-sub{font-size:11px;line-height:1.36;color:#a5b4c5;font-weight:820}
+    .more-shell.light .more-activity-sub{color:#62778e}
+    .more-activity-time{font-size:10px;color:#738293;font-weight:900;white-space:nowrap;text-align:right}
+    .more-shell.light .more-activity-time{color:#8397ae}
+
+    .more-status-grid{display:grid;gap:10px}
+    .more-status-card{
+      border-radius:16px;border:1px solid rgba(186,214,232,.06);background:linear-gradient(180deg,rgba(255,255,255,.02),rgba(255,255,255,.01));
+      box-shadow:0 4px 10px rgba(0,0,0,.16);padding:12px;display:grid;gap:10px
+    }
+    .more-shell.light .more-status-card{background:linear-gradient(180deg,rgba(255,255,255,.15),rgba(255,255,255,.05));box-shadow:0 3px 8px rgba(27,70,113,.04)}
+    .more-status-top{display:flex;align-items:center;justify-content:space-between;gap:10px}
+    .more-status-kicker{font-size:9px;font-weight:950;letter-spacing:.18em;text-transform:uppercase;color:#738293}
+    .more-shell.light .more-status-kicker{color:#8397ae}
+    .more-status-chip-row{min-height:22px;padding:0 8px;border-radius:999px;font-size:10px;font-weight:1000;display:flex;align-items:center;justify-content:center;white-space:nowrap}
+    .more-status-chip-row.ok{color:#1f8a4c;background:rgba(99,214,162,.12);border:1px solid rgba(99,214,162,.16)}
+    .more-status-chip-row.warn{color:#ae6d1d;background:rgba(238,163,59,.13);border:1px solid rgba(238,163,59,.16)}
+    .more-status-card-title{font-size:16px;line-height:1.05;font-weight:1000;color:#f7fbff;letter-spacing:-.03em}
+    .more-shell.light .more-status-card-title{color:#12263e}
+    .more-status-card-sub{font-size:13px;line-height:1.45;color:#a5b4c5;font-weight:820}
+    .more-shell.light .more-status-card-sub{color:#62778e}
+    .more-status-lines{display:grid;gap:0;border-top:1px dashed rgba(186,214,232,.06)}
+    .more-status-line{
+      min-height:38px;display:grid;grid-template-columns:1fr auto;gap:8px;align-items:center;border-bottom:1px dashed rgba(186,214,232,.06);color:#a5b4c5;font-size:12px;font-weight:850
+    }
+    .more-shell.light .more-status-line{color:#62778e}
+    .more-status-line strong{color:#f7fbff;font-weight:1000;text-align:right}
+    .more-shell.light .more-status-line strong{color:#12263e}
+
     .toast-wrap{
       position:fixed;left:50%;bottom:66px;transform:translateX(-50%);z-index:100;display:flex;flex-direction:column;gap:10px;pointer-events:none
     }
@@ -813,7 +1130,7 @@
     @media (max-width:520px){
       .page{padding:4px 2px 9px}
       .page-scroll{width:calc(100% - 1px)}
-      .page-stage,.light-stage{padding:9px;border-radius:24px}
+      .page-stage,.light-stage,.more-shell{padding:9px;border-radius:24px}
       .page-stage::after,.light-stage::after{inset:5px;border-radius:19px}
       .module,.sf-card{padding:7px;border-radius:20px}
       .module::after{inset:4px;border-radius:15px}
@@ -825,11 +1142,15 @@
       .pay-title-line{gap:7px}
       .pay-metrics{grid-template-columns:1fr 52px 1fr}
       .pay-orb{width:52px;height:52px;font-size:22px}
+      .more-note-value{font-size:44px}
+      .more-note-value.long{font-size:38px}
+      .more-note-value.xlong{font-size:32px}
+      .more-scroll-box{padding:9px}
     }
     @media (min-width:760px){
       .page{padding:8px 6px 14px}
       .page-scroll{width:min(1020px,calc(100% - 4px))}
-      .page-stage,.light-stage{padding:14px}
+      .page-stage,.light-stage,.more-shell{padding:14px}
       .pay-title-line{flex-direction:row;align-items:flex-start;justify-content:space-between}
       .note-toggle{justify-content:flex-end}
       .hero-title{font-size:12px}
@@ -1138,8 +1459,8 @@
                     <div class="swap-main-row">
                       <div class="token-box">
                         <div class="token-line">
-                          <div class="token-badge" id="swapFromBadge"><img src="lmtv.png" alt="LMTV"></div>
-                          <div class="token-name" id="swapFromTokenName">LMTV</div>
+                          <div class="token-badge" id="swapFromBadge"><img src="usdc.png" alt="USDC"></div>
+                          <div class="token-name" id="swapFromTokenName">USDC</div>
                           <div class="token-arrow">▼</div>
                         </div>
                       </div>
@@ -1164,8 +1485,8 @@
                     <div class="swap-main-row">
                       <div class="token-box">
                         <div class="token-line">
-                          <div class="token-badge" id="swapToBadge"><img src="usdc.png" alt="USDC"></div>
-                          <div class="token-name" id="swapToTokenName">USDC</div>
+                          <div class="token-badge" id="swapToBadge"><img src="lmtv.png" alt="LMTV"></div>
+                          <div class="token-name" id="swapToTokenName">LMTV</div>
                           <div class="token-arrow">▼</div>
                         </div>
                       </div>
@@ -1472,11 +1793,83 @@
           </div>
         </section>
 
-        <section class="page" data-view="more">
+        <section class="page more-page" data-view="more">
           <div class="page-scroll">
-            <div class="section-head">
-              <div class="eyebrow">More</div>
-              <div class="hero-title"><strong>Reserved for the next stage.</strong><br>Secondary panels and extra utilities can come later.</div>
+            <div class="more-shell" id="moreRoot">
+              <div class="more-inner">
+                <section class="more-hero">
+                  <div class="more-eyebrow">MORE</div>
+                  <div class="more-badge">Panel</div>
+                </section>
+
+                <section class="more-card">
+                  <div class="more-top-tools">
+                    <div class="more-bell-wrap">
+                      <button class="more-bell-box" id="moreBellBtn" type="button" aria-label="Notifications">
+                        <span class="more-bell-dot" id="moreBellDot"></span>
+                        <svg class="more-bell-icon" viewBox="0 0 24 24">
+                          <path d="M6 9a6 6 0 1 1 12 0v4.4l1.2 2.2a1 1 0 0 1-.88 1.48H5.68a1 1 0 0 1-.88-1.48L6 13.4V9Z"></path>
+                          <path d="M10 19a2 2 0 0 0 4 0"></path>
+                        </svg>
+                      </button>
+                      <div class="more-bell-panel" id="moreBellPanel"></div>
+                    </div>
+
+                    <div class="more-tool-block">
+                      <div class="more-tool-label">Theme</div>
+                      <div class="more-switch-wrap">
+                        <span class="more-switch-text" id="moreThemeText">Dark</span>
+                        <button class="more-switch" id="moreThemeSwitch" type="button" aria-label="Toggle theme">
+                          <span class="more-switch-ball"></span>
+                        </button>
+                      </div>
+                    </div>
+
+                    <div class="more-tool-block">
+                      <div class="more-tool-label">Language</div>
+                      <button class="more-language-trigger" id="moreLanguageTrigger" type="button">
+                        <span class="more-language-value" id="moreLanguageValue">English</span>
+                        <span class="more-language-caret"></span>
+                      </button>
+
+                      <div class="more-language-panel" id="moreLanguagePanel">
+                        <button class="more-language-option active" type="button" data-lang="English">
+                          <span>English</span><span class="more-lang-check"></span>
+                        </button>
+                        <button class="more-language-option" type="button" data-lang="Español">
+                          <span>Español</span><span class="more-lang-check"></span>
+                        </button>
+                        <button class="more-language-option" type="button" data-lang="Português">
+                          <span>Português</span><span class="more-lang-check"></span>
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="more-mode-rail">
+                    <div class="more-mode-indicator" id="moreModeIndicator"></div>
+                    <div class="more-mode-list">
+                      <button class="more-mode-btn active" type="button" data-mode="requests" data-index="0">
+                        <span class="more-mode-dot"></span><span>Requests</span>
+                      </button>
+                      <button class="more-mode-btn" type="button" data-mode="activity" data-index="1">
+                        <span class="more-mode-dot"></span><span>Activity</span>
+                      </button>
+                      <button class="more-mode-btn" type="button" data-mode="status" data-index="2">
+                        <span class="more-mode-dot"></span><span>Status</span>
+                      </button>
+                    </div>
+                  </div>
+
+                  <div class="more-section-shell">
+                    <div class="more-section-head">
+                      <div class="more-section-title" id="moreSectionTitle">Requests</div>
+                      <div class="more-section-pill" id="moreSectionPill">Generated</div>
+                    </div>
+                    <div class="more-scroll-box" id="moreScrollBox"></div>
+                  </div>
+                </section>
+              </div>
             </div>
           </div>
         </section>
@@ -1564,6 +1957,7 @@
       shortAddress: '',
       walletName: '',
       chainId: null,
+      lastError: '',
       tokenMeta: {
         LMTV: { symbol: 'LMTV', decimals: 18 },
         USDC: { symbol: 'USDC', decimals: 18 },
@@ -1573,7 +1967,7 @@
       allowances: {},
       feeEstimate: ethers.BigNumber.from(0),
       swap: {
-        from: 'LMTV',
+        from: 'USDC',
         amountText: '',
         quoteRaw: ethers.BigNumber.from(0),
         slippage: 0.5
@@ -1744,6 +2138,24 @@
       paste: document.getElementById('scannerPaste')
     };
 
+    const moreEls = {
+      root: document.getElementById('moreRoot'),
+      bellBtn: document.getElementById('moreBellBtn'),
+      bellDot: document.getElementById('moreBellDot'),
+      bellPanel: document.getElementById('moreBellPanel'),
+      themeSwitch: document.getElementById('moreThemeSwitch'),
+      themeText: document.getElementById('moreThemeText'),
+      languageTrigger: document.getElementById('moreLanguageTrigger'),
+      languagePanel: document.getElementById('moreLanguagePanel'),
+      languageValue: document.getElementById('moreLanguageValue'),
+      languageOptions: [...document.querySelectorAll('.more-language-option')],
+      modeButtons: [...document.querySelectorAll('.more-mode-btn')],
+      modeIndicator: document.getElementById('moreModeIndicator'),
+      sectionTitle: document.getElementById('moreSectionTitle'),
+      sectionPill: document.getElementById('moreSectionPill'),
+      scrollBox: document.getElementById('moreScrollBox')
+    };
+
     let scannerStream = null;
     let scannerFrame = null;
     let scannerDetector = null;
@@ -1751,30 +2163,19 @@
     let payQuoteTimer = null;
     let getQuoteTimer = null;
     let timers = [];
-    let appHeightRAF = null;
     let swapQuoteNonce = 0;
     let payQuoteNonce = 0;
     let getQuoteNonce = 0;
 
     function clamp(v, min, max){ return Math.max(min, Math.min(max, v)); }
 
-    function refreshAppHeight(){
-      const h = Math.round(window.visualViewport ? window.visualViewport.height : window.innerHeight);
-      document.documentElement.style.setProperty('--app-h', `${h}px`);
-    }
-
-    function queueAppHeightRefresh(){
-      if(appHeightRAF) cancelAnimationFrame(appHeightRAF);
-      appHeightRAF = requestAnimationFrame(refreshAppHeight);
-    }
-
     function nextPaint(){
       return new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve)));
     }
 
     function safeJSONParse(value, fallback){
-      try{ return JSON.parse(value); }
-      catch{ return fallback; }
+      try{return JSON.parse(value);}
+      catch{return fallback;}
     }
 
     function showPage(viewName){
@@ -1906,51 +2307,6 @@
       return entry;
     }
 
-    function getRequestStoreKey(address){
-      return `stableflow_requests_${String(address || 'guest').toLowerCase()}`;
-    }
-
-    function readSavedRequests(address = state.address || 'guest'){
-      return safeJSONParse(localStorage.getItem(getRequestStoreKey(address)), []).filter(Boolean);
-    }
-
-    function saveRequest(entry, address = state.address || 'guest'){
-      const list = readSavedRequests(address);
-      list.unshift(entry);
-      localStorage.setItem(getRequestStoreKey(address), JSON.stringify(list.slice(0, 80)));
-      return entry;
-    }
-
-    function getWeekStart(baseDate = new Date()){
-      const d = new Date(baseDate);
-      d.setHours(0,0,0,0);
-      const mondayOffset = (d.getDay() + 6) % 7;
-      d.setDate(d.getDate() - mondayOffset);
-      return d;
-    }
-
-    function getWeeklyActivitySeries(address = state.address){
-      const start = getWeekStart();
-      const series = new Array(7).fill(0);
-      readActivity(address).forEach(item => {
-        const day = new Date(item.at || 0);
-        day.setHours(0,0,0,0);
-        const index = Math.round((day - start) / 86400000);
-        if(index >= 0 && index < 7){
-          const weight = item.type === 'request' ? 0.65 : 1;
-          series[index] += weight;
-        }
-      });
-      return series;
-    }
-
-    function getWeeklyCountByType(types, address = state.address){
-      const set = new Set(Array.isArray(types) ? types : [types]);
-      const start = getWeekStart().getTime();
-      const end = start + (7 * 86400000);
-      return readActivity(address).filter(item => set.has(item.type) && item.at >= start && item.at < end).length;
-    }
-
     function getProfileTxKey(address){
       return `stableflow_profiletx_${String(address || '').toLowerCase()}`;
     }
@@ -1968,6 +2324,25 @@
       const count = Number(localStorage.getItem(key) || 0) + 1;
       localStorage.setItem(key, String(count));
       return count;
+    }
+
+    function getRequestStoreKey(address){
+      return `stableflow_requests_${String(address || 'guest').toLowerCase()}`;
+    }
+
+    function readSavedRequests(address = state.address || 'guest'){
+      return safeJSONParse(localStorage.getItem(getRequestStoreKey(address)), []).filter(Boolean);
+    }
+
+    function writeSavedRequests(items, address = state.address || 'guest'){
+      localStorage.setItem(getRequestStoreKey(address), JSON.stringify((items || []).slice(0,80)));
+    }
+
+    function saveRequest(entry, address = state.address || 'guest'){
+      const list = readSavedRequests(address);
+      list.unshift(entry);
+      writeSavedRequests(list, address);
+      return entry;
     }
 
     function setTokenBadge(el, tokenKey){
@@ -2145,13 +2520,17 @@
         state.address = accounts[0];
         state.shortAddress = shortAddr(accounts[0]);
         if(!state.get.wallet) state.get.wallet = accounts[0];
+        state.lastError = '';
         await refreshOnchainState();
       });
 
       rawProvider.on('chainChanged', async (chainId) => {
         state.chainId = typeof chainId === 'string' ? parseInt(chainId, 16) : Number(chainId);
         if(!isArcChain(chainId)){
-          showToast('Switch back to Arc Testnet to keep using the live flows.', 'warn');
+          state.lastError = 'Switch back to Arc Testnet to keep using the live flows.';
+          showToast(state.lastError, 'warn');
+        }else{
+          state.lastError = '';
         }
         await refreshOnchainState();
       });
@@ -2162,14 +2541,18 @@
         await discoverInjectedProviders();
         const rawProvider = pickProvider(walletKey);
         if(!rawProvider){
-          showToast('No compatible wallet provider was found here.', 'warn');
+          state.lastError = 'No compatible wallet provider was found here.';
+          syncMoreFromShell();
+          showToast(state.lastError, 'warn');
           return;
         }
 
         await ensureArcNetwork(rawProvider);
         const accounts = await rawProvider.request({ method: 'eth_requestAccounts' });
         if(!accounts?.length){
-          showToast('Wallet connection was cancelled.', 'warn');
+          state.lastError = 'Wallet connection was cancelled.';
+          syncMoreFromShell();
+          showToast(state.lastError, 'warn');
           return;
         }
 
@@ -2180,6 +2563,7 @@
         state.shortAddress = shortAddr(accounts[0]);
         state.walletName = walletKey === 'metamask' ? 'MetaMask' : walletKey === 'rabby' ? 'Rabby' : walletKey === 'okx' ? 'OKX' : 'Base';
         state.chainId = Number(await rawProvider.request({ method: 'eth_chainId' }));
+        state.lastError = '';
         if(!state.get.wallet) state.get.wallet = accounts[0];
 
         await bindProviderEvents(rawProvider);
@@ -2200,7 +2584,9 @@
         showToast(`${state.walletName} connected.`, 'ok');
       }catch(error){
         console.error(error);
-        showToast(error?.message?.slice(0, 140) || 'Could not connect the wallet.', 'warn');
+        state.lastError = error?.message?.slice(0, 160) || 'Could not connect the wallet.';
+        syncMoreFromShell();
+        showToast(state.lastError, 'warn');
       }
     }
 
@@ -2212,6 +2598,7 @@
       state.shortAddress = '';
       state.walletName = '';
       state.chainId = null;
+      state.lastError = '';
       state.balances = { LMTV: ethers.BigNumber.from(0), USDC: ethers.BigNumber.from(0), EURC: ethers.BigNumber.from(0) };
       state.allowances = {};
       state.swap.amountText = '';
@@ -2248,6 +2635,7 @@
       getEls.noteInput.value = '';
 
       renderAll();
+      syncMoreFromShell();
       showToast('Wallet disconnected.');
     }
 
@@ -2301,12 +2689,14 @@
     async function refreshOnchainState(){
       if(!state.provider || !state.address){
         renderAll();
+        syncMoreFromShell();
         return;
       }
       await loadTokenMeta();
       await Promise.all([refreshBalances(), estimateFee(), refreshAllowances()]);
       await Promise.all([updateSwapQuote(), updatePayQuote(), updateGetPaidEstimate()]);
       renderAll();
+      syncMoreFromShell();
     }
 
     function getSwapPair(){ return POOLS.LMTV_USDC; }
@@ -2384,7 +2774,7 @@
       const requestId = ++getQuoteNonce;
       state.get.approxInputRaw = ethers.BigNumber.from(0);
       const amountNum = Number(String(state.get.amountText || '').replace(',', '.'));
-      if(!isFinite(amountNum) || amountNum <= 0) {
+      if(!isFinite(amountNum) || amountNum <= 0){
         renderGet();
         return;
       }
@@ -2429,13 +2819,43 @@
       return 'Profile fully evolved.';
     }
 
-    function homeChartText(tx){
-      if(tx <= 0) return 'The curve wakes up after the first transaction.';
-      if(tx <= 2) return 'Early movement detected in the app.';
-      if(tx <= 4) return 'The weekly line is beginning to build shape.';
-      if(tx <= 6) return 'The graph is showing real consistency.';
-      if(tx <= 8) return 'High activity is pushing the curve upward.';
-      return 'Peak rhythm reached.';
+    function buildFallbackSeries(totalTx){
+      const arr = [0,0,0,0,0,0,0];
+      const n = Math.min(totalTx, 7);
+      for(let i = 0; i < n; i++){
+        arr[6 - i] = i === 0 ? 2 : 1;
+      }
+      return arr;
+    }
+
+    function getWeekStart(baseDate = new Date()){
+      const d = new Date(baseDate);
+      d.setHours(0,0,0,0);
+      const mondayOffset = (d.getDay() + 6) % 7;
+      d.setDate(d.getDate() - mondayOffset);
+      return d;
+    }
+
+    function getWeeklyActivitySeries(address = state.address){
+      const start = getWeekStart();
+      const series = new Array(7).fill(0);
+      readActivity(address).forEach(item => {
+        const day = new Date(item.at || 0);
+        day.setHours(0,0,0,0);
+        const index = Math.round((day - start) / 86400000);
+        if(index >= 0 && index < 7){
+          const weight = item.type === 'request' ? 0.65 : 1;
+          series[index] += weight;
+        }
+      });
+      return series;
+    }
+
+    function getWeeklyCountByType(types, address = state.address){
+      const set = new Set(Array.isArray(types) ? types : [types]);
+      const start = getWeekStart().getTime();
+      const end = start + (7 * 86400000);
+      return readActivity(address).filter(item => set.has(item.type) && item.at >= start && item.at < end).length;
     }
 
     function homeUnlockBadges(tx){
@@ -2504,7 +2924,6 @@
       homeEls.orb.setAttribute('cy', orbPoint.y);
       homeEls.lastDot.setAttribute('cx', last.x);
       homeEls.lastDot.setAttribute('cy', last.y);
-
       homeEls.chartBars.innerHTML = mainPoints.map(point => `<line x1="${point.x}" y1="${bottom}" x2="${point.x}" y2="${point.y + 10}"></line>`).join('');
     }
 
@@ -2514,9 +2933,14 @@
       const pct = (displayTx / 10) * 100;
       const phase = homePhaseLabel(displayTx);
 
-      const weeklySeries = getWeeklyActivitySeries();
-      const weeklyTx = getWeeklyCountByType(['swap', 'pay']);
+      let weeklySeries = getWeeklyActivitySeries();
+      if(!weeklySeries.some(v => v > 0) && totalTx > 0){
+        weeklySeries = buildFallbackSeries(totalTx);
+      }
+
+      const weeklyTxReal = getWeeklyCountByType(['swap','pay']);
       const weeklyRequests = getWeeklyCountByType('request');
+      const weeklyTx = weeklyTxReal || Math.min(totalTx, 7);
 
       const firstHalf = weeklySeries.slice(0, 3).reduce((acc, v) => acc + v, 0);
       const secondHalf = weeklySeries.slice(3).reduce((acc, v) => acc + v, 0);
@@ -2525,7 +2949,7 @@
       if(firstHalf === 0 && secondHalf > 0) growth = 100;
       else if(firstHalf > 0) growth = Math.round(((secondHalf - firstHalf) / firstHalf) * 100);
 
-      homeEls.walletText.textContent = state.address ? state.shortAddress : 'Not connected';
+      homeEls.walletText.textContent = state.address ? shortAddr(state.address) : 'Not connected';
       homeEls.levelValue.textContent = displayTx;
       homeEls.miniTx.textContent = `${totalTx} tx`;
       homeEls.miniPhase.textContent = phase;
@@ -2544,11 +2968,9 @@
         homeEls.topStatusText.textContent = 'Connect a wallet to activate the profile.';
       }
 
-      if(weeklyTx || weeklyRequests){
-        homeEls.chartNote.textContent = `This week: ${weeklyTx} tx • ${weeklyRequests} request${weeklyRequests === 1 ? '' : 's'}.`;
-      }else{
-        homeEls.chartNote.textContent = homeChartText(displayTx);
-      }
+      homeEls.chartNote.textContent = (weeklyTx || weeklyRequests)
+        ? `This week: ${weeklyTx} tx • ${weeklyRequests} request${weeklyRequests === 1 ? '' : 's'}.`
+        : 'The curve wakes up after the first transaction.';
 
       homeEls.progressFill.style.width = pct + '%';
       homeEls.progressOrb.style.left = pct + '%';
@@ -2557,9 +2979,9 @@
       renderHomeChart(weeklySeries);
 
       if(homeEls.avatarImg){
-        if(homeEls.avatarImg.complete && homeEls.avatarImg.naturalWidth > 0){
-          homeEls.avatar.classList.add('has-image');
-        }else{
+        const hasImage = homeEls.avatarImg.complete && homeEls.avatarImg.naturalWidth > 0;
+        homeEls.avatar.classList.toggle('has-image', hasImage);
+        if(!hasImage){
           homeEls.avatarImg.onload = () => homeEls.avatar.classList.add('has-image');
           homeEls.avatarImg.onerror = () => homeEls.avatar.classList.remove('has-image');
         }
@@ -2794,6 +3216,633 @@
       }
     }
 
+    /* More */
+    const moreState = {
+      theme: 'dark',
+      language: 'English',
+      requests: [],
+      activity: [],
+      status: {
+        walletConnected: false,
+        walletAddress: '',
+        networkName: '',
+        networkExpected: 'Arc Testnet',
+        lastError: ''
+      },
+      hooks: {
+        onThemeChange: null,
+        onLanguageChange: null,
+        onRequestDelete: null,
+        onRequestDownload: null
+      }
+    };
+    let moreMode = 'requests';
+    let moreActivityFilter = 'all';
+
+    function moreEsc(value){
+      return String(value ?? '')
+        .replace(/&/g,'&amp;')
+        .replace(/</g,'&lt;')
+        .replace(/>/g,'&gt;')
+        .replace(/"/g,'&quot;')
+        .replace(/'/g,'&#39;');
+    }
+
+    function moreShort(address){
+      if(!address) return '—';
+      const clean = String(address).trim();
+      if(clean.length <= 12) return clean;
+      return `${clean.slice(0,6)}...${clean.slice(-4)}`;
+    }
+
+    function moreFormatAmount(value){
+      const n = Number(value);
+      if(!Number.isFinite(n)) return '0.00';
+      return n.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    }
+
+    function moreAmountClass(value){
+      const txt = moreFormatAmount(value);
+      if(txt.length >= 9) return 'xlong';
+      if(txt.length >= 7) return 'long';
+      return '';
+    }
+
+    function setMoreMainRail(index){
+      moreEls.root.style.setProperty('--more-main-rail-x', `${index * 100}%`);
+    }
+
+    function setMoreActivityRail(index){
+      moreEls.root.style.setProperty('--more-activity-rail-x', `${index * 100}%`);
+    }
+
+    function syncMoreTheme(){
+      moreEls.root.classList.toggle('light', moreState.theme === 'light');
+      moreEls.themeText.textContent = moreState.theme === 'light' ? 'Light' : 'Dark';
+    }
+
+    function syncMoreLanguage(){
+      moreEls.languageValue.textContent = moreState.language;
+      moreEls.languageOptions.forEach(option => {
+        option.classList.toggle('active', option.dataset.lang === moreState.language);
+      });
+    }
+
+    function morePendingCount(){
+      return moreState.requests.filter(r => (r.status || '').toLowerCase() === 'pending').length;
+    }
+
+    function morePaidCount(){
+      return moreState.requests.filter(r => (r.status || '').toLowerCase() === 'paid').length;
+    }
+
+    function moreFilteredActivity(){
+      if(moreActivityFilter === 'all') return moreState.activity;
+      return moreState.activity.filter(item => (item.type || '').toLowerCase() === moreActivityFilter);
+    }
+
+    function renderMoreBell(){
+      const items = [];
+      const pending = morePendingCount();
+      const paid = morePaidCount();
+      const swapCount = moreState.activity.filter(a => (a.type || '').toLowerCase() === 'swap').length;
+      const payCount = moreState.activity.filter(a => (a.type || '').toLowerCase() === 'pay').length;
+      const reqCount = moreState.activity.filter(a => (a.type || '').toLowerCase() === 'request').length;
+
+      const networkMismatch = moreState.status.networkName &&
+        moreState.status.networkExpected &&
+        moreState.status.networkName !== moreState.status.networkExpected;
+
+      if(moreState.status.lastError){
+        items.push({ kicker:'Error', text:moreState.status.lastError });
+      }
+      if(networkMismatch){
+        items.push({ kicker:'Network', text:`Connected to ${moreState.status.networkName}, expected ${moreState.status.networkExpected}.` });
+      }
+      if(pending > 0){
+        items.push({ kicker:'Pending', text:`${pending} request${pending > 1 ? 's are' : ' is'} waiting for payment.` });
+      }
+      if(payCount > 0){
+        items.push({ kicker:'Pay', text:`${payCount} payment${payCount > 1 ? 's' : ''} recorded in Activity.` });
+      }
+      if(swapCount > 0){
+        items.push({ kicker:'Swap', text:`${swapCount} swap${swapCount > 1 ? 's' : ''} recorded in Activity.` });
+      }
+      if(reqCount > 0 && pending === 0){
+        items.push({ kicker:'Request', text:`${reqCount} request event${reqCount > 1 ? 's' : ''} recorded in Activity.` });
+      }
+      if(paid > 0){
+        items.push({ kicker:'Paid', text:`${paid} request${paid > 1 ? 's were' : ' was'} marked as paid.` });
+      }
+
+      moreEls.bellDot.classList.toggle('hidden', items.length === 0);
+      moreEls.bellPanel.innerHTML = (items.length ? items : [{ kicker:'Clear', text:'No alerts yet.' }]).map(item => `
+        <div class="more-bell-item">
+          <div class="more-bell-kicker">${moreEsc(item.kicker)}</div>
+          <div class="more-bell-text">${moreEsc(item.text)}</div>
+        </div>
+      `).join('');
+    }
+
+    function renderMoreRequestNote(note){
+      const status = String(note.status || 'pending').toLowerCase();
+      const label = status === 'paid' ? 'Paid' : status === 'expired' ? 'Expired' : 'Pending';
+
+      const extraRows = [];
+      if(note.swap){
+        extraRows.push(`
+          <div class="more-note-row">
+            <span>Route</span>
+            <strong>${moreEsc(note.swap)}</strong>
+          </div>
+        `);
+      }
+      if(note.note){
+        extraRows.push(`
+          <div class="more-note-row">
+            <span>Note</span>
+            <strong>${moreEsc(note.note)}</strong>
+          </div>
+        `);
+      }
+
+      return `
+        <article class="more-request-note">
+          <div class="more-note-topline ${moreEsc(status)}"></div>
+          <div class="more-note-sheet">
+            <div class="more-note-head">
+              <div class="more-note-brand">
+                <span>StableFlow Receipt</span>
+                <h3>Payment request</h3>
+              </div>
+              <div class="more-status-chip ${moreEsc(status)}">${moreEsc(label)}</div>
+            </div>
+
+            <div class="more-note-main">
+              <div class="more-note-qr"></div>
+
+              <div class="more-note-amount">
+                <div class="more-note-kicker">Recipient gets</div>
+                <div class="more-note-value ${moreAmountClass(note.amount)}">${moreFormatAmount(note.amount)}</div>
+                <div class="more-note-asset">${moreEsc(note.asset || '—')}</div>
+                <div class="more-note-desc">
+                  Recipient receives ${moreFormatAmount(note.amount)} ${moreEsc(note.asset || '')}.
+                </div>
+              </div>
+            </div>
+
+            <div class="more-note-rows">
+              <div class="more-note-row">
+                <span>Wallet</span>
+                <strong>${moreEsc(note.wallet ? moreShort(note.wallet) : '—')}</strong>
+              </div>
+              <div class="more-note-row">
+                <span>Date</span>
+                <strong>${moreEsc(note.date || '—')}</strong>
+              </div>
+              ${extraRows.join('')}
+            </div>
+
+            <div class="more-note-actions">
+              <button class="more-note-btn download" data-action="download" data-id="${moreEsc(note.id)}">Download</button>
+              <button class="more-note-btn delete" data-action="delete" data-id="${moreEsc(note.id)}">Delete</button>
+            </div>
+
+            <div class="more-note-footer">
+              <span>${status === 'paid' ? 'Payment confirmed.' : status === 'expired' ? 'Request expired.' : 'Waiting payment confirmation.'}</span>
+              ${status === 'paid'
+                ? `<div style="display:flex;align-items:center;gap:8px"><span class="more-note-footer-line"></span><span>Paid</span></div>`
+                : `<span>${moreEsc(label)}</span>`
+              }
+            </div>
+          </div>
+        </article>
+      `;
+    }
+
+    function renderMoreRequests(){
+      moreEls.sectionTitle.textContent = 'Requests';
+      moreEls.sectionPill.textContent = 'Generated';
+
+      if(!moreState.requests.length){
+        moreEls.scrollBox.innerHTML = `
+          <div class="more-empty">
+            <div class="more-empty-inner">
+              <div class="more-empty-icon requests"></div>
+              <div class="more-empty-title">No requests yet</div>
+              <div class="more-empty-sub">
+                Generated payment notes will appear here when real data comes from Get Paid.
+              </div>
+            </div>
+          </div>
+        `;
+        return;
+      }
+
+      moreEls.scrollBox.innerHTML = moreState.requests.map(renderMoreRequestNote).join('');
+    }
+
+    function renderMoreActivity(){
+      moreEls.sectionTitle.textContent = 'Activity';
+      moreEls.sectionPill.textContent = 'Live';
+      const items = moreFilteredActivity();
+
+      moreEls.scrollBox.innerHTML = `
+        <div class="more-activity-toolbar">
+          <div class="more-activity-toolbar-indicator"></div>
+          <div class="more-activity-toolbar-list">
+            <button class="more-activity-filter ${moreActivityFilter === 'all' ? 'active' : ''}" data-filter="all" data-filter-index="0">All</button>
+            <button class="more-activity-filter ${moreActivityFilter === 'swap' ? 'active' : ''}" data-filter="swap" data-filter-index="1">Swap</button>
+            <button class="more-activity-filter ${moreActivityFilter === 'pay' ? 'active' : ''}" data-filter="pay" data-filter-index="2">Pay</button>
+            <button class="more-activity-filter ${moreActivityFilter === 'request' ? 'active' : ''}" data-filter="request" data-filter-index="3">Requests</button>
+          </div>
+        </div>
+
+        ${items.length ? `
+          <div class="more-activity-list">
+            ${items.map(item => `
+              <div class="more-activity-row">
+                <span class="more-activity-dot"></span>
+                <div class="more-activity-copy">
+                  <div class="more-activity-title">${moreEsc(item.title || 'Untitled action')}</div>
+                  <div class="more-activity-sub">${moreEsc(item.sub || 'No extra details yet.')}</div>
+                </div>
+                <div class="more-activity-time">${moreEsc(item.time || '—')}</div>
+              </div>
+            `).join('')}
+          </div>
+        ` : `
+          <div class="more-empty">
+            <div class="more-empty-inner">
+              <div class="more-empty-icon generic"></div>
+              <div class="more-empty-title">No activity yet</div>
+              <div class="more-empty-sub">
+                Real swaps, payments and request events will appear here.
+              </div>
+            </div>
+          </div>
+        `}
+      `;
+
+      const active = moreEls.scrollBox.querySelector(`.more-activity-filter[data-filter="${moreActivityFilter}"]`);
+      if(active) setMoreActivityRail(Number(active.dataset.filterIndex || 0));
+    }
+
+    function renderMoreStatus(){
+      const pending = morePendingCount();
+      const paid = morePaidCount();
+      const swaps = moreState.activity.filter(a => (a.type || '').toLowerCase() === 'swap').length;
+      const pays = moreState.activity.filter(a => (a.type || '').toLowerCase() === 'pay').length;
+      const last = moreState.activity[0] || null;
+
+      let connectionChip = 'warn';
+      let connectionText = 'Waiting';
+      if(moreState.status.walletConnected && moreState.status.networkName === moreState.status.networkExpected){
+        connectionChip = 'ok';
+        connectionText = 'Ready';
+      }else if(moreState.status.walletConnected){
+        connectionChip = 'warn';
+        connectionText = 'Check';
+      }
+
+      moreEls.sectionTitle.textContent = 'Status';
+      moreEls.sectionPill.textContent = 'Live';
+
+      moreEls.scrollBox.innerHTML = `
+        <div class="more-status-grid">
+          <div class="more-status-card">
+            <div class="more-status-top">
+              <div class="more-status-kicker">Connection</div>
+              <div class="more-status-chip-row ${connectionChip}">${connectionText}</div>
+            </div>
+
+            <div class="more-status-card-title">Current dapp state</div>
+            <div class="more-status-card-sub">
+              This area stays clean until real wallet, network and action data are plugged in.
+            </div>
+
+            <div class="more-status-lines">
+              <div class="more-status-line"><span>Wallet</span><strong>${moreState.status.walletConnected ? 'Connected' : '—'}</strong></div>
+              <div class="more-status-line"><span>Address</span><strong>${moreEsc(moreShort(moreState.status.walletAddress))}</strong></div>
+              <div class="more-status-line"><span>Network</span><strong>${moreEsc(moreState.status.networkName || '—')}</strong></div>
+              <div class="more-status-line"><span>Expected</span><strong>${moreEsc(moreState.status.networkExpected || '—')}</strong></div>
+              <div class="more-status-line"><span>Pending requests</span><strong>${pending ? moreEsc(String(pending)) : '—'}</strong></div>
+              <div class="more-status-line"><span>Paid requests</span><strong>${paid ? moreEsc(String(paid)) : '—'}</strong></div>
+              <div class="more-status-line"><span>Payments in activity</span><strong>${pays ? moreEsc(String(pays)) : '—'}</strong></div>
+              <div class="more-status-line"><span>Swaps in activity</span><strong>${swaps ? moreEsc(String(swaps)) : '—'}</strong></div>
+            </div>
+          </div>
+
+          <div class="more-status-card">
+            <div class="more-status-top">
+              <div class="more-status-kicker">Last action</div>
+              <div class="more-status-chip-row ${last ? 'ok' : 'warn'}">${last ? 'Recent' : 'Empty'}</div>
+            </div>
+            <div class="more-status-card-title">${moreEsc(last ? last.title : 'No action yet')}</div>
+            <div class="more-status-card-sub">${moreEsc(last ? last.sub : 'Real swaps, pays and request events will populate this area.')}</div>
+          </div>
+
+          ${moreState.status.lastError ? `
+            <div class="more-status-card">
+              <div class="more-status-top">
+                <div class="more-status-kicker">Error</div>
+                <div class="more-status-chip-row warn">Attention</div>
+              </div>
+              <div class="more-status-card-title">Latest issue</div>
+              <div class="more-status-card-sub">${moreEsc(moreState.status.lastError)}</div>
+            </div>
+          ` : ''}
+        </div>
+      `;
+    }
+
+    function renderMoreCurrentMode(){
+      if(moreMode === 'requests') renderMoreRequests();
+      if(moreMode === 'activity') renderMoreActivity();
+      if(moreMode === 'status') renderMoreStatus();
+      renderMoreBell();
+    }
+
+    function moreFindRequestById(id){
+      return moreState.requests.find(item => String(item.id) === String(id));
+    }
+
+    function defaultDownloadRequest(request){
+      const lines = [
+        'STABLEFLOW RECEIPT',
+        '',
+        `Status: ${request.status || 'pending'}`,
+        `Recipient gets: ${moreFormatAmount(request.amount)} ${request.asset || ''}`,
+        `Wallet: ${request.wallet || ''}`,
+        `Date: ${request.date || ''}`,
+        request.swap ? `Route: ${request.swap}` : '',
+        request.note ? `Note: ${request.note}` : ''
+      ].filter(Boolean);
+
+      const blob = new Blob([lines.join('\n')], { type:'text/plain;charset=utf-8' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `stableflow-request-${request.id || 'note'}.txt`;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      URL.revokeObjectURL(url);
+    }
+
+    function syncMoreFromShell(){
+      const requests = readSavedRequests(state.address || 'guest').map(item => ({
+        id: item.id,
+        asset: item.asset,
+        amount: Number(item.amountFull || item.amount || 0),
+        wallet: item.wallet,
+        date: item.dateText || item.date || new Date(item.createdAt || Date.now()).toLocaleString(),
+        swap: item.swap || '',
+        note: item.note || '',
+        status: String(item.status || 'pending').toLowerCase()
+      }));
+
+      const activity = readActivity(state.address).slice().reverse().map(item => {
+        const dateText = new Date(item.at || Date.now()).toLocaleTimeString([], { hour:'2-digit', minute:'2-digit' });
+        if(item.type === 'swap'){
+          return {
+            id: item.id,
+            type: 'swap',
+            title: `Swap ${item.from || ''} → ${item.to || ''}`.trim(),
+            sub: `${item.from || ''} swapped into ${item.to || ''}.`,
+            time: dateText
+          };
+        }
+        if(item.type === 'pay'){
+          return {
+            id: item.id,
+            type: 'pay',
+            title: `Pay ${item.asset || ''}`.trim(),
+            sub: `${item.asset || ''} sent to ${moreShort(item.recipient || '')}.`,
+            time: dateText
+          };
+        }
+        if(item.type === 'request'){
+          return {
+            id: item.id,
+            type: 'request',
+            title: `Request ${item.asset || ''}`.trim(),
+            sub: `Payment note created for ${item.amountFull || '0.00'} ${item.asset || ''}.`,
+            time: dateText
+          };
+        }
+        return {
+          id: item.id,
+          type: item.type || 'all',
+          title: 'Action',
+          sub: 'Recorded event.',
+          time: dateText
+        };
+      });
+
+      const networkName = state.chainId ? (isArcChain(state.chainId) ? ARC_NETWORK.chainName : `Chain ${state.chainId}`) : '';
+      window.StableFlowMore.setRequests(requests);
+      window.StableFlowMore.setActivity(activity);
+      window.StableFlowMore.setStatus({
+        walletConnected: !!state.address,
+        walletAddress: state.address,
+        networkName,
+        networkExpected: ARC_NETWORK.chainName,
+        lastError: state.lastError || ''
+      });
+    }
+
+    function initMoreModule(){
+      moreEls.scrollBox.addEventListener('click', (e) => {
+        const filterBtn = e.target.closest('[data-filter]');
+        if(filterBtn){
+          moreActivityFilter = filterBtn.dataset.filter;
+          renderMoreActivity();
+          return;
+        }
+
+        const actionBtn = e.target.closest('[data-action]');
+        if(!actionBtn) return;
+
+        const action = actionBtn.dataset.action;
+        const id = actionBtn.dataset.id;
+        const request = moreFindRequestById(id);
+        if(!request) return;
+
+        if(action === 'download'){
+          const hook = moreState.hooks.onRequestDownload;
+          if(typeof hook === 'function'){
+            const result = hook(request);
+            if(result === false) return;
+          }
+          defaultDownloadRequest(request);
+          return;
+        }
+
+        if(action === 'delete'){
+          const hook = moreState.hooks.onRequestDelete;
+          if(typeof hook === 'function'){
+            const result = hook(request);
+            if(result === false) return;
+          }
+          const saved = readSavedRequests(state.address || 'guest').filter(item => String(item.id) !== String(id));
+          writeSavedRequests(saved, state.address || 'guest');
+          moreState.requests = moreState.requests.filter(item => String(item.id) !== String(id));
+          renderMoreCurrentMode();
+        }
+      });
+
+      moreEls.themeSwitch.addEventListener('click', () => {
+        moreState.theme = moreState.theme === 'light' ? 'dark' : 'light';
+        syncMoreTheme();
+        renderMoreCurrentMode();
+        if(typeof moreState.hooks.onThemeChange === 'function'){
+          moreState.hooks.onThemeChange(moreState.theme);
+        }
+      });
+
+      moreEls.bellBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        moreEls.bellPanel.classList.toggle('show');
+        moreEls.languagePanel.classList.remove('show');
+      });
+
+      moreEls.languageTrigger.addEventListener('click', (e) => {
+        e.stopPropagation();
+        moreEls.languagePanel.classList.toggle('show');
+        moreEls.bellPanel.classList.remove('show');
+      });
+
+      moreEls.languageOptions.forEach(option => {
+        option.addEventListener('click', () => {
+          moreState.language = option.dataset.lang;
+          syncMoreLanguage();
+          moreEls.languagePanel.classList.remove('show');
+          if(typeof moreState.hooks.onLanguageChange === 'function'){
+            moreState.hooks.onLanguageChange(moreState.language);
+          }
+        });
+      });
+
+      document.addEventListener('click', (e) => {
+        if(!moreEls.bellPanel.contains(e.target) && !moreEls.bellBtn.contains(e.target)){
+          moreEls.bellPanel.classList.remove('show');
+        }
+        if(!moreEls.languagePanel.contains(e.target) && !moreEls.languageTrigger.contains(e.target)){
+          moreEls.languagePanel.classList.remove('show');
+        }
+      });
+
+      moreEls.modeButtons.forEach(btn => {
+        btn.addEventListener('click', () => {
+          moreMode = btn.dataset.mode;
+          moreEls.modeButtons.forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+          setMoreMainRail(Number(btn.dataset.index || 0));
+          renderMoreCurrentMode();
+        });
+      });
+
+      window.StableFlowMore = {
+        setTheme(theme){
+          moreState.theme = theme === 'light' ? 'light' : 'dark';
+          syncMoreTheme();
+          renderMoreCurrentMode();
+        },
+        setLanguage(language){
+          const allowed = ['English','Español','Português'];
+          moreState.language = allowed.includes(language) ? language : 'English';
+          syncMoreLanguage();
+        },
+        setRequests(requests){
+          moreState.requests = Array.isArray(requests) ? requests.map(item => ({
+            id: item.id ?? `${Date.now()}_${Math.random().toString(36).slice(2,8)}`,
+            asset: item.asset ?? '',
+            amount: item.amount ?? 0,
+            wallet: item.wallet ?? '',
+            date: item.date ?? '',
+            swap: item.swap ?? '',
+            note: item.note ?? '',
+            status: String(item.status ?? 'pending').toLowerCase()
+          })) : [];
+          renderMoreCurrentMode();
+        },
+        addRequest(request){
+          if(!request) return;
+          const item = {
+            id: request.id ?? `${Date.now()}_${Math.random().toString(36).slice(2,8)}`,
+            asset: request.asset ?? '',
+            amount: request.amount ?? 0,
+            wallet: request.wallet ?? '',
+            date: request.date ?? '',
+            swap: request.swap ?? '',
+            note: request.note ?? '',
+            status: String(request.status ?? 'pending').toLowerCase()
+          };
+          moreState.requests.unshift(item);
+          renderMoreCurrentMode();
+        },
+        updateRequestStatus(id, status){
+          const item = moreFindRequestById(id);
+          if(!item) return;
+          item.status = String(status || 'pending').toLowerCase();
+          renderMoreCurrentMode();
+        },
+        removeRequest(id){
+          moreState.requests = moreState.requests.filter(item => String(item.id) !== String(id));
+          renderMoreCurrentMode();
+        },
+        clearRequests(){
+          moreState.requests = [];
+          renderMoreCurrentMode();
+        },
+        setActivity(items){
+          moreState.activity = Array.isArray(items) ? items.map(item => ({
+            id: item.id ?? `${Date.now()}_${Math.random().toString(36).slice(2,8)}`,
+            type: String(item.type || '').toLowerCase(),
+            title: item.title ?? '',
+            sub: item.sub ?? '',
+            time: item.time ?? ''
+          })) : [];
+          renderMoreCurrentMode();
+        },
+        addActivity(item){
+          if(!item) return;
+          moreState.activity.unshift({
+            id: item.id ?? `${Date.now()}_${Math.random().toString(36).slice(2,8)}`,
+            type: String(item.type || '').toLowerCase(),
+            title: item.title ?? '',
+            sub: item.sub ?? '',
+            time: item.time ?? ''
+          });
+          renderMoreCurrentMode();
+        },
+        clearActivity(){
+          moreState.activity = [];
+          renderMoreCurrentMode();
+        },
+        setStatus(status){
+          moreState.status = { ...moreState.status, ...(status || {}) };
+          renderMoreCurrentMode();
+        },
+        setHooks(hooks){
+          moreState.hooks = { ...moreState.hooks, ...(hooks || {}) };
+        },
+        getState(){
+          return JSON.parse(JSON.stringify(moreState));
+        },
+        render(){
+          renderMoreCurrentMode();
+        }
+      };
+
+      syncMoreTheme();
+      syncMoreLanguage();
+      setMoreMainRail(0);
+      setMoreActivityRail(0);
+      renderMoreCurrentMode();
+    }
+
     function renderAll(){
       renderHome();
       renderSwap();
@@ -2829,6 +3878,7 @@
       }
 
       try{
+        state.lastError = '';
         const spender = getSwapPair().address;
         const allowanceKey = fromToken === 'LMTV' ? 'LMTV:USDC' : 'USDC:LMTV';
         const allowance = state.allowances[allowanceKey] || ethers.BigNumber.from(0);
@@ -2863,14 +3913,19 @@
         });
 
         state.swap.amountText = '';
+        state.swap.quoteRaw = ethers.BigNumber.from(0);
         swapEls.amountInput.value = '';
+        swapQuoteNonce++;
         await refreshOnchainState();
         renderSwap();
         renderHome();
+        syncMoreFromShell();
         showToast('Swap complete.', 'ok');
       }catch(error){
         console.error(error);
-        showToast(error?.message?.slice(0, 140) || 'Swap failed.', 'warn');
+        state.lastError = error?.message?.slice(0, 160) || 'Swap failed.';
+        syncMoreFromShell();
+        showToast(state.lastError, 'warn');
         renderSwap();
       }
     }
@@ -2921,6 +3976,7 @@
       const stableTokenAddress = TOKENS[state.pay.stable].address;
 
       try{
+        state.lastError = '';
         state.pay.processing = true;
         renderPay();
 
@@ -2994,14 +4050,17 @@
           await refreshOnchainState();
           renderPay();
           renderHome();
+          syncMoreFromShell();
           showToast('Swap & Pay complete.', 'ok');
           return;
         }
       }catch(error){
         console.error(error);
+        state.lastError = error?.message?.slice(0, 170) || 'Swap & Pay failed.';
         state.pay.processing = false;
         renderPay();
-        showToast(error?.message?.slice(0, 150) || 'Swap & Pay failed.', 'warn');
+        syncMoreFromShell();
+        showToast(state.lastError, 'warn');
       }
     }
 
@@ -3028,58 +4087,61 @@
         return;
       }
 
-      const amountFull = getFullAmount(amountNum);
-      const amountBig = getPrettyInputAmount(amountNum);
-      const noteValue = state.get.hideNote ? '' : state.get.note.trim();
-      const link = buildRequestPayload(state.get.wallet.trim(), amountFull, state.get.asset, noteValue);
-
-      const entry = {
-        id: `${Date.now()}_${Math.random().toString(36).slice(2,8)}`,
-        createdAt: Date.now(),
-        creator: state.address || '',
-        wallet: state.get.wallet.trim(),
-        asset: state.get.asset,
-        amountFull,
-        amountBig,
-        note: noteValue,
-        link
-      };
-
-      state.get.link = link;
-      state.get.generated = {
-        wallet: entry.wallet,
-        asset: entry.asset,
-        amountFull: entry.amountFull,
-        amountBig: entry.amountBig,
-        note: entry.note,
-        dateText: new Date(entry.createdAt).toLocaleString(),
-        id: entry.id,
-        link: entry.link
-      };
-
-      saveRequest(entry);
-      pushActivity('request', {
-        asset: entry.asset,
-        amountFull: entry.amountFull,
-        wallet: entry.wallet
-      });
-
-      state.get.receiptOpen = true;
-      renderGet();
-      await nextPaint();
-
       try{
+        state.lastError = '';
+        const amountFull = getFullAmount(amountNum);
+        const amountBig = getPrettyInputAmount(amountNum);
+        const noteValue = state.get.hideNote ? '' : state.get.note.trim();
+        const link = buildRequestPayload(state.get.wallet.trim(), amountFull, state.get.asset, noteValue);
+
+        const entry = {
+          id: `${Date.now()}_${Math.random().toString(36).slice(2,8)}`,
+          createdAt: Date.now(),
+          creator: state.address || '',
+          wallet: state.get.wallet.trim(),
+          asset: state.get.asset,
+          amountFull,
+          amountBig,
+          note: noteValue,
+          link,
+          status: 'pending'
+        };
+
+        state.get.link = link;
+        state.get.generated = {
+          wallet: entry.wallet,
+          asset: entry.asset,
+          amountFull: entry.amountFull,
+          amountBig: entry.amountBig,
+          note: entry.note,
+          dateText: new Date(entry.createdAt).toLocaleString(),
+          id: entry.id,
+          link: entry.link
+        };
+
+        saveRequest(entry);
+        pushActivity('request', {
+          asset: entry.asset,
+          amountFull: entry.amountFull,
+          wallet: entry.wallet
+        });
+
+        state.get.receiptOpen = true;
+        renderGet();
+        await nextPaint();
         await makeGetQR(link);
+
+        renderHome();
+        syncMoreFromShell();
+        showToast('Payment QR generated.', 'ok');
       }catch(error){
         console.error(error);
+        state.lastError = error?.message?.slice(0, 160) || 'Could not generate the payment note.';
         state.get.receiptOpen = false;
         renderGet();
-        showToast('Could not generate the QR right now.', 'warn');
-        return;
+        syncMoreFromShell();
+        showToast(state.lastError, 'warn');
       }
-
-      renderHome();
-      showToast('Payment QR generated.', 'ok');
     }
 
     async function handleGetCopy(){
@@ -3436,6 +4498,7 @@
         if(btn.dataset.page === 'pay') renderPay();
         if(btn.dataset.page === 'home') renderHome();
         if(btn.dataset.page === 'get') renderGet();
+        if(btn.dataset.page === 'more') window.StableFlowMore?.render();
       });
     });
 
@@ -3455,20 +4518,6 @@
       }
     };
 
-    window.addEventListener('load', async () => {
-      queueAppHeightRefresh();
-      await discoverInjectedProviders();
-      hydrateRequestFromLocation();
-      renderAll();
-    });
-
-    window.addEventListener('resize', queueAppHeightRefresh);
-    window.addEventListener('orientationchange', queueAppHeightRefresh);
-    if(window.visualViewport){
-      window.visualViewport.addEventListener('resize', queueAppHeightRefresh);
-      window.visualViewport.addEventListener('scroll', queueAppHeightRefresh);
-    }
-
     window.addEventListener('hashchange', () => {
       const loaded = hydrateRequestFromLocation();
       if(loaded && state.address){
@@ -3477,6 +4526,14 @@
         showPage('pay');
       }
     });
+
+    window.addEventListener('load', async () => {
+      initMoreModule();
+      await discoverInjectedProviders();
+      hydrateRequestFromLocation();
+      renderAll();
+      syncMoreFromShell();
+    });
   </script>
 </body>
-                        </html>
+  </html>
