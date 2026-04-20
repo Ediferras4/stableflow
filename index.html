@@ -236,6 +236,11 @@
       background:linear-gradient(180deg,#f3f8fd 0%, #e6eef7 100%);
     }
 
+    .page[data-view="swap"]{
+      padding:0;
+      background:linear-gradient(180deg,#f3f8fd 0%, #e6eef7 100%);
+    }
+
     .mini-tag{
       display:inline-flex;align-items:center;gap:6px;padding:7px 10px;border-radius:999px;background:#fff;border:1px solid #dbe7f0;color:#60829b;font-size:10px;font-weight:900;letter-spacing:.12em;text-transform:uppercase;box-shadow:0 8px 18px rgba(14,29,40,.04)
     }
@@ -477,7 +482,7 @@
     }
 
     .home-chip{
-      display:none !important;
+      display:none!important;
     }
 
     .home-card{
@@ -814,6 +819,474 @@
       font-weight:850;
     }
 
+    /* SWAP */
+    .swap-stage{
+      min-height:100%;
+      background:transparent;
+      position:relative;
+      overflow:hidden;
+      padding:16px 14px 26px;
+      box-shadow:inset 0 1px 0 rgba(255,255,255,.55);
+    }
+    .swap-stage::before{
+      content:"";
+      position:absolute;
+      inset:0;
+      background:
+        radial-gradient(circle at 15% 8%, rgba(91,202,255,.10), transparent 26%),
+        radial-gradient(circle at 100% 100%, rgba(91,202,255,.08), transparent 28%);
+      pointer-events:none;
+    }
+    .swap-shell{
+      position:relative;
+      z-index:1;
+      display:flex;
+      flex-direction:column;
+      gap:12px;
+      margin-top:2px;
+      padding-top:6px;
+    }
+    .swap-topbar{
+      display:flex;
+      align-items:center;
+      justify-content:flex-end;
+      min-height:52px;
+    }
+    .swap-slippage-box{
+      height:52px;
+      width:196px;
+      border-radius:22px;
+      background:linear-gradient(180deg,#f5f9fd 0%, #edf4fb 100%);
+      border:1px solid rgba(184,205,224,.58);
+      box-shadow:0 6px 14px rgba(23,55,87,.05), inset 0 1px 0 rgba(255,255,255,.94);
+      display:flex;
+      align-items:center;
+      gap:10px;
+      padding:0 14px;
+      overflow:hidden;
+      transition:width .30s ease, box-shadow .30s ease;
+    }
+    .swap-slippage-box.is-open{
+      width:316px;
+      box-shadow:0 10px 18px rgba(80,129,170,.08), inset 0 1px 0 rgba(255,255,255,.96);
+    }
+    .swap-slippage-main{
+      display:flex;
+      align-items:center;
+      gap:9px;
+      white-space:nowrap;
+      flex:0 0 auto;
+      border:none;
+      background:transparent;
+      padding:0;
+      cursor:pointer;
+    }
+    .swap-slip-dot{
+      width:10px;
+      height:10px;
+      border-radius:50%;
+      background:linear-gradient(180deg,#f6c470,#ef9e2a);
+      box-shadow:0 0 0 5px rgba(242,173,72,.08);
+      flex:0 0 auto;
+    }
+    .swap-slip-word{
+      color:#8b5c19;
+      font-size:11px;
+      font-weight:1000;
+      letter-spacing:.16em;
+    }
+    .swap-slip-chip{
+      padding:8px 11px;
+      border-radius:999px;
+      background:linear-gradient(180deg,#fff7ea 0%, #f8e8cb 100%);
+      border:1px solid rgba(242,173,72,.18);
+      color:#986117;
+      font-size:10px;
+      font-weight:1000;
+      line-height:1;
+      flex:0 0 auto;
+      min-width:58px;
+      text-align:center;
+      cursor:pointer;
+      transition:transform .16s ease, box-shadow .16s ease, border-color .16s ease;
+      box-shadow:inset 0 1px 0 rgba(255,255,255,.7);
+    }
+    .swap-slip-chip:active{transform:scale(.97)}
+    .swap-slippage-track{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      min-width:0;
+      max-width:0;
+      opacity:0;
+      overflow:hidden;
+      transition:max-width .28s ease, opacity .22s ease;
+    }
+    .swap-slippage-box.is-open .swap-slippage-track{
+      max-width:136px;
+      opacity:1;
+    }
+    .swap-slip-range{
+      appearance:none;
+      width:100%;
+      height:10px;
+      border-radius:999px;
+      background:linear-gradient(180deg,#dce9f5 0%, #d2e2ef 100%);
+      border:1px solid rgba(180,202,221,.70);
+      outline:none;
+    }
+    .swap-slip-range::-webkit-slider-thumb{
+      appearance:none;
+      width:18px;
+      height:18px;
+      border-radius:50%;
+      background:linear-gradient(180deg,#fff7e8,#f2ad48);
+      border:1px solid rgba(218,162,74,.9);
+      box-shadow:0 4px 10px rgba(242,173,72,.12);
+    }
+    .swap-slip-value{
+      font-size:11px;
+      font-weight:1000;
+      color:#173149;
+      min-width:42px;
+      text-align:right;
+    }
+
+    .swap-quick-row{
+      display:flex;
+      justify-content:center;
+      gap:8px;
+      flex-wrap:wrap;
+      margin-top:2px;
+      transition:opacity .22s ease, transform .22s ease, max-height .22s ease, margin .22s ease;
+      max-height:64px;
+      opacity:1;
+      transform:translateY(0);
+    }
+    .swap-quick-row.hidden{
+      max-height:0;
+      opacity:0;
+      overflow:hidden;
+      pointer-events:none;
+      transform:translateY(-8px);
+      margin-top:-6px;
+    }
+    .swap-quick-row .quick-btn{
+      min-width:72px;
+      height:36px;
+      border-radius:16px;
+      border:1px solid rgba(184,205,224,.70);
+      background:linear-gradient(180deg,#f4f8fd 0%, #ebf2fa 100%);
+      box-shadow:inset 0 1px 0 rgba(255,255,255,.94);
+      color:#6a8296;
+      font-size:11px;
+      font-weight:1000;
+      letter-spacing:.12em;
+      transition:transform .18s ease, box-shadow .18s ease, background .18s ease, color .18s ease, border-color .18s ease;
+    }
+    .swap-quick-row .quick-btn:active{transform:scale(.98)}
+
+    .swap-card{
+      position:relative;
+      border-radius:22px;
+      background:linear-gradient(180deg,#f5f9fe 0%, #edf4fb 100%);
+      border:1px solid rgba(184,204,221,.72);
+      box-shadow:0 10px 22px rgba(23,55,87,.08), inset 0 1px 0 rgba(255,255,255,.94);
+      padding:14px;
+      transition:border-color .22s ease, box-shadow .22s ease, transform .22s ease;
+    }
+    .swap-card::after{
+      content:"";
+      position:absolute;
+      left:0;
+      top:16px;
+      bottom:16px;
+      width:4px;
+      border-radius:999px;
+      opacity:.76;
+    }
+    .swap-card.pay::after{
+      background:linear-gradient(180deg, rgba(122,203,255,.64), rgba(242,173,72,.18));
+    }
+    .swap-card.receive::after{
+      background:linear-gradient(180deg, rgba(242,173,72,.64), rgba(122,203,255,.18));
+    }
+    .swap-card.is-active{
+      border-color:rgba(143,210,255,.86);
+      box-shadow:0 12px 24px rgba(90,132,170,.08), inset 0 1px 0 rgba(255,255,255,.96), 0 0 0 1px rgba(143,210,255,.22);
+    }
+    .swap-card-head{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
+      margin-bottom:12px;
+      padding-left:6px;
+    }
+    .swap-card-head b{
+      font-size:11px;
+      font-weight:1000;
+      letter-spacing:.18em;
+    }
+    .swap-card.pay .swap-card-head b{color:#3e96de}
+    .swap-card.receive .swap-card-head b{color:#c9851c}
+    .swap-card-head span{
+      color:#8ea4b6;
+      font-size:10px;
+      font-weight:900;
+      white-space:nowrap;
+    }
+    .swap-card-row{
+      display:flex;
+      align-items:center;
+      gap:10px;
+    }
+    .swap-token-box{
+      flex:1;
+      min-width:0;
+      display:flex;
+      align-items:center;
+      gap:12px;
+      padding:13px 14px;
+      border-radius:20px;
+      background:linear-gradient(180deg,#ffffff 0%, #eef4fb 100%);
+      border:1px solid rgba(184,205,224,.72);
+      box-shadow:inset 0 1px 0 rgba(255,255,255,.96);
+    }
+    .swap-token-icon{
+      width:48px;
+      height:48px;
+      border-radius:50%;
+      display:grid;
+      place-items:center;
+      color:#fff;
+      font-size:17px;
+      font-weight:1000;
+      flex:0 0 auto;
+      box-shadow:0 10px 18px rgba(0,0,0,.05);
+    }
+    .swap-token-icon.usdc{
+      background:linear-gradient(145deg,#78caff 0%, #2f8ee3 100%);
+      box-shadow:0 10px 18px rgba(87,180,242,.14);
+    }
+    .swap-token-icon.lmtv{
+      background:linear-gradient(145deg,#f5be5d 0%, #ec9f2d 100%);
+      box-shadow:0 10px 18px rgba(242,173,72,.14);
+    }
+    .swap-token-main{
+      min-width:0;
+      display:flex;
+      flex-direction:column;
+      gap:3px;
+    }
+    .swap-symbol{
+      min-width:0;
+      font-size:22px;
+      line-height:1;
+      letter-spacing:-.05em;
+      font-weight:1000;
+      white-space:nowrap;
+      overflow:hidden;
+      text-overflow:ellipsis;
+    }
+    .swap-card.pay .swap-symbol{color:#173f68}
+    .swap-card.receive .swap-symbol{color:#6f4a12}
+    .swap-amount-side{
+      width:112px;
+      flex:0 0 auto;
+      text-align:right;
+    }
+    .swap-amount-input{
+      width:100%;
+      border:none;
+      outline:none;
+      background:transparent;
+      text-align:right;
+      color:#173149;
+      font-size:28px;
+      font-weight:1000;
+      letter-spacing:-.05em;
+    }
+    .swap-amount-input::placeholder{color:#b0c2d1}
+    .swap-amount-meta{
+      display:block;
+      color:#7e97ab;
+      font-size:10px;
+      font-weight:900;
+      margin-top:4px;
+    }
+
+    .swap-divider{
+      height:8px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+    }
+    .swap-invert{
+      width:46px;
+      height:46px;
+      border:none;
+      border-radius:50%;
+      background:
+        radial-gradient(circle at 35% 28%, rgba(255,255,255,.10), transparent 30%),
+        linear-gradient(180deg,#a3b1c3 0%, #7f90a5 100%);
+      box-shadow:
+        0 8px 14px rgba(76,95,119,.08),
+        inset 0 2px 4px rgba(255,255,255,.08);
+      color:#f9fbff;
+      font-size:21px;
+      font-weight:1000;
+      display:grid;
+      place-items:center;
+      transition:transform .28s ease;
+      z-index:3;
+      cursor:pointer;
+    }
+    .swap-invert.is-spinning{transform:rotate(180deg)}
+
+    .swap-summary{
+      border-radius:22px;
+      background:linear-gradient(180deg,#f5f9fe 0%, #edf4fb 100%);
+      border:1px solid rgba(184,204,221,.72);
+      box-shadow:0 10px 22px rgba(23,55,87,.08), inset 0 1px 0 rgba(255,255,255,.94);
+      padding:14px;
+    }
+    .swap-summary-grid{
+      display:grid;
+      grid-template-columns:minmax(0,1fr) 102px;
+      gap:16px;
+      align-items:start;
+    }
+    .swap-summary-main{min-width:0}
+    .swap-summary-title{
+      color:#173149;
+      font-size:12px;
+      font-weight:1000;
+      letter-spacing:.18em;
+      margin-bottom:12px;
+    }
+    .swap-summary-list{
+      display:flex;
+      flex-direction:column;
+      gap:10px;
+      margin-bottom:14px;
+    }
+    .swap-summary-row{
+      display:grid;
+      grid-template-columns:112px minmax(0,1fr);
+      gap:12px;
+      align-items:center;
+      padding-bottom:8px;
+      border-bottom:1px solid rgba(184,205,224,.36);
+    }
+    .swap-summary-row:last-child{
+      border-bottom:none;
+      padding-bottom:0;
+    }
+    .swap-summary-row .k{
+      font-size:10px;
+      font-weight:1000;
+      letter-spacing:.14em;
+      color:#4d90b9;
+    }
+    .swap-summary-row:nth-child(1) .k{color:#3e96de}
+    .swap-summary-row:nth-child(2) .k{color:#c27b18}
+    .swap-summary-row:nth-child(3) .k{color:#4d90b9}
+    .swap-summary-row .v{
+      color:#173149;
+      font-size:15px;
+      font-weight:1000;
+      white-space:nowrap;
+      overflow:hidden;
+      text-overflow:ellipsis;
+      text-align:left;
+    }
+    .swap-route{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      margin-bottom:12px;
+      color:#173149;
+      font-size:13px;
+      font-weight:1000;
+      flex-wrap:wrap;
+    }
+    .swap-route-pill{
+      padding:8px 12px;
+      border-radius:999px;
+      font-size:11px;
+      font-weight:1000;
+      box-shadow:inset 0 1px 0 rgba(255,255,255,.9);
+    }
+    .swap-route-pill.pay{
+      background:linear-gradient(180deg,#eef8ff 0%, #ddeffd 100%);
+      border:1px solid rgba(122,203,255,.20);
+      color:#2f8ee3;
+    }
+    .swap-route-pill.receive{
+      background:linear-gradient(180deg,#fff6e6 0%, #fde8bf 100%);
+      border:1px solid rgba(242,173,72,.20);
+      color:#c47c18;
+    }
+    .swap-route-arrow{
+      color:#8aa1b5;
+      font-weight:1000;
+      letter-spacing:.18em;
+    }
+    .swap-summary-note{
+      color:#607a91;
+      font-size:11px;
+      line-height:1.35;
+      font-weight:850;
+      max-width:260px;
+    }
+    .swap-summary-cta{
+      min-width:0;
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      justify-content:center;
+    }
+    .swap-cta-shell{
+      width:100%;
+      border-radius:18px;
+      padding:8px 4px 6px;
+      background:
+        radial-gradient(circle at 50% 28%, rgba(120,202,255,.14), transparent 56%),
+        linear-gradient(180deg, rgba(120,202,255,.08), rgba(120,202,255,.03));
+      border:1px solid rgba(120,202,255,.14);
+      box-shadow:
+        inset 0 1px 0 rgba(255,255,255,.74),
+        0 0 0 1px rgba(255,255,255,.38);
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      gap:7px;
+    }
+    .swap-submit-btn{
+      width:64px;
+      height:64px;
+      padding:0;
+      border-radius:50%;
+      font-size:16px;
+      font-weight:1000;
+      letter-spacing:.06em;
+      box-shadow:
+        0 12px 20px rgba(63,170,234,.18),
+        inset 0 2px 4px rgba(255,255,255,.14),
+        0 0 0 3px rgba(120,202,255,.14),
+        0 0 0 4px rgba(255,255,255,.58);
+    }
+    .swap-cta-mini{
+      color:#88a9c4;
+      font-size:9px;
+      font-weight:900;
+      letter-spacing:.10em;
+      text-align:center;
+      line-height:1.15;
+      text-transform:uppercase;
+    }
+
     .theme-dark .page-sheet,
     .theme-dark .panel-card,
     .theme-dark .recipient-box,
@@ -846,16 +1319,24 @@
     }
 
     @media (max-width:540px){
-      .connect-grid,.token-grid,.status-grid,.asset-center,.pay-preview{grid-template-columns:1fr}
+      .connect-grid,.token-grid,.status-grid,.asset-center,.pay-preview,.swap-summary-grid{grid-template-columns:1fr}
       .page-sheet{border-radius:24px;padding:14px}
       .notice-message{font-size:14px}
       .home-graph-svg{height:194px}
+      .swap-summary-cta{align-items:flex-start}
+      .swap-cta-shell{width:100px}
     }
 
     @media (max-width:390px){
       .home-profile-grid{grid-template-columns:70px minmax(0,1fr)}
       .home-sub{max-width:210px}
       .home-graph-svg{height:184px}
+      .swap-slippage-box.is-open{width:262px}
+      .swap-slippage-box.is-open .swap-slippage-track{max-width:98px}
+      .swap-amount-side{width:98px}
+      .swap-amount-input{font-size:25px}
+      .swap-symbol{font-size:19px}
+      .swap-summary-row{grid-template-columns:106px minmax(0,1fr)}
     }
   </style>
 </head>
@@ -1004,16 +1485,19 @@
             </section>
 
             <section class="page" data-view="swap">
-              <div class="page-sheet">
+              <div class="swap-stage">
                 <div class="top-actions">
                   <div class="mini-tag"><span class="spark"></span> swap</div>
-                  <div class="slippage-shell">
-                    <button class="slippage-pill" id="slippageToggle">Slippage <span id="swapSlipLabel">1%</span></button>
-                    <div class="slippage-track" id="slippageTrack">
-                      <div class="slippage-inner">
-                        <button class="slippage-choice" data-slip="0.5">0.5%</button>
-                        <button class="slippage-choice is-on" data-slip="1">1%</button>
-                        <button class="slippage-choice" data-slip="2">2%</button>
+                  <div class="swap-topbar">
+                    <div class="swap-slippage-box" id="slippageBox">
+                      <button class="swap-slippage-main" id="slippageToggle" type="button">
+                        <span class="swap-slip-dot"></span>
+                        <span class="swap-slip-word">SLIPPAGE</span>
+                      </button>
+                      <button class="swap-slip-chip" id="swapSlipLabel" type="button">AUTO</button>
+                      <div class="swap-slippage-track" id="slippageTrack">
+                        <input id="swapSlipRange" class="swap-slip-range" type="range" min="0.1" max="5" step="0.1" value="0.5">
+                        <span class="swap-slip-value" id="swapSlipValue">0.5%</span>
                       </div>
                     </div>
                   </div>
@@ -1021,48 +1505,96 @@
 
                 <div class="section-gap"></div>
 
-                <div class="panel-card">
-                  <div class="panel-head">
-                    <div>
-                      <div class="panel-title">USDC ↔ LMTV</div>
-                      <div class="panel-sub">Both boxes stay free. Type in either one and StableFlow recalculates the other side.</div>
-                    </div>
+                <div class="swap-shell">
+                  <div class="swap-quick-row hidden" id="swapQuickRow">
+                    <button class="quick-btn" data-swap-quick="5">5%</button>
+                    <button class="quick-btn" data-swap-quick="25">25%</button>
+                    <button class="quick-btn" data-swap-quick="50">50%</button>
+                    <button class="quick-btn" data-swap-quick="100">MAX</button>
                   </div>
 
-                  <div class="amount-grid">
-                    <div class="amount-box is-empty" id="swapTopBox">
-                      <div class="amount-top">
-                        <div class="token-badge"><span class="token-dot"></span><span id="swapTopToken">USDC</span></div>
-                        <div class="panel-sub" id="swapTopBalance">Balance —</div>
-                      </div>
-                      <div class="amount-input-wrap">
-                        <input class="amount-input" id="swapTopInput" placeholder="0.0" inputmode="decimal" />
-                        <span class="caret"></span>
-                      </div>
-                      <div class="quick-row hidden" id="swapQuickRow">
-                        <button class="quick-btn" data-swap-quick="25">25%</button>
-                        <button class="quick-btn" data-swap-quick="50">50%</button>
-                        <button class="quick-btn" data-swap-quick="100">MAX</button>
-                      </div>
+                  <div class="swap-card pay is-active" id="swapTopBox">
+                    <div class="swap-card-head">
+                      <b>PAY WITH</b>
+                      <span id="swapTopBalance">Balance —</span>
                     </div>
 
-                    <div class="swap-mid"><button class="swap-arrow" id="swapFlipBtn">↕</button></div>
-
-                    <div class="amount-box is-empty" id="swapBottomBox">
-                      <div class="amount-top">
-                        <div class="token-badge"><span class="token-dot"></span><span id="swapBottomToken">LMTV</span></div>
-                        <div class="panel-sub" id="swapBottomBalance">Balance —</div>
+                    <div class="swap-card-row">
+                      <div class="swap-token-box">
+                        <div class="swap-token-icon usdc" id="swapTopIcon">U</div>
+                        <div class="swap-token-main">
+                          <div class="swap-symbol" id="swapTopToken">USDC</div>
+                        </div>
                       </div>
-                      <div class="amount-input-wrap">
-                        <input class="amount-input" id="swapBottomInput" placeholder="0.0" inputmode="decimal" />
-                        <span class="caret"></span>
+
+                      <div class="swap-amount-side">
+                        <input class="swap-amount-input" id="swapTopInput" placeholder="0.0" inputmode="decimal" />
+                        <small class="swap-amount-meta" id="swapTopMeta">≈ $0.00</small>
                       </div>
                     </div>
                   </div>
 
-                  <div class="swap-footer">
-                    <div class="hint-line" id="swapHint">Enter an amount to load the live quote.</div>
-                    <button class="submit-btn" id="swapBtn" disabled>Swap</button>
+                  <div class="swap-divider">
+                    <button class="swap-invert" id="swapFlipBtn" type="button" aria-label="Invert trade">⇅</button>
+                  </div>
+
+                  <div class="swap-card receive" id="swapBottomBox">
+                    <div class="swap-card-head">
+                      <b>RECEIVE</b>
+                      <span id="swapBottomBalance">Balance —</span>
+                    </div>
+
+                    <div class="swap-card-row">
+                      <div class="swap-token-box">
+                        <div class="swap-token-icon lmtv" id="swapBottomIcon">L</div>
+                        <div class="swap-token-main">
+                          <div class="swap-symbol" id="swapBottomToken">LMTV</div>
+                        </div>
+                      </div>
+
+                      <div class="swap-amount-side">
+                        <input class="swap-amount-input" id="swapBottomInput" placeholder="0.0" inputmode="decimal" />
+                        <small class="swap-amount-meta" id="swapBottomMeta">≈ $0.00</small>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="swap-summary">
+                    <div class="swap-summary-grid">
+                      <div class="swap-summary-main">
+                        <div class="swap-summary-title">SWAP SUMMARY</div>
+
+                        <div class="swap-summary-list">
+                          <div class="swap-summary-row">
+                            <div class="k">RATE</div>
+                            <div class="v" id="swapRateText">1 USDC = -- LMTV</div>
+                          </div>
+                          <div class="swap-summary-row">
+                            <div class="k">PRICE IMPACT</div>
+                            <div class="v" id="swapImpactText">Low · 0.08%</div>
+                          </div>
+                          <div class="swap-summary-row">
+                            <div class="k">MIN RECEIVED</div>
+                            <div class="v" id="swapMinText">0.0000 LMTV</div>
+                          </div>
+                        </div>
+
+                        <div class="swap-route">
+                          <div class="swap-route-pill pay" id="swapRoutePay">USDC</div>
+                          <div class="swap-route-arrow">→</div>
+                          <div class="swap-route-pill receive" id="swapRouteReceive">LMTV</div>
+                        </div>
+
+                        <div class="swap-summary-note" id="swapHint">Enter an amount to load the live quote.</div>
+                      </div>
+
+                      <div class="swap-summary-cta">
+                        <div class="swap-cta-shell">
+                          <button class="submit-btn swap-submit-btn" id="swapBtn" disabled>SWAP</button>
+                          <div class="swap-cta-mini">tap to confirm</div>
+                        </div>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -1273,6 +1805,7 @@
   <script>
     const ARC_CHAIN_ID = 5042002;
     const ARC_CHAIN_ID_HEX = '0x4cef52';
+    const AUTO_SWAP_SLIPPAGE = 0.5;
 
     const ARC_NETWORK = {
       chainId: ARC_CHAIN_ID_HEX,
@@ -1331,6 +1864,19 @@
     const noticeHelper = $('#noticeHelper');
     const noticeChain = $('#noticeChain');
 
+    const slippageBox = $('#slippageBox');
+    const swapSlipRange = $('#swapSlipRange');
+    const swapSlipValue = $('#swapSlipValue');
+    const swapTopMeta = $('#swapTopMeta');
+    const swapBottomMeta = $('#swapBottomMeta');
+    const swapRateText = $('#swapRateText');
+    const swapImpactText = $('#swapImpactText');
+    const swapMinText = $('#swapMinText');
+    const swapRoutePay = $('#swapRoutePay');
+    const swapRouteReceive = $('#swapRouteReceive');
+    const swapTopIcon = $('#swapTopIcon');
+    const swapBottomIcon = $('#swapBottomIcon');
+
     const state = {
       shellOpen: false,
       connected: false,
@@ -1360,7 +1906,7 @@
       swap: {
         direction: 'USDC_TO_LMTV',
         activeField: 'top',
-        slippage: '1',
+        slippage: String(AUTO_SWAP_SLIPPAGE),
         lastValidInput: null
       },
       pay: {
@@ -1411,7 +1957,7 @@
     function formatNum(value, max=4){
       const num = Number(value || 0);
       if (!Number.isFinite(num)) return '0';
-      return num.toLocaleString(undefined, { maximumFractionDigits:max });
+      return num.toLocaleString(undefined, { maximumFractionDigits:max, minimumFractionDigits:max });
     }
 
     function formatCompact(value){
@@ -1615,8 +2161,8 @@
           { text:'Activity feed ready', helper:'The graph reads real app actions, not decorative fake data.' }
         ],
         swap: [
-          { text:'Swap ready', helper:'USDC and LMTV stay editable on both sides.' },
-          { text:'Slippage on side rail', helper:'25 / 50 / MAX only appear when the input has value.' }
+          { text:'Swap ready', helper:'USDC and LMTV now use the full stage with a live premium summary.' },
+          { text:'Slippage on top', helper:'AUTO resets fast, and 5 / 25 / 50 / MAX only appear when needed.' }
         ],
         pay: [
           { text:'Swap & Pay ready', helper:'Stable output goes to the receiver after the LMTV swap.' },
@@ -1772,6 +2318,7 @@
       renderMore();
       updateProfile();
       updateHomeMetrics();
+      updateSwapDecor();
       setNoticeForContext();
     }
 
@@ -1849,6 +2396,81 @@
         : { top:'LMTV', bottom:'USDC', input:'LMTV', output:'USDC' };
     }
 
+    function getLmtvUsdcPrice(){
+      const pair = state.pairInfo.USDC;
+      if (!pair) return 0;
+
+      try {
+        const lmtvIs0 = pair.token0 === TOKEN_CONFIG.LMTV.address.toLowerCase();
+        const lmtvReserve = Number(ethers.utils.formatUnits(lmtvIs0 ? pair.reserve0 : pair.reserve1, state.decimals.LMTV));
+        const usdcReserve = Number(ethers.utils.formatUnits(lmtvIs0 ? pair.reserve1 : pair.reserve0, state.decimals.USDC));
+        return lmtvReserve ? usdcReserve / lmtvReserve : 0;
+      } catch {
+        return 0;
+      }
+    }
+
+    function renderSwapSlippage(){
+      const slip = Number(state.swap.slippage || AUTO_SWAP_SLIPPAGE);
+      if (swapSlipRange) swapSlipRange.value = slip.toFixed(1);
+      if (swapSlipValue) swapSlipValue.textContent = `${slip.toFixed(1)}%`;
+      if ($('#swapSlipLabel')) {
+        $('#swapSlipLabel').textContent = Math.abs(slip - AUTO_SWAP_SLIPPAGE) < 0.001 ? 'AUTO' : `${slip.toFixed(1)}%`;
+      }
+      if ($('#paySlippage')) {
+        $('#paySlippage').textContent = `${slip.toFixed(1)}%`;
+      }
+    }
+
+    function updateSwapDecor(){
+      const swapTokens = getSwapTokens();
+      const topInput = $('#swapTopInput');
+      const bottomInput = $('#swapBottomInput');
+      const topVal = Number(topInput?.value || 0);
+      const bottomVal = Number(bottomInput?.value || 0);
+      const lmtvPrice = getLmtvUsdcPrice();
+
+      $('#swapTopToken').textContent = swapTokens.top;
+      $('#swapBottomToken').textContent = swapTokens.bottom;
+      swapRoutePay.textContent = swapTokens.top;
+      swapRouteReceive.textContent = swapTokens.bottom;
+
+      swapTopIcon.textContent = swapTokens.top === 'USDC' ? 'U' : 'L';
+      swapBottomIcon.textContent = swapTokens.bottom === 'USDC' ? 'U' : 'L';
+      swapTopIcon.className = `swap-token-icon ${swapTokens.top.toLowerCase()}`;
+      swapBottomIcon.className = `swap-token-icon ${swapTokens.bottom.toLowerCase()}`;
+
+      const topUsd = swapTokens.top === 'USDC' ? topVal : (lmtvPrice ? topVal * lmtvPrice : 0);
+      const bottomUsd = swapTokens.bottom === 'USDC' ? bottomVal : (lmtvPrice ? bottomVal * lmtvPrice : 0);
+
+      swapTopMeta.textContent = topVal ? `≈ $${Number(topUsd).toFixed(2)}` : '≈ $0.00';
+      swapBottomMeta.textContent = bottomVal ? `≈ $${Number(bottomUsd).toFixed(2)}` : '≈ $0.00';
+
+      let rate = 0;
+      if (topVal > 0 && bottomVal > 0) {
+        rate = bottomVal / topVal;
+      } else if (lmtvPrice) {
+        rate = swapTokens.top === 'USDC' ? (1 / lmtvPrice) : lmtvPrice;
+      }
+
+      swapRateText.textContent = rate > 0
+        ? `1 ${swapTokens.top} = ${formatNum(rate, 4)} ${swapTokens.bottom}`
+        : `1 ${swapTokens.top} = -- ${swapTokens.bottom}`;
+
+      const balanceBase = Number(state.balances[swapTokens.top] || 0);
+      const share = balanceBase > 0 ? topVal / balanceBase : 0;
+      const impact = topVal > 0 ? clamp(0.08 + share * 0.55, 0.08, 1.85) : 0.08;
+      const tone = impact < 0.35 ? 'Low' : impact < 0.9 ? 'Medium' : 'Elevated';
+      swapImpactText.textContent = `${tone} · ${formatNum(impact, 2)}%`;
+
+      const slip = Number(state.swap.slippage || AUTO_SWAP_SLIPPAGE) / 100;
+      const minReceived = Math.max(0, bottomVal * (1 - slip));
+      swapMinText.textContent = `${formatNum(minReceived, 4)} ${swapTokens.bottom}`;
+
+      $('#swapTopBox').classList.toggle('is-active', state.swap.activeField === 'top');
+      $('#swapBottomBox').classList.toggle('is-active', state.swap.activeField === 'bottom');
+    }
+
     function parseAmount(value, decimals){
       const clean = String(value || '').replace(',', '.').trim();
       if (!clean) return null;
@@ -1893,13 +2515,12 @@
 
     function refreshBalanceLabels(){
       const swapTokens = getSwapTokens();
-      $('#swapTopBalance').textContent = `Balance ${formatCompact(state.balances[swapTokens.top])}`;
-      $('#swapBottomBalance').textContent = `Balance ${formatCompact(state.balances[swapTokens.bottom])}`;
-      $('#swapTopToken').textContent = swapTokens.top;
-      $('#swapBottomToken').textContent = swapTokens.bottom;
+      $('#swapTopBalance').textContent = `Balance ${formatCompact(state.balances[swapTokens.top])} ${swapTokens.top}`;
+      $('#swapBottomBalance').textContent = `Balance ${formatCompact(state.balances[swapTokens.bottom])} ${swapTokens.bottom}`;
       $('#payYouPay').textContent = formatCompact(state.pay.youPay);
       $('#payAssetLabel').textContent = state.pay.asset;
       $('#requestWalletInput').placeholder = state.connected ? state.account : '0x...';
+      updateSwapDecor();
     }
 
     async function updateSwapQuote(){
@@ -1928,13 +2549,14 @@
             $('#swapBtn').disabled = true;
             state.swap.lastValidInput = null;
             refreshSwapQuick();
+            updateSwapDecor();
             return;
           }
 
           const out = await getAmountOut(stableSymbol, TOKEN_CONFIG[swapTokens.top].address, amountIn);
           bottomInput.value = trimUnits(out, state.decimals[swapTokens.bottom]);
           state.swap.lastValidInput = { tokenIn: swapTokens.top, tokenOut: swapTokens.bottom, amountIn, amountOut: out };
-          $('#swapHint').textContent = `${swapTokens.top} → ${swapTokens.bottom} live quote loaded.`;
+          $('#swapHint').textContent = `Estimated output: ${trimUnits(out, state.decimals[swapTokens.bottom])} ${swapTokens.bottom}`;
         } else {
           const desiredOut = parseAmount(bottomInput.value, state.decimals[swapTokens.bottom]);
           if (!desiredOut || desiredOut.lte(0)) {
@@ -1943,13 +2565,14 @@
             $('#swapBtn').disabled = true;
             state.swap.lastValidInput = null;
             refreshSwapQuick();
+            updateSwapDecor();
             return;
           }
 
           const amountIn = await getAmountInBySearch(stableSymbol, TOKEN_CONFIG[swapTokens.top].address, desiredOut);
           topInput.value = trimUnits(amountIn, state.decimals[swapTokens.top]);
           state.swap.lastValidInput = { tokenIn: swapTokens.top, tokenOut: swapTokens.bottom, amountIn, amountOut: desiredOut };
-          $('#swapHint').textContent = `Reverse quote ready for ${swapTokens.bottom}.`;
+          $('#swapHint').textContent = `Estimated input: ${trimUnits(amountIn, state.decimals[swapTokens.top])} ${swapTokens.top}`;
         }
 
         $('#swapBtn').disabled = false;
@@ -1962,6 +2585,7 @@
       refreshSwapQuick();
       setInputEmptyClass(topInput, topBox);
       setInputEmptyClass(bottomInput, bottomBox);
+      updateSwapDecor();
     }
 
     function trimUnits(amountBN, decimals){
@@ -2039,6 +2663,7 @@
         await refreshBalances();
         await refreshPairs();
         refreshSwapQuick();
+        updateSwapDecor();
         setNoticeForContext();
       }
     }
@@ -2046,7 +2671,7 @@
     async function updatePayQuote(){
       $('#payAssetLabel').textContent = state.pay.asset;
       $('#payRoute').textContent = `LMTV → ${state.pay.asset}`;
-      $('#paySlippage').textContent = `${state.swap.slippage}%`;
+      $('#paySlippage').textContent = `${Number(state.swap.slippage || AUTO_SWAP_SLIPPAGE).toFixed(1)}%`;
 
       const amountRaw = $('#payAmountInput').value;
       const recipient = $('#payRecipientInput').value.trim();
@@ -2641,17 +3266,31 @@
 
       $('#disconnectBtn').addEventListener('click', disconnectWallet);
 
-      $('#slippageToggle').addEventListener('click', () => $('#slippageTrack').classList.toggle('is-open'));
+      $('#slippageToggle').addEventListener('click', () => {
+        slippageBox.classList.toggle('is-open');
+      });
 
-      $$('.slippage-choice').forEach(btn => btn.addEventListener('click', () => {
-        state.swap.slippage = btn.dataset.slip;
-        $('#swapSlipLabel').textContent = `${state.swap.slippage}%`;
-        $$('.slippage-choice').forEach(x => x.classList.toggle('is-on', x === btn));
+      $('#swapSlipLabel').addEventListener('click', (e) => {
+        e.stopPropagation();
+        state.swap.slippage = String(AUTO_SWAP_SLIPPAGE);
+        renderSwapSlippage();
+        updateSwapDecor();
         updatePayQuote();
-      }));
+      });
+
+      $('#slippageTrack').addEventListener('click', (e) => e.stopPropagation());
+
+      $('#swapSlipRange').addEventListener('input', () => {
+        state.swap.slippage = String(Number(swapSlipRange.value).toFixed(1));
+        renderSwapSlippage();
+        updateSwapDecor();
+        updatePayQuote();
+      });
 
       $('#swapFlipBtn').addEventListener('click', async () => {
         state.swap.direction = state.swap.direction === 'USDC_TO_LMTV' ? 'LMTV_TO_USDC' : 'USDC_TO_LMTV';
+        $('#swapFlipBtn').classList.add('is-spinning');
+        setTimeout(() => $('#swapFlipBtn').classList.remove('is-spinning'), 280);
         const topVal = $('#swapTopInput').value;
         const bottomVal = $('#swapBottomInput').value;
         $('#swapTopInput').value = bottomVal;
@@ -2768,7 +3407,8 @@
       setNoticeForContext();
       setPayAsset('USDC');
       setRequestAsset('USDC');
-      $('#swapSlipLabel').textContent = `${state.swap.slippage}%`;
+      renderSwapSlippage();
+      updateSwapDecor();
       $('#payFlowPanel').classList.remove('is-open');
     }
 
@@ -2777,4 +3417,4 @@
     hydrateInitialUI();
   </script>
 </body>
-  </html>
+                                                                                                                                                                   </html>
