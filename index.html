@@ -6,8 +6,10 @@
   <title>StableFlow</title>
   <script src="https://cdn.jsdelivr.net/npm/ethers@5.7.2/dist/ethers.umd.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.js"></script>
   <style>
     *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+
     :root{
       --top-h:52px; --bottom-h:36px; --sidebar-w:86px;
       --bg:#01050a; --bg-2:#020913; --panel:#040b12; --panel-2:#07111b;
@@ -42,6 +44,18 @@
       --home-green:#66d7a2;
       --home-green-soft:rgba(102,215,162,.14);
       --home-shadow:0 10px 22px rgba(10,34,56,.07);
+
+      --pay-line:rgba(182,204,223,.72);
+      --pay-line-soft:rgba(182,204,223,.38);
+      --pay-blue:#75caff;
+      --pay-blue-2:#4daff0;
+      --pay-blue-3:#2f89df;
+      --pay-blue-soft:rgba(117,202,255,.18);
+      --pay-orange:#f2b04c;
+      --pay-orange-2:#f5961f;
+      --pay-orange-soft:rgba(242,176,76,.16);
+      --pay-shadow-card:0 10px 20px rgba(18,52,84,.07);
+      --pay-shadow-soft:0 6px 12px rgba(18,52,84,.04);
     }
 
     html,body{width:100%;height:100%;min-height:100%;background:#000;font-family:Inter,Arial,Helvetica,sans-serif;overflow:hidden}
@@ -231,12 +245,9 @@
       pointer-events:none
     }
 
-    .page[data-view="home"]{
-      padding:0;
-      background:linear-gradient(180deg,#f3f8fd 0%, #e6eef7 100%);
-    }
-
-    .page[data-view="swap"]{
+    .page[data-view="home"],
+    .page[data-view="swap"],
+    .page[data-view="pay"]{
       padding:0;
       background:linear-gradient(180deg,#f3f8fd 0%, #e6eef7 100%);
     }
@@ -281,64 +292,29 @@
     .panel-title{font-size:15px;font-weight:900;color:#29475d}
     .panel-sub{font-size:12px;color:#6d89a0;line-height:1.4}
 
-    .amount-grid{display:grid;gap:12px}
-    .amount-box{
-      padding:14px;border-radius:24px;background:linear-gradient(180deg,#ffffff,#f7fbff);
-      border:1px solid #dbe7f0;box-shadow:0 12px 24px rgba(14,29,40,.04);position:relative
-    }
-    .amount-top{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:8px}
-    .token-badge{
-      display:inline-flex;align-items:center;gap:8px;padding:8px 10px;border-radius:999px;background:#eef7fd;border:1px solid #dbe7f0;color:#3c6179;font-weight:900;font-size:12px;text-transform:uppercase;letter-spacing:.06em
-    }
-    .token-dot{width:10px;height:10px;border-radius:50%;background:linear-gradient(180deg,#57d2ff,#2dbef0)}
-    .amount-input-wrap{position:relative;display:flex;align-items:center;gap:10px}
-    .amount-input{width:100%;border:none;background:transparent;font-size:30px;font-weight:900;color:#173245;outline:none;padding-right:12px}
-    .amount-input::placeholder{color:#b3c4d1}
-    .caret{
-      position:absolute;right:2px;top:50%;width:2px;height:26px;background:#ff9b18;border-radius:999px;transform:translateY(-50%);opacity:0;animation:caretBlink 1.15s infinite
-    }
-    .amount-box.is-empty .caret,
-    .recipient-box.is-empty .caret{opacity:1}
-    @keyframes caretBlink{0%,100%{opacity:.15}50%{opacity:1}}
-
-    .quick-row{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap}
-    .quick-btn{height:30px;padding:0 12px;border-radius:999px;border:1px solid #dbe7f0;background:#fff;color:#55758d;font-size:11px;font-weight:900;cursor:pointer}
-
-    .swap-mid{display:flex;align-items:center;justify-content:center;margin:6px 0}
-    .swap-arrow{
-      width:54px;height:54px;border-radius:18px;border:none;cursor:pointer;background:linear-gradient(180deg,#57d4ff,#24bdf0);color:#083044;font-size:20px;font-weight:900;box-shadow:0 16px 26px rgba(46,198,246,.18)
-    }
-    .swap-footer{display:grid;grid-template-columns:1fr auto;gap:10px;align-items:center;margin-top:14px}
-    .slippage-shell{display:flex;align-items:center;gap:8px;justify-self:start}
-    .slippage-pill{
-      height:36px;padding:0 12px;border:none;border-radius:999px;cursor:pointer;background:linear-gradient(180deg,#fff,#f4f8fb);border:1px solid #dbe7f0;color:#527188;font-size:12px;font-weight:900;display:flex;align-items:center;gap:8px
-    }
-    .slippage-track{width:0;overflow:hidden;transition:width .28s ease}
-    .slippage-track.is-open{width:186px}
-    .slippage-inner{
-      height:36px;border-radius:999px;background:#fff;border:1px solid #dbe7f0;display:flex;align-items:center;padding:0 8px;gap:8px
-    }
-    .slippage-choice{border:none;background:transparent;color:#5c7890;font-size:11px;font-weight:900;cursor:pointer;padding:6px 7px;border-radius:999px}
-    .slippage-choice.is-on{background:#eef7fd;color:#1f4b66}
-    .submit-btn{
-      height:48px;border:none;border-radius:18px;cursor:pointer;background:linear-gradient(180deg,#57d4ff,#29bef0);color:#083044;font-size:14px;font-weight:900;letter-spacing:.02em;box-shadow:0 18px 28px rgba(46,198,246,.18)
-    }
-    .submit-btn:disabled{opacity:.55;cursor:not-allowed;box-shadow:none}
-    .hint-line{margin-top:10px;font-size:12px;color:#6d89a0;line-height:1.5}
-
-    .pay-layout{display:grid;gap:12px}
-    .tiny-switch{display:inline-flex;align-items:center;gap:8px;font-size:12px;font-weight:800;color:#6f8799}
-    .switch-btn{width:54px;height:30px;border-radius:999px;border:none;background:#dbe7f0;position:relative;cursor:pointer}
-    .switch-btn::after{
-      content:"";position:absolute;top:3px;left:3px;width:24px;height:24px;border-radius:50%;background:#fff;box-shadow:0 8px 16px rgba(14,29,40,.12);transition:left .22s ease
-    }
-    .switch-btn.is-on{background:linear-gradient(180deg,#57d4ff,#29bef0)}
-    .switch-btn.is-on::after{left:27px}
-
     .recipient-box{
       padding:14px;border-radius:24px;background:#fff;border:1px solid #dbe7f0;box-shadow:0 12px 24px rgba(14,29,40,.04);position:relative
     }
     .recipient-box input{width:100%;border:none;outline:none;background:transparent;font-size:15px;font-weight:800;color:#173245;padding-right:10px}
+
+    .amount-input-wrap{position:relative;display:flex;align-items:center;gap:10px}
+    .amount-input{width:100%;border:none;background:transparent;font-size:30px;font-weight:900;color:#173245;outline:none;padding-right:12px}
+    .amount-input::placeholder{color:#b3c4d1}
+
+    .caret{
+      position:absolute;right:2px;top:50%;width:2px;height:26px;background:#ff9b18;border-radius:999px;transform:translateY(-50%);opacity:0;animation:caretBlink 1.15s infinite
+    }
+    .amount-box.is-empty .caret,
+    .recipient-box.is-empty .caret,
+    .amount-orb.is-empty .caret{opacity:1}
+
+    @keyframes caretBlink{0%,100%{opacity:.15}50%{opacity:1}}
+
+    .token-badge{
+      display:inline-flex;align-items:center;gap:8px;padding:8px 10px;border-radius:999px;background:#eef7fd;border:1px solid #dbe7f0;color:#3c6179;font-weight:900;font-size:12px;text-transform:uppercase;letter-spacing:.06em
+    }
+    .token-dot{width:10px;height:10px;border-radius:50%;background:linear-gradient(180deg,#57d2ff,#2dbef0)}
+    .amount-top{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:8px}
 
     .asset-center{display:grid;grid-template-columns:1fr 1.05fr 1fr;gap:12px;align-items:stretch}
     .asset-card{
@@ -356,18 +332,6 @@
     .amount-orb .amount-input{font-size:32px;text-align:center;padding-right:0}
     .amount-orb .sub{margin-top:6px;font-size:11px;font-weight:900;color:#7891a4;letter-spacing:.12em;text-transform:uppercase}
 
-    .pay-preview{display:grid;grid-template-columns:1fr auto 1fr;gap:12px;align-items:center}
-    .pay-box{
-      padding:14px;border-radius:24px;background:linear-gradient(180deg,#ffffff,#f4f8fb);border:1px solid #dbe7f0;min-height:98px;display:flex;flex-direction:column;justify-content:center
-    }
-    .pay-box .k{font-size:11px;font-weight:900;letter-spacing:.12em;text-transform:uppercase;color:#7891a4}
-    .pay-box .v{margin-top:6px;font-size:22px;font-weight:900;color:#173245}
-    .spin-orb{
-      width:68px;height:68px;border-radius:50%;border:none;cursor:pointer;background:linear-gradient(180deg,#57d4ff,#29bef0);color:#083044;font-size:24px;font-weight:900;box-shadow:0 16px 26px rgba(46,198,246,.18);display:flex;align-items:center;justify-content:center
-    }
-    .spin-orb.is-working{animation:spin 1s linear infinite}
-    @keyframes spin{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
-
     .flow-panel{
       margin-top:12px;padding:14px;border-radius:22px;background:linear-gradient(180deg,#e7f7ff,#d9f2ff);border:1px solid #b8e8fb;display:none;box-shadow:0 12px 22px rgba(46,198,246,.10)
     }
@@ -382,6 +346,11 @@
     .flow-line{display:flex;align-items:center;justify-content:space-between;gap:12px;font-size:12px;color:#527089}
     .flow-line strong{color:#173245}
 
+    .submit-btn{
+      height:48px;border:none;border-radius:18px;cursor:pointer;background:linear-gradient(180deg,#57d4ff,#29bef0);color:#083044;font-size:14px;font-weight:900;letter-spacing:.02em;box-shadow:0 18px 28px rgba(46,198,246,.18)
+    }
+    .submit-btn:disabled{opacity:.55;cursor:not-allowed;box-shadow:none}
+
     .request-result{
       margin-top:14px;padding:14px;border-radius:24px;background:linear-gradient(180deg,#ffffff,#f4f8fb);border:1px solid #dbe7f0;box-shadow:0 12px 22px rgba(14,29,40,.05);display:none
     }
@@ -391,6 +360,9 @@
     }
     .request-meta{margin-top:12px;display:grid;gap:8px;font-size:12px;color:#56758d}
     .request-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+
+    .quick-row{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap}
+    .quick-btn{height:30px;padding:0 12px;border-radius:999px;border:1px solid #dbe7f0;background:#fff;color:#55758d;font-size:11px;font-weight:900;cursor:pointer}
 
     .token-list{display:grid;gap:12px}
     .token-card{
@@ -481,9 +453,7 @@
       max-width:230px;
     }
 
-    .home-chip{
-      display:none!important;
-    }
+    .home-chip{display:none!important}
 
     .home-card{
       width:100%;
@@ -1287,15 +1257,726 @@
       text-transform:uppercase;
     }
 
+    /* PAY */
+    .pay-stage{
+      min-height:100%;
+      background:transparent;
+      position:relative;
+      overflow:hidden;
+      padding:16px 14px 26px;
+      box-shadow:inset 0 1px 0 rgba(255,255,255,.55);
+    }
+    .pay-stage::before{
+      content:"";
+      position:absolute;
+      inset:0;
+      background:
+        radial-gradient(circle at 15% 8%, rgba(91,202,255,.10), transparent 26%),
+        radial-gradient(circle at 100% 100%, rgba(91,202,255,.08), transparent 28%);
+      pointer-events:none;
+    }
+    .pay-flow{
+      position:relative;
+      z-index:1;
+      display:flex;
+      flex-direction:column;
+      gap:12px;
+      margin-top:2px;
+      padding-top:6px;
+    }
+    .pay-shell{
+      border-radius:20px;
+      background:linear-gradient(180deg,#f7fbff 0%, #edf5fc 100%);
+      border:1px solid rgba(186,208,226,.56);
+      box-shadow:var(--pay-shadow-card), inset 0 1px 0 rgba(255,255,255,.96);
+      padding:10px;
+      display:flex;
+      flex-direction:column;
+      gap:10px;
+      position:relative;
+      overflow:hidden;
+    }
+    .pay-shell::before{
+      content:"";
+      position:absolute;
+      inset:0;
+      background:
+        radial-gradient(circle at top right, rgba(117,202,255,.10), transparent 24%),
+        linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,0));
+      pointer-events:none;
+    }
+    .pay-topline{
+      display:flex;
+      align-items:flex-start;
+      justify-content:space-between;
+      gap:8px;
+      position:relative;
+      z-index:1;
+    }
+    .pay-hero-kicker{
+      color:#b88428;
+      font-size:8px;
+      font-weight:1000;
+      letter-spacing:.18em;
+      margin-bottom:3px;
+    }
+    .pay-hero-title{
+      color:#173149;
+      font-size:12px;
+      line-height:1.02;
+      font-weight:1000;
+    }
+    .tiny-switch{
+      display:flex;
+      align-items:center;
+      gap:8px;
+      flex:0 0 auto;
+      padding-top:1px;
+    }
+    .tiny-switch span{
+      color:#8b5c19;
+      font-size:8px;
+      font-weight:1000;
+      letter-spacing:.14em;
+      white-space:nowrap;
+    }
+    .switch-btn{
+      position:relative;
+      width:42px;
+      height:24px;
+      border-radius:999px;
+      border:1px solid rgba(181,203,222,.62);
+      background:linear-gradient(180deg,#eef5fb 0%, #e3edf8 100%);
+      box-shadow:inset 0 1px 0 rgba(255,255,255,.92);
+      cursor:pointer;
+      flex:0 0 auto;
+      transition:background .22s ease,border-color .22s ease;
+    }
+    .switch-btn::after{
+      content:"";
+      position:absolute;
+      top:2px;
+      left:2px;
+      width:18px;
+      height:18px;
+      border-radius:50%;
+      background:linear-gradient(180deg,#fff7ea 0%, #f2b04c 100%);
+      box-shadow:0 3px 7px rgba(242,176,76,.15);
+      transition:left .22s ease, background .22s ease;
+    }
+    .switch-btn.is-on::after{
+      left:20px;
+      background:linear-gradient(180deg,#f0f8ff 0%, #b7dfff 100%);
+      box-shadow:0 3px 7px rgba(117,202,255,.15);
+    }
+
+    .pay-wallet-row{
+      display:grid;
+      grid-template-columns:44px minmax(0,1fr);
+      gap:8px;
+      align-items:center;
+      position:relative;
+      z-index:1;
+    }
+    .pay-qr-btn{
+      width:44px;
+      height:44px;
+      border:none;
+      border-radius:14px;
+      background:
+        radial-gradient(circle at 50% 20%, rgba(242,176,76,.14), transparent 55%),
+        linear-gradient(180deg,#fff7e9 0%, #f4ead2 100%);
+      border:1px solid rgba(242,176,76,.26);
+      box-shadow:0 6px 10px rgba(242,176,76,.06), inset 0 1px 0 rgba(255,255,255,.95);
+      display:grid;
+      place-items:center;
+      cursor:pointer;
+      transition:transform .18s ease, box-shadow .18s ease;
+    }
+    .pay-qr-btn:active{transform:scale(.97)}
+    .pay-qr-btn svg{
+      width:17px;
+      height:17px;
+      stroke:#b88428;
+      stroke-width:2;
+      fill:none;
+    }
+
+    .pay-wallet-box{
+      min-width:0;
+      border-radius:14px;
+      background:linear-gradient(180deg,#ffffff 0%, #eef4fb 100%);
+      border:1px solid rgba(184,205,224,.72);
+      box-shadow:inset 0 1px 0 rgba(255,255,255,.96);
+      padding:10px 10px;
+      display:flex;
+      align-items:center;
+      position:relative;
+      overflow:hidden;
+      transition:border-color .18s ease, box-shadow .18s ease;
+    }
+    .pay-wallet-box.is-active{
+      border-color:rgba(242,176,76,.32);
+      box-shadow:inset 0 1px 0 rgba(255,255,255,.96), 0 0 0 3px rgba(242,176,76,.08);
+    }
+    .pay-wallet-box input{
+      width:100%;
+      border:none;
+      outline:none;
+      background:transparent;
+      color:#173149;
+      font-size:11px;
+      font-weight:900;
+      letter-spacing:-.02em;
+      position:relative;
+      z-index:2;
+      padding-right:16px;
+    }
+    .pay-wallet-box input::placeholder{
+      color:#869caf;
+      font-weight:800;
+    }
+    .pay-wallet-caret{
+      right:10px;
+      width:2px;
+      height:17px;
+      background:linear-gradient(180deg,#ffcb75,#f5961f);
+      box-shadow:0 0 0 4px rgba(242,176,76,.08);
+    }
+
+    .pay-asset-center{
+      gap:8px;
+      position:relative;
+      z-index:1;
+    }
+    .pay-asset-center .asset-card{
+      min-height:54px;
+      border-radius:14px;
+      font-size:11px;
+      letter-spacing:.01em;
+    }
+    .pay-amount-orb{
+      min-height:54px;
+      border-radius:14px;
+      padding:6px 8px;
+      gap:2px;
+      box-shadow:inset 0 1px 0 rgba(255,255,255,.96);
+      transition:border-color .18s ease, box-shadow .18s ease;
+    }
+    .pay-amount-orb.is-active{
+      border-color:rgba(117,202,255,.34);
+      box-shadow:inset 0 1px 0 rgba(255,255,255,.96), 0 0 0 3px rgba(117,202,255,.08);
+    }
+    .pay-amount-orb .sub{
+      color:#7a93a8;
+      font-size:7px;
+      font-weight:1000;
+      letter-spacing:.18em;
+      margin-top:0;
+    }
+    .pay-amount-input{
+      width:100%;
+      border:none;
+      outline:none;
+      background:transparent;
+      text-align:center;
+      color:#173149;
+      font-size:26px;
+      font-weight:1000;
+      letter-spacing:-.05em;
+      line-height:1;
+      position:relative;
+      z-index:2;
+      padding:0;
+    }
+    .pay-amount-input::placeholder{color:#b1c1cf}
+    .pay-amount-caret{
+      left:50%;
+      transform:translate(-50%,-50%);
+      width:2px;
+      height:24px;
+      background:linear-gradient(180deg,#7ad0ff,#2f89df);
+      box-shadow:0 0 0 4px rgba(117,202,255,.08);
+    }
+
+    .pay-bar{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:8px;
+      padding:8px 10px;
+      min-height:44px;
+      border-radius:14px;
+      background:linear-gradient(180deg,#ffffff 0%, #eef4fb 100%);
+      border:1px solid rgba(184,205,224,.72);
+      box-shadow:inset 0 1px 0 rgba(255,255,255,.96);
+      position:relative;
+      z-index:1;
+    }
+    .pay-bar-label{
+      color:#173149;
+      font-size:8px;
+      font-weight:1000;
+      letter-spacing:.18em;
+    }
+    .pay-token-pill{
+      display:flex;
+      align-items:center;
+      gap:6px;
+      padding:5px 8px;
+      border-radius:999px;
+      background:linear-gradient(180deg,#fff7ea 0%, #f8e7c8 100%);
+      border:1px solid rgba(242,176,76,.22);
+      box-shadow:inset 0 1px 0 rgba(255,255,255,.86);
+    }
+    .pay-token-pill-badge{
+      width:22px;
+      height:22px;
+      border-radius:50%;
+      display:grid;
+      place-items:center;
+      background:linear-gradient(145deg,#73bfff 0%, #2d8ae2 100%);
+      color:#fff;
+      font-size:10px;
+      font-weight:1000;
+      box-shadow:0 4px 8px rgba(63,143,231,.12);
+      animation:softFloat 2.2s ease-in-out infinite;
+    }
+    .pay-token-pill-text{
+      color:#8b5c19;
+      font-size:10px;
+      font-weight:1000;
+      letter-spacing:-.03em;
+    }
+
+    .pay-note-card{
+      border-radius:14px;
+      padding:0;
+      display:flex;
+      align-items:center;
+      gap:9px;
+      overflow:hidden;
+      transition:max-height .22s ease, opacity .22s ease, padding .22s ease, margin .22s ease;
+      max-height:48px;
+      opacity:1;
+      position:relative;
+      z-index:1;
+    }
+    .pay-note-card.hidden{
+      max-height:0;
+      opacity:0;
+      padding:0;
+      margin-top:-4px;
+      pointer-events:none;
+      border-color:transparent;
+      box-shadow:none;
+    }
+    .pay-note-icon{
+      width:38px;
+      height:38px;
+      display:grid;
+      place-items:center;
+      border-right:1px solid rgba(184,205,224,.42);
+      flex:0 0 auto;
+    }
+    .pay-note-icon svg{
+      width:14px;
+      height:14px;
+      stroke:#c27b18;
+      stroke-width:2.1;
+      fill:none;
+    }
+    .pay-note-card input{
+      flex:1;
+      min-width:0;
+      border:none;
+      outline:none;
+      background:transparent;
+      color:#173149;
+      font-size:11px;
+      font-weight:900;
+      padding-right:10px;
+    }
+    .pay-note-card input::placeholder{color:#8aa0b3}
+
+    .pay-mini-summary{
+      display:grid;
+      grid-template-columns:1fr 52px 1fr;
+      gap:8px;
+      align-items:center;
+      position:relative;
+      z-index:1;
+    }
+    .pay-mini-card{
+      min-height:76px;
+      padding:8px;
+      display:flex;
+      flex-direction:column;
+      justify-content:space-between;
+      border-radius:14px;
+      background:linear-gradient(180deg,#ffffff 0%, #eef4fb 100%);
+      border:1px solid rgba(184,205,224,.72);
+      box-shadow:inset 0 1px 0 rgba(255,255,255,.96);
+    }
+    .pay-mini-token{
+      color:#6f879b;
+      font-size:7px;
+      font-weight:1000;
+      letter-spacing:.16em;
+    }
+    .pay-mini-value{
+      color:#173149;
+      font-size:16px;
+      font-weight:1000;
+      line-height:.98;
+      letter-spacing:-.04em;
+      margin-top:3px;
+      word-break:break-word;
+    }
+    .pay-mini-foot{
+      color:#c9851c;
+      font-size:7px;
+      font-weight:1000;
+      letter-spacing:.12em;
+      margin-top:5px;
+    }
+    .pay-flow-orb{
+      width:52px;
+      height:52px;
+      border-radius:50%;
+      border:1px solid rgba(184,205,224,.56);
+      background:
+        radial-gradient(circle at 50% 24%, rgba(117,202,255,.12), transparent 52%),
+        linear-gradient(180deg,#f8fbff 0%, #eef5fc 100%);
+      box-shadow:0 6px 10px rgba(18,52,84,.05), inset 0 1px 0 rgba(255,255,255,.96);
+      display:grid;
+      place-items:center;
+      justify-self:center;
+      position:relative;
+      transition:transform .2s ease;
+    }
+    .pay-flow-orb::after{
+      content:"";
+      position:absolute;
+      inset:6px;
+      border-radius:50%;
+      border:1px solid rgba(184,205,224,.30);
+    }
+    .pay-flow-orb svg{
+      width:22px;
+      height:22px;
+      stroke:#6d8094;
+      stroke-width:2.2;
+      fill:none;
+      stroke-linecap:round;
+      stroke-linejoin:round;
+      transition:transform .2s ease;
+    }
+    .pay-flow-orb.is-running svg{
+      animation:spinArrows 1.2s linear infinite;
+    }
+
+    .pay-preview{
+      border-radius:16px;
+      background:
+        radial-gradient(circle at top right, rgba(117,202,255,.10), transparent 24%),
+        linear-gradient(180deg,#f6faff 0%, #edf4fb 100%);
+      border:1px solid rgba(181,203,222,.72);
+      box-shadow:var(--pay-shadow-card), inset 0 1px 0 rgba(255,255,255,.96);
+      padding:10px;
+      display:flex;
+      flex-direction:column;
+      gap:8px;
+      max-height:0;
+      opacity:0;
+      overflow:hidden;
+      padding-top:0;
+      padding-bottom:0;
+      border-color:transparent;
+      transition:max-height .28s ease, opacity .22s ease, padding .22s ease, border-color .22s ease;
+      position:relative;
+      z-index:1;
+    }
+    .pay-preview.is-open{
+      max-height:420px;
+      opacity:1;
+      padding-top:10px;
+      padding-bottom:10px;
+      border-color:rgba(181,203,222,.72);
+    }
+    .pay-preview-head{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:8px;
+    }
+    .pay-preview-title{
+      color:#173149;
+      font-size:11px;
+      font-weight:1000;
+      letter-spacing:-.03em;
+    }
+    .pay-step-pill{
+      min-width:58px;
+      height:32px;
+      padding:0 12px;
+      border-radius:999px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      background:linear-gradient(180deg,#f4f8fd 0%, #eaf2fa 100%);
+      border:1px solid rgba(184,205,224,.70);
+      box-shadow:inset 0 1px 0 rgba(255,255,255,.96);
+      color:#173149;
+      font-size:10px;
+      font-weight:1000;
+    }
+    .pay-step-card{
+      display:grid;
+      grid-template-columns:42px minmax(0,1fr);
+      gap:9px;
+      align-items:center;
+      border-radius:14px;
+      background:linear-gradient(180deg,#ffffff 0%, #eef4fb 100%);
+      border:1px solid rgba(184,205,224,.72);
+      box-shadow:inset 0 1px 0 rgba(255,255,255,.96);
+      padding:9px;
+    }
+    .pay-step-num{
+      width:42px;
+      height:42px;
+      border-radius:50%;
+      display:grid;
+      place-items:center;
+      background:
+        radial-gradient(circle at 50% 50%, #ffffff 0%, #ffffff 38%, transparent 39%),
+        linear-gradient(180deg,#d7e7f6 0%, #bed6ea 100%);
+      color:#173149;
+      font-size:18px;
+      font-weight:1000;
+      box-shadow:inset 0 1px 0 rgba(255,255,255,.98);
+    }
+    .pay-step-num.is-blinking{
+      animation:pulseBlink 1s ease-in-out infinite;
+    }
+    .pay-step-title{
+      color:#173149;
+      font-size:10px;
+      font-weight:1000;
+      margin-bottom:2px;
+    }
+    .pay-step-desc{
+      color:#6e8699;
+      font-size:8px;
+      line-height:1.3;
+      font-weight:800;
+    }
+    .pay-route-amounts{
+      color:#173149;
+      font-size:10px;
+      font-weight:1000;
+      line-height:1.25;
+      letter-spacing:-.02em;
+    }
+    .pay-route-amounts .arrow{
+      color:#8ea4b6;
+      padding:0 5px;
+    }
+    .pay-detail-list{
+      display:flex;
+      flex-direction:column;
+      gap:6px;
+    }
+    .pay-detail-row{
+      display:flex;
+      flex-wrap:wrap;
+      gap:4px;
+      padding-bottom:5px;
+      border-bottom:1px solid rgba(184,205,224,.34);
+      font-size:9px;
+      line-height:1.26;
+    }
+    .pay-detail-row:last-child{
+      border-bottom:none;
+      padding-bottom:0;
+    }
+    .pay-detail-label{
+      color:#173149;
+      font-weight:1000;
+    }
+    .pay-detail-sep{
+      color:#9aaec0;
+      font-weight:900;
+    }
+    .pay-detail-value{
+      color:#617b90;
+      font-weight:900;
+      word-break:break-word;
+    }
+    .pay-submit-btn{
+      height:48px;
+      border-radius:16px;
+      font-size:11px;
+      letter-spacing:-.02em;
+      position:relative;
+      z-index:1;
+    }
+
+    /* PAY SCANNER */
+    .scanner-overlay{
+      position:fixed;
+      inset:0;
+      display:none;
+      align-items:center;
+      justify-content:center;
+      padding:20px;
+      background:rgba(2,10,16,.78);
+      backdrop-filter:blur(6px);
+      z-index:120;
+    }
+    .scanner-overlay.is-open{display:flex}
+    .scanner-panel{
+      width:min(100%, 360px);
+      border-radius:22px;
+      background:linear-gradient(180deg,#f9fcff 0%, #eef5fc 100%);
+      border:1px solid rgba(184,205,224,.42);
+      box-shadow:0 24px 48px rgba(0,0,0,.28);
+      padding:14px;
+      color:#173149;
+    }
+    .scanner-top{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+      margin-bottom:12px;
+    }
+    .scanner-title{
+      font-size:16px;
+      font-weight:1000;
+      letter-spacing:-.03em;
+    }
+    .scanner-close{
+      border:none;
+      border-radius:12px;
+      padding:8px 12px;
+      background:linear-gradient(180deg,#eef8ff 0%, #dff0ff 100%);
+      color:#2f89df;
+      font-size:11px;
+      font-weight:1000;
+      cursor:pointer;
+    }
+    .scanner-view{
+      position:relative;
+      width:100%;
+      aspect-ratio:1/1;
+      border-radius:20px;
+      overflow:hidden;
+      background:linear-gradient(180deg,#dbe8f4 0%, #c8dced 100%);
+      border:1px solid rgba(184,205,224,.72);
+      margin-bottom:10px;
+    }
+    .scanner-view video,
+    .scanner-view canvas{
+      width:100%;
+      height:100%;
+      object-fit:cover;
+      display:block;
+    }
+    .scanner-frame{
+      position:absolute;
+      inset:16% 12%;
+      border:2px solid rgba(255,255,255,.95);
+      border-radius:18px;
+      box-shadow:0 0 0 999px rgba(4,11,18,.18);
+      pointer-events:none;
+    }
+    .scanner-line{
+      position:absolute;
+      left:10%;
+      right:10%;
+      top:18%;
+      height:2px;
+      border-radius:999px;
+      background:linear-gradient(90deg, transparent, #75caff, transparent);
+      box-shadow:0 0 14px rgba(117,202,255,.72);
+      animation:scanLine 2s linear infinite;
+    }
+    .scanner-status{
+      font-size:12px;
+      color:#607a91;
+      font-weight:900;
+      line-height:1.35;
+      margin-bottom:12px;
+      min-height:32px;
+    }
+    .scanner-actions{
+      display:flex;
+      gap:8px;
+    }
+    .scanner-btn,
+    .scanner-upload{
+      flex:1;
+      border:none;
+      border-radius:14px;
+      padding:12px 10px;
+      text-align:center;
+      font-size:12px;
+      font-weight:1000;
+      cursor:pointer;
+    }
+    .scanner-btn{
+      background:linear-gradient(180deg,#baddff 0%, #72b7ff 100%);
+      color:#fff;
+      box-shadow:0 10px 18px rgba(87,180,242,.16);
+    }
+    .scanner-upload{
+      background:linear-gradient(180deg,#fff7ea 0%, #f8e7c8 100%);
+      color:#8b5c19;
+      border:1px solid rgba(242,176,76,.22);
+      position:relative;
+      overflow:hidden;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+    }
+    .scanner-upload input{
+      position:absolute;
+      inset:0;
+      opacity:0;
+      cursor:pointer;
+    }
+
+    @keyframes spinArrows{
+      from{ transform:rotate(0deg); }
+      to{ transform:rotate(360deg); }
+    }
+    @keyframes pulseBlink{
+      0%,100%{
+        transform:scale(1);
+        opacity:1;
+        box-shadow:inset 0 1px 0 rgba(255,255,255,.98), 0 0 0 rgba(117,202,255,0);
+      }
+      50%{
+        transform:scale(.94);
+        opacity:.58;
+        box-shadow:inset 0 1px 0 rgba(255,255,255,.98), 0 0 0 6px rgba(117,202,255,.10);
+      }
+    }
+    @keyframes softFloat{
+      0%,100%{ transform:translateY(0); }
+      50%{ transform:translateY(-1px); }
+    }
+    @keyframes scanLine{
+      0%{ top:18%; }
+      50%{ top:78%; }
+      100%{ top:18%; }
+    }
+
     .theme-dark .page-sheet,
     .theme-dark .panel-card,
     .theme-dark .recipient-box,
-    .theme-dark .amount-box,
-    .theme-dark .asset-card,
     .theme-dark .amount-orb,
-    .theme-dark .pay-box,
-    .theme-dark .flow-panel,
-    .theme-dark .request-result,
     .theme-dark .token-card,
     .theme-dark .more-panel,
     .theme-dark .mini-stat,
@@ -1307,24 +1988,26 @@
       color:#e9f6ff
     }
     .theme-dark .page-sheet{background:linear-gradient(180deg,#0a1826,#10273a)}
-    .theme-dark .mini-tag,.theme-dark .metric-chip,.theme-dark .quick-btn,.theme-dark .soft-pill,.theme-dark .ghost-pill,.theme-dark .slippage-pill,.theme-dark .slippage-inner,.theme-dark .flow-step,.theme-dark .segment,.theme-dark .segment button.is-on{
+    .theme-dark .mini-tag,.theme-dark .metric-chip,.theme-dark .quick-btn,.theme-dark .soft-pill,.theme-dark .ghost-pill,.theme-dark .segment,.theme-dark .segment button.is-on{
       background:#102334;border-color:rgba(108,198,239,.18);color:#d7efff
     }
     .theme-dark .segment button{color:#8cb5cb}
-    .theme-dark .amount-input,.theme-dark .recipient-box input,.theme-dark .amount-orb .sub,.theme-dark .panel-title,.theme-dark .token-name,.theme-dark .mini-stat .v,.theme-dark .status-card .v,.theme-dark .list-item .title,.theme-dark .wallet-name,.theme-dark .pay-box .v{
+    .theme-dark .amount-input,.theme-dark .recipient-box input,.theme-dark .amount-orb .sub,.theme-dark .panel-title,.theme-dark .token-name,.theme-dark .mini-stat .v,.theme-dark .status-card .v,.theme-dark .list-item .title,.theme-dark .wallet-name{
       color:#ecf8ff
     }
-    .theme-dark .panel-sub,.theme-dark .hint-line,.theme-dark .token-sub,.theme-dark .mini-stat .k,.theme-dark .status-card .k,.theme-dark .list-item .meta,.theme-dark .wallet-state,.theme-dark .wallet-reco,.theme-dark .pay-box .k{
+    .theme-dark .panel-sub,.theme-dark .token-sub,.theme-dark .mini-stat .k,.theme-dark .status-card .k,.theme-dark .list-item .meta,.theme-dark .wallet-state,.theme-dark .wallet-reco{
       color:#8fb2c7
     }
 
     @media (max-width:540px){
-      .connect-grid,.token-grid,.status-grid,.asset-center,.pay-preview,.swap-summary-grid{grid-template-columns:1fr}
+      .connect-grid,.token-grid,.status-grid,.asset-center,.swap-summary-grid,.pay-asset-center{grid-template-columns:1fr}
       .page-sheet{border-radius:24px;padding:14px}
       .notice-message{font-size:14px}
       .home-graph-svg{height:194px}
       .swap-summary-cta{align-items:flex-start}
       .swap-cta-shell{width:100px}
+      .pay-mini-summary{grid-template-columns:1fr}
+      .pay-flow-orb{justify-self:flex-start}
     }
 
     @media (max-width:390px){
@@ -1337,12 +2020,17 @@
       .swap-amount-input{font-size:25px}
       .swap-symbol{font-size:19px}
       .swap-summary-row{grid-template-columns:106px minmax(0,1fr)}
+      .pay-topline{gap:6px}
+      .pay-hero-title{font-size:11px}
+      .pay-mini-value{font-size:15px}
+      .scanner-actions{flex-direction:column}
     }
   </style>
 </head>
 <body>
   <div class="app" id="app">
     <div class="topbar"></div>
+
     <div class="workspace">
       <aside class="sidebar">
         <button class="connect-btn" id="connectBtn" type="button">
@@ -1601,73 +2289,167 @@
             </section>
 
             <section class="page" data-view="pay">
-              <div class="page-sheet">
+              <div class="pay-stage">
                 <div class="top-actions">
-                  <div class="mini-tag"><span class="spark"></span> swap & pay</div>
-                  <div class="tiny-switch"><span>Hide note</span><button class="switch-btn" id="payHideNoteBtn" type="button"></button></div>
+                  <div class="mini-tag"><span class="spark"></span> pay</div>
                 </div>
 
                 <div class="section-gap"></div>
 
-                <div class="pay-layout">
-                  <div class="recipient-box is-empty" id="payRecipientBox">
-                    <div class="amount-top">
-                      <div class="token-badge"><span class="token-dot"></span>Recipient wallet</div>
-                      <button class="soft-pill" id="payScanBtn" style="height:34px;padding:0 12px">QR</button>
+                <div class="pay-flow">
+                  <div class="pay-shell">
+                    <div class="pay-topline">
+                      <div>
+                        <div class="pay-hero-kicker">SWAP & PAY</div>
+                        <div class="pay-hero-title">Pay with tokens</div>
+                      </div>
+
+                      <div class="tiny-switch">
+                        <span>HIDE NOTE</span>
+                        <button class="switch-btn" id="payHideNoteBtn" type="button"></button>
+                      </div>
                     </div>
-                    <div class="amount-input-wrap">
-                      <input id="payRecipientInput" placeholder="0x..." />
-                      <span class="caret"></span>
+
+                    <div class="pay-wallet-row">
+                      <button class="pay-qr-btn" id="payScanBtn" type="button" aria-label="Scan QR">
+                        <svg viewBox="0 0 24 24">
+                          <rect x="3" y="3" width="6" height="6"></rect>
+                          <rect x="15" y="3" width="6" height="6"></rect>
+                          <rect x="3" y="15" width="6" height="6"></rect>
+                          <path d="M15 15h2m2 0h2m-6 2h6m-4 2h2m-4 2h2"></path>
+                        </svg>
+                      </button>
+
+                      <div class="pay-wallet-box recipient-box is-empty" id="payRecipientBox">
+                        <div class="amount-input-wrap" style="width:100%">
+                          <input id="payRecipientInput" placeholder="Recipient wallet" />
+                          <span class="caret pay-wallet-caret"></span>
+                        </div>
+                      </div>
                     </div>
+
+                    <div class="asset-center pay-asset-center">
+                      <button class="asset-card is-active" id="payUsdcBtn" type="button">USDC</button>
+
+                      <div class="amount-orb pay-amount-orb is-empty" id="payAmountOrb">
+                        <div class="amount-input-wrap" style="width:100%;justify-content:center">
+                          <input class="pay-amount-input" id="payAmountInput" placeholder="0" inputmode="decimal" />
+                          <span class="caret pay-amount-caret"></span>
+                        </div>
+                        <div class="sub">AMOUNT</div>
+                      </div>
+
+                      <button class="asset-card asset-eurc" id="payEurcBtn" type="button">EURC</button>
+                    </div>
+
+                    <div class="pay-bar">
+                      <div class="pay-bar-label">YOU PAY</div>
+                      <div class="pay-token-pill">
+                        <div class="pay-token-pill-badge">L</div>
+                        <div class="pay-token-pill-text">LMTV</div>
+                      </div>
+                    </div>
+
+                    <div class="pay-note-card recipient-box" id="payNoteBox">
+                      <div class="pay-note-icon">
+                        <svg viewBox="0 0 24 24">
+                          <path d="M4 20l4-1 10-10-3-3L5 16l-1 4z"></path>
+                          <path d="M13 6l3 3"></path>
+                        </svg>
+                      </div>
+                      <input id="payNoteInput" placeholder="Add note" />
+                    </div>
+
+                    <div class="pay-mini-summary">
+                      <div class="pay-mini-card">
+                        <div class="pay-mini-token">LMTV</div>
+                        <div class="pay-mini-value" id="payYouPay">0.0000</div>
+                        <div class="pay-mini-foot">YOU SEND</div>
+                      </div>
+
+                      <div class="pay-flow-orb" id="payFlowOrb">
+                        <svg viewBox="0 0 24 24">
+                          <path d="M7 7h11"></path>
+                          <path d="M14 4l4 3-4 3"></path>
+                          <path d="M17 17H6"></path>
+                          <path d="M10 14l-4 3 4 3"></path>
+                        </svg>
+                      </div>
+
+                      <div class="pay-mini-card">
+                        <div class="pay-mini-token" id="payAssetLabel">USDC</div>
+                        <div class="pay-mini-value" id="payReceiverGets">0</div>
+                        <div class="pay-mini-foot">RECEIVER GETS</div>
+                      </div>
+                    </div>
+
+                    <div class="pay-preview" id="payFlowPanel">
+                      <div class="pay-preview-head">
+                        <div class="pay-preview-title">Trade preview</div>
+                        <div class="pay-step-pill" id="payStepPill">1/3</div>
+                      </div>
+
+                      <div class="pay-step-card">
+                        <div class="pay-step-num" id="payStepNum">1</div>
+                        <div>
+                          <div class="pay-step-title" id="payStepTitle">Approve LMTV</div>
+                          <div class="pay-step-desc" id="payStepDesc">Allow the selected pool to spend your LMTV for this payment route.</div>
+                        </div>
+                      </div>
+
+                      <div class="pay-route-amounts">
+                        <span id="payRouteSendAmount">0.0000 LMTV</span>
+                        <span class="arrow">→</span>
+                        <span id="payRouteReceiveAmount">0 USDC</span>
+                      </div>
+
+                      <div class="flow-steps">
+                        <div class="flow-step" data-flow-step="1">Approve</div>
+                        <div class="flow-step" data-flow-step="2">Swap</div>
+                        <div class="flow-step" data-flow-step="3">Transfer</div>
+                      </div>
+
+                      <div class="pay-detail-list">
+                        <div class="pay-detail-row">
+                          <span class="pay-detail-label">Route</span>
+                          <span class="pay-detail-sep">•</span>
+                          <span class="pay-detail-value" id="payRoute">LMTV → USDC</span>
+                        </div>
+                        <div class="pay-detail-row">
+                          <span class="pay-detail-label">Slippage</span>
+                          <span class="pay-detail-sep">•</span>
+                          <span class="pay-detail-value" id="paySlippage">AUTO (0.50%)</span>
+                        </div>
+                        <div class="pay-detail-row">
+                          <span class="pay-detail-label">Estimated fee</span>
+                          <span class="pay-detail-sep">•</span>
+                          <span class="pay-detail-value" id="payFeeText">0.0000 USDC</span>
+                        </div>
+                        <div class="pay-detail-row">
+                          <span class="pay-detail-label">Min received</span>
+                          <span class="pay-detail-sep">•</span>
+                          <span class="pay-detail-value" id="payMinReceivedText">0.0000 USDC</span>
+                        </div>
+                        <div class="pay-detail-row">
+                          <span class="pay-detail-label">Recipient</span>
+                          <span class="pay-detail-sep">•</span>
+                          <span class="pay-detail-value" id="payRecipientPreview">—</span>
+                        </div>
+                        <div class="pay-detail-row">
+                          <span class="pay-detail-label">Note</span>
+                          <span class="pay-detail-sep">•</span>
+                          <span class="pay-detail-value" id="payNotePreview">none</span>
+                        </div>
+                        <div class="pay-detail-row">
+                          <span class="pay-detail-label">Status</span>
+                          <span class="pay-detail-sep">•</span>
+                          <span class="pay-detail-value" id="payStatusLine">Waiting for confirmation</span>
+                        </div>
+                      </div>
+                    </div>
+
+                    <button class="submit-btn pay-submit-btn" id="payBtn" disabled>Swap & Pay</button>
                   </div>
-
-                  <div class="asset-center">
-                    <button class="asset-card is-active" id="payUsdcBtn" type="button">USDC</button>
-                    <div class="amount-orb" id="payAmountOrb">
-                      <input class="amount-input" id="payAmountInput" placeholder="0.0" inputmode="decimal" />
-                      <div class="sub">Amount</div>
-                    </div>
-                    <button class="asset-card asset-eurc" id="payEurcBtn" type="button">EURC</button>
-                  </div>
-
-                  <div class="recipient-box" id="payNoteBox">
-                    <div class="amount-top">
-                      <div class="token-badge"><span class="token-dot"></span>Note</div>
-                    </div>
-                    <div class="amount-input-wrap">
-                      <input id="payNoteInput" placeholder="Optional note" />
-                    </div>
-                  </div>
-
-                  <div class="pay-preview">
-                    <div class="pay-box">
-                      <div class="k">You pay</div>
-                      <div class="v"><span id="payYouPay">0.0</span> LMTV</div>
-                    </div>
-
-                    <button class="spin-orb" id="paySpinOrb" type="button">↻</button>
-
-                    <div class="pay-box">
-                      <div class="k">Receiver gets</div>
-                      <div class="v"><span id="payReceiverGets">0.0</span> <span id="payAssetLabel">USDC</span></div>
-                    </div>
-                  </div>
-
-                  <div class="flow-panel" id="payFlowPanel">
-                    <div class="flow-steps">
-                      <div class="flow-step" data-flow-step="1">Approve</div>
-                      <div class="flow-step" data-flow-step="2">Swap</div>
-                      <div class="flow-step" data-flow-step="3">Transfer</div>
-                    </div>
-                    <div class="flow-meta" id="payFlowMeta">
-                      <div class="flow-line"><span>Route</span><strong id="payRoute">LMTV → USDC</strong></div>
-                      <div class="flow-line"><span>Slippage</span><strong id="paySlippage">1%</strong></div>
-                      <div class="flow-line"><span>Recipient</span><strong id="payRecipientPreview">—</strong></div>
-                      <div class="flow-line"><span>Status</span><strong id="payStatusLine">Waiting for confirmation</strong></div>
-                    </div>
-                  </div>
-
-                  <button class="submit-btn" id="payBtn" disabled>Swap & Pay</button>
                 </div>
               </div>
             </section>
@@ -1799,7 +2581,37 @@
         <div class="cover" id="cover"><div class="cover-mark"></div></div>
       </main>
     </div>
+
     <div class="bottombar"></div>
+  </div>
+
+  <div class="scanner-overlay" id="payScannerOverlay">
+    <div class="scanner-panel">
+      <div class="scanner-top">
+        <div class="scanner-title">Scan recipient QR</div>
+        <button class="scanner-close" id="payScannerClose" type="button">Close</button>
+      </div>
+
+      <div class="scanner-view">
+        <video id="payScannerVideo" playsinline></video>
+        <canvas id="payScannerCanvas" hidden></canvas>
+        <div class="scanner-frame">
+          <div class="scanner-line"></div>
+        </div>
+      </div>
+
+      <div class="scanner-status" id="payScannerStatus">
+        Tap “Use camera” to scan live, or choose an image with a QR.
+      </div>
+
+      <div class="scanner-actions">
+        <button class="scanner-btn" id="payScannerStart" type="button">Use camera</button>
+        <label class="scanner-upload">
+          Image QR
+          <input type="file" id="payScannerFile" accept="image/*" capture="environment">
+        </label>
+      </div>
+    </div>
   </div>
 
   <script>
@@ -1853,6 +2665,7 @@
     const STORAGE_KEY = 'stableflow-shell-state-v1';
     const $$ = (sel, root=document) => Array.from(root.querySelectorAll(sel));
     const $ = (sel, root=document) => root.querySelector(sel);
+
     const app = $('#app');
     const connectBtn = $('#connectBtn');
     const connectLabel = $('#connectLabel');
@@ -1876,6 +2689,15 @@
     const swapRouteReceive = $('#swapRouteReceive');
     const swapTopIcon = $('#swapTopIcon');
     const swapBottomIcon = $('#swapBottomIcon');
+
+    const payScannerOverlay = $('#payScannerOverlay');
+    const payScannerClose = $('#payScannerClose');
+    const payScannerStart = $('#payScannerStart');
+    const payScannerFile = $('#payScannerFile');
+    const payScannerStatus = $('#payScannerStatus');
+    const payScannerVideo = $('#payScannerVideo');
+    const payScannerCanvas = $('#payScannerCanvas');
+    const payScanCtx = payScannerCanvas.getContext('2d', { willReadFrequently: true });
 
     const state = {
       shellOpen: false,
@@ -1915,7 +2737,10 @@
         processing: false,
         step: 0,
         youPay: '0',
-        lastQuoteIn: null
+        lastQuoteIn: null,
+        scanStream: null,
+        scanRAF: null,
+        scanning: false
       },
       request: {
         asset: 'USDC',
@@ -2165,8 +2990,8 @@
           { text:'Slippage on top', helper:'AUTO resets fast, and 5 / 25 / 50 / MAX only appear when needed.' }
         ],
         pay: [
-          { text:'Swap & Pay ready', helper:'Stable output goes to the receiver after the LMTV swap.' },
-          { text:'3-step flow', helper:'Approve, swap and transfer are guided by the top notice bar.' }
+          { text:'Payment module ready', helper:'QR real, hide note, live fields and 3-step flow are active.' },
+          { text:'Scan or type', helper:'A QR can fill wallet, amount, asset and note when the payload is readable.' }
         ],
         'get-paid': [
           { text:'Generate QR request', helper:'The payment note appears below the button after creation.' },
@@ -2294,6 +3119,7 @@
     }
 
     function disconnectWallet(){
+      stopPayScanner();
       state.connected = false;
       state.account = '';
       state.shortAccount = '';
@@ -2319,6 +3145,7 @@
       updateProfile();
       updateHomeMetrics();
       updateSwapDecor();
+      updatePayPreview();
       setNoticeForContext();
     }
 
@@ -2418,7 +3245,7 @@
         $('#swapSlipLabel').textContent = Math.abs(slip - AUTO_SWAP_SLIPPAGE) < 0.001 ? 'AUTO' : `${slip.toFixed(1)}%`;
       }
       if ($('#paySlippage')) {
-        $('#paySlippage').textContent = `${slip.toFixed(1)}%`;
+        $('#paySlippage').textContent = Math.abs(slip - AUTO_SWAP_SLIPPAGE) < 0.001 ? `AUTO (${slip.toFixed(2)}%)` : `${slip.toFixed(2)}%`;
       }
     }
 
@@ -2517,10 +3344,9 @@
       const swapTokens = getSwapTokens();
       $('#swapTopBalance').textContent = `Balance ${formatCompact(state.balances[swapTokens.top])} ${swapTokens.top}`;
       $('#swapBottomBalance').textContent = `Balance ${formatCompact(state.balances[swapTokens.bottom])} ${swapTokens.bottom}`;
-      $('#payYouPay').textContent = formatCompact(state.pay.youPay);
-      $('#payAssetLabel').textContent = state.pay.asset;
       $('#requestWalletInput').placeholder = state.connected ? state.account : '0x...';
       updateSwapDecor();
+      updatePayPreview();
     }
 
     async function updateSwapQuote(){
@@ -2668,16 +3494,95 @@
       }
     }
 
-    async function updatePayQuote(){
-      $('#payAssetLabel').textContent = state.pay.asset;
-      $('#payRoute').textContent = `LMTV → ${state.pay.asset}`;
-      $('#paySlippage').textContent = `${Number(state.swap.slippage || AUTO_SWAP_SLIPPAGE).toFixed(1)}%`;
-
-      const amountRaw = $('#payAmountInput').value;
+    function updatePayPreview(){
+      const amountRaw = $('#payAmountInput').value.trim();
+      const amount = Number(String(amountRaw || '0').replace(',', '.')) || 0;
+      const note = $('#payNoteInput').value.trim();
       const recipient = $('#payRecipientInput').value.trim();
+      const slip = Number(state.swap.slippage || AUTO_SWAP_SLIPPAGE) / 100;
+      const fee = amount * 0.0018;
+      const minReceived = Math.max(0, amount * (1 - slip));
+
+      $('#payAssetLabel').textContent = state.pay.asset;
+      $('#payReceiverGets').textContent = amount ? formatTrim(String(amount)) : '0';
+      $('#payYouPay').textContent = state.pay.youPay && Number(state.pay.youPay) > 0 ? formatTrim(state.pay.youPay) : '0.0000';
+
+      $('#payRouteSendAmount').textContent = `${state.pay.youPay && Number(state.pay.youPay) > 0 ? formatTrim(state.pay.youPay) : '0.0000'} LMTV`;
+      $('#payRouteReceiveAmount').textContent = `${amount ? formatTrim(String(amount)) : '0'} ${state.pay.asset}`;
+      $('#payRoute').textContent = `LMTV → ${state.pay.asset}`;
+      $('#paySlippage').textContent = Math.abs(Number(state.swap.slippage || AUTO_SWAP_SLIPPAGE) - AUTO_SWAP_SLIPPAGE) < 0.001
+        ? `AUTO (${Number(state.swap.slippage || AUTO_SWAP_SLIPPAGE).toFixed(2)}%)`
+        : `${Number(state.swap.slippage || AUTO_SWAP_SLIPPAGE).toFixed(2)}%`;
+      $('#payFeeText').textContent = `${formatNum(fee, 4)} ${state.pay.asset}`;
+      $('#payMinReceivedText').textContent = `${formatNum(minReceived, 4)} ${state.pay.asset}`;
+      $('#payRecipientPreview').textContent = recipient ? shorten(recipient) : '—';
+      $('#payNotePreview').textContent = state.pay.hideNote ? 'none' : (note || 'none');
 
       setInputEmptyClass($('#payRecipientInput'), $('#payRecipientBox'));
       setInputEmptyClass($('#payAmountInput'), $('#payAmountOrb'));
+      $('#payRecipientBox').classList.toggle('is-active', document.activeElement === $('#payRecipientInput') || !recipient);
+      $('#payAmountOrb').classList.toggle('is-active', document.activeElement === $('#payAmountInput') || !amount);
+      $('#payFlowPanel').classList.toggle('is-open', !!recipient || !!amount || !!note);
+
+      $('#payBtn').disabled = !state.connected || !state.pay.lastQuoteIn || !/^0x[a-fA-F0-9]{40}$/.test(recipient);
+    }
+
+    function setPayStep(step){
+      state.pay.step = step;
+
+      const displayStep = step === 0 ? 1 : Math.min(step, 3);
+      const stepMeta = {
+        1: {
+          pill:'1/3',
+          title:'Approve LMTV',
+          desc:'Allow the selected pool to spend your LMTV for this payment route.'
+        },
+        2: {
+          pill:'2/3',
+          title:'Confirm swap',
+          desc:`Convert LMTV into ${state.pay.asset} using the selected payment route.`
+        },
+        3: {
+          pill:'3/3',
+          title:'Send payment',
+          desc:`Deliver ${state.pay.asset} to the recipient wallet and finalize the payment.`
+        },
+        4: {
+          pill:'3/3',
+          title:'Completed',
+          desc:'The payment route finished successfully.'
+        }
+      };
+
+      const meta = stepMeta[step] || stepMeta[displayStep];
+      $('#payStepPill').textContent = meta.pill;
+      $('#payStepNum').textContent = step >= 4 ? '✓' : String(displayStep);
+      $('#payStepTitle').textContent = meta.title;
+      $('#payStepDesc').textContent = meta.desc;
+      $('#payStepNum').classList.toggle('is-blinking', step > 0 && step < 4);
+      $('#payFlowOrb').classList.toggle('is-running', step > 0 && step < 4);
+
+      $$('.flow-step').forEach(el => {
+        const s = Number(el.dataset.flowStep);
+        el.classList.toggle('is-current', step === 0 ? s === 1 : s === Math.min(step, 3));
+        el.classList.toggle('is-done', step > 1 && s < Math.min(step, 4));
+      });
+
+      if (step === 4) {
+        $('#payStatusLine').textContent = 'Completed';
+        $('#payBtn').textContent = 'Completed';
+      } else if (step > 0) {
+        $('#payBtn').textContent = 'Processing...';
+      } else {
+        $('#payBtn').textContent = 'Swap & Pay';
+      }
+    }
+
+    async function updatePayQuote(){
+      updatePayPreview();
+
+      const amountRaw = $('#payAmountInput').value.trim();
+      const recipient = $('#payRecipientInput').value.trim();
 
       try {
         if (!state.connected || state.chainId !== ARC_CHAIN_ID) throw new Error('Connect on Arc Testnet to prepare Pay.');
@@ -2690,28 +3595,15 @@
         state.pay.lastQuoteIn = amountIn;
         $('#payReceiverGets').textContent = formatTrim(amountRaw);
         $('#payRecipientPreview').textContent = recipient ? shorten(recipient) : '—';
-        $('#payBtn').disabled = !recipient || !/^0x[a-fA-F0-9]{40}$/.test(recipient);
         $('#payStatusLine').textContent = 'Ready for confirmation';
       } catch (err) {
         state.pay.youPay = '0';
         state.pay.lastQuoteIn = null;
         $('#payReceiverGets').textContent = formatTrim(amountRaw || '0');
-        $('#payBtn').disabled = true;
         $('#payStatusLine').textContent = err?.message || 'Quote unavailable';
       }
 
-      refreshBalanceLabels();
-    }
-
-    function setPayStep(step){
-      state.pay.step = step;
-      $$('.flow-step').forEach(el => {
-        const s = Number(el.dataset.flowStep);
-        el.classList.toggle('is-current', s === step);
-        el.classList.toggle('is-done', s < step);
-      });
-      $('#payFlowPanel').classList.toggle('is-open', step > 0);
-      $('#paySpinOrb').classList.toggle('is-working', step > 0 && step < 4);
+      updatePayPreview();
     }
 
     async function handlePay(){
@@ -2785,7 +3677,7 @@
       $('#payNoteInput').value = '';
       state.pay.youPay = '0';
       state.pay.lastQuoteIn = null;
-      $('#payReceiverGets').textContent = '0.0';
+      $('#payReceiverGets').textContent = '0';
       updatePayQuote();
     }
 
@@ -3249,6 +4141,188 @@
       $('#requestMeta').innerHTML = '';
     }
 
+    function setPayAsset(asset){
+      state.pay.asset = asset;
+      $('#payUsdcBtn').classList.toggle('is-active', asset === 'USDC');
+      $('#payEurcBtn').classList.toggle('is-active', asset === 'EURC');
+      $('#payAmountOrb').classList.toggle('is-eurc', asset === 'EURC');
+      updatePayQuote();
+    }
+
+    function setRequestAsset(asset){
+      state.request.asset = asset;
+      $('#requestUsdcBtn').classList.toggle('is-active', asset === 'USDC');
+      $('#requestEurcBtn').classList.toggle('is-active', asset === 'EURC');
+      $('#requestOrb').classList.toggle('is-eurc', asset === 'EURC');
+    }
+
+    function downloadQr(){
+      const img = $('#qrTarget img') || $('#qrTarget canvas');
+      if (!img) return;
+
+      let href = '';
+      if (img.tagName.toLowerCase() === 'img') href = img.src;
+      else href = img.toDataURL('image/png');
+
+      const a = document.createElement('a');
+      a.href = href;
+      a.download = 'stableflow-request.png';
+      a.click();
+    }
+
+    function parseScannedPayload(raw){
+      const value = String(raw || '').trim();
+      if (!value) return null;
+
+      if (/^0x[a-fA-F0-9]{40}$/.test(value)) return { wallet:value };
+
+      try {
+        const url = new URL(value);
+        const encoded = url.hash.startsWith('#paynote=') ? url.hash.replace('#paynote=', '') : url.searchParams.get('paynote');
+        if (encoded) {
+          const parsed = JSON.parse(atob(decodeURIComponent(encoded)));
+          return {
+            wallet: parsed.wallet || '',
+            amount: parsed.amount || '',
+            asset: parsed.asset || '',
+            note: parsed.note || ''
+          };
+        }
+      } catch {}
+
+      try {
+        const parsed = JSON.parse(value);
+        if (parsed && typeof parsed === 'object') {
+          return {
+            wallet: parsed.wallet || '',
+            amount: parsed.amount || '',
+            asset: parsed.asset || '',
+            note: parsed.note || ''
+          };
+        }
+      } catch {}
+
+      return { wallet:value };
+    }
+
+    function applyScannedPayValue(raw){
+      const parsed = parseScannedPayload(raw);
+      if (!parsed) return;
+
+      if (parsed.wallet) $('#payRecipientInput').value = String(parsed.wallet).trim();
+      if (parsed.amount) $('#payAmountInput').value = String(parsed.amount).trim();
+      if (parsed.note) $('#payNoteInput').value = String(parsed.note).trim();
+      if (parsed.asset === 'USDC' || parsed.asset === 'EURC') setPayAsset(parsed.asset);
+
+      closePayScanner();
+      updatePayQuote();
+      $('#payRecipientInput').focus();
+    }
+
+    function stopPayScanner(){
+      state.pay.scanning = false;
+
+      if (state.pay.scanRAF) {
+        cancelAnimationFrame(state.pay.scanRAF);
+        state.pay.scanRAF = null;
+      }
+
+      if (state.pay.scanStream) {
+        state.pay.scanStream.getTracks().forEach(track => track.stop());
+        state.pay.scanStream = null;
+      }
+
+      payScannerVideo.srcObject = null;
+    }
+
+    function openPayScanner(){
+      payScannerOverlay.classList.add('is-open');
+      payScannerStatus.textContent = 'Tap “Use camera” to scan live, or choose an image with a QR.';
+    }
+
+    function closePayScanner(){
+      stopPayScanner();
+      payScannerOverlay.classList.remove('is-open');
+    }
+
+    function scanPayVideoFrame(){
+      if (!state.pay.scanning) return;
+
+      if (payScannerVideo.readyState >= 2) {
+        const w = payScannerVideo.videoWidth;
+        const h = payScannerVideo.videoHeight;
+
+        if (w && h) {
+          payScannerCanvas.width = w;
+          payScannerCanvas.height = h;
+          payScanCtx.drawImage(payScannerVideo, 0, 0, w, h);
+
+          const imageData = payScanCtx.getImageData(0, 0, w, h);
+          const result = window.jsQR ? jsQR(imageData.data, w, h, { inversionAttempts: 'dontInvert' }) : null;
+
+          if (result && result.data) {
+            payScannerStatus.textContent = 'QR detected.';
+            applyScannedPayValue(result.data);
+            return;
+          }
+        }
+      }
+
+      state.pay.scanRAF = requestAnimationFrame(scanPayVideoFrame);
+    }
+
+    async function startPayCameraScan(){
+      if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+        payScannerStatus.textContent = 'Camera not available here. Use the image QR button.';
+        return;
+      }
+
+      try {
+        stopPayScanner();
+        payScannerStatus.textContent = 'Opening camera...';
+
+        state.pay.scanStream = await navigator.mediaDevices.getUserMedia({
+          video: { facingMode: { ideal: 'environment' } },
+          audio: false
+        });
+
+        payScannerVideo.srcObject = state.pay.scanStream;
+        await payScannerVideo.play();
+
+        state.pay.scanning = true;
+        payScannerStatus.textContent = 'Point the camera at the QR.';
+        scanPayVideoFrame();
+      } catch {
+        payScannerStatus.textContent = 'Camera blocked or unavailable. On Vercel/HTTPS it works better. You can use image QR too.';
+      }
+    }
+
+    async function readPayQRFromFile(file){
+      if (!file) return;
+
+      const fileReader = new FileReader();
+      fileReader.onload = () => {
+        const img = new Image();
+        img.onload = () => {
+          payScannerCanvas.width = img.width;
+          payScannerCanvas.height = img.height;
+          payScanCtx.drawImage(img, 0, 0, img.width, img.height);
+
+          const imageData = payScanCtx.getImageData(0, 0, img.width, img.height);
+          const result = window.jsQR ? jsQR(imageData.data, img.width, img.height, { inversionAttempts: 'dontInvert' }) : null;
+
+          if (result && result.data) {
+            payScannerStatus.textContent = 'QR detected from image.';
+            applyScannedPayValue(result.data);
+          } else {
+            payScannerStatus.textContent = 'No QR found in this image.';
+          }
+        };
+        img.src = fileReader.result;
+      };
+      fileReader.readAsDataURL(file);
+    }
+
     function setupButtons(){
       connectBtn.addEventListener('click', () => {
         if (state.connected) {
@@ -3307,16 +4381,29 @@
         state.pay.hideNote = !state.pay.hideNote;
         $('#payHideNoteBtn').classList.toggle('is-on', state.pay.hideNote);
         $('#payNoteBox').classList.toggle('hidden', state.pay.hideNote);
+        updatePayQuote();
       });
 
       $('#payUsdcBtn').addEventListener('click', () => setPayAsset('USDC'));
       $('#payEurcBtn').addEventListener('click', () => setPayAsset('EURC'));
       $('#payAmountInput').addEventListener('input', updatePayQuoteDebounced);
       $('#payRecipientInput').addEventListener('input', updatePayQuoteDebounced);
+      $('#payNoteInput').addEventListener('input', updatePayQuoteDebounced);
+      $('#payRecipientInput').addEventListener('focus', updatePayPreview);
+      $('#payRecipientInput').addEventListener('blur', updatePayPreview);
+      $('#payAmountInput').addEventListener('focus', updatePayPreview);
+      $('#payAmountInput').addEventListener('blur', updatePayPreview);
       $('#payBtn').addEventListener('click', handlePay);
 
-      $('#payScanBtn').addEventListener('click', () => {
-        setNotice([{ text:'QR scanner placeholder', helper:'A scan parser can be layered next without changing the page structure.' }], 'Pay', 'The current build keeps the input flow clean and stable.');
+      $('#payScanBtn').addEventListener('click', openPayScanner);
+      payScannerClose.addEventListener('click', closePayScanner);
+      payScannerStart.addEventListener('click', startPayCameraScan);
+      payScannerFile.addEventListener('change', (e) => {
+        const file = e.target.files && e.target.files[0];
+        if (file) readPayQRFromFile(file);
+      });
+      payScannerOverlay.addEventListener('click', (e) => {
+        if (e.target === payScannerOverlay) closePayScanner();
       });
 
       $('#requestHideNoteBtn').addEventListener('click', () => {
@@ -3362,35 +4449,6 @@
       $$('#activityFilters button').forEach(btn => btn.addEventListener('click', () => { state.activityFilter = btn.dataset.activityFilter; renderMore(); }));
     }
 
-    function setPayAsset(asset){
-      state.pay.asset = asset;
-      $('#payUsdcBtn').classList.toggle('is-active', asset === 'USDC');
-      $('#payEurcBtn').classList.toggle('is-active', asset === 'EURC');
-      $('#payAmountOrb').classList.toggle('is-eurc', asset === 'EURC');
-      updatePayQuote();
-    }
-
-    function setRequestAsset(asset){
-      state.request.asset = asset;
-      $('#requestUsdcBtn').classList.toggle('is-active', asset === 'USDC');
-      $('#requestEurcBtn').classList.toggle('is-active', asset === 'EURC');
-      $('#requestOrb').classList.toggle('is-eurc', asset === 'EURC');
-    }
-
-    function downloadQr(){
-      const img = $('#qrTarget img') || $('#qrTarget canvas');
-      if (!img) return;
-
-      let href = '';
-      if (img.tagName.toLowerCase() === 'img') href = img.src;
-      else href = img.toDataURL('image/png');
-
-      const a = document.createElement('a');
-      a.href = href;
-      a.download = 'stableflow-request.png';
-      a.click();
-    }
-
     const updateSwapQuoteDebounced = debounce(updateSwapQuote, 260);
     const updatePayQuoteDebounced = debounce(updatePayQuote, 260);
 
@@ -3409,6 +4467,7 @@
       setRequestAsset('USDC');
       renderSwapSlippage();
       updateSwapDecor();
+      setPayStep(0);
       $('#payFlowPanel').classList.remove('is-open');
     }
 
@@ -3417,4 +4476,4 @@
     hydrateInitialUI();
   </script>
 </body>
-                                                                                                                                                                   </html>
+                  </html>
