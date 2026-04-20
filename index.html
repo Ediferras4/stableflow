@@ -38,12 +38,10 @@
       --home-blue-3:#2e8fe4;
       --home-blue-soft:rgba(120,202,255,.14);
       --home-orange:#f1aa44;
-      --home-orange-2:#ff8f19;
       --home-orange-soft:rgba(241,170,68,.18);
       --home-green:#66d7a2;
       --home-green-soft:rgba(102,215,162,.14);
-      --home-shadow-xl:0 18px 42px rgba(5,26,43,.12);
-      --home-shadow-md:0 8px 18px rgba(10,34,56,.08);
+      --home-shadow:0 10px 22px rgba(10,34,56,.07);
     }
 
     html,body{width:100%;height:100%;min-height:100%;background:#000;font-family:Inter,Arial,Helvetica,sans-serif;overflow:hidden}
@@ -237,9 +235,7 @@
       display:inline-flex;align-items:center;gap:6px;padding:7px 10px;border-radius:999px;background:#fff;border:1px solid #dbe7f0;color:#60829b;font-size:10px;font-weight:900;letter-spacing:.12em;text-transform:uppercase;box-shadow:0 8px 18px rgba(14,29,40,.04)
     }
     .mini-tag .spark{width:7px;height:7px;border-radius:50%;background:var(--blue);box-shadow:0 0 0 4px rgba(91,202,255,.12)}
-
     .section-gap{height:14px}
-
     .top-actions{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}
 
     .orange-pill,.soft-pill,.blue-pill,.ghost-pill{
@@ -249,6 +245,23 @@
     .soft-pill{background:linear-gradient(180deg,#fff,#f4f8fb);border:1px solid #dbe7f0;color:#4f728d}
     .blue-pill{background:linear-gradient(180deg,#55d3ff,#2fbff0);color:#083044}
     .ghost-pill{background:transparent;border:1px solid #dbe7f0;color:#69859b;box-shadow:none}
+
+    .metric-chip{
+      padding:8px 10px;border-radius:14px;background:#fff;border:1px solid #dbe7f0;color:#5d7b91;font-size:12px;font-weight:800
+    }
+
+    .connect-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-top:18px}
+    .wallet-card{
+      padding:14px;border-radius:22px;background:linear-gradient(180deg,#ffffff,#f4f8fb);border:1px solid #dbe7f0;box-shadow:0 14px 26px rgba(14,29,40,.05);cursor:pointer;text-align:left;transition:transform .22s ease, box-shadow .22s ease,border-color .22s ease
+    }
+    .wallet-card:hover{transform:translateY(-1px);box-shadow:0 18px 28px rgba(14,29,40,.08)}
+    .wallet-card .top{display:flex;align-items:center;justify-content:space-between;gap:8px}
+    .wallet-glyph{
+      width:42px;height:42px;border-radius:14px;background:linear-gradient(180deg,#56d4ff,#29bef0);display:flex;align-items:center;justify-content:center;color:#083044;font-weight:900;font-size:14px;box-shadow:0 12px 22px rgba(46,198,246,.20)
+    }
+    .wallet-name{font-size:15px;font-weight:900;color:#26465c}
+    .wallet-state{margin-top:10px;font-size:12px;font-weight:800;color:#6d89a0}
+    .wallet-reco{margin-top:16px;font-size:12px;color:#6d89a0;line-height:1.5}
 
     .panel-card{
       padding:16px;border-radius:26px;background:linear-gradient(180deg,#ffffff,#f4f8fb);
@@ -274,7 +287,8 @@
     .caret{
       position:absolute;right:2px;top:50%;width:2px;height:26px;background:#ff9b18;border-radius:999px;transform:translateY(-50%);opacity:0;animation:caretBlink 1.15s infinite
     }
-    .amount-box.is-empty .caret{opacity:1}
+    .amount-box.is-empty .caret,
+    .recipient-box.is-empty .caret{opacity:1}
     @keyframes caretBlink{0%,100%{opacity:.15}50%{opacity:1}}
 
     .quick-row{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap}
@@ -404,44 +418,42 @@
     .status-card .v{margin-top:6px;font-size:14px;font-weight:900;color:#173245;word-break:break-word}
     .empty-state{padding:22px;border-radius:24px;background:linear-gradient(180deg,#ffffff,#f4f8fb);border:1px dashed #c8d8e4;text-align:center;color:#6f8799;font-weight:800}
 
-    /* HOME: ONLY PROFILE + GRAPH */
-    .home-profile-block,
-    .home-activity-block{
-      border-radius:23px;
-      background:linear-gradient(180deg, rgba(223,237,249,.84), rgba(208,226,242,.72));
-      border:1px solid rgba(184,205,224,.88);
-      box-shadow:inset 0 1px 0 rgba(255,255,255,.74);
-      padding:11px;
+    /* HOME ONLY */
+    .home-flow{
       position:relative;
       z-index:1;
+      display:flex;
+      flex-direction:column;
+      gap:14px;
+      margin-top:2px;
+      padding-top:4px;
     }
 
-    .home-profile-head,
-    .home-activity-head{
+    .home-head{
       display:flex;
       align-items:flex-start;
       justify-content:space-between;
-      gap:12px;
-      margin-bottom:9px;
+      gap:10px;
     }
 
-    .home-section-label{
+    .home-copy{min-width:0}
+    .home-kicker{
       color:var(--home-blue-3);
       font-size:11px;
       font-weight:1000;
       letter-spacing:.28em;
+      line-height:1;
     }
-
-    .home-section-sub{
+    .home-sub{
+      margin-top:7px;
       color:#677f95;
       font-size:12px;
       line-height:1.25;
       font-weight:800;
-      margin-top:5px;
-      max-width:220px;
+      max-width:230px;
     }
 
-    .home-ready-pill{
+    .home-chip{
       padding:10px 16px;
       border-radius:18px;
       background:linear-gradient(180deg,#fff1d7 0%, #f5d49c 100%);
@@ -452,68 +464,65 @@
       box-shadow:0 6px 14px rgba(230,163,67,.12);
       white-space:nowrap;
       text-transform:uppercase;
+      align-self:flex-start;
     }
 
-    .profile-card-ice{
+    .home-card{
+      width:100%;
+      border-radius:24px;
+      background:linear-gradient(180deg,#eef6ff 0%, #e2edf8 100%);
+      border:1px solid rgba(184,205,224,.92);
+      box-shadow:var(--home-shadow);
       position:relative;
       overflow:hidden;
-      border-radius:21px;
-      background:
-        radial-gradient(circle at 100% 100%, rgba(120,202,255,.05), transparent 24%),
-        linear-gradient(180deg,#edf6ff 0%, #deebf7 100%);
-      border:1px solid rgba(184,205,224,.92);
-      box-shadow:var(--home-shadow-md);
-      padding:11px;
     }
 
-    .profile-card-ice::before{
+    .home-card::before{
       content:"";
       position:absolute;
-      inset:9px;
-      border-radius:18px;
-      border:1px solid rgba(190,212,230,.70);
+      inset:10px;
+      border-radius:19px;
+      border:1px solid rgba(190,212,230,.68);
       pointer-events:none;
     }
 
-    .profile-inner-ice{
+    .home-profile-card{padding:14px}
+    .home-profile-grid{
       position:relative;
       z-index:1;
       display:grid;
-      grid-template-columns:72px minmax(0,1fr);
-      gap:11px;
+      grid-template-columns:74px minmax(0,1fr);
+      gap:12px;
       align-items:start;
     }
 
-    .avatar-col-ice{
+    .home-avatar-col{
       display:flex;
       flex-direction:column;
       align-items:flex-start;
-      gap:8px;
+      gap:9px;
     }
 
-    .avatar-ice{
-      width:62px;
-      height:62px;
+    .home-avatar{
+      width:64px;
+      height:64px;
       border-radius:50%;
       padding:4px;
       background:linear-gradient(145deg,#c7d9ea 0%, #b9d1e8 100%);
       box-shadow:0 8px 18px rgba(86,132,178,.10);
     }
 
-    .avatar-ice img,
-    .avatar-fallback-ice{
+    .home-avatar img,
+    .home-avatar-fallback{
       width:100%;
       height:100%;
       border-radius:50%;
-      border:2px solid rgba(255,255,255,.74);
+      border:2px solid rgba(255,255,255,.76);
     }
 
-    .avatar-ice img{
-      object-fit:cover;
-      background:#d9eef9;
-    }
+    .home-avatar img{object-fit:cover;background:#d9eef9}
 
-    .avatar-fallback-ice{
+    .home-avatar-fallback{
       display:grid;
       place-items:center;
       color:#fff;
@@ -521,20 +530,17 @@
       font-weight:1000;
       letter-spacing:-.05em;
       text-shadow:0 3px 8px rgba(0,0,0,.45);
-      background:
-        radial-gradient(circle at 28% 22%, rgba(255,255,255,.15), transparent 22%),
-        linear-gradient(145deg,#0f1822 0%, #05080d 100%);
+      background:radial-gradient(circle at 28% 22%, rgba(255,255,255,.15), transparent 22%), linear-gradient(145deg,#0f1822 0%, #05080d 100%);
     }
 
-    .lv-under-ice{
+    .home-lv{
       padding-left:2px;
       display:flex;
       align-items:flex-end;
       gap:6px;
       color:#20364c;
     }
-
-    .lv-under-ice small{
+    .home-lv small{
       font-size:12px;
       font-weight:1000;
       letter-spacing:.08em;
@@ -542,8 +548,7 @@
       line-height:1;
       margin-bottom:4px;
     }
-
-    .lv-under-ice strong{
+    .home-lv strong{
       font-size:28px;
       line-height:.9;
       font-weight:1000;
@@ -551,8 +556,8 @@
       color:#18324b;
     }
 
-    .tx-under-ice{
-      margin-top:8px;
+    .home-tx{
+      margin-top:6px;
       padding:9px 12px;
       border-radius:14px;
       background:linear-gradient(180deg,#edf6ff 0%, #dfedf8 100%);
@@ -567,8 +572,7 @@
       min-width:82px;
       justify-content:center;
     }
-
-    .tx-under-ice::before{
+    .home-tx::before{
       content:"";
       width:10px;
       height:10px;
@@ -578,15 +582,15 @@
       flex:0 0 auto;
     }
 
-    .profile-right-ice{
+    .home-profile-main{
       min-width:0;
       display:flex;
       flex-direction:column;
-      gap:8px;
-      padding-top:1px;
+      gap:9px;
+      padding-top:2px;
     }
 
-    .wallet-pill-ice{
+    .home-wallet{
       display:flex;
       align-items:center;
       gap:10px;
@@ -597,8 +601,7 @@
       border:1px solid rgba(184,205,224,.92);
       box-shadow:inset 0 1px 0 rgba(255,255,255,.82);
     }
-
-    .wallet-dot-ice{
+    .home-wallet-dot{
       width:14px;
       height:14px;
       border-radius:50%;
@@ -606,8 +609,7 @@
       box-shadow:0 0 0 5px rgba(184,205,224,.22);
       flex:0 0 auto;
     }
-
-    .wallet-pill-ice span{
+    .home-wallet span{
       min-width:0;
       overflow:hidden;
       text-overflow:ellipsis;
@@ -617,15 +619,15 @@
       font-weight:1000;
     }
 
-    .reward-row-ice{
+    .home-rewards{
       display:grid;
-      grid-template-columns:repeat(5, 1fr);
+      grid-template-columns:repeat(5,1fr);
       gap:8px;
     }
 
-    .reward-box-ice{
-      height:52px;
-      border-radius:15px;
+    .home-reward{
+      height:54px;
+      border-radius:16px;
       background:linear-gradient(180deg,#edf6ff 0%, #deebf8 100%);
       border:1px solid rgba(184,205,224,.92);
       box-shadow:inset 0 1px 0 rgba(255,255,255,.76);
@@ -634,11 +636,8 @@
       transition:transform .22s ease, box-shadow .22s ease, border-color .22s ease, background .22s ease;
     }
 
-    .reward-box-ice.trophy{
-      position:relative;
-    }
-
-    .reward-box-ice.trophy::before{
+    .home-reward.trophy{position:relative}
+    .home-reward.trophy::before{
       content:"";
       position:absolute;
       top:0;
@@ -650,7 +649,7 @@
       opacity:.95;
     }
 
-    .reward-box-ice svg{
+    .home-reward svg{
       width:19px;
       height:19px;
       stroke:#d7dee6;
@@ -660,60 +659,48 @@
       stroke-linejoin:round;
     }
 
-    .reward-box-ice.trophy.is-on{
+    .home-reward.trophy.is-on{
       background:linear-gradient(180deg,#f5fbff 0%, #e9f4fe 100%);
       border-color:rgba(130,188,236,.92);
       box-shadow:0 9px 16px rgba(91,181,242,.10), inset 0 1px 0 rgba(255,255,255,.86);
     }
+    .home-reward.trophy.is-on svg{stroke:#8dbde8}
 
-    .reward-box-ice.trophy.is-on svg{
-      stroke:#8dbde8;
-    }
-
-    .reward-box-ice.medal.is-on{
+    .home-reward.medal.is-on{
       background:linear-gradient(180deg,#fff8eb 0%, #fee8c4 100%);
       border-color:rgba(230,186,109,.78);
       box-shadow:0 9px 16px rgba(241,170,68,.12), inset 0 1px 0 rgba(255,255,255,.90);
     }
 
-    .coin-core-ice{
+    .home-coin{
       width:24px;
       height:24px;
       border-radius:50%;
-      background:
-        radial-gradient(circle at 35% 35%, rgba(255,255,255,.55), transparent 28%),
-        linear-gradient(180deg, #dce8f3 0%, #c5d6e6 100%);
+      background:radial-gradient(circle at 35% 35%, rgba(255,255,255,.55), transparent 28%), linear-gradient(180deg, #dce8f3 0%, #c5d6e6 100%);
       box-shadow:inset 0 0 0 2px rgba(255,255,255,.58);
       position:relative;
     }
-
-    .coin-core-ice::after{
+    .home-coin::after{
       content:"";
       position:absolute;
       inset:6px;
       border-radius:50%;
       border:2px solid rgba(255,255,255,.55);
     }
-
-    .reward-box-ice.medal.is-on .coin-core-ice{
-      background:
-        radial-gradient(circle at 35% 35%, rgba(255,255,255,.75), transparent 28%),
-        linear-gradient(180deg, #f8d391 0%, #ecab47 100%);
+    .home-reward.medal.is-on .home-coin{
+      background:radial-gradient(circle at 35% 35%, rgba(255,255,255,.75), transparent 28%), linear-gradient(180deg, #f8d391 0%, #ecab47 100%);
     }
 
-    .progress-wrap-ice{
+    .home-progress-row{
       display:grid;
       grid-template-columns:minmax(0,1fr) auto;
       gap:10px;
       align-items:center;
-      margin-top:2px;
+      margin-top:1px;
     }
 
-    .progress-copy-ice{
-      min-width:0;
-    }
-
-    .progress-bar-ice{
+    .home-progress-copy{min-width:0}
+    .home-progress-bar{
       width:100%;
       height:17px;
       border-radius:999px;
@@ -723,8 +710,7 @@
       overflow:hidden;
       margin-bottom:6px;
     }
-
-    .progress-fill-ice{
+    .home-progress-fill{
       width:0%;
       height:100%;
       border-radius:999px;
@@ -732,8 +718,7 @@
       box-shadow:0 0 12px rgba(120,202,255,.18);
       transition:width .45s ease;
     }
-
-    .progress-text-ice{
+    .home-progress-text{
       color:#5a7288;
       font-size:10px;
       font-weight:900;
@@ -741,8 +726,7 @@
       overflow:hidden;
       text-overflow:ellipsis;
     }
-
-    .progress-score-ice{
+    .home-progress-score{
       color:#6a8298;
       font-size:11px;
       font-weight:1000;
@@ -751,7 +735,7 @@
       padding-top:1px;
     }
 
-    .watermark-ice{
+    .home-watermark{
       position:absolute;
       right:18px;
       bottom:14px;
@@ -762,11 +746,7 @@
       pointer-events:none;
     }
 
-    .home-activity-head{
-      margin-bottom:8px;
-    }
-
-    .activity-dot-ice{
+    .home-live-dot{
       width:18px;
       height:18px;
       border-radius:50%;
@@ -778,57 +758,43 @@
       animation:pulse 1.9s ease-in-out infinite;
     }
 
-    .chart-card-ice{
-      border-radius:20px;
-      background:linear-gradient(180deg,#eef6ff 0%, #deebf8 100%);
-      border:1px solid rgba(184,205,224,.92);
-      box-shadow:var(--home-shadow-md);
-      padding:10px;
+    .home-graph-card{
+      padding:14px 14px 13px;
     }
 
-    .chart-shell-ice{
-      border-radius:17px;
-      background:linear-gradient(180deg, rgba(255,255,255,.12), rgba(255,255,255,.03));
-      border:1px solid rgba(188,211,229,.76);
-      padding:8px 8px 6px;
-      overflow:hidden;
-    }
-
-    .chart-svg-ice{
+    .home-graph-svg{
       width:100%;
-      height:198px;
+      height:208px;
       display:block;
+      overflow:visible;
     }
 
-    .legend-ice{
+    .home-legend{
       display:flex;
       flex-wrap:wrap;
       gap:12px;
-      margin-top:9px;
+      margin-top:10px;
       font-size:10px;
       font-weight:1000;
       color:#22374f;
     }
-
-    .legend-item-ice{
+    .home-legend-item{
       display:flex;
       align-items:center;
       gap:7px;
     }
-
-    .legend-dot-ice{
+    .home-legend-dot{
       width:15px;
       height:15px;
       border-radius:50%;
       flex:0 0 auto;
     }
+    .home-legend-dot.blue{ background:#5caef7; box-shadow:0 0 0 5px rgba(92,174,247,.10); }
+    .home-legend-dot.sky{ background:#8fd2ff; box-shadow:0 0 0 5px rgba(143,210,255,.10); }
+    .home-legend-dot.orange{ background:#f1aa44; box-shadow:0 0 0 5px rgba(241,170,68,.12); }
 
-    .legend-dot-ice.blue{ background:#5caef7; box-shadow:0 0 0 5px rgba(92,174,247,.10); }
-    .legend-dot-ice.sky{ background:#8fd2ff; box-shadow:0 0 0 5px rgba(143,210,255,.10); }
-    .legend-dot-ice.orange{ background:#f1aa44; box-shadow:0 0 0 5px rgba(241,170,68,.12); }
-
-    .chart-note-ice{
-      margin-top:8px;
+    .home-graph-note{
+      margin-top:9px;
       color:#61788f;
       font-size:11px;
       line-height:1.35;
@@ -854,7 +820,6 @@
       border-color:rgba(108,198,239,.18);
       color:#e9f6ff
     }
-
     .theme-dark .page-sheet{background:linear-gradient(180deg,#0a1826,#10273a)}
     .theme-dark .mini-tag,.theme-dark .metric-chip,.theme-dark .quick-btn,.theme-dark .soft-pill,.theme-dark .ghost-pill,.theme-dark .slippage-pill,.theme-dark .slippage-inner,.theme-dark .flow-step,.theme-dark .segment,.theme-dark .segment button.is-on{
       background:#102334;border-color:rgba(108,198,239,.18);color:#d7efff
@@ -871,12 +836,13 @@
       .connect-grid,.token-grid,.status-grid,.asset-center,.pay-preview{grid-template-columns:1fr}
       .page-sheet{border-radius:24px;padding:14px}
       .notice-message{font-size:14px}
-      .chart-svg-ice{height:188px}
+      .home-graph-svg{height:194px}
     }
 
     @media (max-width:390px){
-      .profile-inner-ice{grid-template-columns:70px minmax(0,1fr)}
-      .chart-svg-ice{height:182px}
+      .home-profile-grid{grid-template-columns:70px minmax(0,1fr)}
+      .home-sub{max-width:210px}
+      .home-graph-svg{height:184px}
     }
   </style>
 </head>
@@ -942,90 +908,85 @@
 
                 <div class="section-gap"></div>
 
-                <section class="home-profile-block">
-                  <div class="home-profile-head">
-                    <div>
-                      <div class="home-section-label">PROFILE</div>
-                      <div class="home-section-sub">Identity, rewards and progression inside StableFlow.</div>
+                <div class="home-flow">
+                  <div class="home-head">
+                    <div class="home-copy">
+                      <div class="home-kicker">PROFILE</div>
+                      <div class="home-sub">Identity, rewards and progression inside StableFlow.</div>
                     </div>
-                    <div class="home-ready-pill" id="homeStatusChip">READY</div>
+                    <div class="home-chip" id="homeStatusChip">READY</div>
                   </div>
 
-                  <div class="profile-card-ice">
-                    <div class="profile-inner-ice">
-                      <div class="avatar-col-ice">
-                        <div class="avatar-ice">
-                          <img src="profile.png" alt="Profile" id="homeAvatarImg" onerror="this.style.display='none'; document.getElementById('homeAvatarFallback').classList.remove('hidden')">
-                          <div class="avatar-fallback-ice hidden" id="homeAvatarFallback">SF</div>
+                  <div class="home-card home-profile-card">
+                    <div class="home-profile-grid">
+                      <div class="home-avatar-col">
+                        <div class="home-avatar">
+                          <img src="profile.png" alt="Profile" id="homeAvatarImg" onerror="this.style.display='none';document.getElementById('homeAvatarFallback').classList.remove('hidden')">
+                          <div class="home-avatar-fallback hidden" id="homeAvatarFallback">SF</div>
                         </div>
 
-                        <div class="lv-under-ice">
+                        <div class="home-lv">
                           <small>LV</small>
                           <strong id="homeLvBox">0</strong>
                         </div>
 
-                        <div class="tx-under-ice"><span id="homeTxCount">0</span> tx</div>
+                        <div class="home-tx"><span id="homeTxCount">0</span> tx</div>
                       </div>
 
-                      <div class="profile-right-ice">
-                        <div class="wallet-pill-ice">
-                          <div class="wallet-dot-ice"></div>
+                      <div class="home-profile-main">
+                        <div class="home-wallet">
+                          <div class="home-wallet-dot"></div>
                           <span id="homeWallet">Wallet not connected</span>
                         </div>
 
-                        <div class="reward-row-ice" id="trophyRow"></div>
-                        <div class="reward-row-ice" id="medalRow"></div>
+                        <div class="home-rewards" id="trophyRow"></div>
+                        <div class="home-rewards" id="medalRow"></div>
 
-                        <div class="progress-wrap-ice">
-                          <div class="progress-copy-ice">
-                            <div class="progress-bar-ice">
-                              <div class="progress-fill-ice" id="profileProgress"></div>
+                        <div class="home-progress-row">
+                          <div class="home-progress-copy">
+                            <div class="home-progress-bar">
+                              <div class="home-progress-fill" id="profileProgress"></div>
                             </div>
-                            <div class="progress-text-ice" id="homeProgressText">Waiting for your first move.</div>
+                            <div class="home-progress-text" id="homeProgressText">Waiting for your first move.</div>
                           </div>
-
-                          <div class="progress-score-ice" id="homeProgressScore">0 / 10</div>
+                          <div class="home-progress-score" id="homeProgressScore">0 / 10</div>
                         </div>
                       </div>
                     </div>
 
-                    <div class="watermark-ice">flow</div>
-                  </div>
-                </section>
-
-                <div class="section-gap"></div>
-
-                <section class="home-activity-block">
-                  <div class="home-activity-head">
-                    <div class="home-section-label">APP ACTIVITY</div>
-                    <div class="activity-dot-ice" aria-hidden="true"></div>
+                    <div class="home-watermark">flow</div>
                   </div>
 
-                  <div class="chart-card-ice">
-                    <div class="chart-shell-ice">
-                      <svg class="chart-svg-ice" id="liveChart" viewBox="0 0 320 210" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"></svg>
+                  <div class="home-head">
+                    <div class="home-copy">
+                      <div class="home-kicker">APP ACTIVITY</div>
                     </div>
+                    <div class="home-live-dot" aria-hidden="true"></div>
+                  </div>
 
-                    <div class="legend-ice">
-                      <div class="legend-item-ice">
-                        <div class="legend-dot-ice blue"></div>
+                  <div class="home-card home-graph-card">
+                    <svg class="home-graph-svg" id="liveChart" viewBox="0 0 320 210" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"></svg>
+
+                    <div class="home-legend">
+                      <div class="home-legend-item">
+                        <div class="home-legend-dot blue"></div>
                         <span id="metricVolume">$0 weekly</span>
                       </div>
-                      <div class="legend-item-ice">
-                        <div class="legend-dot-ice sky"></div>
+                      <div class="home-legend-item">
+                        <div class="home-legend-dot sky"></div>
                         <span id="metricRequests">0 requests</span>
                       </div>
-                      <div class="legend-item-ice">
-                        <div class="legend-dot-ice orange"></div>
+                      <div class="home-legend-item">
+                        <div class="home-legend-dot orange"></div>
                         <span id="metricLast">Last: -</span>
                       </div>
                     </div>
 
-                    <div class="chart-note-ice" id="chartNote">
+                    <div class="home-graph-note" id="chartNote">
                       Real movement preview. The graph breathes and updates like a live app flow.
                     </div>
                   </div>
-                </section>
+                </div>
               </div>
             </section>
 
@@ -1699,11 +1660,7 @@
         const injected = selectedProviderForKey(key);
         if (!injected) throw new Error(`${key.toUpperCase()} provider not found in this browser.`);
 
-        setNotice(
-          [{ text:'Connect wallet', helper:`Opening ${key} provider…` }],
-          'Connect',
-          'Waiting for wallet approval.'
-        );
+        setNotice([{ text:'Connect wallet', helper:`Opening ${key} provider…` }], 'Connect', 'Waiting for wallet approval.');
 
         const accounts = await injected.request({ method:'eth_requestAccounts' });
         if (!accounts || !accounts.length) throw new Error('No wallet account was returned.');
@@ -1747,11 +1704,7 @@
         state.chainId = null;
         connectLabel.textContent = 'CONNECT';
 
-        setNotice(
-          [{ text:'Connection failed', helper: err?.message || 'Wallet connection could not be completed.' }],
-          'Warning',
-          'Try another provider or open the wallet browser.'
-        );
+        setNotice([{ text:'Connection failed', helper: err?.message || 'Wallet connection could not be completed.' }], 'Warning', 'Try another provider or open the wallet browser.');
       }
     }
 
@@ -1776,11 +1729,7 @@
         if (state.chainId === ARC_CHAIN_ID) {
           await bootstrapOnchain();
         } else {
-          setNotice(
-            [{ text:'Wrong network', helper:'Switch back to Arc Testnet to keep using the dapp.' }],
-            'Network',
-            'Arc is required for quotes and actions.'
-          );
+          setNotice([{ text:'Wrong network', helper:'Switch back to Arc Testnet to keep using the dapp.' }], 'Network', 'Arc is required for quotes and actions.');
         }
       });
     }
@@ -2303,12 +2252,12 @@
 
       for (let i = 0; i < 5; i++) {
         const on = tx > i;
-        trophyRow.insertAdjacentHTML('beforeend', `<div class="reward-box-ice trophy ${on ? 'is-on' : ''}">${trophySvg()}</div>`);
+        trophyRow.insertAdjacentHTML('beforeend', `<div class="home-reward trophy ${on ? 'is-on' : ''}">${trophySvg()}</div>`);
       }
 
       for (let i = 0; i < 5; i++) {
         const on = tx > (i + 4);
-        medalRow.insertAdjacentHTML('beforeend', `<div class="reward-box-ice medal ${on ? 'is-on' : ''}"><div class="coin-core-ice"></div></div>`);
+        medalRow.insertAdjacentHTML('beforeend', `<div class="home-reward medal ${on ? 'is-on' : ''}"><div class="home-coin"></div></div>`);
       }
     }
 
