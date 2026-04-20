@@ -2,610 +2,2124 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0, viewport-fit=cover"
+  />
   <title>StableFlow</title>
+
   <script src="https://cdn.jsdelivr.net/npm/ethers@5.7.2/dist/ethers.umd.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+
   <style>
-    *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
-    :root{
-      --top-h:52px; --bottom-h:36px; --sidebar-w:86px;
-      --bg:#01050a; --bg-2:#020913; --panel:#040b12; --panel-2:#07111b;
-      --cyan:#1cc9ff; --cyan-soft:rgba(28,201,255,.14); --cyan-soft-2:rgba(28,201,255,.28);
-      --gold:#f2a100; --gold-soft:rgba(242,161,0,.18);
-      --text:#eef6ff; --text-soft:#95a8bb;
-      --stage-gray:#d8dade; --stage-gray-2:#cfd3d8;
-      --page-white:#fbfcfe; --page-line:#dde6ee; --page-soft:#eef4fa;
-      --ice:#f6fbff; --blue:#4bc8ff; --blue-2:#86dcff; --blue-3:#dff5ff;
-      --accent:#f2a100; --accent-soft:rgba(242,161,0,.14); --danger:#ff7a5c;
-      --ok:#41c784; --shadow:0 18px 36px rgba(17,25,32,.08);
-      --off-text:#7d8896; --off-line:rgba(255,255,255,.08); --off-inner:rgba(255,255,255,.04);
-      --on-text:#dfe8f2; --on-line:rgba(198,223,246,.28); --on-glow:rgba(89,191,255,.16);
-      --select:#f2a100; --select-line:rgba(242,161,0,.48); --select-glow:rgba(242,161,0,.16);
-      --connect-white:#f4f7fb; --notice-h:86px;
+    *{
+      box-sizing:border-box;
+      margin:0;
+      padding:0;
+      -webkit-tap-highlight-color:transparent;
     }
-    html,body{width:100%;height:100%;min-height:100%;background:#000;font-family:Inter,Arial,Helvetica,sans-serif;overflow:hidden}
-    body{width:100vw;height:100dvh}
-    img{display:block;max-width:100%}
-    button,input,select,textarea{font:inherit}
-    .hidden{display:none!important}
-    .app{position:relative;width:100vw;height:100dvh;overflow:hidden;background:
-      radial-gradient(circle at 42% 24%, rgba(33,114,190,.07), transparent 22%),
-      radial-gradient(circle at 44% 58%, rgba(24,98,170,.05), transparent 25%),
-      linear-gradient(180deg,#000 0%,#02070b 100%)}
-    .topbar,.bottombar{position:absolute;left:0;width:100%;z-index:80;background:
-      linear-gradient(180deg, rgba(255,255,255,.025), rgba(255,255,255,0)),
-      linear-gradient(180deg,#03070b,#010408)}
-    .topbar{top:0;height:var(--top-h);border-bottom:1px solid rgba(255,255,255,.05);box-shadow:0 8px 20px rgba(0,0,0,.22)}
-    .bottombar{bottom:0;height:var(--bottom-h);border-top:1px solid rgba(255,255,255,.05);box-shadow:0 -8px 18px rgba(0,0,0,.20)}
-    .workspace{position:absolute;top:var(--top-h);bottom:var(--bottom-h);left:0;right:0;overflow:hidden;background:linear-gradient(180deg,#02070b 0%,#010509 100%)}
-    .sidebar{position:absolute;top:0;bottom:0;left:0;width:var(--sidebar-w);z-index:30;display:flex;flex-direction:column;align-items:center;gap:11px;padding:12px 7px 12px;background:
-      linear-gradient(180deg, rgba(255,255,255,.02), rgba(255,255,255,.008)),
-      linear-gradient(180deg,#02070b,#010509);border-right:1px solid rgba(255,255,255,.03);box-shadow:inset -1px 0 0 rgba(127,223,255,.06), 10px 0 22px rgba(0,0,0,.22)}
-    .sidebar::after{content:"";position:absolute;top:0;bottom:0;right:-7px;width:12px;background:linear-gradient(90deg, rgba(52,174,255,.15), rgba(52,174,255,0));filter:blur(7px);pointer-events:none}
-    .connect-btn,.nav-btn,.home-btn{width:100%;border:none;cursor:pointer;position:relative;overflow:hidden;background:linear-gradient(180deg,#050b11,#03070b);flex:0 0 auto;transition:opacity .22s ease,transform .22s ease,box-shadow .28s ease,filter .28s ease}
-    .connect-btn:active,.nav-btn:active,.home-btn:active{transform:scale(.985)}
-    .connect-btn{height:64px;border-radius:18px;margin-bottom:8px;color:var(--connect-white);box-shadow:inset 0 0 0 1px rgba(255,255,255,.18), inset 0 0 0 3px rgba(255,255,255,.04), 0 0 0 1px rgba(255,255,255,.10), 0 8px 18px rgba(0,0,0,.22)}
-    .connect-btn .btn-inner{border-color:rgba(255,255,255,.42);background:linear-gradient(180deg, rgba(255,255,255,.028), rgba(255,255,255,.008))}
-    .nav-btn{height:52px;border-radius:16px}
-    .home-btn{width:62px;height:100px;border-radius:32px;margin:2px 0}
-    .btn-inner{position:absolute;inset:4px;border-radius:inherit;border:1px solid var(--off-line);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;background:linear-gradient(180deg, rgba(255,255,255,.010), rgba(255,255,255,.003));transition:border-color .28s ease, background .28s ease, box-shadow .28s ease}
-    .icon{font-size:17px;line-height:1;transition:opacity .28s ease,color .28s ease,transform .28s ease}
-    .label{font-size:9px;font-weight:900;letter-spacing:.12em;transition:opacity .28s ease,color .28s ease}
-    .nav-btn,.home-btn{color:var(--off-text);opacity:.42;filter:saturate(.65);box-shadow:inset 0 0 0 1px rgba(255,255,255,.04), inset 0 0 0 3px rgba(255,255,255,.012), 0 8px 18px rgba(0,0,0,.16)}
-    .nav-btn .icon,.nav-btn .label,.home-btn .icon,.home-btn .label{opacity:.72}
-    .nav-btn.is-lit,.home-btn.is-lit{opacity:1;filter:none;color:var(--on-text);box-shadow:inset 0 0 0 1px rgba(255,255,255,.06), inset 0 0 0 3px rgba(255,255,255,.018), 0 0 0 1px var(--on-line), 0 0 16px var(--on-glow), 0 10px 20px rgba(0,0,0,.20)}
-    .nav-btn.is-lit .btn-inner,.home-btn.is-lit .btn-inner{border-color:rgba(205,228,246,.24);background:linear-gradient(180deg, rgba(255,255,255,.016), rgba(255,255,255,.005));box-shadow:inset 0 0 12px rgba(122,198,255,.04)}
-    .nav-btn.is-selected,.home-btn.is-selected{opacity:1;color:#fff4e4;box-shadow:inset 0 0 0 1px rgba(255,255,255,.08), inset 0 0 0 3px rgba(255,255,255,.018), 0 0 0 1px var(--select-line), 0 0 18px var(--select-glow), 0 10px 22px rgba(0,0,0,.22)}
-    .nav-btn.is-selected .btn-inner,.home-btn.is-selected .btn-inner{border-color:rgba(255,196,102,.34);background:linear-gradient(180deg, rgba(255,185,70,.030), rgba(255,255,255,.005));box-shadow:inset 0 0 16px rgba(242,161,0,.05)}
-    .nav-btn.is-selected .icon,.nav-btn.is-selected .label,.home-btn.is-selected .icon,.home-btn.is-selected .label{color:#ffe7c0;opacity:1}
-    .nav-btn.is-disabled,.home-btn.is-disabled{pointer-events:none}
-    .main{position:absolute;top:0;bottom:0;left:var(--sidebar-w);right:0;overflow:hidden;z-index:10}
-    .main::before{content:"";position:absolute;top:0;bottom:0;left:0;width:2px;background:linear-gradient(180deg, rgba(0,0,0,.75), rgba(8,18,28,.75));z-index:14;pointer-events:none}
-    .ghost{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;z-index:2;pointer-events:none;user-select:none;color:#6fdaff;opacity:.04;font-size:140px}
-    .reveal-frame{position:absolute;top:10px;left:4px;right:8px;bottom:10px;z-index:8;border:2px solid var(--cyan);background:linear-gradient(180deg, var(--stage-gray) 0%, var(--stage-gray-2) 100%);box-shadow:0 0 0 1px rgba(28,201,255,.14), 0 0 22px rgba(28,201,255,.10);overflow:hidden;opacity:0;transform:translateX(-8px) scale(.992);transition:opacity .42s ease, transform .48s ease}
-    .app.open .reveal-frame{opacity:1;transform:translateX(0) scale(1)}
-    .cover{position:absolute;top:10px;left:4px;right:8px;bottom:10px;z-index:12;overflow:hidden;background:
-      linear-gradient(180deg, rgba(255,255,255,.018), rgba(255,255,255,0)),
-      radial-gradient(circle at 28% 36%, rgba(67,150,255,.10), transparent 26%),
-      linear-gradient(180deg,#02070b 0%,#010407 100%);box-shadow:inset 0 0 0 1px rgba(255,255,255,.02), -12px 0 24px rgba(0,0,0,.28);transition:transform .86s cubic-bezier(.2,.8,.16,1);display:flex;align-items:flex-start;justify-content:center;padding-top:62px}
-    .app.open .cover{transform:translateX(104%)}
-    .cover::before{content:"";position:absolute;left:0;top:0;bottom:0;width:1px;background:linear-gradient(180deg, transparent, rgba(255,255,255,.12), transparent)}
-    .cover::after{content:"";position:absolute;left:-8px;top:0;bottom:0;width:14px;background:linear-gradient(90deg, rgba(112,224,255,.18), rgba(112,224,255,0));filter:blur(8px)}
-    .cover-mark{width:72%;height:1px;background:linear-gradient(90deg, transparent, rgba(242,161,0,.50), transparent);opacity:.54}
-    .notice-screen{position:absolute;top:0;left:0;right:0;height:var(--notice-h);z-index:20;background:
-      linear-gradient(180deg, rgba(255,255,255,.12), rgba(255,255,255,0)),
-      linear-gradient(180deg,#5fd7ff 0%,#2ec6f6 52%,#25b4ea 100%);border-bottom:2px solid rgba(242,161,0,.70);box-shadow:inset 0 0 0 1px rgba(255,255,255,.08), inset 0 -16px 30px rgba(255,255,255,.05);padding:11px 12px 9px;display:flex;flex-direction:column;justify-content:space-between}
-    .notice-top{display:flex;align-items:center;justify-content:space-between;gap:10px}
-    .notice-left{display:flex;align-items:center;gap:8px;min-width:0}
-    .notice-dot{width:8px;height:8px;border-radius:50%;background:#0b2130;box-shadow:0 0 0 2px rgba(255,255,255,.20);opacity:.85;animation:pulse 1.8s infinite}
-    .notice-chip{min-height:18px;padding:2px 8px;border-radius:999px;display:flex;align-items:center;font-size:9px;font-weight:900;letter-spacing:.12em;text-transform:uppercase;color:#083144;background:rgba(255,255,255,.30);border:1px solid rgba(255,255,255,.28);backdrop-filter:blur(4px)}
-    .notice-chain{font-size:9px;font-weight:900;letter-spacing:.11em;text-transform:uppercase;color:rgba(8,49,68,.72)}
-    .notice-body{display:flex;flex-direction:column;gap:6px}
-    .notice-message{font-size:15px;font-weight:900;letter-spacing:.01em;color:#083144;line-height:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;opacity:1;transition:opacity .35s ease, transform .35s ease}
-    .notice-subline{height:6px;border-radius:999px;background:linear-gradient(90deg, rgba(255,255,255,.45), rgba(255,255,255,.14));width:56%}
-    .notice-helper{font-size:10px;font-weight:800;color:rgba(8,49,68,.74);letter-spacing:.02em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-    @keyframes pulse{0%{transform:scale(1);opacity:.65}50%{transform:scale(1.18);opacity:1}100%{transform:scale(1);opacity:.65}}
-    .pages-viewport{position:absolute;inset:0;z-index:10;padding-top:calc(var(--notice-h) - 10px);overflow:hidden}
-    .page{position:absolute;left:0;right:0;top:0;bottom:0;overflow-y:auto;overflow-x:hidden;padding:10px 10px 18px;transform:translateX(112%);opacity:.72;transition:transform .52s cubic-bezier(.2,.8,.16,1), opacity .4s ease;will-change:transform;scrollbar-width:none;-ms-overflow-style:none}
-    .page::-webkit-scrollbar{width:0;height:0}
-    .page.is-active{transform:translateX(0);opacity:1;z-index:3}
-    .page.is-left{transform:translateX(-18%);opacity:.3;z-index:2}
-    .page-sheet{min-height:100%;background:linear-gradient(180deg, #fbfcfe 0%, #f2f6fb 100%);border:1px solid var(--page-line);box-shadow:var(--shadow), inset 0 1px 0 rgba(255,255,255,.7);border-radius:28px;padding:16px;position:relative;overflow:hidden}
-    .page-sheet::before{content:"";position:absolute;inset:0;background:radial-gradient(circle at 15% 8%, rgba(91,202,255,.10), transparent 26%), radial-gradient(circle at 100% 100%, rgba(91,202,255,.08), transparent 28%);pointer-events:none}
-    .mini-tag{display:inline-flex;align-items:center;gap:6px;padding:7px 10px;border-radius:999px;background:#fff;border:1px solid #dbe7f0;color:#60829b;font-size:10px;font-weight:900;letter-spacing:.12em;text-transform:uppercase;box-shadow:0 8px 18px rgba(14,29,40,.04)}
-    .mini-tag .spark{width:7px;height:7px;border-radius:50%;background:var(--blue);box-shadow:0 0 0 4px rgba(91,202,255,.12)}
-    .section-gap{height:14px}
-    .top-actions{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}
-    .orange-pill,.soft-pill,.blue-pill,.ghost-pill{display:inline-flex;align-items:center;justify-content:center;gap:6px;height:38px;padding:0 14px;border-radius:999px;border:none;cursor:pointer;font-weight:900;letter-spacing:.02em;box-shadow:0 12px 24px rgba(14,29,40,.08)}
-    .orange-pill{background:linear-gradient(180deg,#ffb534,#ee9710);color:#402200}
-    .soft-pill{background:linear-gradient(180deg,#fff,#f4f8fb);border:1px solid #dbe7f0;color:#4f728d}
-    .blue-pill{background:linear-gradient(180deg,#55d3ff,#2fbff0);color:#083044}
-    .ghost-pill{background:transparent;border:1px solid #dbe7f0;color:#69859b;box-shadow:none}
-    .profile-card{padding:18px;border-radius:28px;background:linear-gradient(180deg, #fcfdff 0%, #eef6fd 100%);border:1px solid #dbe7f0;box-shadow:0 16px 28px rgba(14,29,40,.07);position:relative;overflow:hidden}
-    .profile-card::before{content:"";position:absolute;top:-30px;right:-30px;width:120px;height:120px;border-radius:50%;background:radial-gradient(circle, rgba(83,210,255,.16) 0%, rgba(83,210,255,0) 70%)}
-    .profile-row{display:flex;align-items:center;gap:14px}
-    .avatar-wrap{width:76px;height:76px;border-radius:50%;padding:4px;background:linear-gradient(180deg,#5bd7ff,#8be4ff);box-shadow:0 14px 26px rgba(46,198,246,.22);flex:0 0 auto}
-    .avatar-wrap img{width:100%;height:100%;border-radius:50%;object-fit:cover;background:#d8e7f1}
-    .wallet-pill{display:inline-flex;align-items:center;gap:8px;padding:8px 12px;border-radius:999px;background:#fff;border:1px solid #dbe7f0;color:#4c6b84;font-weight:800;font-size:12px}
-    .wallet-pill .dot{width:8px;height:8px;border-radius:50%;background:var(--ok);box-shadow:0 0 0 5px rgba(65,199,132,.13)}
-    .profile-stats{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
-    .metric-chip{padding:8px 10px;border-radius:14px;background:#fff;border:1px solid #dbe7f0;color:#5d7b91;font-size:12px;font-weight:800}
-    .trophy-row,.medal-row{display:flex;gap:8px;margin-top:16px}
-    .trophy,.medal{display:flex;align-items:center;justify-content:center;background:linear-gradient(180deg,#ffffff,#f4f8fb);border:1px solid #dbe7f0;color:#98acbc;box-shadow:0 10px 20px rgba(14,29,40,.04)}
-    .trophy{height:48px;flex:1;border-radius:16px;font-size:18px}
-    .medal{height:34px;flex:1;border-radius:14px;font-size:14px}
-    .trophy.is-on,.medal.is-on{color:#ffb22e;background:linear-gradient(180deg,#fff4dc,#ffe8b5);border-color:#ffd382;box-shadow:0 12px 22px rgba(242,161,0,.16), inset 0 0 14px rgba(255,255,255,.42)}
-    .profile-bottom{display:flex;align-items:end;justify-content:space-between;gap:10px;margin-top:16px}
-    .lv-box{width:68px;height:68px;border-radius:22px;background:linear-gradient(180deg,#ffffff,#eef6fd);border:1px solid #dbe7f0;display:flex;flex-direction:column;align-items:center;justify-content:center;box-shadow:0 12px 22px rgba(14,29,40,.05)}
-    .lv-box .k{font-size:10px;font-weight:900;color:#7f96a9;letter-spacing:.14em;text-transform:uppercase}
-    .lv-box .v{font-size:24px;font-weight:900;color:#214056}
-    .progress-area{flex:1}
-    .progress-label{font-size:12px;font-weight:800;color:#638197;margin-bottom:8px}
-    .progress-bar{height:12px;border-radius:999px;background:#e2ebf3;overflow:hidden;position:relative}
-    .progress-fill{height:100%;border-radius:inherit;background:linear-gradient(90deg,#4bc8ff,#ffa924);width:0%;transition:width .45s ease}
-    .rubric{margin-top:10px;font-size:12px;color:#83a1b7;font-weight:700;letter-spacing:.04em}
-    .activity-card{padding:18px;border-radius:28px;background:linear-gradient(180deg,#081a2a 0%,#0d2233 100%);border:1px solid rgba(97,207,255,.18);box-shadow:0 18px 28px rgba(14,29,40,.10);color:#ebf8ff;overflow:hidden;position:relative}
-    .activity-card::before{content:"";position:absolute;inset:0;background:radial-gradient(circle at 10% 0%, rgba(64,210,255,.22), transparent 25%), radial-gradient(circle at 100% 100%, rgba(255,169,36,.14), transparent 30%);pointer-events:none}
-    .activity-head{display:flex;align-items:center;justify-content:space-between;gap:10px;position:relative;z-index:2}
-    .live-pill{display:inline-flex;align-items:center;gap:8px;color:#d6efff;font-size:11px;font-weight:900;letter-spacing:.14em;text-transform:uppercase}
-    .live-pill .live-dot{width:9px;height:9px;border-radius:50%;background:#4cffb3;box-shadow:0 0 0 6px rgba(76,255,179,.10);animation:pulse 1.6s infinite}
-    .activity-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:14px;position:relative;z-index:2}
-    .dark-metric{padding:10px;border-radius:16px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.08)}
-    .dark-metric .k{font-size:10px;font-weight:900;letter-spacing:.12em;color:#8cb2c7;text-transform:uppercase}
-    .dark-metric .v{margin-top:4px;font-size:17px;font-weight:900;color:#fff}
-    .chart-wrap{margin-top:16px;position:relative;z-index:2;border-radius:24px;padding:14px;background:linear-gradient(180deg,rgba(255,255,255,.06),rgba(255,255,255,.03));border:1px solid rgba(255,255,255,.08)}
-    .chart-svg{width:100%;height:190px;display:block}
-    .chart-note{margin-top:10px;font-size:12px;color:#98bdd3}
-    .connect-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-top:18px}
-    .wallet-card{padding:14px;border-radius:22px;background:linear-gradient(180deg,#ffffff,#f4f8fb);border:1px solid #dbe7f0;box-shadow:0 14px 26px rgba(14,29,40,.05);cursor:pointer;text-align:left;transition:transform .22s ease, box-shadow .22s ease,border-color .22s ease}
-    .wallet-card:hover{transform:translateY(-1px);box-shadow:0 18px 28px rgba(14,29,40,.08)}
-    .wallet-card .top{display:flex;align-items:center;justify-content:space-between;gap:8px}
-    .wallet-glyph{width:42px;height:42px;border-radius:14px;background:linear-gradient(180deg,#56d4ff,#29bef0);display:flex;align-items:center;justify-content:center;color:#083044;font-weight:900;font-size:14px;box-shadow:0 12px 22px rgba(46,198,246,.20)}
-    .wallet-name{font-size:15px;font-weight:900;color:#26465c}
-    .wallet-state{margin-top:10px;font-size:12px;font-weight:800;color:#6d89a0}
-    .wallet-reco{margin-top:16px;font-size:12px;color:#6d89a0;line-height:1.5}
-    .panel-card{padding:16px;border-radius:26px;background:linear-gradient(180deg,#ffffff,#f4f8fb);border:1px solid #dbe7f0;box-shadow:0 14px 26px rgba(14,29,40,.05)}
-    .panel-head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:14px}
-    .panel-title{font-size:15px;font-weight:900;color:#29475d}
-    .panel-sub{font-size:12px;color:#6d89a0;line-height:1.4}
-    .amount-grid{display:grid;gap:12px}
-    .amount-box{padding:14px;border-radius:24px;background:linear-gradient(180deg,#ffffff,#f7fbff);border:1px solid #dbe7f0;box-shadow:0 12px 24px rgba(14,29,40,.04);position:relative}
-    .amount-top{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:8px}
-    .token-badge{display:inline-flex;align-items:center;gap:8px;padding:8px 10px;border-radius:999px;background:#eef7fd;border:1px solid #dbe7f0;color:#3c6179;font-weight:900;font-size:12px;text-transform:uppercase;letter-spacing:.06em}
-    .token-dot{width:10px;height:10px;border-radius:50%;background:linear-gradient(180deg,#57d2ff,#2dbef0)}
-    .amount-input-wrap{position:relative;display:flex;align-items:center;gap:10px}
-    .amount-input{width:100%;border:none;background:transparent;font-size:30px;font-weight:900;color:#173245;outline:none;padding-right:12px}
-    .amount-input::placeholder{color:#b3c4d1}
-    .caret{position:absolute;right:2px;top:50%;width:2px;height:26px;background:#ff9b18;border-radius:999px;transform:translateY(-50%);opacity:0;animation:caretBlink 1.15s infinite}
-    .amount-box.is-empty .caret{opacity:1}
-    @keyframes caretBlink{0%,100%{opacity:.15}50%{opacity:1}}
-    .quick-row{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap}
-    .quick-btn{height:30px;padding:0 12px;border-radius:999px;border:1px solid #dbe7f0;background:#fff;color:#55758d;font-size:11px;font-weight:900;cursor:pointer}
-    .swap-mid{display:flex;align-items:center;justify-content:center;margin:6px 0}
-    .swap-arrow{width:54px;height:54px;border-radius:18px;border:none;cursor:pointer;background:linear-gradient(180deg,#57d4ff,#24bdf0);color:#083044;font-size:20px;font-weight:900;box-shadow:0 16px 26px rgba(46,198,246,.18)}
-    .swap-footer{display:grid;grid-template-columns:1fr auto;gap:10px;align-items:center;margin-top:14px}
-    .slippage-shell{display:flex;align-items:center;gap:8px;justify-self:start}
-    .slippage-pill{height:36px;padding:0 12px;border:none;border-radius:999px;cursor:pointer;background:linear-gradient(180deg,#fff,#f4f8fb);border:1px solid #dbe7f0;color:#527188;font-size:12px;font-weight:900;display:flex;align-items:center;gap:8px}
-    .slippage-track{width:0;overflow:hidden;transition:width .28s ease}
-    .slippage-track.is-open{width:186px}
-    .slippage-inner{height:36px;border-radius:999px;background:#fff;border:1px solid #dbe7f0;display:flex;align-items:center;padding:0 8px;gap:8px}
-    .slippage-choice{border:none;background:transparent;color:#5c7890;font-size:11px;font-weight:900;cursor:pointer;padding:6px 7px;border-radius:999px}
-    .slippage-choice.is-on{background:#eef7fd;color:#1f4b66}
-    .submit-btn{height:48px;border:none;border-radius:18px;cursor:pointer;background:linear-gradient(180deg,#57d4ff,#29bef0);color:#083044;font-size:14px;font-weight:900;letter-spacing:.02em;box-shadow:0 18px 28px rgba(46,198,246,.18)}
-    .submit-btn:disabled{opacity:.55;cursor:not-allowed;box-shadow:none}
-    .hint-line{margin-top:10px;font-size:12px;color:#6d89a0;line-height:1.5}
-    .pay-layout{display:grid;gap:12px}
-    .top-inline{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
-    .tiny-switch{display:inline-flex;align-items:center;gap:8px;font-size:12px;font-weight:800;color:#6f8799}
-    .switch-btn{width:54px;height:30px;border-radius:999px;border:none;background:#dbe7f0;position:relative;cursor:pointer}
-    .switch-btn::after{content:"";position:absolute;top:3px;left:3px;width:24px;height:24px;border-radius:50%;background:#fff;box-shadow:0 8px 16px rgba(14,29,40,.12);transition:left .22s ease}
-    .switch-btn.is-on{background:linear-gradient(180deg,#57d4ff,#29bef0)}
-    .switch-btn.is-on::after{left:27px}
-    .recipient-box{padding:14px;border-radius:24px;background:#fff;border:1px solid #dbe7f0;box-shadow:0 12px 24px rgba(14,29,40,.04);position:relative}
-    .recipient-box input{width:100%;border:none;outline:none;background:transparent;font-size:15px;font-weight:800;color:#173245;padding-right:10px}
-    .asset-center{display:grid;grid-template-columns:1fr 1.05fr 1fr;gap:12px;align-items:stretch}
-    .asset-card{padding:14px;border-radius:24px;background:linear-gradient(180deg,#ffffff,#f4f8fb);border:1px solid #dbe7f0;display:flex;align-items:center;justify-content:center;text-align:center;font-weight:900;color:#5b7a91;cursor:pointer;transition:border-color .22s ease, box-shadow .22s ease, transform .22s ease}
-    .asset-card.is-active{color:#083044;background:linear-gradient(180deg,#e6f8ff,#d9f2ff);border-color:#9edfff;box-shadow:0 14px 24px rgba(46,198,246,.14)}
-    .asset-card.asset-eurc.is-active{color:#4a2800;background:linear-gradient(180deg,#fff0dc,#ffe4b2);border-color:#ffc86c;box-shadow:0 14px 24px rgba(242,161,0,.16)}
-    .amount-orb{padding:14px 12px;border-radius:28px;background:linear-gradient(180deg,#ffffff,#f4f8fb);border:1px solid #dbe7f0;box-shadow:0 16px 26px rgba(14,29,40,.06);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;position:relative;overflow:hidden}
-    .amount-orb::before{content:"";position:absolute;width:140px;height:140px;border-radius:50%;background:radial-gradient(circle, rgba(76,205,255,.18) 0%, rgba(76,205,255,0) 65%);pointer-events:none}
-    .amount-orb.is-eurc::before{background:radial-gradient(circle, rgba(242,161,0,.22) 0%, rgba(242,161,0,0) 65%)}
-    .amount-orb .amount-input{font-size:32px;text-align:center;padding-right:0}
-    .amount-orb .sub{margin-top:6px;font-size:11px;font-weight:900;color:#7891a4;letter-spacing:.12em;text-transform:uppercase}
-    .pay-preview{display:grid;grid-template-columns:1fr auto 1fr;gap:12px;align-items:center}
-    .pay-box{padding:14px;border-radius:24px;background:linear-gradient(180deg,#ffffff,#f4f8fb);border:1px solid #dbe7f0;min-height:98px;display:flex;flex-direction:column;justify-content:center}
-    .pay-box .k{font-size:11px;font-weight:900;letter-spacing:.12em;text-transform:uppercase;color:#7891a4}
-    .pay-box .v{margin-top:6px;font-size:22px;font-weight:900;color:#173245}
-    .spin-orb{width:68px;height:68px;border-radius:50%;border:none;cursor:pointer;background:linear-gradient(180deg,#57d4ff,#29bef0);color:#083044;font-size:24px;font-weight:900;box-shadow:0 16px 26px rgba(46,198,246,.18);display:flex;align-items:center;justify-content:center}
-    .spin-orb.is-working{animation:spin 1s linear infinite}
-    @keyframes spin{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
-    .flow-panel{margin-top:12px;padding:14px;border-radius:22px;background:linear-gradient(180deg,#e7f7ff,#d9f2ff);border:1px solid #b8e8fb;display:none;box-shadow:0 12px 22px rgba(46,198,246,.10)}
-    .flow-panel.is-open{display:block}
-    .flow-steps{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
-    .flow-step{padding:10px;border-radius:16px;background:rgba(255,255,255,.55);border:1px solid rgba(255,255,255,.52);font-size:11px;font-weight:900;color:#2f5d79;text-align:center}
-    .flow-step.is-current{background:#fff;border-color:#6fd8ff;color:#083044;box-shadow:0 10px 18px rgba(46,198,246,.12)}
-    .flow-step.is-done{background:linear-gradient(180deg,#fff1d9,#ffe1a5);border-color:#ffc96d;color:#5d3400}
-    .flow-meta{margin-top:12px;display:grid;gap:8px}
-    .flow-line{display:flex;align-items:center;justify-content:space-between;gap:12px;font-size:12px;color:#527089}
-    .flow-line strong{color:#173245}
-    .request-result{margin-top:14px;padding:14px;border-radius:24px;background:linear-gradient(180deg,#ffffff,#f4f8fb);border:1px solid #dbe7f0;box-shadow:0 12px 22px rgba(14,29,40,.05);display:none}
-    .request-result.is-open{display:block}
-    .qr-box{width:170px;height:170px;background:#fff;border-radius:24px;border:1px solid #dbe7f0;display:flex;align-items:center;justify-content:center;padding:10px;margin:0 auto}
-    .request-meta{margin-top:12px;display:grid;gap:8px;font-size:12px;color:#56758d}
-    .request-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
-    .token-list{display:grid;gap:12px}
-    .token-card{padding:16px;border-radius:26px;background:linear-gradient(180deg,#ffffff,#f4f8fb);border:1px solid #dbe7f0;box-shadow:0 14px 24px rgba(14,29,40,.05)}
-    .token-head{display:flex;align-items:center;justify-content:space-between;gap:10px}
-    .token-main{display:flex;align-items:center;gap:12px}
-    .token-icon{width:48px;height:48px;border-radius:16px;background:linear-gradient(180deg,#e8f8ff,#d8f2ff);border:1px solid #c8e8f7;display:flex;align-items:center;justify-content:center;font-weight:900;color:#17435e;overflow:hidden}
-    .token-icon img{width:100%;height:100%;object-fit:cover}
-    .token-name{font-size:16px;font-weight:900;color:#1b3b52}
-    .token-sub{font-size:12px;color:#6d89a0;margin-top:3px}
-    .copy-btn{height:36px;padding:0 12px;border:none;border-radius:999px;background:linear-gradient(180deg,#57d4ff,#29bef0);color:#083044;font-weight:900;cursor:pointer}
-    .token-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-top:12px}
-    .mini-stat{padding:12px;border-radius:18px;background:#fff;border:1px solid #dbe7f0}
-    .mini-stat .k{font-size:10px;font-weight:900;letter-spacing:.12em;text-transform:uppercase;color:#7891a4}
-    .mini-stat .v{margin-top:6px;font-size:14px;font-weight:900;color:#1b3b52;word-break:break-word}
-    .more-top{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}
-    .segment{display:inline-flex;gap:8px;padding:6px;border-radius:999px;background:#eef7fd;border:1px solid #dbe7f0;flex-wrap:wrap}
-    .segment button{height:34px;padding:0 12px;border:none;border-radius:999px;background:transparent;color:#58768d;font-weight:900;cursor:pointer}
-    .segment button.is-on{background:#fff;color:#173245;box-shadow:0 8px 16px rgba(14,29,40,.06)}
-    .more-panel{margin-top:12px;padding:14px;border-radius:24px;background:linear-gradient(180deg,#ffffff,#f4f8fb);border:1px solid #dbe7f0;box-shadow:0 14px 24px rgba(14,29,40,.05)}
-    .list{display:grid;gap:10px}
-    .list-item{padding:12px;border-radius:18px;background:#fff;border:1px solid #dbe7f0;display:flex;align-items:center;justify-content:space-between;gap:12px}
-    .list-item .left{min-width:0}
-    .list-item .title{font-size:13px;font-weight:900;color:#173245;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-    .list-item .meta{margin-top:4px;font-size:11px;color:#69859b;line-height:1.4}
-    .status-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
-    .status-card{padding:14px;border-radius:20px;background:#fff;border:1px solid #dbe7f0}
-    .status-card .k{font-size:10px;font-weight:900;letter-spacing:.12em;text-transform:uppercase;color:#7891a4}
-    .status-card .v{margin-top:6px;font-size:14px;font-weight:900;color:#173245;word-break:break-word}
-    .empty-state{padding:22px;border-radius:24px;background:linear-gradient(180deg,#ffffff,#f4f8fb);border:1px dashed #c8d8e4;text-align:center;color:#6f8799;font-weight:800}
-    .theme-dark .page-sheet,.theme-dark .panel-card,.theme-dark .profile-card,.theme-dark .recipient-box,.theme-dark .amount-box,.theme-dark .asset-card,.theme-dark .amount-orb,.theme-dark .pay-box,.theme-dark .flow-panel,.theme-dark .request-result,.theme-dark .token-card,.theme-dark .more-panel,.theme-dark .mini-stat,.theme-dark .status-card,.theme-dark .list-item,.theme-dark .wallet-card{background:linear-gradient(180deg,#0b1b2a,#0f2335);border-color:rgba(108,198,239,.18);color:#e9f6ff}
-    .theme-dark .page-sheet{background:linear-gradient(180deg,#0a1826,#10273a)}
-    .theme-dark .mini-tag,.theme-dark .wallet-pill,.theme-dark .metric-chip,.theme-dark .quick-btn,.theme-dark .soft-pill,.theme-dark .ghost-pill,.theme-dark .slippage-pill,.theme-dark .slippage-inner,.theme-dark .flow-step,.theme-dark .segment,.theme-dark .segment button.is-on{background:#102334;border-color:rgba(108,198,239,.18);color:#d7efff}
-    .theme-dark .segment button{color:#8cb5cb}
-    .theme-dark .amount-input,.theme-dark .recipient-box input,.theme-dark .amount-orb .sub,.theme-dark .panel-title,.theme-dark .token-name,.theme-dark .mini-stat .v,.theme-dark .status-card .v,.theme-dark .list-item .title,.theme-dark .wallet-name,.theme-dark .pay-box .v,.theme-dark .lv-box .v{color:#ecf8ff}
-    .theme-dark .panel-sub,.theme-dark .hint-line,.theme-dark .token-sub,.theme-dark .mini-stat .k,.theme-dark .status-card .k,.theme-dark .list-item .meta,.theme-dark .wallet-state,.theme-dark .wallet-reco,.theme-dark .progress-label,.theme-dark .rubric,.theme-dark .panel-sub,.theme-dark .pay-box .k{color:#8fb2c7}
-    .theme-dark .progress-bar{background:#173247}
+
+    :root{
+      --top-h:52px;
+      --bottom-h:36px;
+      --sidebar-w:86px;
+      --notice-h:86px;
+
+      --shell:#01050a;
+      --shell-2:#020913;
+
+      --page:#fbfcfe;
+      --page-2:#f2f6fb;
+      --line:#dce7f0;
+
+      --text:#173245;
+      --muted:#6b869b;
+
+      --blue:#2fc2f1;
+      --blue-2:#5fd7ff;
+      --blue-soft:#e8f7ff;
+
+      --orange:#f2a100;
+      --orange-soft:#fff0da;
+      --green:#43c886;
+      --danger:#ff7b61;
+
+      --shadow:0 18px 36px rgba(17,25,32,.08);
+
+      --nav-off:#7d8896;
+      --nav-on:#dfe8f2;
+      --nav-line:rgba(198,223,246,.28);
+    }
+
+    html,body{
+      width:100%;
+      height:100%;
+      background:#000;
+      font-family:Inter,Arial,Helvetica,sans-serif;
+      overflow:hidden;
+    }
+
+    body{
+      width:100vw;
+      height:100dvh;
+    }
+
+    button,input,textarea,select{
+      font:inherit;
+    }
+
+    img{
+      display:block;
+      max-width:100%;
+    }
+
+    .hidden{
+      display:none !important;
+    }
+
+    .app{
+      position:relative;
+      width:100vw;
+      height:100dvh;
+      overflow:hidden;
+      background:
+        radial-gradient(circle at 42% 24%, rgba(33,114,190,.07), transparent 22%),
+        radial-gradient(circle at 44% 58%, rgba(24,98,170,.05), transparent 25%),
+        linear-gradient(180deg,#000 0%,#02070b 100%);
+    }
+
+    .topbar,
+    .bottombar{
+      position:absolute;
+      left:0;
+      width:100%;
+      z-index:90;
+      background:
+        linear-gradient(180deg,rgba(255,255,255,.025),rgba(255,255,255,0)),
+        linear-gradient(180deg,#03070b,#010408);
+    }
+
+    .topbar{
+      top:0;
+      height:var(--top-h);
+      border-bottom:1px solid rgba(255,255,255,.05);
+    }
+
+    .bottombar{
+      bottom:0;
+      height:var(--bottom-h);
+      border-top:1px solid rgba(255,255,255,.05);
+    }
+
+    .workspace{
+      position:absolute;
+      top:var(--top-h);
+      bottom:var(--bottom-h);
+      left:0;
+      right:0;
+      overflow:hidden;
+      background:linear-gradient(180deg,#02070b 0%,#010509 100%);
+    }
+
+    .sidebar{
+      position:absolute;
+      top:0;
+      bottom:0;
+      left:0;
+      width:var(--sidebar-w);
+      z-index:30;
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      gap:11px;
+      padding:12px 7px;
+      background:
+        linear-gradient(180deg,rgba(255,255,255,.02),rgba(255,255,255,.008)),
+        linear-gradient(180deg,#02070b,#010509);
+      border-right:1px solid rgba(255,255,255,.03);
+      box-shadow:
+        inset -1px 0 0 rgba(127,223,255,.06),
+        10px 0 22px rgba(0,0,0,.22);
+    }
+
+    .sidebar::after{
+      content:"";
+      position:absolute;
+      top:0;
+      bottom:0;
+      right:-7px;
+      width:12px;
+      background:linear-gradient(90deg,rgba(52,174,255,.15),rgba(52,174,255,0));
+      filter:blur(7px);
+    }
+
+    .connect-btn,
+    .nav-btn,
+    .home-btn{
+      width:100%;
+      border:none;
+      cursor:pointer;
+      position:relative;
+      overflow:hidden;
+      background:linear-gradient(180deg,#050b11,#03070b);
+      transition:opacity .22s ease,transform .22s ease,box-shadow .28s ease,filter .28s ease;
+    }
+
+    .connect-btn:active,
+    .nav-btn:active,
+    .home-btn:active{
+      transform:scale(.985);
+    }
+
+    .connect-btn{
+      height:64px;
+      border-radius:18px;
+      margin-bottom:8px;
+      color:#f4f7fb;
+      box-shadow:
+        inset 0 0 0 1px rgba(255,255,255,.18),
+        inset 0 0 0 3px rgba(255,255,255,.04),
+        0 0 0 1px rgba(255,255,255,.10),
+        0 8px 18px rgba(0,0,0,.22);
+    }
+
+    .nav-btn{
+      height:52px;
+      border-radius:16px;
+      color:var(--nav-off);
+      opacity:.42;
+      filter:saturate(.65);
+      box-shadow:
+        inset 0 0 0 1px rgba(255,255,255,.04),
+        inset 0 0 0 3px rgba(255,255,255,.012),
+        0 8px 18px rgba(0,0,0,.16);
+    }
+
+    .home-btn{
+      width:62px;
+      height:100px;
+      border-radius:32px;
+      color:var(--nav-off);
+      opacity:.42;
+      filter:saturate(.65);
+      box-shadow:
+        inset 0 0 0 1px rgba(255,255,255,.04),
+        inset 0 0 0 3px rgba(255,255,255,.012),
+        0 8px 18px rgba(0,0,0,.16);
+    }
+
+    .btn-inner{
+      position:absolute;
+      inset:4px;
+      border-radius:inherit;
+      border:1px solid rgba(255,255,255,.08);
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      justify-content:center;
+      gap:4px;
+      background:linear-gradient(180deg,rgba(255,255,255,.010),rgba(255,255,255,.003));
+    }
+
+    .connect-btn .btn-inner{
+      border-color:rgba(255,255,255,.42);
+    }
+
+    .icon{
+      font-size:17px;
+      line-height:1;
+    }
+
+    .label{
+      font-size:9px;
+      font-weight:900;
+      letter-spacing:.12em;
+    }
+
+    .nav-btn.is-lit,
+    .home-btn.is-lit{
+      opacity:1;
+      filter:none;
+      color:var(--nav-on);
+      box-shadow:
+        inset 0 0 0 1px rgba(255,255,255,.06),
+        inset 0 0 0 3px rgba(255,255,255,.018),
+        0 0 0 1px var(--nav-line),
+        0 0 16px rgba(89,191,255,.16),
+        0 10px 20px rgba(0,0,0,.20);
+    }
+
+    .nav-btn.is-selected,
+    .home-btn.is-selected{
+      opacity:1;
+      color:#fff4e4;
+      box-shadow:
+        inset 0 0 0 1px rgba(255,255,255,.08),
+        inset 0 0 0 3px rgba(255,255,255,.018),
+        0 0 0 1px rgba(242,161,0,.48),
+        0 0 18px rgba(242,161,0,.16),
+        0 10px 22px rgba(0,0,0,.22);
+    }
+
+    .nav-btn.is-disabled,
+    .home-btn.is-disabled{
+      pointer-events:none;
+    }
+
+    .main{
+      position:absolute;
+      top:0;
+      bottom:0;
+      left:var(--sidebar-w);
+      right:0;
+      overflow:hidden;
+    }
+
+    .main::before{
+      content:"";
+      position:absolute;
+      top:0;
+      bottom:0;
+      left:0;
+      width:2px;
+      background:linear-gradient(180deg,rgba(0,0,0,.75),rgba(8,18,28,.75));
+      z-index:14;
+    }
+
+    .reveal-frame{
+      position:absolute;
+      top:10px;
+      left:4px;
+      right:8px;
+      bottom:10px;
+      z-index:8;
+      border:2px solid var(--blue);
+      background:linear-gradient(180deg,#d8dade 0%,#cfd3d8 100%);
+      box-shadow:
+        0 0 0 1px rgba(28,201,255,.14),
+        0 0 22px rgba(28,201,255,.10);
+      overflow:hidden;
+      opacity:0;
+      transform:translateX(-8px) scale(.992);
+      transition:opacity .42s ease,transform .48s ease;
+    }
+
+    .app.open .reveal-frame{
+      opacity:1;
+      transform:translateX(0) scale(1);
+    }
+
+    .cover{
+      position:absolute;
+      top:10px;
+      left:4px;
+      right:8px;
+      bottom:10px;
+      z-index:12;
+      overflow:hidden;
+      background:
+        linear-gradient(180deg,rgba(255,255,255,.018),rgba(255,255,255,0)),
+        radial-gradient(circle at 28% 36%,rgba(67,150,255,.10),transparent 26%),
+        linear-gradient(180deg,#02070b 0%,#010407 100%);
+      box-shadow:
+        inset 0 0 0 1px rgba(255,255,255,.02),
+        -12px 0 24px rgba(0,0,0,.28);
+      transition:transform .86s cubic-bezier(.2,.8,.16,1);
+      display:flex;
+      align-items:flex-start;
+      justify-content:center;
+      padding-top:62px;
+    }
+
+    .app.open .cover{
+      transform:translateX(104%);
+    }
+
+    .cover-mark{
+      width:72%;
+      height:1px;
+      background:linear-gradient(90deg,transparent,rgba(242,161,0,.50),transparent);
+      opacity:.54;
+    }
+
+    .notice-screen{
+      position:absolute;
+      top:0;
+      left:0;
+      right:0;
+      height:var(--notice-h);
+      z-index:20;
+      background:
+        linear-gradient(180deg,rgba(255,255,255,.12),rgba(255,255,255,0)),
+        linear-gradient(180deg,#5fd7ff 0%,#2ec6f6 52%,#25b4ea 100%);
+      border-bottom:2px solid rgba(242,161,0,.70);
+      padding:11px 12px 9px;
+      display:flex;
+      flex-direction:column;
+      justify-content:space-between;
+    }
+
+    .notice-top{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
+    }
+
+    .notice-left{
+      display:flex;
+      align-items:center;
+      gap:8px;
+      min-width:0;
+    }
+
+    .notice-dot{
+      width:8px;
+      height:8px;
+      border-radius:50%;
+      background:#0b2130;
+      box-shadow:0 0 0 2px rgba(255,255,255,.20);
+      animation:pulse 1.8s infinite;
+    }
+
+    .notice-chip{
+      min-height:18px;
+      padding:2px 8px;
+      border-radius:999px;
+      display:flex;
+      align-items:center;
+      font-size:9px;
+      font-weight:900;
+      letter-spacing:.12em;
+      text-transform:uppercase;
+      color:#083144;
+      background:rgba(255,255,255,.30);
+      border:1px solid rgba(255,255,255,.28);
+    }
+
+    .notice-chain{
+      font-size:9px;
+      font-weight:900;
+      letter-spacing:.11em;
+      text-transform:uppercase;
+      color:rgba(8,49,68,.72);
+    }
+
+    .notice-message{
+      font-size:15px;
+      font-weight:900;
+      color:#083144;
+      line-height:1;
+      transition:opacity .25s ease,transform .25s ease;
+    }
+
+    .notice-helper{
+      font-size:10px;
+      font-weight:800;
+      color:rgba(8,49,68,.74);
+      white-space:nowrap;
+      overflow:hidden;
+      text-overflow:ellipsis;
+    }
+
+    .notice-subline{
+      height:6px;
+      border-radius:999px;
+      background:linear-gradient(90deg,rgba(255,255,255,.45),rgba(255,255,255,.14));
+      width:56%;
+      margin:6px 0;
+    }
+
+    @keyframes pulse{
+      0%{transform:scale(1);opacity:.65}
+      50%{transform:scale(1.18);opacity:1}
+      100%{transform:scale(1);opacity:.65}
+    }
+
+    .pages-viewport{
+      position:absolute;
+      inset:0;
+      z-index:10;
+      padding-top:calc(var(--notice-h) - 10px);
+      overflow:hidden;
+    }
+
+    .page{
+      position:absolute;
+      left:0;
+      right:0;
+      top:0;
+      bottom:0;
+      overflow-y:auto;
+      overflow-x:hidden;
+      padding:10px 10px 18px;
+      transform:translateX(112%);
+      opacity:.72;
+      transition:transform .52s cubic-bezier(.2,.8,.16,1),opacity .4s ease;
+      scrollbar-width:none;
+      -ms-overflow-style:none;
+    }
+
+    .page::-webkit-scrollbar{
+      width:0;
+      height:0;
+    }
+
+    .page.is-active{
+      transform:translateX(0);
+      opacity:1;
+      z-index:3;
+    }
+
+    .page.is-left{
+      transform:translateX(-18%);
+      opacity:.3;
+      z-index:2;
+    }
+
+    .page-sheet{
+      min-height:100%;
+      background:linear-gradient(180deg,var(--page) 0%,var(--page-2) 100%);
+      border:1px solid var(--line);
+      box-shadow:var(--shadow),inset 0 1px 0 rgba(255,255,255,.7);
+      border-radius:28px;
+      padding:16px;
+      position:relative;
+      overflow:hidden;
+    }
+
+    .page-sheet::before{
+      content:"";
+      position:absolute;
+      inset:0;
+      background:
+        radial-gradient(circle at 15% 8%,rgba(91,202,255,.10),transparent 26%),
+        radial-gradient(circle at 100% 100%,rgba(91,202,255,.08),transparent 28%);
+      pointer-events:none;
+    }
+
+    .mini-tag,
+    .metric-chip,
+    .wallet-pill,
+    .quick-btn,
+    .soft-pill,
+    .ghost-pill,
+    .slippage-pill,
+    .segment button.is-on,
+    .status-chip{
+      display:inline-flex;
+      align-items:center;
+      gap:6px;
+      padding:7px 10px;
+      border-radius:999px;
+      background:#fff;
+      border:1px solid var(--line);
+      color:#60829b;
+      font-size:10px;
+      font-weight:900;
+      letter-spacing:.12em;
+      text-transform:uppercase;
+      box-shadow:0 8px 18px rgba(14,29,40,.04);
+    }
+
+    .mini-tag .spark{
+      width:7px;
+      height:7px;
+      border-radius:50%;
+      background:var(--blue);
+    }
+
+    .section-gap{
+      height:14px;
+    }
+
+    .top-actions{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
+      flex-wrap:wrap;
+    }
+
+    .orange-pill,
+    .soft-pill,
+    .ghost-pill{
+      height:38px;
+      padding:0 14px;
+      border-radius:999px;
+      border:none;
+      font-weight:900;
+      letter-spacing:.02em;
+      cursor:pointer;
+    }
+
+    .orange-pill{
+      background:linear-gradient(180deg,#ffb534,#ee9710);
+      color:#402200;
+    }
+
+    .soft-pill{
+      background:linear-gradient(180deg,#fff,#f4f8fb);
+      color:#4f728d;
+    }
+
+    .ghost-pill{
+      background:transparent;
+      border:1px solid var(--line);
+      color:#69859b;
+      box-shadow:none;
+    }
+
+    .panel-card,
+    .profile-card,
+    .recipient-box,
+    .amount-box,
+    .amount-orb,
+    .pay-box,
+    .flow-panel,
+    .request-result,
+    .token-card,
+    .more-panel,
+    .wallet-card,
+    .status-card,
+    .list-item{
+      padding:16px;
+      border-radius:24px;
+      background:linear-gradient(180deg,#ffffff,#f4f8fb);
+      border:1px solid var(--line);
+      box-shadow:0 14px 26px rgba(14,29,40,.05);
+    }
+
+    .panel-head{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
+      margin-bottom:14px;
+    }
+
+    .panel-title{
+      font-size:15px;
+      font-weight:900;
+      color:#29475d;
+    }
+
+    .panel-sub{
+      font-size:12px;
+      color:#6d89a0;
+      line-height:1.4;
+    }
+
+    .connect-grid{
+      display:grid;
+      grid-template-columns:repeat(2,minmax(0,1fr));
+      gap:12px;
+      margin-top:18px;
+    }
+
+    .wallet-card{
+      cursor:pointer;
+      text-align:left;
+      transition:transform .18s ease, box-shadow .18s ease;
+    }
+
+    .wallet-card:hover{
+      transform:translateY(-1px);
+    }
+
+    .wallet-card .top{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:8px;
+    }
+
+    .wallet-glyph{
+      width:42px;
+      height:42px;
+      border-radius:14px;
+      background:linear-gradient(180deg,#56d4ff,#29bef0);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      color:#083044;
+      font-weight:900;
+      font-size:14px;
+    }
+
+    .wallet-name{
+      font-size:15px;
+      font-weight:900;
+      color:#26465c;
+    }
+
+    .wallet-state,
+    .wallet-reco{
+      margin-top:10px;
+      font-size:12px;
+      font-weight:800;
+      color:#6d89a0;
+      line-height:1.5;
+    }
+
+    .profile-row{
+      display:flex;
+      align-items:center;
+      gap:14px;
+    }
+
+    .avatar-wrap{
+      width:76px;
+      height:76px;
+      border-radius:50%;
+      padding:4px;
+      background:linear-gradient(180deg,#5bd7ff,#8be4ff);
+      flex:0 0 auto;
+    }
+
+    .avatar-wrap img{
+      width:100%;
+      height:100%;
+      border-radius:50%;
+      object-fit:cover;
+      background:#d8e7f1;
+    }
+
+    .wallet-pill{
+      font-size:12px;
+      font-weight:800;
+      color:#4c6b84;
+      letter-spacing:0;
+      text-transform:none;
+    }
+
+    .wallet-pill .dot{
+      width:8px;
+      height:8px;
+      border-radius:50%;
+      background:var(--green);
+    }
+
+    .profile-stats{
+      display:flex;
+      gap:8px;
+      flex-wrap:wrap;
+      margin-top:10px;
+    }
+
+    .metric-chip{
+      text-transform:none;
+      letter-spacing:0;
+      font-size:12px;
+      font-weight:800;
+      color:#5d7b91;
+    }
+
+    .status-chip{
+      background:var(--blue-soft);
+      color:#43728f;
+    }
+
+    .trophy-row,
+    .medal-row{
+      display:flex;
+      gap:8px;
+      margin-top:16px;
+    }
+
+    .trophy,
+    .medal{
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      background:linear-gradient(180deg,#ffffff,#f4f8fb);
+      border:1px solid var(--line);
+      color:#98acbc;
+      box-shadow:0 10px 20px rgba(14,29,40,.04);
+    }
+
+    .trophy{
+      height:48px;
+      flex:1;
+      border-radius:16px;
+      font-size:18px;
+    }
+
+    .medal{
+      height:34px;
+      flex:1;
+      border-radius:14px;
+      font-size:14px;
+    }
+
+    .trophy.is-on,
+    .medal.is-on{
+      color:#ffb22e;
+      background:linear-gradient(180deg,#fff4dc,#ffe8b5);
+      border-color:#ffd382;
+    }
+
+    .profile-bottom{
+      display:flex;
+      align-items:end;
+      justify-content:space-between;
+      gap:10px;
+      margin-top:16px;
+    }
+
+    .lv-box{
+      width:68px;
+      height:68px;
+      border-radius:22px;
+      background:linear-gradient(180deg,#ffffff,#eef6fd);
+      border:1px solid var(--line);
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      justify-content:center;
+    }
+
+    .lv-box .k{
+      font-size:10px;
+      font-weight:900;
+      color:#7f96a9;
+      letter-spacing:.14em;
+      text-transform:uppercase;
+    }
+
+    .lv-box .v{
+      font-size:24px;
+      font-weight:900;
+      color:#214056;
+    }
+
+    .progress-area{
+      flex:1;
+    }
+
+    .progress-label{
+      font-size:12px;
+      font-weight:800;
+      color:#638197;
+      margin-bottom:8px;
+    }
+
+    .progress-bar{
+      height:12px;
+      border-radius:999px;
+      background:#e2ebf3;
+      overflow:hidden;
+    }
+
+    .progress-fill{
+      height:100%;
+      background:linear-gradient(90deg,#4bc8ff,#ffa924);
+      width:0%;
+      transition:width .45s ease;
+    }
+
+    .rubric{
+      margin-top:10px;
+      font-size:12px;
+      color:#83a1b7;
+      font-weight:700;
+    }
+
+    .activity-card{
+      padding:18px;
+      border-radius:28px;
+      background:linear-gradient(180deg,#eef9ff 0%,#dff3ff 100%);
+      border:1px solid #cfe9f6;
+      overflow:hidden;
+      position:relative;
+    }
+
+    .activity-card::before{
+      content:"";
+      position:absolute;
+      inset:0;
+      background:
+        radial-gradient(circle at 10% 0%,rgba(64,210,255,.12),transparent 25%),
+        radial-gradient(circle at 100% 100%,rgba(255,169,36,.10),transparent 30%);
+      pointer-events:none;
+    }
+
+    .activity-head{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
+      position:relative;
+      z-index:2;
+    }
+
+    .live-pill{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      color:#2f6280;
+      font-size:11px;
+      font-weight:900;
+      letter-spacing:.14em;
+      text-transform:uppercase;
+    }
+
+    .live-pill .live-dot{
+      width:9px;
+      height:9px;
+      border-radius:50%;
+      background:#4cffb3;
+      box-shadow:0 0 0 6px rgba(76,255,179,.10);
+      animation:pulse 1.6s infinite;
+    }
+
+    .activity-grid{
+      display:grid;
+      grid-template-columns:repeat(3,1fr);
+      gap:8px;
+      margin-top:14px;
+      position:relative;
+      z-index:2;
+    }
+
+    .dark-metric{
+      padding:10px;
+      border-radius:16px;
+      background:rgba(255,255,255,.72);
+      border:1px solid rgba(209,229,240,.9);
+    }
+
+    .dark-metric .k{
+      font-size:10px;
+      font-weight:900;
+      letter-spacing:.12em;
+      color:#7e9cb1;
+      text-transform:uppercase;
+    }
+
+    .dark-metric .v{
+      margin-top:4px;
+      font-size:17px;
+      font-weight:900;
+      color:#12324a;
+    }
+
+    .chart-wrap{
+      margin-top:16px;
+      position:relative;
+      z-index:2;
+      border-radius:24px;
+      padding:14px;
+      background:linear-gradient(180deg,rgba(255,255,255,.65),rgba(255,255,255,.5));
+      border:1px solid rgba(209,229,240,.9);
+    }
+
+    .chart-svg{
+      width:100%;
+      height:190px;
+      display:block;
+    }
+
+    .chart-note{
+      margin-top:10px;
+      font-size:12px;
+      color:#7997ac;
+    }
+
+    .amount-grid,
+    .pay-layout,
+    .token-list,
+    .list{
+      display:grid;
+      gap:12px;
+    }
+
+    .amount-box{
+      position:relative;
+    }
+
+    .amount-top{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
+      margin-bottom:8px;
+    }
+
+    .token-badge{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      padding:8px 10px;
+      border-radius:999px;
+      background:#eef7fd;
+      border:1px solid var(--line);
+      color:#3c6179;
+      font-weight:900;
+      font-size:12px;
+      text-transform:uppercase;
+      letter-spacing:.06em;
+    }
+
+    .token-dot{
+      width:10px;
+      height:10px;
+      border-radius:50%;
+      background:linear-gradient(180deg,#57d2ff,#2dbef0);
+    }
+
+    .amount-input-wrap{
+      position:relative;
+      display:flex;
+      align-items:center;
+      gap:10px;
+    }
+
+    .amount-input{
+      width:100%;
+      border:none;
+      background:transparent;
+      font-size:30px;
+      font-weight:900;
+      color:#173245;
+      outline:none;
+      padding-right:12px;
+    }
+
+    .amount-input::placeholder{
+      color:#b3c4d1;
+    }
+
+    .caret{
+      position:absolute;
+      right:2px;
+      top:50%;
+      width:2px;
+      height:26px;
+      background:#ff9b18;
+      border-radius:999px;
+      transform:translateY(-50%);
+      opacity:0;
+      animation:caretBlink 1.15s infinite;
+    }
+
+    .amount-box.is-empty .caret,
+    .recipient-box.is-empty .caret,
+    .amount-orb.is-empty .caret{
+      opacity:1;
+    }
+
+    @keyframes caretBlink{
+      0%,100%{opacity:.15}
+      50%{opacity:1}
+    }
+
+    .quick-row{
+      display:flex;
+      gap:8px;
+      margin-top:10px;
+      flex-wrap:wrap;
+    }
+
+    .quick-btn{
+      height:30px;
+      padding:0 12px;
+      border-radius:999px;
+      cursor:pointer;
+    }
+
+    .swap-mid{
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      margin:6px 0;
+    }
+
+    .swap-arrow{
+      width:54px;
+      height:54px;
+      border-radius:18px;
+      border:none;
+      background:linear-gradient(180deg,#57d4ff,#24bdf0);
+      color:#083044;
+      font-size:20px;
+      font-weight:900;
+      cursor:pointer;
+    }
+
+    .swap-footer{
+      display:grid;
+      grid-template-columns:1fr auto;
+      gap:10px;
+      align-items:center;
+      margin-top:14px;
+    }
+
+    .slippage-shell{
+      display:flex;
+      align-items:center;
+      gap:8px;
+    }
+
+    .slippage-pill{
+      height:36px;
+      padding:0 12px;
+      border:none;
+      border-radius:999px;
+      color:#527188;
+      font-size:12px;
+      font-weight:900;
+      cursor:pointer;
+    }
+
+    .slippage-track{
+      width:0;
+      overflow:hidden;
+      transition:width .28s ease;
+    }
+
+    .slippage-track.is-open{
+      width:186px;
+    }
+
+    .slippage-inner{
+      height:36px;
+      border-radius:999px;
+      background:#fff;
+      border:1px solid var(--line);
+      display:flex;
+      align-items:center;
+      padding:0 8px;
+      gap:8px;
+    }
+
+    .slippage-choice{
+      border:none;
+      background:transparent;
+      color:#5c7890;
+      font-size:11px;
+      font-weight:900;
+      padding:6px 7px;
+      border-radius:999px;
+      cursor:pointer;
+    }
+
+    .slippage-choice.is-on{
+      background:#eef7fd;
+      color:#1f4b66;
+    }
+
+    .submit-btn{
+      height:48px;
+      border:none;
+      border-radius:18px;
+      background:linear-gradient(180deg,#57d4ff,#29bef0);
+      color:#083044;
+      font-size:14px;
+      font-weight:900;
+      letter-spacing:.02em;
+      cursor:pointer;
+    }
+
+    .submit-btn:disabled{
+      opacity:.55;
+      cursor:not-allowed;
+    }
+
+    .hint-line{
+      margin-top:10px;
+      font-size:12px;
+      color:#6d89a0;
+      line-height:1.5;
+    }
+
+    .tiny-switch{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      font-size:12px;
+      font-weight:800;
+      color:#6f8799;
+    }
+
+    .switch-btn{
+      width:54px;
+      height:30px;
+      border-radius:999px;
+      border:none;
+      background:#dbe7f0;
+      position:relative;
+      cursor:pointer;
+    }
+
+    .switch-btn::after{
+      content:"";
+      position:absolute;
+      top:3px;
+      left:3px;
+      width:24px;
+      height:24px;
+      border-radius:50%;
+      background:#fff;
+      box-shadow:0 8px 16px rgba(14,29,40,.12);
+      transition:left .22s ease;
+    }
+
+    .switch-btn.is-on{
+      background:linear-gradient(180deg,#57d4ff,#29bef0);
+    }
+
+    .switch-btn.is-on::after{
+      left:27px;
+    }
+
+    .recipient-box{
+      position:relative;
+    }
+
+    .recipient-box input{
+      width:100%;
+      border:none;
+      outline:none;
+      background:transparent;
+      font-size:15px;
+      font-weight:800;
+      color:#173245;
+      padding-right:10px;
+    }
+
+    .asset-center{
+      display:grid;
+      grid-template-columns:1fr 1.05fr 1fr;
+      gap:12px;
+      align-items:stretch;
+    }
+
+    .asset-card{
+      padding:14px;
+      border-radius:24px;
+      border:1px solid var(--line);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      text-align:center;
+      font-weight:900;
+      color:#5b7a91;
+      background:linear-gradient(180deg,#ffffff,#f4f8fb);
+      cursor:pointer;
+    }
+
+    .asset-card.is-active{
+      color:#083044;
+      background:linear-gradient(180deg,#e6f8ff,#d9f2ff);
+      border-color:#9edfff;
+    }
+
+    .asset-card.asset-eurc.is-active{
+      color:#4a2800;
+      background:linear-gradient(180deg,#fff0dc,#ffe4b2);
+      border-color:#ffc86c;
+    }
+
+    .amount-orb{
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      justify-content:center;
+      text-align:center;
+      position:relative;
+      overflow:hidden;
+    }
+
+    .amount-orb::before{
+      content:"";
+      position:absolute;
+      width:140px;
+      height:140px;
+      border-radius:50%;
+      background:radial-gradient(circle,rgba(76,205,255,.18) 0%,rgba(76,205,255,0) 65%);
+    }
+
+    .amount-orb.is-eurc::before{
+      background:radial-gradient(circle,rgba(242,161,0,.22) 0%,rgba(242,161,0,0) 65%);
+    }
+
+    .amount-orb .amount-input{
+      font-size:32px;
+      text-align:center;
+      padding-right:0;
+    }
+
+    .amount-orb .sub{
+      margin-top:6px;
+      font-size:11px;
+      font-weight:900;
+      color:#7891a4;
+      letter-spacing:.12em;
+      text-transform:uppercase;
+    }
+
+    .pay-preview{
+      display:grid;
+      grid-template-columns:1fr auto 1fr;
+      gap:12px;
+      align-items:center;
+    }
+
+    .pay-box{
+      min-height:98px;
+      display:flex;
+      flex-direction:column;
+      justify-content:center;
+    }
+
+    .pay-box .k{
+      font-size:11px;
+      font-weight:900;
+      letter-spacing:.12em;
+      text-transform:uppercase;
+      color:#7891a4;
+    }
+
+    .pay-box .v{
+      margin-top:6px;
+      font-size:22px;
+      font-weight:900;
+      color:#173245;
+    }
+
+    .spin-orb{
+      width:68px;
+      height:68px;
+      border-radius:50%;
+      border:none;
+      background:linear-gradient(180deg,#57d4ff,#29bef0);
+      color:#083044;
+      font-size:24px;
+      font-weight:900;
+      cursor:pointer;
+    }
+
+    .spin-orb.is-working{
+      animation:spin 1s linear infinite;
+    }
+
+    @keyframes spin{
+      from{transform:rotate(0deg)}
+      to{transform:rotate(360deg)}
+    }
+
+    .flow-panel{
+      display:none;
+    }
+
+    .flow-panel.is-open{
+      display:block;
+    }
+
+    .flow-steps{
+      display:grid;
+      grid-template-columns:repeat(3,1fr);
+      gap:8px;
+    }
+
+    .flow-step{
+      padding:10px;
+      border-radius:16px;
+      background:rgba(255,255,255,.55);
+      border:1px solid rgba(255,255,255,.52);
+      font-size:11px;
+      font-weight:900;
+      color:#2f5d79;
+      text-align:center;
+    }
+
+    .flow-step.is-current{
+      background:#fff;
+      border-color:#6fd8ff;
+      color:#083044;
+    }
+
+    .flow-step.is-done{
+      background:linear-gradient(180deg,#fff1d9,#ffe1a5);
+      border-color:#ffc96d;
+      color:#5d3400;
+    }
+
+    .flow-meta{
+      margin-top:12px;
+      display:grid;
+      gap:8px;
+    }
+
+    .flow-line{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+      font-size:12px;
+      color:#527089;
+    }
+
+    .flow-line strong{
+      color:#173245;
+    }
+
+    .request-result{
+      display:none;
+    }
+
+    .request-result.is-open{
+      display:block;
+    }
+
+    .qr-box{
+      width:170px;
+      height:170px;
+      background:#fff;
+      border-radius:24px;
+      border:1px solid var(--line);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding:10px;
+      margin:0 auto;
+    }
+
+    .request-meta{
+      margin-top:12px;
+      display:grid;
+      gap:8px;
+      font-size:12px;
+      color:#56758d;
+    }
+
+    .request-actions{
+      display:flex;
+      gap:8px;
+      flex-wrap:wrap;
+      margin-top:12px;
+    }
+
+    .token-main{
+      display:flex;
+      align-items:center;
+      gap:12px;
+    }
+
+    .token-head{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
+    }
+
+    .token-icon{
+      width:48px;
+      height:48px;
+      border-radius:16px;
+      background:linear-gradient(180deg,#e8f8ff,#d8f2ff);
+      border:1px solid #c8e8f7;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      font-weight:900;
+      color:#17435e;
+      overflow:hidden;
+    }
+
+    .token-icon img{
+      width:100%;
+      height:100%;
+      object-fit:cover;
+    }
+
+    .token-name{
+      font-size:16px;
+      font-weight:900;
+      color:#1b3b52;
+    }
+
+    .token-sub{
+      font-size:12px;
+      color:#6d89a0;
+      margin-top:3px;
+    }
+
+    .copy-btn{
+      height:36px;
+      padding:0 12px;
+      border:none;
+      border-radius:999px;
+      background:linear-gradient(180deg,#57d4ff,#29bef0);
+      color:#083044;
+      font-weight:900;
+      cursor:pointer;
+    }
+
+    .token-grid{
+      display:grid;
+      grid-template-columns:repeat(2,minmax(0,1fr));
+      gap:10px;
+      margin-top:12px;
+    }
+
+    .mini-stat{
+      padding:12px;
+      border-radius:18px;
+      background:#fff;
+      border:1px solid var(--line);
+    }
+
+    .mini-stat .k{
+      font-size:10px;
+      font-weight:900;
+      letter-spacing:.12em;
+      text-transform:uppercase;
+      color:#7891a4;
+    }
+
+    .mini-stat .v{
+      margin-top:6px;
+      font-size:14px;
+      font-weight:900;
+      color:#1b3b52;
+      word-break:break-word;
+    }
+
+    .more-top{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
+      flex-wrap:wrap;
+    }
+
+    .segment{
+      display:inline-flex;
+      gap:8px;
+      padding:6px;
+      border-radius:999px;
+      background:#eef7fd;
+      border:1px solid var(--line);
+      flex-wrap:wrap;
+    }
+
+    .segment button{
+      height:34px;
+      padding:0 12px;
+      border:none;
+      border-radius:999px;
+      background:transparent;
+      color:#58768d;
+      font-weight:900;
+      cursor:pointer;
+    }
+
+    .more-panel{
+      margin-top:12px;
+    }
+
+    .list{
+      display:grid;
+      gap:10px;
+    }
+
+    .list-item{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+    }
+
+    .list-item .left{
+      min-width:0;
+    }
+
+    .list-item .title{
+      font-size:13px;
+      font-weight:900;
+      color:#173245;
+      white-space:nowrap;
+      overflow:hidden;
+      text-overflow:ellipsis;
+    }
+
+    .list-item .meta{
+      margin-top:4px;
+      font-size:11px;
+      color:#69859b;
+      line-height:1.4;
+    }
+
+    .status-grid{
+      display:grid;
+      grid-template-columns:repeat(2,minmax(0,1fr));
+      gap:10px;
+    }
+
+    .status-card .k{
+      font-size:10px;
+      font-weight:900;
+      letter-spacing:.12em;
+      text-transform:uppercase;
+      color:#7891a4;
+    }
+
+    .status-card .v{
+      margin-top:6px;
+      font-size:14px;
+      font-weight:900;
+      color:#173245;
+      word-break:break-word;
+    }
+
+    .empty-state{
+      padding:22px;
+      border-radius:24px;
+      background:linear-gradient(180deg,#ffffff,#f4f8fb);
+      border:1px dashed #c8d8e4;
+      text-align:center;
+      color:#6f8799;
+      font-weight:800;
+    }
+
+    .theme-dark .page-sheet,
+    .theme-dark .panel-card,
+    .theme-dark .profile-card,
+    .theme-dark .recipient-box,
+    .theme-dark .amount-box,
+    .theme-dark .amount-orb,
+    .theme-dark .pay-box,
+    .theme-dark .flow-panel,
+    .theme-dark .request-result,
+    .theme-dark .token-card,
+    .theme-dark .more-panel,
+    .theme-dark .wallet-card,
+    .theme-dark .status-card,
+    .theme-dark .list-item,
+    .theme-dark .mini-stat{
+      background:linear-gradient(180deg,#0b1b2a,#0f2335);
+      border-color:rgba(108,198,239,.18);
+      color:#e9f6ff;
+    }
+
+    .theme-dark .page-sheet{
+      background:linear-gradient(180deg,#0a1826,#10273a);
+    }
+
+    .theme-dark .mini-tag,
+    .theme-dark .metric-chip,
+    .theme-dark .wallet-pill,
+    .theme-dark .quick-btn,
+    .theme-dark .soft-pill,
+    .theme-dark .ghost-pill,
+    .theme-dark .slippage-pill,
+    .theme-dark .segment button.is-on,
+    .theme-dark .status-chip{
+      background:#102334;
+      border-color:rgba(108,198,239,.18);
+      color:#d7efff;
+    }
+
+    .theme-dark .panel-title,
+    .theme-dark .token-name,
+    .theme-dark .mini-stat .v,
+    .theme-dark .status-card .v,
+    .theme-dark .list-item .title,
+    .theme-dark .wallet-name,
+    .theme-dark .pay-box .v,
+    .theme-dark .lv-box .v,
+    .theme-dark .amount-input,
+    .theme-dark .recipient-box input{
+      color:#ecf8ff;
+    }
+
+    .theme-dark .panel-sub,
+    .theme-dark .hint-line,
+    .theme-dark .token-sub,
+    .theme-dark .mini-stat .k,
+    .theme-dark .status-card .k,
+    .theme-dark .list-item .meta,
+    .theme-dark .wallet-state,
+    .theme-dark .wallet-reco,
+    .theme-dark .progress-label,
+    .theme-dark .rubric,
+    .theme-dark .pay-box .k{
+      color:#8fb2c7;
+    }
+
+    .theme-dark .activity-card{
+      background:linear-gradient(180deg,#081a2a 0%,#0d2233 100%);
+      border-color:rgba(97,207,255,.18);
+    }
+
+    .theme-dark .dark-metric{
+      background:rgba(255,255,255,.06);
+      border-color:rgba(255,255,255,.08);
+    }
+
+    .theme-dark .dark-metric .v{
+      color:#fff;
+    }
+
+    .theme-dark .chart-note{
+      color:#98bdd3;
+    }
+
+    .theme-dark .activity-head .mini-tag{
+      background:rgba(255,255,255,.08);
+      border-color:rgba(255,255,255,.1);
+      color:#d7efff;
+    }
+
+    .theme-dark .live-pill{
+      color:#d6efff;
+    }
+
     @media (max-width:540px){
-      .connect-grid,.token-grid,.status-grid,.activity-grid,.asset-center,.pay-preview{grid-template-columns:1fr}
-      .profile-row{align-items:flex-start;flex-direction:column}
-      .profile-bottom{align-items:flex-start;flex-direction:column}
-      .avatar-wrap{width:68px;height:68px}
-      .page-sheet{border-radius:24px;padding:14px}
-      .activity-card{padding:16px}
-      .notice-message{font-size:14px}
+      .connect-grid,
+      .token-grid,
+      .status-grid,
+      .activity-grid,
+      .asset-center,
+      .pay-preview{
+        grid-template-columns:1fr;
+      }
+
+      .profile-row{
+        align-items:flex-start;
+        flex-direction:column;
+      }
+
+      .profile-bottom{
+        align-items:flex-start;
+        flex-direction:column;
+      }
+
+      .avatar-wrap{
+        width:68px;
+        height:68px;
+      }
+
+      .page-sheet{
+        border-radius:24px;
+        padding:14px;
+      }
+
+      .activity-card{
+        padding:16px;
+      }
+
+      .notice-message{
+        font-size:14px;
+      }
     }
   </style>
 </head>
 <body>
-  <div class="app" id="app">
-    <div class="topbar"></div>
-    <div class="workspace">
-      <aside class="sidebar">
-        <button class="connect-btn" id="connectBtn" type="button">
-          <div class="btn-inner"><div class="icon">▶</div><div class="label" id="connectLabel">CONNECT</div></div>
+  <div class=\"app\" id=\"app\">
+    <div class=\"topbar\"></div>
+
+    <div class=\"workspace\">
+      <aside class=\"sidebar\">
+        <button class=\"connect-btn\" id=\"connectBtn\" type=\"button\">
+          <div class=\"btn-inner\">
+            <div class=\"icon\">▶</div>
+            <div class=\"label\" id=\"connectLabel\">CONNECT</div>
+          </div>
         </button>
-        <button class="nav-btn is-disabled" data-page="swap" type="button"><div class="btn-inner"><div class="icon">⇄</div><div class="label">SWAP</div></div></button>
-        <button class="nav-btn is-disabled" data-page="pay" type="button"><div class="btn-inner"><div class="icon">Σ</div><div class="label">PAY</div></div></button>
-        <button class="home-btn is-disabled" data-page="home" type="button"><div class="btn-inner"><div class="icon">⌂</div><div class="label">HOME</div></div></button>
-        <button class="nav-btn is-disabled" data-page="get-paid" type="button"><div class="btn-inner"><div class="icon">▣</div><div class="label">GET</div></div></button>
-        <button class="nav-btn is-disabled" data-page="tokens" type="button"><div class="btn-inner"><div class="icon">◍</div><div class="label">TOKEN</div></div></button>
-        <button class="nav-btn is-disabled" data-page="more" type="button"><div class="btn-inner"><div class="icon">☰</div><div class="label">MORE</div></div></button>
+
+        <button class=\"nav-btn is-disabled\" data-page=\"swap\" type=\"button\"><div class=\"btn-inner\"><div class=\"icon\">⇄</div><div class=\"label\">SWAP</div></div></button>
+        <button class=\"nav-btn is-disabled\" data-page=\"pay\" type=\"button\"><div class=\"btn-inner\"><div class=\"icon\">Σ</div><div class=\"label\">PAY</div></div></button>
+        <button class=\"home-btn is-disabled\" data-page=\"home\" type=\"button\"><div class=\"btn-inner\"><div class=\"icon\">⌂</div><div class=\"label\">HOME</div></div></button>
+        <button class=\"nav-btn is-disabled\" data-page=\"get-paid\" type=\"button\"><div class=\"btn-inner\"><div class=\"icon\">▣</div><div class=\"label\">GET</div></div></button>
+        <button class=\"nav-btn is-disabled\" data-page=\"tokens\" type=\"button\"><div class=\"btn-inner\"><div class=\"icon\">◍</div><div class=\"label\">TOKEN</div></div></button>
+        <button class=\"nav-btn is-disabled\" data-page=\"more\" type=\"button\"><div class=\"btn-inner\"><div class=\"icon\">☰</div><div class=\"label\">MORE</div></div></button>
       </aside>
-      <main class="main">
-        <div class="ghost">⌁</div>
-        <div class="reveal-frame">
-          <div class="notice-screen">
-            <div class="notice-top">
-              <div class="notice-left">
-                <div class="notice-dot"></div>
-                <div class="notice-chip" id="noticeChip">Smart notice</div>
+
+      <main class=\"main\">
+        <div class=\"reveal-frame\">
+          <div class=\"notice-screen\">
+            <div class=\"notice-top\">
+              <div class=\"notice-left\">
+                <div class=\"notice-dot\"></div>
+                <div class=\"notice-chip\" id=\"noticeChip\">Smart notice</div>
               </div>
-              <div class="notice-chain" id="noticeChain">Arc Testnet</div>
+              <div class=\"notice-chain\" id=\"noticeChain\">Arc Testnet</div>
             </div>
-            <div class="notice-body">
-              <div class="notice-message" id="noticeMessage">Connect wallet</div>
-              <div class="notice-subline"></div>
-              <div class="notice-helper" id="noticeHelper">The shell opens first. Navigation unlocks after connection.</div>
+
+            <div>
+              <div class=\"notice-message\" id=\"noticeMessage\">Connect wallet</div>
+              <div class=\"notice-subline\"></div>
+              <div class=\"notice-helper\" id=\"noticeHelper\">The shell opens first. Navigation unlocks after connection.</div>
             </div>
           </div>
-          <div class="pages-viewport">
-            <section class="page is-active" data-view="connect">
-              <div class="page-sheet">
-                <div class="mini-tag"><span class="spark"></span> wallet access</div>
-                <div class="section-gap"></div>
-                <div class="panel-card">
-                  <div class="panel-head">
+
+          <div class=\"pages-viewport\">
+            <section class=\"page is-active\" data-view=\"connect\">
+              <div class=\"page-sheet\">
+                <div class=\"mini-tag\"><span class=\"spark\"></span> wallet access</div>
+                <div class=\"section-gap\"></div>
+
+                <div class=\"panel-card\">
+                  <div class=\"panel-head\">
                     <div>
-                      <div class="panel-title">Connect wallet</div>
-                      <div class="panel-sub">A clean wallet screen comes first. The guidance text above the wallets can be refined later.</div>
+                      <div class=\"panel-title\">Connect wallet</div>
+                      <div class=\"panel-sub\">Open the shell, pick a wallet, then Arc Testnet becomes the active route.</div>
                     </div>
                   </div>
-                  <div class="connect-grid" id="walletGrid"></div>
-                  <div class="wallet-reco">Recommended: MetaMask. If the wallet extension or browser is present, StableFlow tries to pull the right provider automatically.</div>
+
+                  <div class=\"connect-grid\" id=\"walletGrid\"></div>
+                  <div class=\"wallet-reco\">Recommended: MetaMask. If your wallet rejects automatic network setup, add Arc Testnet manually first, then tap Connect again.</div>
                 </div>
               </div>
             </section>
 
-            <section class="page" data-view="home">
-              <div class="page-sheet">
-                <div class="top-actions">
-                  <div class="mini-tag"><span class="spark"></span> home</div>
-                  <button class="orange-pill" id="disconnectBtn">Disconnect</button>
+            <section class=\"page\" data-view=\"home\">
+              <div class=\"page-sheet\">
+                <div class=\"top-actions\">
+                  <div class=\"mini-tag\"><span class=\"spark\"></span> home</div>
+                  <button class=\"orange-pill\" id=\"disconnectBtn\">Disconnect</button>
                 </div>
-                <div class="section-gap"></div>
-                <div class="profile-card">
-                  <div class="profile-row">
-                    <div class="avatar-wrap"><img src="profile.png" alt="Profile" onerror="this.style.display='none'; this.parentNode.innerHTML='<div style=&quot;width:100%;height:100%;display:flex;align-items:center;justify-content:center;color:#0e3b56;font-weight:900;font-size:26px;background:#d9eef9;border-radius:50%&quot;>SF</div>'"></div>
-                    <div style="flex:1;min-width:0">
-                      <div class="wallet-pill"><span class="dot"></span><span id="homeWallet">Wallet not connected</span></div>
-                      <div class="profile-stats">
-                        <div class="metric-chip"><span id="homeTxCount">0</span> tx</div>
-                        <div class="metric-chip">LV <span id="homeLvInline">0</span></div>
-                        <div class="metric-chip" id="homeStatusChip">Starting</div>
+
+                <div class=\"section-gap\"></div>
+
+                <div class=\"profile-card\">
+                  <div class=\"profile-row\">
+                    <div class=\"avatar-wrap\">
+                      <img src=\"profile.png\" alt=\"Profile\" onerror=\"this.style.display='none'; this.parentNode.innerHTML='<div style=&quot;width:100%;height:100%;display:flex;align-items:center;justify-content:center;color:#0e3b56;font-weight:900;font-size:26px;background:#d9eef9;border-radius:50%&quot;>SF</div>'\" />
+                    </div>
+
+                    <div style=\"flex:1;min-width:0\">
+                      <div class=\"wallet-pill\"><span class=\"dot\"></span><span id=\"homeWallet\">Wallet not connected</span></div>
+
+                      <div class=\"profile-stats\">
+                        <div class=\"metric-chip\"><span id=\"homeTxCount\">0</span> tx</div>
+                        <div class=\"metric-chip\">LV <span id=\"homeLvInline\">0</span></div>
+                        <div class=\"status-chip\" id=\"homeStatusChip\">Starting</div>
                       </div>
                     </div>
                   </div>
-                  <div class="trophy-row" id="trophyRow"></div>
-                  <div class="medal-row" id="medalRow"></div>
-                  <div class="profile-bottom">
-                    <div class="lv-box"><div class="k">LV</div><div class="v" id="homeLvBox">0</div></div>
-                    <div class="progress-area">
-                      <div class="progress-label">Each transaction pushes the profile forward.</div>
-                      <div class="progress-bar"><div class="progress-fill" id="profileProgress"></div></div>
-                      <div class="rubric">StableFlow grows with real onchain activity.</div>
+
+                  <div class=\"trophy-row\" id=\"trophyRow\"></div>
+                  <div class=\"medal-row\" id=\"medalRow\"></div>
+
+                  <div class=\"profile-bottom\">
+                    <div class=\"lv-box\">
+                      <div class=\"k\">LV</div>
+                      <div class=\"v\" id=\"homeLvBox\">0</div>
+                    </div>
+
+                    <div class=\"progress-area\">
+                      <div class=\"progress-label\">Each transaction moves the profile one level until LV 10.</div>
+                      <div class=\"progress-bar\"><div class=\"progress-fill\" id=\"profileProgress\"></div></div>
+                      <div class=\"rubric\">StableFlow grows with real app activity.</div>
                     </div>
                   </div>
                 </div>
-                <div class="section-gap"></div>
-                <div class="activity-card">
-                  <div class="activity-head">
-                    <div class="live-pill"><span class="live-dot"></span> live</div>
-                    <div class="mini-tag" style="background:rgba(255,255,255,.08);border-color:rgba(255,255,255,.1);color:#d7efff">activity</div>
+
+                <div class=\"section-gap\"></div>
+
+                <div class=\"activity-card\">
+                  <div class=\"activity-head\">
+                    <div class=\"live-pill\"><span class=\"live-dot\"></span> live</div>
+                    <div class=\"mini-tag\">flow</div>
                   </div>
-                  <div class="activity-grid">
-                    <div class="dark-metric"><div class="k">Volume</div><div class="v" id="metricVolume">0</div></div>
-                    <div class="dark-metric"><div class="k">Requests</div><div class="v" id="metricRequests">0</div></div>
-                    <div class="dark-metric"><div class="k">Last</div><div class="v" id="metricLast">-</div></div>
+
+                  <div class=\"activity-grid\">
+                    <div class=\"dark-metric\"><div class=\"k\">Volume</div><div class=\"v\" id=\"metricVolume\">0</div></div>
+                    <div class=\"dark-metric\"><div class=\"k\">Requests</div><div class=\"v\" id=\"metricRequests\">0</div></div>
+                    <div class=\"dark-metric\"><div class=\"k\">Last</div><div class=\"v\" id=\"metricLast\">-</div></div>
                   </div>
-                  <div class="chart-wrap">
-                    <svg class="chart-svg" viewBox="0 0 360 190" preserveAspectRatio="none">
+
+                  <div class=\"chart-wrap\">
+                    <svg class=\"chart-svg\" viewBox=\"0 0 360 190\" preserveAspectRatio=\"none\">
                       <defs>
-                        <linearGradient id="chartFill" x1="0" x2="0" y1="0" y2="1">
-                          <stop offset="0%" stop-color="rgba(85,211,255,.34)"/>
-                          <stop offset="100%" stop-color="rgba(85,211,255,0)"/>
+                        <linearGradient id=\"chartFill\" x1=\"0\" x2=\"0\" y1=\"0\" y2=\"1\">
+                          <stop offset=\"0%\" stop-color=\"rgba(85,211,255,.34)\"></stop>
+                          <stop offset=\"100%\" stop-color=\"rgba(85,211,255,0)\"></stop>
                         </linearGradient>
                       </defs>
-                      <path id="chartArea" fill="url(#chartFill)" d=""></path>
-                      <path id="chartLine" fill="none" stroke="#87e2ff" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" d=""></path>
-                      <circle id="chartOrb" r="7" fill="#ffab25" cx="0" cy="0"></circle>
+                      <path id=\"chartArea\" fill=\"url(#chartFill)\" d=\"\"></path>
+                      <path id=\"chartLine\" fill=\"none\" stroke=\"#2fc2f1\" stroke-width=\"4\" stroke-linecap=\"round\" stroke-linejoin=\"round\" d=\"\"></path>
+                      <circle id=\"chartOrb\" r=\"7\" fill=\"#ffab25\" cx=\"0\" cy=\"0\"></circle>
                     </svg>
-                    <div class="chart-note" id="chartNote">The graph moves with swaps, pay actions and request creation.</div>
+                    <div class=\"chart-note\" id=\"chartNote\">The graph wakes up after the first real action.</div>
                   </div>
                 </div>
               </div>
             </section>
 
-            <section class="page" data-view="swap">
-              <div class="page-sheet">
-                <div class="top-actions">
-                  <div class="mini-tag"><span class="spark"></span> swap</div>
-                  <div class="slippage-shell">
-                    <button class="slippage-pill" id="slippageToggle">Slippage <span id="swapSlipLabel">1%</span></button>
-                    <div class="slippage-track" id="slippageTrack">
-                      <div class="slippage-inner">
-                        <button class="slippage-choice" data-slip="0.5">0.5%</button>
-                        <button class="slippage-choice is-on" data-slip="1">1%</button>
-                        <button class="slippage-choice" data-slip="2">2%</button>
+            <section class=\"page\" data-view=\"swap\">
+              <div class=\"page-sheet\">
+                <div class=\"top-actions\">
+                  <div class=\"mini-tag\"><span class=\"spark\"></span> swap</div>
+
+                  <div class=\"slippage-shell\">
+                    <button class=\"slippage-pill\" id=\"slippageToggle\">Slippage <span id=\"swapSlipLabel\">1%</span></button>
+                    <div class=\"slippage-track\" id=\"slippageTrack\">
+                      <div class=\"slippage-inner\">
+                        <button class=\"slippage-choice\" data-slip=\"0.5\">0.5%</button>
+                        <button class=\"slippage-choice is-on\" data-slip=\"1\">1%</button>
+                        <button class=\"slippage-choice\" data-slip=\"2\">2%</button>
                       </div>
                     </div>
                   </div>
                 </div>
-                <div class="section-gap"></div>
-                <div class="panel-card">
-                  <div class="panel-head">
+
+                <div class=\"section-gap\"></div>
+
+                <div class=\"panel-card\">
+                  <div class=\"panel-head\">
                     <div>
-                      <div class="panel-title">USDC ↔ LMTV</div>
-                      <div class="panel-sub">Both boxes stay free. Type in either one and StableFlow recalculates the other side.</div>
+                      <div class=\"panel-title\">USDC ↔ LMTV</div>
+                      <div class=\"panel-sub\">Both fields stay free. Type in either one. The arrow flips the route.</div>
                     </div>
                   </div>
-                  <div class="amount-grid">
-                    <div class="amount-box is-empty" id="swapTopBox">
-                      <div class="amount-top">
-                        <div class="token-badge"><span class="token-dot"></span><span id="swapTopToken">USDC</span></div>
-                        <div class="panel-sub" id="swapTopBalance">Balance —</div>
+
+                  <div class=\"amount-grid\">
+                    <div class=\"amount-box is-empty\" id=\"swapTopBox\">
+                      <div class=\"amount-top\">
+                        <div class=\"token-badge\"><span class=\"token-dot\"></span><span id=\"swapTopToken\">USDC</span></div>
+                        <div class=\"panel-sub\" id=\"swapTopBalance\">Balance —</div>
                       </div>
-                      <div class="amount-input-wrap">
-                        <input class="amount-input" id="swapTopInput" placeholder="0.0" inputmode="decimal" />
-                        <span class="caret"></span>
+                      <div class=\"amount-input-wrap\">
+                        <input class=\"amount-input\" id=\"swapTopInput\" placeholder=\"0.0\" inputmode=\"decimal\" />
+                        <span class=\"caret\"></span>
                       </div>
-                      <div class="quick-row hidden" id="swapQuickRow">
-                        <button class="quick-btn" data-swap-quick="25">25%</button>
-                        <button class="quick-btn" data-swap-quick="50">50%</button>
-                        <button class="quick-btn" data-swap-quick="100">MAX</button>
+                      <div class=\"quick-row hidden\" id=\"swapQuickRow\">
+                        <button class=\"quick-btn\" data-swap-quick=\"25\">25%</button>
+                        <button class=\"quick-btn\" data-swap-quick=\"50\">50%</button>
+                        <button class=\"quick-btn\" data-swap-quick=\"100\">MAX</button>
                       </div>
                     </div>
-                    <div class="swap-mid"><button class="swap-arrow" id="swapFlipBtn">↕</button></div>
-                    <div class="amount-box is-empty" id="swapBottomBox">
-                      <div class="amount-top">
-                        <div class="token-badge"><span class="token-dot"></span><span id="swapBottomToken">LMTV</span></div>
-                        <div class="panel-sub" id="swapBottomBalance">Balance —</div>
+
+                    <div class=\"swap-mid\">
+                      <button class=\"swap-arrow\" id=\"swapFlipBtn\">↕</button>
+                    </div>
+
+                    <div class=\"amount-box is-empty\" id=\"swapBottomBox\">
+                      <div class=\"amount-top\">
+                        <div class=\"token-badge\"><span class=\"token-dot\"></span><span id=\"swapBottomToken\">LMTV</span></div>
+                        <div class=\"panel-sub\" id=\"swapBottomBalance\">Balance —</div>
                       </div>
-                      <div class="amount-input-wrap">
-                        <input class="amount-input" id="swapBottomInput" placeholder="0.0" inputmode="decimal" />
-                        <span class="caret"></span>
+                      <div class=\"amount-input-wrap\">
+                        <input class=\"amount-input\" id=\"swapBottomInput\" placeholder=\"0.0\" inputmode=\"decimal\" />
+                        <span class=\"caret\"></span>
                       </div>
                     </div>
                   </div>
-                  <div class="swap-footer">
-                    <div class="hint-line" id="swapHint">Enter an amount to load the live quote.</div>
-                    <button class="submit-btn" id="swapBtn" disabled>Swap</button>
+
+                  <div class=\"swap-footer\">
+                    <div class=\"hint-line\" id=\"swapHint\">Enter an amount to load the live quote.</div>
+                    <button class=\"submit-btn\" id=\"swapBtn\" disabled>Swap</button>
                   </div>
                 </div>
               </div>
             </section>
 
-            <section class="page" data-view="pay">
-              <div class="page-sheet">
-                <div class="top-actions">
-                  <div class="mini-tag"><span class="spark"></span> swap & pay</div>
-                  <div class="tiny-switch"><span>Hide note</span><button class="switch-btn" id="payHideNoteBtn" type="button"></button></div>
+            <section class=\"page\" data-view=\"pay\">
+              <div class=\"page-sheet\">
+                <div class=\"top-actions\">
+                  <div class=\"mini-tag\"><span class=\"spark\"></span> swap & pay</div>
+                  <div class=\"tiny-switch\"><span>Hide note</span><button class=\"switch-btn\" id=\"payHideNoteBtn\" type=\"button\"></button></div>
                 </div>
-                <div class="section-gap"></div>
-                <div class="pay-layout">
-                  <div class="recipient-box is-empty" id="payRecipientBox">
-                    <div class="amount-top">
-                      <div class="token-badge"><span class="token-dot"></span>Recipient wallet</div>
-                      <button class="soft-pill" id="payScanBtn" style="height:34px;padding:0 12px">QR</button>
+
+                <div class=\"section-gap\"></div>
+
+                <div class=\"pay-layout\">
+                  <div class=\"recipient-box is-empty\" id=\"payRecipientBox\">
+                    <div class=\"amount-top\">
+                      <div class=\"token-badge\"><span class=\"token-dot\"></span>Recipient wallet</div>
+                      <button class=\"soft-pill\" id=\"payScanBtn\" style=\"height:34px;padding:0 12px\">QR</button>
                     </div>
-                    <div class="amount-input-wrap">
-                      <input id="payRecipientInput" placeholder="0x..." />
-                      <span class="caret"></span>
-                    </div>
-                  </div>
-                  <div class="asset-center">
-                    <button class="asset-card is-active" id="payUsdcBtn" type="button">USDC</button>
-                    <div class="amount-orb" id="payAmountOrb">
-                      <input class="amount-input" id="payAmountInput" placeholder="0.0" inputmode="decimal" />
-                      <div class="sub">Amount</div>
-                    </div>
-                    <button class="asset-card asset-eurc" id="payEurcBtn" type="button">EURC</button>
-                  </div>
-                  <div class="recipient-box" id="payNoteBox">
-                    <div class="amount-top">
-                      <div class="token-badge"><span class="token-dot"></span>Note</div>
-                    </div>
-                    <div class="amount-input-wrap">
-                      <input id="payNoteInput" placeholder="Optional note" />
+                    <div class=\"amount-input-wrap\">
+                      <input id=\"payRecipientInput\" placeholder=\"0x...\" />
+                      <span class=\"caret\"></span>
                     </div>
                   </div>
-                  <div class="pay-preview">
-                    <div class="pay-box">
-                      <div class="k">You pay</div>
-                      <div class="v"><span id="payYouPay">0.0</span> LMTV</div>
+
+                  <div class=\"asset-center\">
+                    <button class=\"asset-card is-active\" id=\"payUsdcBtn\" type=\"button\">USDC</button>
+
+                    <div class=\"amount-orb is-empty\" id=\"payAmountOrb\">
+                      <div class=\"amount-input-wrap\" style=\"width:100%;justify-content:center\">
+                        <input class=\"amount-input\" id=\"payAmountInput\" placeholder=\"0.0\" inputmode=\"decimal\" />
+                        <span class=\"caret\"></span>
+                      </div>
+                      <div class=\"sub\">Amount</div>
                     </div>
-                    <button class="spin-orb" id="paySpinOrb" type="button">↻</button>
-                    <div class="pay-box">
-                      <div class="k">Receiver gets</div>
-                      <div class="v"><span id="payReceiverGets">0.0</span> <span id="payAssetLabel">USDC</span></div>
+
+                    <button class=\"asset-card asset-eurc\" id=\"payEurcBtn\" type=\"button\">EURC</button>
+                  </div>
+
+                  <div class=\"recipient-box\" id=\"payNoteBox\">
+                    <div class=\"amount-top\"><div class=\"token-badge\"><span class=\"token-dot\"></span>Note</div></div>
+                    <div class=\"amount-input-wrap\"><input id=\"payNoteInput\" placeholder=\"Optional note\" /></div>
+                  </div>
+
+                  <div class=\"pay-preview\">
+                    <div class=\"pay-box\"><div class=\"k\">You pay</div><div class=\"v\"><span id=\"payYouPay\">0.0</span> LMTV</div></div>
+                    <button class=\"spin-orb\" id=\"paySpinOrb\" type=\"button\">↻</button>
+                    <div class=\"pay-box\"><div class=\"k\">Receiver gets</div><div class=\"v\"><span id=\"payReceiverGets\">0.0</span> <span id=\"payAssetLabel\">USDC</span></div></div>
+                  </div>
+
+                  <div class=\"flow-panel\" id=\"payFlowPanel\">
+                    <div class=\"flow-steps\">
+                      <div class=\"flow-step\" data-flow-step=\"1\">Approve</div>
+                      <div class=\"flow-step\" data-flow-step=\"2\">Swap</div>
+                      <div class=\"flow-step\" data-flow-step=\"3\">Transfer</div>
+                    </div>
+
+                    <div class=\"flow-meta\">
+                      <div class=\"flow-line\"><span>Route</span><strong id=\"payRoute\">LMTV → USDC</strong></div>
+                      <div class=\"flow-line\"><span>Slippage</span><strong id=\"paySlippage\">1%</strong></div>
+                      <div class=\"flow-line\"><span>Recipient</span><strong id=\"payRecipientPreview\">—</strong></div>
+                      <div class=\"flow-line\"><span>Status</span><strong id=\"payStatusLine\">Waiting for confirmation</strong></div>
                     </div>
                   </div>
-                  <div class="flow-panel" id="payFlowPanel">
-                    <div class="flow-steps">
-                      <div class="flow-step" data-flow-step="1">Approve</div>
-                      <div class="flow-step" data-flow-step="2">Swap</div>
-                      <div class="flow-step" data-flow-step="3">Transfer</div>
-                    </div>
-                    <div class="flow-meta" id="payFlowMeta">
-                      <div class="flow-line"><span>Route</span><strong id="payRoute">LMTV → USDC</strong></div>
-                      <div class="flow-line"><span>Slippage</span><strong id="paySlippage">1%</strong></div>
-                      <div class="flow-line"><span>Recipient</span><strong id="payRecipientPreview">—</strong></div>
-                      <div class="flow-line"><span>Status</span><strong id="payStatusLine">Waiting for confirmation</strong></div>
-                    </div>
-                  </div>
-                  <button class="submit-btn" id="payBtn" disabled>Swap & Pay</button>
+
+                  <button class=\"submit-btn\" id=\"payBtn\" disabled>Swap & Pay</button>
                 </div>
               </div>
             </section>
 
-            <section class="page" data-view="get-paid">
-              <div class="page-sheet">
-                <div class="top-actions">
-                  <div class="mini-tag"><span class="spark"></span> get paid</div>
-                  <div class="tiny-switch"><span>Hide note</span><button class="switch-btn" id="requestHideNoteBtn" type="button"></button></div>
+            <section class=\"page\" data-view=\"get-paid\">
+              <div class=\"page-sheet\">
+                <div class=\"top-actions\">
+                  <div class=\"mini-tag\"><span class=\"spark\"></span> get paid</div>
+                  <div class=\"tiny-switch\"><span>Hide note</span><button class=\"switch-btn\" id=\"requestHideNoteBtn\" type=\"button\"></button></div>
                 </div>
-                <div class="section-gap"></div>
-                <div class="panel-card">
-                  <div class="panel-head">
+
+                <div class=\"section-gap\"></div>
+
+                <div class=\"panel-card\">
+                  <div class=\"panel-head\">
                     <div>
-                      <div class="panel-title">Create a payment note with QR</div>
-                      <div class="panel-sub">White, ice and soft blue across the page. When EURC is active, the highlight turns premium orange.</div>
+                      <div class=\"panel-title\">Create a payment note with QR</div>
+                      <div class=\"panel-sub\">The generated result appears below the button.</div>
                     </div>
                   </div>
-                  <div class="recipient-box">
-                    <div class="amount-top">
-                      <div class="token-badge"><span class="token-dot"></span>Receiver wallet</div>
-                      <button class="soft-pill" id="requestUseMineBtn" style="height:34px;padding:0 12px">Use mine</button>
+
+                  <div class=\"recipient-box\">
+                    <div class=\"amount-top\">
+                      <div class=\"token-badge\"><span class=\"token-dot\"></span>Receiver wallet</div>
+                      <button class=\"soft-pill\" id=\"requestUseMineBtn\" style=\"height:34px;padding:0 12px\">Use mine</button>
                     </div>
-                    <div class="amount-input-wrap">
-                      <input id="requestWalletInput" placeholder="0x..." />
+                    <div class=\"amount-input-wrap\"><input id=\"requestWalletInput\" placeholder=\"0x...\" /></div>
+                  </div>
+
+                  <div class=\"section-gap\"></div>
+
+                  <div class=\"asset-center\">
+                    <button class=\"asset-card is-active\" id=\"requestUsdcBtn\" type=\"button\">USDC</button>
+
+                    <div class=\"amount-orb is-empty\" id=\"requestOrb\">
+                      <div class=\"amount-input-wrap\" style=\"width:100%;justify-content:center\">
+                        <input class=\"amount-input\" id=\"requestAmountInput\" placeholder=\"0.0\" inputmode=\"decimal\" />
+                        <span class=\"caret\"></span>
+                      </div>
+                      <div class=\"sub\">Recipient receives</div>
                     </div>
+
+                    <button class=\"asset-card asset-eurc\" id=\"requestEurcBtn\" type=\"button\">EURC</button>
                   </div>
-                  <div class="section-gap"></div>
-                  <div class="asset-center">
-                    <button class="asset-card is-active" id="requestUsdcBtn" type="button">USDC</button>
-                    <div class="amount-orb" id="requestOrb">
-                      <input class="amount-input" id="requestAmountInput" placeholder="0.0" inputmode="decimal" />
-                      <div class="sub">Requested amount</div>
-                    </div>
-                    <button class="asset-card asset-eurc" id="requestEurcBtn" type="button">EURC</button>
+
+                  <div class=\"quick-row\" style=\"margin-top:12px\">
+                    <button class=\"quick-btn\" data-request-quick=\"5\">5</button>
+                    <button class=\"quick-btn\" data-request-quick=\"10\">10</button>
+                    <button class=\"quick-btn\" data-request-quick=\"15\">15</button>
+                    <button class=\"quick-btn\" data-request-quick=\"20\">20</button>
                   </div>
-                  <div class="quick-row" style="margin-top:12px">
-                    <button class="quick-btn" data-request-quick="5">5</button>
-                    <button class="quick-btn" data-request-quick="10">10</button>
-                    <button class="quick-btn" data-request-quick="15">15</button>
-                    <button class="quick-btn" data-request-quick="20">20</button>
+
+                  <div class=\"section-gap\"></div>
+
+                  <div class=\"recipient-box\" id=\"requestNoteWrap\">
+                    <div class=\"amount-top\"><div class=\"token-badge\"><span class=\"token-dot\"></span>Note</div></div>
+                    <div class=\"amount-input-wrap\"><input id=\"requestNoteInput\" placeholder=\"Optional note\" /></div>
                   </div>
-                  <div class="section-gap"></div>
-                  <div class="recipient-box" id="requestNoteWrap">
-                    <div class="amount-top"><div class="token-badge"><span class="token-dot"></span>Note</div></div>
-                    <div class="amount-input-wrap"><input id="requestNoteInput" placeholder="Optional note" /></div>
-                  </div>
-                  <div class="section-gap"></div>
-                  <button class="submit-btn" id="requestBtn">Generate Payment QR</button>
-                  <div class="request-result" id="requestResult">
-                    <div class="qr-box"><div id="qrTarget"></div></div>
-                    <div class="request-meta" id="requestMeta"></div>
-                    <div class="request-actions">
-                      <button class="soft-pill" id="requestCopyBtn">Copy link</button>
-                      <button class="soft-pill" id="requestShareBtn">Share</button>
-                      <button class="soft-pill" id="requestDownloadBtn">Download</button>
-                      <button class="ghost-pill" id="requestNewBtn">New request</button>
+
+                  <div class=\"section-gap\"></div>
+
+                  <button class=\"submit-btn\" id=\"requestBtn\">Generate Payment QR</button>
+
+                  <div class=\"request-result\" id=\"requestResult\">
+                    <div class=\"qr-box\"><div id=\"qrTarget\"></div></div>
+                    <div class=\"request-meta\" id=\"requestMeta\"></div>
+                    <div class=\"request-actions\">
+                      <button class=\"soft-pill\" id=\"requestCopyBtn\">Copy link</button>
+                      <button class=\"soft-pill\" id=\"requestShareBtn\">Share</button>
+                      <button class=\"soft-pill\" id=\"requestDownloadBtn\">Download</button>
+                      <button class=\"ghost-pill\" id=\"requestNewBtn\">New request</button>
                     </div>
                   </div>
                 </div>
               </div>
             </section>
 
-            <section class="page" data-view="tokens">
-              <div class="page-sheet">
-                <div class="top-actions"><div class="mini-tag"><span class="spark"></span> tokens</div></div>
-                <div class="section-gap"></div>
-                <div class="token-list" id="tokenList"></div>
+            <section class=\"page\" data-view=\"tokens\">
+              <div class=\"page-sheet\">
+                <div class=\"top-actions\"><div class=\"mini-tag\"><span class=\"spark\"></span> tokens</div></div>
+                <div class=\"section-gap\"></div>
+                <div class=\"token-list\" id=\"tokenList\"></div>
               </div>
             </section>
 
-            <section class="page" data-view="more">
-              <div class="page-sheet">
-                <div class="more-top">
-                  <div class="mini-tag"><span class="spark"></span> more</div>
-                  <div style="display:flex;gap:8px;flex-wrap:wrap">
-                    <button class="soft-pill" id="themeToggleBtn">Theme</button>
-                    <button class="soft-pill" id="languageBtn">Language: EN</button>
+            <section class=\"page\" data-view=\"more\">
+              <div class=\"page-sheet\">
+                <div class=\"more-top\">
+                  <div class=\"mini-tag\"><span class=\"spark\"></span> more</div>
+                  <div style=\"display:flex;gap:8px;flex-wrap:wrap\">
+                    <button class=\"soft-pill\" id=\"themeToggleBtn\">Theme: Light</button>
+                    <button class=\"soft-pill\" id=\"languageBtn\">Language: EN</button>
                   </div>
                 </div>
-                <div class="section-gap"></div>
-                <div class="segment" id="moreMainTabs">
-                  <button class="is-on" data-more-tab="requests">Requests</button>
-                  <button data-more-tab="activity">Activity</button>
-                  <button data-more-tab="status">Status</button>
+
+                <div class=\"section-gap\"></div>
+
+                <div class=\"segment\" id=\"moreTabs\">
+                  <button class=\"is-on\" data-more-tab=\"requests\">Requests</button>
+                  <button data-more-tab=\"activity\">Activity</button>
+                  <button data-more-tab=\"status\">Status</button>
                 </div>
-                <div class="section-gap"></div>
-                <div class="more-panel" id="moreRequestsPanel">
-                  <div class="panel-head"><div><div class="panel-title">Generated requests</div><div class="panel-sub">Payment notes created in Get Paid appear here.</div></div></div>
-                  <div id="moreRequestsList"></div>
+
+                <div class=\"more-panel\" id=\"moreRequestsPanel\">
+                  <div class=\"panel-head\"><div><div class=\"panel-title\">Generated requests</div><div class=\"panel-sub\">What comes from Get Paid lands here.</div></div></div>
+                  <div id=\"moreRequestsList\"></div>
                 </div>
-                <div class="more-panel hidden" id="moreActivityPanel">
-                  <div class="panel-head"><div><div class="panel-title">Activity</div><div class="panel-sub">Short history from real app actions.</div></div></div>
-                  <div class="segment" id="activityFilters">
-                    <button class="is-on" data-activity-filter="all">All</button>
-                    <button data-activity-filter="swap">Swap</button>
-                    <button data-activity-filter="pay">Pay</button>
-                    <button data-activity-filter="request">Requests</button>
+
+                <div class=\"more-panel hidden\" id=\"moreActivityPanel\">
+                  <div class=\"panel-head\"><div><div class=\"panel-title\">Activity</div><div class=\"panel-sub\">Real swaps, payments and request events.</div></div></div>
+                  <div class=\"segment\" id=\"activityFilters\">
+                    <button class=\"is-on\" data-activity-filter=\"all\">All</button>
+                    <button data-activity-filter=\"swap\">Swap</button>
+                    <button data-activity-filter=\"pay\">Pay</button>
+                    <button data-activity-filter=\"request\">Requests</button>
                   </div>
-                  <div class="section-gap"></div>
-                  <div id="moreActivityList"></div>
+                  <div class=\"section-gap\"></div>
+                  <div id=\"moreActivityList\"></div>
                 </div>
-                <div class="more-panel hidden" id="moreStatusPanel">
-                  <div class="panel-head"><div><div class="panel-title">Status</div><div class="panel-sub">Live wallet, network and shell status.</div></div></div>
-                  <div class="status-grid" id="statusGrid"></div>
+
+                <div class=\"more-panel hidden\" id=\"moreStatusPanel\">
+                  <div class=\"panel-head\"><div><div class=\"panel-title\">Status</div><div class=\"panel-sub\">Wallet, network and shell state.</div></div></div>
+                  <div class=\"status-grid\" id=\"statusGrid\"></div>
                 </div>
               </div>
             </section>
           </div>
         </div>
-        <div class="cover" id="cover"><div class="cover-mark"></div></div>
+
+        <div class=\"cover\" id=\"cover\"><div class=\"cover-mark\"></div></div>
       </main>
     </div>
-    <div class="bottombar"></div>
+
+    <div class=\"bottombar\"></div>
   </div>
 
   <script>
     const ARC_NETWORK = {
-      chainIdHex: '0x4cf232',
+      chainIdHex: '0x4cef52',
       chainId: 5042002,
       chainName: 'Arc Testnet',
       nativeCurrency: { name: 'USDC', symbol: 'USDC', decimals: 6 },
@@ -619,19 +2133,17 @@
     };
 
     const TOKEN_CONFIG = {
-      LMTV: { symbol:'LMTV', address:'0xd9D382085Fb4E4dBCf0A6B85c76D42eaB0A1be2d', icon:'lmtv.png', color:'blue' },
-      USDC: { symbol:'USDC', address:'0x3600000000000000000000000000000000000000', icon:'usdc.png', color:'blue' },
-      EURC: { symbol:'EURC', address:'0x89B50855Aa3bE2F677cD6303Cec089B5F319D72a', icon:'eurc.png', color:'orange' }
+      LMTV: { symbol:'LMTV', address:'0xd9D382085Fb4E4dBCf0A6B85c76D42eaB0A1be2d', icon:'lmtv.png' },
+      USDC: { symbol:'USDC', address:'0x3600000000000000000000000000000000000000', icon:'usdc.png' },
+      EURC: { symbol:'EURC', address:'0x89B50855Aa3bE2F677cD6303Cec089B5F319D72a', icon:'eurc.png' }
     };
 
     const PAIRS = {
-      USDC: { symbol:'LMTV/USDC', address:'0x0681304E26184f3c97a38E915B49CF5F5E8cB983' },
-      EURC: { symbol:'LMTV/EURC', address:'0xD41E9D32eacF8a3680750625602286318FD3c3E4' }
+      USDC: '0x0681304E26184f3c97a38E915B49CF5F5E8cB983',
+      EURC: '0xD41E9D32eacF8a3680750625602286318FD3c3E4'
     };
 
     const ERC20_ABI = [
-      'function symbol() view returns (string)',
-      'function name() view returns (string)',
       'function decimals() view returns (uint8)',
       'function balanceOf(address owner) view returns (uint256)',
       'function allowance(address owner, address spender) view returns (uint256)',
@@ -648,318 +2160,378 @@
       'function token1() view returns (address)'
     ];
 
-    const STORAGE_KEY = 'stableflow-shell-state-v1';
-    const $$ = (sel, root=document) => Array.from(root.querySelectorAll(sel));
-    const $ = (sel, root=document) => root.querySelector(sel);
+    const $ = (s,r=document)=>r.querySelector(s);
+    const $$ = (s,r=document)=>Array.from(r.querySelectorAll(s));
+
     const app = $('#app');
     const connectBtn = $('#connectBtn');
     const connectLabel = $('#connectLabel');
-    const navButtons = $$('[data-page]');
-    const pages = $$('.page');
-    const cover = $('#cover');
-    const walletGrid = $('#walletGrid');
     const noticeChip = $('#noticeChip');
+    const noticeChain = $('#noticeChain');
     const noticeMessage = $('#noticeMessage');
     const noticeHelper = $('#noticeHelper');
-    const noticeChain = $('#noticeChain');
+    const navButtons = $$('[data-page]');
+    const pages = $$('.page');
+    const walletGrid = $('#walletGrid');
 
     const state = {
-      shellOpen: false,
-      connected: false,
-      account: '',
-      shortAccount: '',
-      chainId: null,
-      selectedPage: 'connect',
-      navLit: false,
-      theme: 'light',
-      language: 'EN',
-      providerKey: null,
-      web3Provider: null,
-      signer: null,
-      provider: null,
-      decimals: { LMTV:18, USDC:6, EURC:6 },
-      balances: { LMTV:'0', USDC:'0', EURC:'0' },
-      pairInfo: {},
-      requests: [],
-      activity: [],
-      stats: { txCount:0, volumeUsd:0, requests:0, lastAction:'-', spark:[6,6,6,6,6,6,6,6,6,6] },
-      noticeMode: 'connect',
-      noticeQueue: [],
-      noticeIndex: 0,
-      noticeTimer: null,
-      activityFilter: 'all',
-      moreTab: 'requests',
-      swap: {
-        direction: 'USDC_TO_LMTV',
-        activeField: 'top',
-        topAmount: '',
-        bottomAmount: '',
-        slippage: '1',
-        quoteBusy: false,
-        lastValidInput: null
-      },
-      pay: {
-        asset: 'USDC',
-        amount: '',
-        recipient: '',
-        note: '',
-        hideNote: false,
-        processing: false,
-        step: 0,
-        youPay: '0',
-        lastQuoteIn: null
-      },
-      request: {
-        asset: 'USDC',
-        amount: '',
-        wallet: '',
-        note: '',
-        hideNote: false,
-        current: null
-      }
+      shellOpen:false,
+      connected:false,
+      account:'',
+      chainId:null,
+      theme:'light',
+      selectedPage:'connect',
+      provider:null,
+      web3:null,
+      signer:null,
+      balances:{LMTV:'0',USDC:'0',EURC:'0'},
+      decimals:{LMTV:18,USDC:6,EURC:6},
+      pairInfo:{},
+      txCount:0,
+      requests:[],
+      activity:[],
+      volume:0,
+      moreTab:'requests',
+      activityFilter:'all',
+      noticeQueue:[],
+      noticeIndex:0,
+      noticeTimer:null,
+      swap:{direction:'USDC_TO_LMTV', active:'top', slippage:'1', last:null},
+      pay:{asset:'USDC', hideNote:false, processing:false, step:0, lastIn:null},
+      request:{asset:'USDC', hideNote:false, current:null}
     };
 
-    const providersDetected = {};
-    let lightTimers = [];
-    let pageAnimTimer = null;
-    let qrInstance = null;
-    let requestLink = '';
+    const wallets = [
+      { key:'metamask', name:'MetaMask', code:'MM', hint:'Best default route for the Arc test flow.' },
+      { key:'rabby', name:'Rabby', code:'RB', hint:'Works well when the extension is present.' },
+      { key:'okx', name:'OKX', code:'OK', hint:'Pulls from the wallet browser or extension when available.' },
+      { key:'base', name:'Base', code:'BS', hint:'Uses the detected Coinbase/Base provider.' }
+    ];
 
-    function debounce(fn, wait=280){ let t; return (...args)=>{ clearTimeout(t); t=setTimeout(()=>fn(...args), wait); }; }
-    function shorten(addr){ return addr ? `${addr.slice(0,6)}...${addr.slice(-4)}` : 'Wallet not connected'; }
-    function clamp(n, min, max){ return Math.min(max, Math.max(min, n)); }
-    function escapeHtml(str){ return String(str||'').replace(/[&<>"']/g, s => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[s])); }
-    function humanDate(ts){ try { return new Date(ts).toLocaleString(); } catch { return '-'; } }
-    function formatNum(value, max=4){ const num = Number(value || 0); if (!Number.isFinite(num)) return '0'; return num.toLocaleString(undefined, { maximumFractionDigits:max }); }
-    function formatCompact(value){ const num = Number(value || 0); if (!Number.isFinite(num)) return '0'; if (Math.abs(num) >= 1000000) return `${(num/1000000).toFixed(2)}M`; if (Math.abs(num) >= 1000) return `${(num/1000).toFixed(2)}K`; return num.toFixed(num >= 10 ? 2 : 4); }
-    function setInputEmptyClass(input, box){ box.classList.toggle('is-empty', !String(input.value || '').trim()); }
-    function saveLocal(){
-      const snapshot = {
-        theme: state.theme,
-        language: state.language,
-        requests: state.requests,
-        activity: state.activity,
-        stats: state.stats
+    function getAddChainParams(){
+      return {
+        chainId: ARC_NETWORK.chainIdHex,
+        chainName: ARC_NETWORK.chainName,
+        nativeCurrency: ARC_NETWORK.nativeCurrency,
+        rpcUrls: ARC_NETWORK.rpcUrls,
+        blockExplorerUrls: ARC_NETWORK.blockExplorerUrls
       };
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(snapshot));
-    }
-    function loadLocal(){
-      try {
-        const raw = localStorage.getItem(STORAGE_KEY);
-        if (!raw) return;
-        const saved = JSON.parse(raw);
-        if (saved.theme) state.theme = saved.theme;
-        if (saved.language) state.language = saved.language;
-        if (Array.isArray(saved.requests)) state.requests = saved.requests;
-        if (Array.isArray(saved.activity)) state.activity = saved.activity;
-        if (saved.stats) state.stats = { ...state.stats, ...saved.stats };
-      } catch {}
     }
 
-    function applyTheme(){
-      app.classList.toggle('theme-dark', state.theme === 'dark');
-      $('#themeToggleBtn').textContent = `Theme: ${state.theme === 'dark' ? 'Dark' : 'Light'}`;
-      $('#languageBtn').textContent = `Language: ${state.language}`;
+    function shorten(v){
+      return v ? `${v.slice(0,6)}...${v.slice(-4)}` : 'Wallet not connected';
     }
 
-    function clearLightTimers(){ lightTimers.forEach(id => clearTimeout(id)); lightTimers = []; }
-    function setNavDisabled(disabled){
-      navButtons.forEach(btn => btn.classList.toggle('is-disabled', disabled));
+    function clamp(n,min,max){
+      return Math.min(max, Math.max(min, n));
     }
-    function resetNavToOff(){
-      navButtons.forEach(btn => btn.classList.remove('is-lit','is-selected'));
-      setNavDisabled(true);
-      state.navLit = false;
+
+    function fmt(n, max=4){
+      const x = Number(n || 0);
+      return Number.isFinite(x) ? x.toLocaleString(undefined,{maximumFractionDigits:max}) : '0';
     }
-    function applySelectedState(){
-      navButtons.forEach(btn => btn.classList.toggle('is-selected', state.connected && btn.dataset.page === state.selectedPage));
+
+    function trimNum(v){
+      const s = String(v || '');
+      return s.includes('.') ? s.replace(/0+$/,'').replace(/\.$/,'') : s;
     }
-    function runLightSequence(){
-      clearLightTimers();
-      navButtons.forEach((btn, index) => {
-        const timer = setTimeout(() => {
-          btn.classList.add('is-lit');
-          btn.classList.remove('is-disabled');
-          if (index === navButtons.length - 1) state.navLit = true;
-          applySelectedState();
-        }, 110 * (index + 1));
-        lightTimers.push(timer);
+
+    function setEmpty(input, box){
+      box.classList.toggle('is-empty', !String(input.value || '').trim());
+    }
+
+    function parseAmount(v, decimals){
+      const clean = String(v || '').replace(',', '.').trim();
+      if (!clean || !/^\d*\.?\d*$/.test(clean)) return null;
+      try{
+        return ethers.utils.parseUnits(clean, decimals);
+      }catch{
+        return null;
+      }
+    }
+
+    function debounce(fn, wait=280){
+      let t;
+      return (...args)=>{
+        clearTimeout(t);
+        t = setTimeout(()=>fn(...args), wait);
+      };
+    }
+
+    function setNotice(queue, chip='Smart notice', helper=''){
+      state.noticeQueue = queue;
+      state.noticeIndex = 0;
+      noticeChip.textContent = chip;
+      renderNotice(helper);
+
+      if (state.noticeTimer) clearInterval(state.noticeTimer);
+      state.noticeTimer = setInterval(()=>{
+        if (!state.noticeQueue.length) return;
+        state.noticeIndex = (state.noticeIndex + 1) % state.noticeQueue.length;
+        renderNotice();
+      }, 3000);
+    }
+
+    function renderNotice(helperOverride=''){
+      const item = state.noticeQueue[state.noticeIndex] || {
+        text:'Connect wallet',
+        helper:'Navigation unlocks after connection.'
+      };
+
+      noticeMessage.style.opacity = '0';
+      noticeMessage.style.transform = 'translateY(4px)';
+
+      setTimeout(()=>{
+        noticeMessage.textContent = item.text;
+        noticeHelper.textContent = helperOverride || item.helper || '';
+        noticeMessage.style.opacity = '1';
+        noticeMessage.style.transform = 'translateY(0)';
+      }, 150);
+    }
+
+    function contextNotice(){
+      if (!state.connected) {
+        setNotice([
+          { text:'Connect wallet', helper:'Open the shell, then connect a wallet to unlock navigation.' },
+          { text:'Connect wallet', helper:'If the wallet rejects network setup, add Arc Testnet manually and try again.' }
+        ], 'Connect');
+        return;
+      }
+
+      const map = {
+        home:[
+          { text:'Profile live', helper:'Each completed transaction raises LV and lights a slot.' },
+          { text:'Flow graph active', helper:'The graph reacts to real swaps, pay actions and requests.' }
+        ],
+        swap:[
+          { text:'Swap ready', helper:'USDC and LMTV stay editable on both sides.' },
+          { text:'Editable both ways', helper:'Type in either field. Flip swaps the route direction.' }
+        ],
+        pay:[
+          { text:'Swap & Pay ready', helper:'Approve, swap, then transfer to the receiver.' },
+          { text:'Top guidance active', helper:'The notice bar helps during each confirmation step.' }
+        ],
+        'get-paid':[
+          { text:'Generate payment QR', helper:'The note appears below the button when created.' },
+          { text:'EURC accent', helper:'When EURC is active, the orb turns premium orange.' }
+        ],
+        tokens:[
+          { text:'Tokens live', helper:'Balances, contracts and pair info load from the chain.' }
+        ],
+        more:[
+          { text:'Requests, activity, status', helper:'Everything here is fed by real app state.' }
+        ]
+      };
+
+      setNotice(map[state.selectedPage] || map.home, 'Smart notice');
+    }
+
+    function showPage(name){
+      const current = $('.page.is-active');
+      const next = $(`.page[data-view=\"${name}\"]`);
+      if (!next || current === next) return;
+
+      pages.forEach(p=>p.classList.remove('is-left','is-active'));
+      if (current) current.classList.add('is-left');
+      next.classList.add('is-active');
+
+      state.selectedPage = name;
+      applySelected();
+      contextNotice();
+    }
+
+    let lightTimers = [];
+
+    function clearLights(){
+      lightTimers.forEach(clearTimeout);
+      lightTimers = [];
+    }
+
+    function navOff(){
+      navButtons.forEach(btn=>{
+        btn.classList.remove('is-lit','is-selected');
+        btn.classList.add('is-disabled');
       });
     }
 
-    function openShell(){ state.shellOpen = true; app.classList.add('open'); }
-    function closeShell(){ state.shellOpen = false; if (!state.connected) app.classList.remove('open'); }
-
-    function showPage(page){
-      const next = pages.find(p => p.dataset.view === page);
-      const current = pages.find(p => p.classList.contains('is-active'));
-      if (!next || current === next) { state.selectedPage = page; applySelectedState(); setNoticeForContext(); return; }
-      clearTimeout(pageAnimTimer);
-      pages.forEach(p => p.classList.remove('is-left','is-active'));
-      if (current) current.classList.add('is-left');
-      next.classList.add('is-active');
-      state.selectedPage = page;
-      applySelectedState();
-      pageAnimTimer = setTimeout(() => { if (current) current.classList.remove('is-left'); }, 540);
-      setNoticeForContext();
+    function runLights(){
+      clearLights();
+      navButtons.forEach((btn,i)=>{
+        const t = setTimeout(()=>{
+          btn.classList.add('is-lit');
+          btn.classList.remove('is-disabled');
+          applySelected();
+        }, 110 * (i + 1));
+        lightTimers.push(t);
+      });
     }
 
-    function detectProviders(){
+    function applySelected(){
+      navButtons.forEach(btn=>{
+        btn.classList.toggle('is-selected', state.connected && btn.dataset.page === state.selectedPage);
+      });
+    }
+
+    function openShell(){
+      state.shellOpen = true;
+      app.classList.add('open');
+    }
+
+    function closeShell(){
+      state.shellOpen = false;
+      app.classList.remove('open');
+    }
+
+    function detectProvider(kind){
       const eth = window.ethereum;
-      const providers = eth?.providers?.length ? eth.providers : eth ? [eth] : [];
-      providersDetected.metamask = providers.find(p => p.isMetaMask && !p.isRabby && !p.isCoinbaseWallet) || providers.find(p => p.isMetaMask) || null;
-      providersDetected.rabby = providers.find(p => p.isRabby) || null;
-      providersDetected.okx = providers.find(p => p.isOkxWallet || p.isOKXWallet) || null;
-      providersDetected.base = providers.find(p => p.isCoinbaseWallet || p.isBaseWallet) || null;
-    }
+      const list = eth?.providers?.length ? eth.providers : eth ? [eth] : [];
 
-    function walletCardMarkup(key, label, hint, glyph){
-      const provider = providersDetected[key];
-      const stateText = provider ? 'Detected in this browser' : 'Tap to try or install';
-      return `
-        <button class="wallet-card" data-wallet="${key}" type="button">
-          <div class="top">
-            <div style="display:flex;align-items:center;gap:10px;min-width:0">
-              <div class="wallet-glyph">${glyph}</div>
-              <div style="min-width:0"><div class="wallet-name">${label}</div><div class="wallet-state">${stateText}</div></div>
-            </div>
-            <div class="notice-chain">${provider ? 'Ready' : 'Try'}</div>
-          </div>
-          <div class="wallet-reco">${hint}</div>
-        </button>
-      `;
+      if (kind === 'metamask') return list.find(p=>p.isMetaMask && !p.isRabby && !p.isCoinbaseWallet) || list.find(p=>p.isMetaMask) || null;
+      if (kind === 'rabby') return list.find(p=>p.isRabby) || null;
+      if (kind === 'okx') return list.find(p=>p.isOkxWallet || p.isOKXWallet) || null;
+      if (kind === 'base') return list.find(p=>p.isCoinbaseWallet || p.isBaseWallet) || null;
+
+      return null;
     }
 
     function renderWallets(){
-      detectProviders();
-      walletGrid.innerHTML = [
-        walletCardMarkup('metamask','MetaMask','Best default route for the Arc test flow.','MM'),
-        walletCardMarkup('rabby','Rabby','Works well when the extension is present.','RB'),
-        walletCardMarkup('okx','OKX','Pulls from the wallet browser or extension when available.','OK'),
-        walletCardMarkup('base','Base','Uses the detected Base/Coinbase style provider.','BS')
-      ].join('');
-      $$('.wallet-card', walletGrid).forEach(btn => btn.addEventListener('click', ()=> connectWallet(btn.dataset.wallet)));
+      walletGrid.innerHTML = wallets.map(w=>{
+        const found = detectProvider(w.key);
+        return `
+          <button class=\"wallet-card\" data-wallet=\"${w.key}\" type=\"button\">
+            <div class=\"top\">
+              <div style=\"display:flex;align-items:center;gap:10px;min-width:0\">
+                <div class=\"wallet-glyph\">${w.code}</div>
+                <div>
+                  <div class=\"wallet-name\">${w.name}</div>
+                  <div class=\"wallet-state\">${found ? 'Detected in this browser' : 'Tap to try or install'}</div>
+                </div>
+              </div>
+              <div class=\"status-chip\">${found ? 'Ready' : 'Try'}</div>
+            </div>
+            <div class=\"wallet-reco\">${w.hint}</div>
+          </button>
+        `;
+      }).join('');
+
+      $$('.wallet-card', walletGrid).forEach(btn=>{
+        btn.addEventListener('click', ()=> connectWallet(btn.dataset.wallet));
+      });
     }
 
-    function setNotice(queue, chip='Smart notice', helper=''){ state.noticeQueue = queue; state.noticeIndex = 0; noticeChip.textContent = chip; noticeHelper.textContent = helper || ''; renderNotice(); restartNoticeLoop(); }
-    function clearNoticeTimer(){ if (state.noticeTimer) clearInterval(state.noticeTimer); state.noticeTimer = null; }
-    function restartNoticeLoop(){ clearNoticeTimer(); state.noticeTimer = setInterval(()=>{ if (!state.noticeQueue.length) return; state.noticeIndex = (state.noticeIndex + 1) % state.noticeQueue.length; renderNotice(true); }, 3000); }
-    function renderNotice(animate=false){
-      const item = state.noticeQueue[state.noticeIndex] || { text:'Connect wallet', helper:'StableFlow is waiting.' };
-      if (animate) { noticeMessage.style.opacity = '0'; noticeMessage.style.transform = 'translateY(4px)'; setTimeout(()=>{ noticeMessage.textContent = item.text; noticeHelper.textContent = item.helper || ''; noticeMessage.style.opacity='1'; noticeMessage.style.transform='translateY(0)'; }, 180); }
-      else { noticeMessage.textContent = item.text; noticeHelper.textContent = item.helper || ''; }
-    }
-
-    function setNoticeForContext(){
-      if (!state.connected) {
-        setNotice([
-          { text:'Connect wallet', helper:'Navigation unlocks after wallet connection.' },
-          { text:'Connect wallet', helper:'MetaMask is the recommended first route.' }
-        ], 'Connect', 'The shell opens first. Navigation unlocks after connection.');
-        return;
-      }
-      if (state.pay.processing) return;
-      const baseMap = {
-        home: [
-          { text:'Profile live', helper:'Each completed transaction raises LV and lights a slot.' },
-          { text:'Activity feed ready', helper:'The graph reads real app actions, not decorative fake data.' }
-        ],
-        swap: [
-          { text:'Swap ready', helper:'USDC and LMTV stay editable on both sides.' },
-          { text:'Slippage on side rail', helper:'25 / 50 / MAX only appear when the input has value.' }
-        ],
-        pay: [
-          { text:'Swap & Pay ready', helper:'Stable output goes to the receiver after the LMTV swap.' },
-          { text:'3-step flow', helper:'Approve, swap and transfer are guided by the top notice bar.' }
-        ],
-        'get-paid': [
-          { text:'Generate QR request', helper:'The payment note appears below the button after creation.' },
-          { text:'EURC accent', helper:'When EURC is selected, the orb and accents turn premium orange.' }
-        ],
-        tokens: [
-          { text:'Live token panel', helper:'Contracts, reserves and spot ratios are loaded from chain.' },
-          { text:'Copy on touch', helper:'Each card includes quick copy actions for contract addresses.' }
-        ],
-        more: [
-          { text:'Requests, activity, status', helper:'Everything here is fed by real app state and generated notes.' },
-          { text:'Clean empty states', helper:'No fake counters. Only real data and elegant waiting states.' }
-        ]
-      };
-      setNotice(baseMap[state.selectedPage] || baseMap.home, 'Smart notice', 'Arc Testnet guidance is always available here.');
-    }
-
-    async function ensureArcNetwork(providerLike){
-      const provider = providerLike || state.provider;
+    async function ensureArcNetwork(provider){
       if (!provider) throw new Error('Wallet provider not found.');
-      try {
-        await provider.request({ method:'wallet_switchEthereumChain', params:[{ chainId: ARC_NETWORK.chainIdHex }] });
-      } catch (switchErr) {
-        if (switchErr.code === 4902 || switchErr.code === -32603 || /Unrecognized chain/i.test(String(switchErr.message || ''))) {
-          await provider.request({ method:'wallet_addEthereumChain', params:[ARC_NETWORK] });
-        } else if (switchErr.code !== 4001) {
+
+      try{
+        await provider.request({
+          method:'wallet_switchEthereumChain',
+          params:[{ chainId: ARC_NETWORK.chainIdHex }]
+        });
+        return;
+      }catch(switchErr){
+        const code = Number(switchErr?.code);
+        const msg = String(switchErr?.message || switchErr?.reason || '');
+        const canAdd = code === 4902 || /unrecognized chain|unknown chain|not added|could not find/i.test(msg);
+
+        if (!canAdd) {
+          if (code === 4001) throw new Error('Arc network switch was rejected in the wallet.');
           throw switchErr;
-        } else {
-          throw new Error('Network switch was rejected.');
         }
       }
+
+      try{
+        await provider.request({
+          method:'wallet_addEthereumChain',
+          params:[getAddChainParams()]
+        });
+      }catch(addErr){
+        const code = Number(addErr?.code);
+        const msg = String(addErr?.message || addErr?.reason || '');
+
+        if (code === 4001) throw new Error('Arc network setup was rejected in the wallet.');
+        if (/unexpected keys|unsupported|wallet_addEthereumChain/i.test(msg)) {
+          throw new Error('This wallet rejected automatic Arc setup. Add Arc Testnet manually in the wallet, then try again.');
+        }
+        throw addErr;
+      }
     }
 
-    function selectedProviderForKey(key){
-      return providersDetected[key] || window.ethereum || null;
-    }
-
-    async function connectWallet(key){
-      try {
+    async function connectWallet(kind){
+      try{
         openShell();
-        const injected = selectedProviderForKey(key);
-        if (!injected) throw new Error(`${key.toUpperCase()} provider not found in this browser.`);
-        setNotice([{ text:'Connect wallet', helper:`Opening ${key} provider…` }], 'Connect', 'Waiting for wallet approval.');
-        await ensureArcNetwork(injected);
-        const web3Provider = new ethers.providers.Web3Provider(injected, 'any');
+
+        const injected = detectProvider(kind) || window.ethereum;
+        if (!injected) throw new Error('No wallet provider was found in this browser.');
+
+        setNotice([{ text:'Connect wallet', helper:`Opening ${kind} provider…` }], 'Connect');
+
         const accounts = await injected.request({ method:'eth_requestAccounts' });
-        const signer = web3Provider.getSigner();
-        const network = await web3Provider.getNetwork();
-        state.providerKey = key;
+        const account = accounts?.[0];
+        if (!account) throw new Error('Wallet did not return an account.');
+
+        await ensureArcNetwork(injected);
+
+        const web3 = new ethers.providers.Web3Provider(injected, 'any');
+        const signer = web3.getSigner();
+        const network = await web3.getNetwork();
+
+        if (Number(network.chainId) !== ARC_NETWORK.chainId) {
+          throw new Error('Wallet connected, but Arc Testnet is not active yet. Switch to Arc Testnet and try again.');
+        }
+
         state.provider = injected;
-        state.web3Provider = web3Provider;
+        state.web3 = web3;
         state.signer = signer;
-        state.account = accounts[0] || '';
-        state.shortAccount = shorten(state.account);
+        state.account = account;
         state.chainId = Number(network.chainId);
         state.connected = true;
-        state.shellOpen = true;
-        app.classList.add('open');
+
         connectLabel.textContent = 'CONNECTED';
-        runLightSequence();
+        openShell();
+        runLights();
         bindProviderEvents();
-        await bootstrapOnchain();
+
+        await refreshDecimals();
+        await refreshBalances();
+        await refreshPairs();
+
+        updateAllUI();
         fillRequestDefaults();
         showPage('home');
-        setNoticeForContext();
-      } catch (err) {
+      }catch(err){
         state.connected = false;
         state.provider = null;
-        state.web3Provider = null;
+        state.web3 = null;
         state.signer = null;
-        setNotice([{ text:'Connection failed', helper: err?.message || 'Wallet connection could not be completed.' }], 'Warning', 'Try another provider or open the wallet browser.');
+        state.account = '';
+        state.chainId = null;
+        connectLabel.textContent = 'CONNECT';
+        navOff();
+
+        setNotice([{ text:'Connection failed', helper: err?.message || 'Wallet connection could not be completed.' }], 'Warning');
       }
     }
 
     function bindProviderEvents(){
       if (!state.provider || state.provider.__stableflowBound) return;
+
       state.provider.__stableflowBound = true;
-      state.provider.on?.('accountsChanged', accounts => {
-        if (!accounts || !accounts.length) { disconnectWallet(); return; }
+
+      state.provider.on?.('accountsChanged', async accounts=>{
+        if (!accounts || !accounts.length) return disconnectWallet();
         state.account = accounts[0];
-        state.shortAccount = shorten(state.account);
-        refreshAccountUI();
-        refreshBalances().catch(()=>{});
+        await refreshBalances();
+        updateAllUI();
       });
-      state.provider.on?.('chainChanged', async chainIdHex => {
-        state.chainId = parseInt(chainIdHex, 16);
+
+      state.provider.on?.('chainChanged', async chainHex=>{
+        state.chainId = parseInt(chainHex, 16);
         noticeChain.textContent = state.chainId === ARC_NETWORK.chainId ? 'Arc Testnet' : 'Wrong network';
+
         if (state.chainId === ARC_NETWORK.chainId) {
-          await bootstrapOnchain();
+          await refreshBalances();
+          await refreshPairs();
+          updateAllUI();
         }
       });
     }
@@ -967,739 +2539,780 @@
     function disconnectWallet(){
       state.connected = false;
       state.account = '';
-      state.shortAccount = '';
       state.chainId = null;
       state.provider = null;
-      state.web3Provider = null;
+      state.web3 = null;
       state.signer = null;
-      state.providerKey = null;
-      state.balances = { LMTV:'0', USDC:'0', EURC:'0' };
-      connectLabel.textContent = 'CONNECT';
-      resetNavToOff();
-      app.classList.remove('open');
-      state.shellOpen = false;
-      showPage('connect');
-      refreshAccountUI();
-      renderTokens();
-      renderMore();
-      updateProfile();
-      updateHomeMetrics();
-      setNoticeForContext();
-    }
+      state.balances = {LMTV:'0',USDC:'0',EURC:'0'};
 
-    async function bootstrapOnchain(){
-      if (!state.web3Provider || !state.account) return;
-      noticeChain.textContent = state.chainId === ARC_NETWORK.chainId ? 'Arc Testnet' : 'Switch network';
-      await Promise.all([refreshDecimals(), refreshBalances(), refreshPairs()]);
-      refreshAccountUI();
-      renderTokens();
-      renderMore();
-      updateProfile();
-      updateHomeMetrics();
-      await updateSwapQuote();
-      await updatePayQuote();
+      connectLabel.textContent = 'CONNECT';
+      navOff();
+      closeShell();
+      showPage('connect');
+      updateAllUI();
+      contextNotice();
     }
 
     async function refreshDecimals(){
-      const provider = state.web3Provider;
-      if (!provider) return;
-      await Promise.all(Object.keys(TOKEN_CONFIG).map(async symbol => {
-        try {
-          const contract = new ethers.Contract(TOKEN_CONFIG[symbol].address, ERC20_ABI, provider);
-          const decimals = await contract.decimals();
-          state.decimals[symbol] = Number(decimals);
-        } catch {}
+      if (!state.web3) return;
+
+      await Promise.all(Object.keys(TOKEN_CONFIG).map(async symbol=>{
+        try{
+          const c = new ethers.Contract(TOKEN_CONFIG[symbol].address, ERC20_ABI, state.web3);
+          state.decimals[symbol] = Number(await c.decimals());
+        }catch{}
       }));
     }
 
     async function refreshBalances(){
-      const provider = state.web3Provider;
-      if (!provider || !state.account) return;
-      const next = { ...state.balances };
-      await Promise.all(Object.keys(TOKEN_CONFIG).map(async symbol => {
-        try {
-          const contract = new ethers.Contract(TOKEN_CONFIG[symbol].address, ERC20_ABI, provider);
-          const raw = await contract.balanceOf(state.account);
-          next[symbol] = ethers.utils.formatUnits(raw, state.decimals[symbol]);
-        } catch {}
-      }));
-      state.balances = next;
-      refreshBalanceLabels();
-      renderTokens();
+      if (!state.web3 || !state.account) return;
+
+      for (const symbol of Object.keys(TOKEN_CONFIG)) {
+        try{
+          const c = new ethers.Contract(TOKEN_CONFIG[symbol].address, ERC20_ABI, state.web3);
+          const raw = await c.balanceOf(state.account);
+          state.balances[symbol] = ethers.utils.formatUnits(raw, state.decimals[symbol]);
+        }catch{}
+      }
     }
 
     async function refreshPairs(){
-      const provider = state.web3Provider;
-      if (!provider) return;
-      const info = {};
+      if (!state.web3) return;
+
       for (const stable of ['USDC','EURC']) {
-        try {
-          const pair = new ethers.Contract(PAIRS[stable].address, PAIR_ABI, provider);
-          const [token0, token1, reserve0, reserve1] = await Promise.all([pair.token0(), pair.token1(), pair.reserve0(), pair.reserve1()]);
-          info[stable] = { token0: token0.toLowerCase(), token1: token1.toLowerCase(), reserve0, reserve1 };
-        } catch (e) {
-          info[stable] = null;
+        try{
+          const pair = new ethers.Contract(PAIRS[stable], PAIR_ABI, state.web3);
+          state.pairInfo[stable] = {
+            pair,
+            token0:(await pair.token0()).toLowerCase(),
+            token1:(await pair.token1()).toLowerCase(),
+            reserve0:await pair.reserve0(),
+            reserve1:await pair.reserve1()
+          };
+        }catch{
+          state.pairInfo[stable] = null;
         }
       }
-      state.pairInfo = info;
-      renderTokens();
     }
 
-    function getStableForSwap(){ return state.swap.direction === 'USDC_TO_LMTV' ? 'USDC' : 'USDC'; }
     function getSwapTokens(){
       return state.swap.direction === 'USDC_TO_LMTV'
-        ? { top:'USDC', bottom:'LMTV', input:'USDC', output:'LMTV' }
-        : { top:'LMTV', bottom:'USDC', input:'LMTV', output:'USDC' };
-    }
-    function getPayPairAsset(){ return state.pay.asset; }
-
-    function parseAmount(value, decimals){
-      const clean = String(value || '').replace(',', '.').trim();
-      if (!clean) return null;
-      if (!/^\d*\.?\d*$/.test(clean)) return null;
-      try { return ethers.utils.parseUnits(clean, decimals); } catch { return null; }
+        ? { top:'USDC', bottom:'LMTV', pair:'USDC' }
+        : { top:'LMTV', bottom:'USDC', pair:'USDC' };
     }
 
-    async function getAmountOut(stableSymbol, tokenIn, amountInBN){
-      const provider = state.web3Provider;
-      if (!provider) throw new Error('Provider unavailable');
-      const pair = new ethers.Contract(PAIRS[stableSymbol].address, PAIR_ABI, provider);
-      return pair.getAmountOut(tokenIn, amountInBN);
+    async function quoteOut(pairKey, tokenInSymbol, amountIn){
+      const info = state.pairInfo[pairKey];
+      if (!info) throw new Error('Pair unavailable.');
+      return info.pair.getAmountOut(TOKEN_CONFIG[tokenInSymbol].address, amountIn);
     }
 
-    async function getAmountInBySearch(stableSymbol, tokenIn, desiredOutBN){
-      const provider = state.web3Provider;
-      if (!provider) throw new Error('Provider unavailable');
-      const pairInfo = state.pairInfo[stableSymbol];
-      if (!pairInfo) throw new Error('Pair data unavailable');
+    async function quoteInBySearch(pairKey, tokenInSymbol, desiredOut){
       let high = ethers.BigNumber.from(1);
-      const limit = pairInfo.reserve0.gt(pairInfo.reserve1) ? pairInfo.reserve0.mul(20) : pairInfo.reserve1.mul(20);
-      for (let i = 0; i < 80; i++) {
-        const out = await getAmountOut(stableSymbol, tokenIn, high);
-        if (out.gte(desiredOutBN)) break;
+
+      for (let i=0;i<80;i++) {
+        const out = await quoteOut(pairKey, tokenInSymbol, high);
+        if (out.gte(desiredOut)) break;
         high = high.mul(2);
-        if (high.gte(limit)) break;
       }
+
       let low = ethers.BigNumber.from(0);
-      for (let i = 0; i < 64; i++) {
+
+      for (let i=0;i<64;i++) {
         const mid = low.add(high).div(2);
-        const out = await getAmountOut(stableSymbol, tokenIn, mid);
-        if (out.gte(desiredOutBN)) high = mid; else low = mid;
+        const out = await quoteOut(pairKey, tokenInSymbol, mid);
+        if (out.gte(desiredOut)) high = mid;
+        else low = mid;
       }
+
       return high;
     }
 
     function refreshBalanceLabels(){
-      const swapTokens = getSwapTokens();
-      $('#swapTopBalance').textContent = `Balance ${formatCompact(state.balances[swapTokens.top])}`;
-      $('#swapBottomBalance').textContent = `Balance ${formatCompact(state.balances[swapTokens.bottom])}`;
-      $('#swapTopToken').textContent = swapTokens.top;
-      $('#swapBottomToken').textContent = swapTokens.bottom;
-      $('#payYouPay').textContent = formatCompact(state.pay.youPay);
+      const tokens = getSwapTokens();
+      $('#swapTopToken').textContent = tokens.top;
+      $('#swapBottomToken').textContent = tokens.bottom;
+      $('#swapTopBalance').textContent = `Balance ${fmt(state.balances[tokens.top])}`;
+      $('#swapBottomBalance').textContent = `Balance ${fmt(state.balances[tokens.bottom])}`;
+      $('#homeWallet').textContent = shorten(state.account);
       $('#payAssetLabel').textContent = state.pay.asset;
-      $('#requestWalletInput').placeholder = state.connected ? state.account : '0x...';
     }
 
-    async function updateSwapQuote(){
-      refreshBalanceLabels();
-      const swapTokens = getSwapTokens();
+    const updateSwapQuote = debounce(async ()=>{
+      const tokens = getSwapTokens();
       const topInput = $('#swapTopInput');
       const bottomInput = $('#swapBottomInput');
-      const topBox = $('#swapTopBox');
-      const bottomBox = $('#swapBottomBox');
-      setInputEmptyClass(topInput, topBox); setInputEmptyClass(bottomInput, bottomBox);
-      const active = state.swap.activeField;
-      const stableSymbol = 'USDC';
-      try {
+
+      setEmpty(topInput, $('#swapTopBox'));
+      setEmpty(bottomInput, $('#swapBottomBox'));
+
+      try{
         if (!state.connected || state.chainId !== ARC_NETWORK.chainId) throw new Error('Connect on Arc Testnet to quote.');
-        if (active === 'top') {
-          const amountIn = parseAmount(topInput.value, state.decimals[swapTokens.top]);
-          if (!amountIn || amountIn.lte(0)) { bottomInput.value = ''; $('#swapHint').textContent = 'Enter an amount to load the live quote.'; $('#swapBtn').disabled = true; state.swap.lastValidInput = null; refreshSwapQuick(); return; }
-          const out = await getAmountOut(stableSymbol, TOKEN_CONFIG[swapTokens.top].address, amountIn);
-          bottomInput.value = trimUnits(out, state.decimals[swapTokens.bottom]);
-          state.swap.lastValidInput = { tokenIn: swapTokens.top, tokenOut: swapTokens.bottom, amountIn, amountOut: out };
-          $('#swapHint').textContent = `${swapTokens.top} → ${swapTokens.bottom} live quote loaded.`;
+
+        if (state.swap.active === 'top') {
+          const amountIn = parseAmount(topInput.value, state.decimals[tokens.top]);
+          if (!amountIn || amountIn.lte(0)) throw new Error('Enter an amount to load the live quote.');
+
+          const out = await quoteOut(tokens.pair, tokens.top, amountIn);
+          bottomInput.value = trimNum(ethers.utils.formatUnits(out, state.decimals[tokens.bottom]));
+
+          state.swap.last = {
+            tokenIn:tokens.top,
+            tokenOut:tokens.bottom,
+            pair:tokens.pair,
+            amountIn,
+            amountOut:out
+          };
         } else {
-          const desiredOut = parseAmount(bottomInput.value, state.decimals[swapTokens.bottom]);
-          if (!desiredOut || desiredOut.lte(0)) { topInput.value = ''; $('#swapHint').textContent = 'Enter an amount to load the live quote.'; $('#swapBtn').disabled = true; state.swap.lastValidInput = null; refreshSwapQuick(); return; }
-          const amountIn = await getAmountInBySearch(stableSymbol, TOKEN_CONFIG[swapTokens.top].address, desiredOut);
-          topInput.value = trimUnits(amountIn, state.decimals[swapTokens.top]);
-          state.swap.lastValidInput = { tokenIn: swapTokens.top, tokenOut: swapTokens.bottom, amountIn, amountOut: desiredOut };
-          $('#swapHint').textContent = `Reverse quote ready for ${swapTokens.bottom}.`;
+          const desired = parseAmount(bottomInput.value, state.decimals[tokens.bottom]);
+          if (!desired || desired.lte(0)) throw new Error('Enter an amount to load the live quote.');
+
+          const amountIn = await quoteInBySearch(tokens.pair, tokens.top, desired);
+          topInput.value = trimNum(ethers.utils.formatUnits(amountIn, state.decimals[tokens.top]));
+
+          state.swap.last = {
+            tokenIn:tokens.top,
+            tokenOut:tokens.bottom,
+            pair:tokens.pair,
+            amountIn,
+            amountOut:desired
+          };
         }
+
+        $('#swapHint').textContent = `${tokens.top} → ${tokens.bottom} live quote loaded.`;
         $('#swapBtn').disabled = false;
-      } catch (err) {
-        $('#swapHint').textContent = err?.message || 'Quote unavailable right now.';
+      }catch(err){
+        if (state.swap.active === 'top' && !topInput.value) bottomInput.value = '';
+        if (state.swap.active === 'bottom' && !bottomInput.value) topInput.value = '';
+
+        state.swap.last = null;
+        $('#swapHint').textContent = err?.message || 'Quote unavailable.';
         $('#swapBtn').disabled = true;
-        state.swap.lastValidInput = null;
       }
-      refreshSwapQuick();
-      setInputEmptyClass(topInput, topBox); setInputEmptyClass(bottomInput, bottomBox);
-    }
 
-    function trimUnits(amountBN, decimals){
-      return formatTrim(ethers.utils.formatUnits(amountBN, decimals));
-    }
-    function formatTrim(v){
-      if (!v) return '';
-      let s = String(v);
-      if (s.includes('.')) s = s.replace(/0+$/,'').replace(/\.$/,'');
-      return s;
-    }
-
-    function refreshSwapQuick(){
-      const row = $('#swapQuickRow');
-      const current = state.swap.activeField === 'top' ? $('#swapTopInput').value.trim() : $('#swapBottomInput').value.trim();
-      row.classList.toggle('hidden', !current);
-    }
+      $('#swapQuickRow').classList.toggle('hidden', !(topInput.value && state.swap.active === 'top'));
+    }, 260);
 
     async function swapQuick(percent){
-      const swapTokens = getSwapTokens();
-      if (state.swap.activeField !== 'top') return;
-      const balance = Number(state.balances[swapTokens.top] || 0);
-      if (!balance) return;
-      const value = percent === 100 ? balance : balance * (percent/100);
-      $('#swapTopInput').value = formatTrim(String(value));
-      state.swap.activeField = 'top';
-      await updateSwapQuote();
+      if (state.swap.active !== 'top') return;
+      const token = getSwapTokens().top;
+      const bal = Number(state.balances[token] || 0);
+      if (!bal) return;
+
+      const value = percent === 100 ? bal : bal * (percent/100);
+      $('#swapTopInput').value = trimNum(String(value));
+      state.swap.active = 'top';
+      updateSwapQuote();
     }
 
     async function handleSwap(){
-      if (!state.lastSwapBusy && state.swap.lastValidInput && state.signer) {
-        const { tokenIn, amountIn } = state.swap.lastValidInput;
-        try {
-          state.lastSwapBusy = true;
-          setNotice([
-            { text:'Approving token', helper:`Checking ${tokenIn} allowance for the pair.` },
-            { text:'Swapping now', helper:'The live quote becomes the transaction route.' }
-          ], 'Swap', 'StableFlow is executing the swap.');
-          $('#swapBtn').disabled = true;
-          const stable = 'USDC';
-          const pairAddress = PAIRS[stable].address;
-          const tokenContract = new ethers.Contract(TOKEN_CONFIG[tokenIn].address, ERC20_ABI, state.signer);
-          const allowance = await tokenContract.allowance(state.account, pairAddress);
-          if (allowance.lt(amountIn)) {
-            const approveTx = await tokenContract.approve(pairAddress, amountIn);
-            await approveTx.wait();
-          }
-          const pair = new ethers.Contract(pairAddress, PAIR_ABI, state.signer);
-          const swapTx = await pair.swap(TOKEN_CONFIG[tokenIn].address, amountIn);
-          const receipt = await swapTx.wait();
-          await afterSuccessfulAction('swap', {
-            label:`${state.swap.lastValidInput.tokenIn} → ${state.swap.lastValidInput.tokenOut}`,
-            valueUsd: estimateUsdValue(state.swap.lastValidInput),
-            txHash: receipt.transactionHash
-          });
-          $('#swapTopInput').value = '';
-          $('#swapBottomInput').value = '';
-          state.swap.lastValidInput = null;
-          $('#swapHint').textContent = 'Swap completed. Enter a new amount.';
-        } catch (err) {
-          setNotice([{ text:'Swap failed', helper: err?.reason || err?.message || 'The swap could not be completed.' }], 'Swap', 'Check allowance, balance or network state.');
-        } finally {
-          state.lastSwapBusy = false;
-          $('#swapBtn').disabled = false;
-          await refreshBalances();
-          await refreshPairs();
-          refreshSwapQuick();
-          setNoticeForContext();
+      try{
+        if (!state.swap.last || !state.signer) return;
+
+        const { pair, tokenIn, amountIn } = state.swap.last;
+        const pairAddress = PAIRS[pair];
+        const token = new ethers.Contract(TOKEN_CONFIG[tokenIn].address, ERC20_ABI, state.signer);
+        const allowance = await token.allowance(state.account, pairAddress);
+
+        setNotice([{ text:'Swap step', helper:'Checking allowance, then sending the swap transaction.' }], 'Swap');
+        $('#swapBtn').disabled = true;
+
+        if (allowance.lt(amountIn)) {
+          const approveTx = await token.approve(pairAddress, amountIn);
+          await approveTx.wait();
         }
+
+        const pairContract = new ethers.Contract(pairAddress, PAIR_ABI, state.signer);
+        const tx = await pairContract.swap(TOKEN_CONFIG[tokenIn].address, amountIn);
+        const receipt = await tx.wait();
+
+        pushActivity(
+          'swap',
+          `${tokenIn} → ${state.swap.last.tokenOut}`,
+          Number(ethers.utils.formatUnits(amountIn, state.decimals[tokenIn])),
+          receipt.transactionHash
+        );
+
+        state.txCount = clamp(state.txCount + 1, 0, 10);
+        state.volume += Number(ethers.utils.formatUnits(amountIn, state.decimals[tokenIn]));
+
+        $('#swapTopInput').value = '';
+        $('#swapBottomInput').value = '';
+        state.swap.last = null;
+
+        await refreshBalances();
+        await refreshPairs();
+        updateAllUI();
+        contextNotice();
+      }catch(err){
+        setNotice([{ text:'Swap failed', helper: err?.reason || err?.message || 'The swap did not complete.' }], 'Swap');
+      }finally{
+        $('#swapBtn').disabled = !state.swap.last;
       }
     }
 
-    async function updatePayQuote(){
-      $('#payAssetLabel').textContent = state.pay.asset;
-      $('#payRoute').textContent = `LMTV → ${state.pay.asset}`;
-      $('#paySlippage').textContent = `${state.swap.slippage}%`;
-      const amountRaw = $('#payAmountInput').value;
+    const updatePayQuote = debounce(async ()=>{
       const recipient = $('#payRecipientInput').value.trim();
-      setInputEmptyClass($('#payRecipientInput'), $('#payRecipientBox'));
-      setInputEmptyClass($('#payAmountInput'), $('#payAmountOrb'));
-      try {
+      const amountText = $('#payAmountInput').value.trim();
+
+      setEmpty($('#payRecipientInput'), $('#payRecipientBox'));
+      setEmpty($('#payAmountInput'), $('#payAmountOrb'));
+
+      try{
         if (!state.connected || state.chainId !== ARC_NETWORK.chainId) throw new Error('Connect on Arc Testnet to prepare Pay.');
-        const desiredOut = parseAmount(amountRaw, state.decimals[state.pay.asset]);
+
+        const desiredOut = parseAmount(amountText, state.decimals[state.pay.asset]);
         if (!desiredOut || desiredOut.lte(0)) throw new Error('Enter the receiver amount first.');
-        const amountIn = await getAmountInBySearch(state.pay.asset, TOKEN_CONFIG.LMTV.address, desiredOut);
-        state.pay.youPay = trimUnits(amountIn, state.decimals.LMTV);
-        state.pay.lastQuoteIn = amountIn;
-        $('#payReceiverGets').textContent = formatTrim(amountRaw);
+
+        const amountIn = await quoteInBySearch(state.pay.asset, 'LMTV', desiredOut);
+        state.pay.lastIn = amountIn;
+
+        $('#payYouPay').textContent = trimNum(ethers.utils.formatUnits(amountIn, state.decimals.LMTV));
+        $('#payReceiverGets').textContent = amountText || '0.0';
+        $('#payRoute').textContent = `LMTV → ${state.pay.asset}`;
         $('#payRecipientPreview').textContent = recipient ? shorten(recipient) : '—';
-        $('#payBtn').disabled = !recipient || !/^0x[a-fA-F0-9]{40}$/.test(recipient);
         $('#payStatusLine').textContent = 'Ready for confirmation';
-      } catch (err) {
-        state.pay.youPay = '0';
-        state.pay.lastQuoteIn = null;
-        $('#payReceiverGets').textContent = formatTrim(amountRaw || '0');
-        $('#payBtn').disabled = true;
+        $('#payBtn').disabled = !/^0x[a-fA-F0-9]{40}$/.test(recipient);
+      }catch(err){
+        state.pay.lastIn = null;
+        $('#payYouPay').textContent = '0.0';
+        $('#payReceiverGets').textContent = amountText || '0.0';
         $('#payStatusLine').textContent = err?.message || 'Quote unavailable';
+        $('#payBtn').disabled = true;
       }
-      refreshBalanceLabels();
-    }
+    }, 260);
 
     function setPayStep(step){
       state.pay.step = step;
-      $$('.flow-step').forEach(el => {
+
+      $$('.flow-step').forEach(el=>{
         const s = Number(el.dataset.flowStep);
         el.classList.toggle('is-current', s === step);
         el.classList.toggle('is-done', s < step);
       });
+
       $('#payFlowPanel').classList.toggle('is-open', step > 0);
       $('#paySpinOrb').classList.toggle('is-working', step > 0 && step < 4);
     }
 
     async function handlePay(){
-      const recipient = $('#payRecipientInput').value.trim();
-      if (!state.signer || !state.pay.lastQuoteIn || !/^0x[a-fA-F0-9]{40}$/.test(recipient)) return;
-      try {
-        state.pay.processing = true;
-        const amountIn = state.pay.lastQuoteIn;
-        const pairAddress = PAIRS[state.pay.asset].address;
-        const stableContract = new ethers.Contract(TOKEN_CONFIG[state.pay.asset].address, ERC20_ABI, state.signer);
-        const lmtvContract = new ethers.Contract(TOKEN_CONFIG.LMTV.address, ERC20_ABI, state.signer);
+      try{
+        const recipient = $('#payRecipientInput').value.trim();
+        if (!state.signer || !state.pay.lastIn || !/^0x[a-fA-F0-9]{40}$/.test(recipient)) return;
+
+        const pairAddress = PAIRS[state.pay.asset];
+        const lmtv = new ethers.Contract(TOKEN_CONFIG.LMTV.address, ERC20_ABI, state.signer);
+        const stable = new ethers.Contract(TOKEN_CONFIG[state.pay.asset].address, ERC20_ABI, state.signer);
         const pair = new ethers.Contract(pairAddress, PAIR_ABI, state.signer);
+
+        state.pay.processing = true;
         $('#payBtn').disabled = true;
+
         setPayStep(1);
-        setNotice([{ text:'Approve LMTV', helper:'Step 1 of 3. Checking token allowance for Pay.' }], 'Pay flow', 'StableFlow will guide each confirmation.');
-        $('#payStatusLine').textContent = 'Approving LMTV for the selected pair';
-        const allowance = await lmtvContract.allowance(state.account, pairAddress);
-        if (allowance.lt(amountIn)) {
-          const approveTx = await lmtvContract.approve(pairAddress, amountIn);
-          await approveTx.wait();
+        setNotice([{ text:'Approve LMTV', helper:'Step 1 of 3.' }], 'Pay');
+
+        const allowance = await lmtv.allowance(state.account, pairAddress);
+        if (allowance.lt(state.pay.lastIn)) {
+          const a = await lmtv.approve(pairAddress, state.pay.lastIn);
+          await a.wait();
         }
+
         setPayStep(2);
-        setNotice([{ text:'Swap running', helper:`Step 2 of 3. LMTV is being swapped to ${state.pay.asset}.` }], 'Pay flow', 'Stay on the page while the wallet confirms.');
-        $('#payStatusLine').textContent = `Swapping LMTV to ${state.pay.asset}`;
-        const beforeBal = await stableContract.balanceOf(state.account);
-        const swapTx = await pair.swap(TOKEN_CONFIG.LMTV.address, amountIn);
-        await swapTx.wait();
-        const afterBal = await stableContract.balanceOf(state.account);
-        const received = afterBal.sub(beforeBal);
+        setNotice([{ text:'Swap running', helper:`Step 2 of 3. LMTV is being swapped to ${state.pay.asset}.` }], 'Pay');
+
+        const before = await stable.balanceOf(state.account);
+        const s = await pair.swap(TOKEN_CONFIG.LMTV.address, state.pay.lastIn);
+        await s.wait();
+
+        const after = await stable.balanceOf(state.account);
+        const received = after.sub(before);
+
         setPayStep(3);
-        setNotice([{ text:'Transfering stable', helper:`Step 3 of 3. Sending ${state.pay.asset} to the receiver.` }], 'Pay flow', 'The last confirmation completes the payment.');
-        $('#payStatusLine').textContent = `Sending ${state.pay.asset} to ${shorten(recipient)}`;
-        const transferTx = await stableContract.transfer(recipient, received);
-        const transferReceipt = await transferTx.wait();
+        setNotice([{ text:'Transfering stable', helper:'Step 3 of 3.' }], 'Pay');
+
+        const t = await stable.transfer(recipient, received);
+        const r = await t.wait();
+
+        pushActivity('pay', `LMTV → ${state.pay.asset}`, Number($('#payAmountInput').value || 0), r.transactionHash);
+        state.txCount = clamp(state.txCount + 1, 0, 10);
+        state.volume += Number($('#payAmountInput').value || 0);
+
         setPayStep(4);
-        $('#payStatusLine').textContent = 'Completed';
-        await afterSuccessfulAction('pay', {
-          label:`LMTV → ${state.pay.asset}`,
-          valueUsd: Number(formatTrim($('#payAmountInput').value || '0')),
-          txHash: transferReceipt.transactionHash,
-          recipient
-        });
         resetPayForm();
-      } catch (err) {
-        setNotice([{ text:'Pay failed', helper: err?.reason || err?.message || 'The payment flow was interrupted.' }], 'Pay flow', 'Check allowance, receiver address and wallet confirmations.');
-        $('#payStatusLine').textContent = 'Failed';
-      } finally {
-        state.pay.processing = false;
-        setTimeout(()=>setPayStep(0), 900);
+
         await refreshBalances();
         await refreshPairs();
-        setNoticeForContext();
+        updateAllUI();
+        contextNotice();
+      }catch(err){
+        setNotice([{ text:'Pay failed', helper: err?.reason || err?.message || 'The payment flow failed.' }], 'Pay');
+      }finally{
+        state.pay.processing = false;
+        setTimeout(()=>setPayStep(0), 900);
       }
     }
 
     function resetPayForm(){
-      $('#payAmountInput').value = '';
       $('#payRecipientInput').value = '';
+      $('#payAmountInput').value = '';
       $('#payNoteInput').value = '';
-      state.pay.note = '';
-      state.pay.youPay = '0';
-      state.pay.lastQuoteIn = null;
+      $('#payYouPay').textContent = '0.0';
       $('#payReceiverGets').textContent = '0.0';
-      updatePayQuote();
+      state.pay.lastIn = null;
+      $('#payBtn').disabled = true;
+      setEmpty($('#payRecipientInput'), $('#payRecipientBox'));
+      setEmpty($('#payAmountInput'), $('#payAmountOrb'));
     }
 
-    async function afterSuccessfulAction(type, payload){
-      await refreshBalances();
-      await refreshPairs();
-      pushActivity(type, payload);
-      if (type === 'swap' || type === 'pay') {
-        state.stats.txCount = clamp((state.stats.txCount || 0) + 1, 0, 10);
-        state.stats.volumeUsd = Number(state.stats.volumeUsd || 0) + Number(payload?.valueUsd || 0);
+    function makeRequestLink(payload){
+      return `${location.origin}${location.pathname}#paynote=${encodeURIComponent(btoa(JSON.stringify(payload)))}`;
+    }
+
+    function renderRequestResult(req){
+      const panel = $('#requestResult');
+      panel.classList.add('is-open');
+      $('#qrTarget').innerHTML = '';
+
+      new QRCode($('#qrTarget'), {
+        text:req.link,
+        width:150,
+        height:150,
+        correctLevel:QRCode.CorrectLevel.M
+      });
+
+      $('#requestMeta').innerHTML = `
+        <div><strong>${req.asset}</strong> • ${req.amount}</div>
+        <div>${shorten(req.wallet)}</div>
+        <div>${req.note || 'No note'}</div>
+      `;
+    }
+
+    function generateRequest(){
+      const wallet = $('#requestWalletInput').value.trim();
+      const amount = $('#requestAmountInput').value.trim();
+      const note = state.request.hideNote ? '' : $('#requestNoteInput').value.trim();
+
+      if (!/^0x[a-fA-F0-9]{40}$/.test(wallet)) {
+        return setNotice([{ text:'Invalid wallet', helper:'Enter a valid receiver address first.' }], 'Request');
       }
-      updateProfile();
-      updateHomeMetrics();
-      renderMore();
-      saveLocal();
-    }
 
-    function pushSpark(value){
-      state.stats.spark = [...state.stats.spark.slice(-9), value];
-    }
+      if (!amount) {
+        return setNotice([{ text:'Missing amount', helper:'Enter the requested amount first.' }], 'Request');
+      }
 
-    function pushActivity(type, payload={}){
-      const entry = {
-        id: `act_${Date.now()}_${Math.random().toString(36).slice(2,7)}`,
-        type,
-        title: payload.label || type,
-        valueUsd: Number(payload.valueUsd || 0),
-        txHash: payload.txHash || '',
-        recipient: payload.recipient || '',
-        createdAt: Date.now()
+      const req = {
+        id:`req_${Date.now()}`,
+        wallet,
+        amount,
+        asset:state.request.asset,
+        note,
+        createdAt:Date.now()
       };
-      state.activity.unshift(entry);
-      if (state.activity.length > 40) state.activity.length = 40;
-      state.stats.lastAction = type.charAt(0).toUpperCase() + type.slice(1);
-      pushSpark(sparkValueFromActivity(type, entry.valueUsd));
+
+      req.link = makeRequestLink(req);
+      state.request.current = req;
+      state.requests.unshift(req);
+
+      pushActivity('request', `${req.asset} request`, Number(req.amount || 0), '');
+      renderRequestResult(req);
       renderMore();
+      contextNotice();
     }
 
-    function sparkValueFromActivity(type, value){
-      const base = type === 'swap' ? 8 : type === 'pay' ? 9 : 7;
-      return clamp(base + Math.min(6, Number(value || 0) / 10), 2, 15);
+    function resetRequestForm(){
+      $('#requestAmountInput').value = '';
+      $('#requestNoteInput').value = '';
+      $('#requestResult').classList.remove('is-open');
+      $('#qrTarget').innerHTML = '';
+      $('#requestMeta').innerHTML = '';
+      state.request.current = null;
+      setEmpty($('#requestAmountInput'), $('#requestOrb'));
     }
 
-    function estimateUsdValue(info){
-      const tokenIn = info.tokenIn;
-      const amount = Number(ethers.utils.formatUnits(info.amountIn, state.decimals[tokenIn]));
-      if (tokenIn === 'USDC') return amount;
-      const pair = state.pairInfo.USDC;
-      if (!pair) return amount;
-      try {
-        const lmtvIs0 = pair.token0 === TOKEN_CONFIG.LMTV.address.toLowerCase();
-        const lmtvReserve = Number(ethers.utils.formatUnits(lmtvIs0 ? pair.reserve0 : pair.reserve1, state.decimals.LMTV));
-        const usdcReserve = Number(ethers.utils.formatUnits(lmtvIs0 ? pair.reserve1 : pair.reserve0, state.decimals.USDC));
-        const price = lmtvReserve ? usdcReserve / lmtvReserve : 0;
-        return amount * price;
-      } catch { return amount; }
+    function pushActivity(type, title, amount, txHash){
+      state.activity.unshift({
+        id:`act_${Date.now()}`,
+        type,
+        title,
+        amount,
+        txHash,
+        createdAt:Date.now()
+      });
+
+      if (state.activity.length > 40) state.activity.length = 40;
     }
 
-    function updateProfile(){
-      const tx = clamp(Number(state.stats.txCount || 0), 0, 10);
-      const lv = tx;
-      $('#homeTxCount').textContent = String(tx);
-      $('#homeLvInline').textContent = String(lv);
-      $('#homeLvBox').textContent = String(lv);
-      $('#homeStatusChip').textContent = lv >= 10 ? 'Maxed' : lv > 0 ? 'Growing' : 'Starting';
-      $('#profileProgress').style.width = `${(tx / 10) * 100}%`;
-      renderTrophies(tx);
-    }
+    function renderTrophies(){
+      const tx = clamp(state.txCount, 0, 10);
 
-    function renderTrophies(tx){
-      const trophyRow = $('#trophyRow');
-      const medalRow = $('#medalRow');
-      trophyRow.innerHTML = '';
-      medalRow.innerHTML = '';
-      for (let i=0;i<5;i++) {
-        const on = tx > i;
-        trophyRow.insertAdjacentHTML('beforeend', `<div class="trophy ${on ? 'is-on':''}">🏆</div>`);
-      }
-      for (let i=0;i<5;i++) {
-        const on = tx > (i+4);
-        medalRow.insertAdjacentHTML('beforeend', `<div class="medal ${on ? 'is-on':''}">✦</div>`);
-      }
-    }
+      $('#trophyRow').innerHTML = Array.from({length:5}, (_,i)=>`<div class=\"trophy ${tx>i?'is-on':''}\">🏆</div>`).join('');
+      $('#medalRow').innerHTML = Array.from({length:5}, (_,i)=>`<div class=\"medal ${tx>(i+4)?'is-on':''}\">✦</div>`).join('');
 
-    function updateHomeMetrics(){
-      $('#metricVolume').textContent = formatCompact(state.stats.volumeUsd || 0);
-      $('#metricRequests').textContent = String(state.requests.length);
-      $('#metricLast').textContent = state.stats.lastAction || '-';
-      drawChart();
+      $('#homeTxCount').textContent = tx;
+      $('#homeLvInline').textContent = tx;
+      $('#homeLvBox').textContent = tx;
+      $('#homeStatusChip').textContent = tx >= 10 ? 'Maxed' : tx > 0 ? 'Growing' : 'Starting';
+      $('#profileProgress').style.width = `${tx * 10}%`;
     }
 
     function drawChart(){
-      const values = state.stats.spark || [6,6,6,6,6,6,6,6,6,6];
+      const base = Array.from({length:10}, (_,i)=>{
+        return 6 + Math.min(i, state.activity.length > i ? 1 + (state.activity[i].amount || 0) / 10 : 0, 9);
+      });
+
+      const values = base.length ? base : [6,6,6,6,6,6,6,6,6,6];
       const max = Math.max(...values, 10);
       const min = Math.min(...values, 0);
       const width = 360;
       const height = 190;
       const padX = 12;
       const padY = 16;
-      const stepX = (width - padX*2) / (values.length - 1 || 1);
-      const coords = values.map((v,i)=> {
-        const x = padX + i*stepX;
+      const step = (width - padX*2) / (values.length - 1 || 1);
+
+      const pts = values.map((v,i)=>{
+        const x = padX + i * step;
         const y = height - padY - ((v - min) / ((max - min) || 1)) * (height - padY*2);
         return [x,y];
       });
-      const line = coords.map((p,i)=> `${i===0?'M':'L'} ${p[0]} ${p[1]}`).join(' ');
-      const area = `${line} L ${coords[coords.length-1][0]} ${height-padY} L ${coords[0][0]} ${height-padY} Z`;
+
+      const line = pts.map((p,i)=>`${i===0?'M':'L'} ${p[0]} ${p[1]}`).join(' ');
+      const area = `${line} L ${pts[pts.length-1][0]} ${height-padY} L ${pts[0][0]} ${height-padY} Z`;
+
       $('#chartLine').setAttribute('d', line);
       $('#chartArea').setAttribute('d', area);
-      const last = coords[coords.length-1];
-      $('#chartOrb').setAttribute('cx', last[0]);
-      $('#chartOrb').setAttribute('cy', last[1]);
-      $('#chartNote').textContent = `Live points: ${values.join(' • ')}`;
-    }
+      $('#chartOrb').setAttribute('cx', pts[pts.length-1][0]);
+      $('#chartOrb').setAttribute('cy', pts[pts.length-1][1]);
 
-    function refreshAccountUI(){
-      $('#homeWallet').textContent = state.shortAccount || 'Wallet not connected';
-      noticeChain.textContent = state.connected ? (state.chainId === ARC_NETWORK.chainId ? 'Arc Testnet' : 'Wrong network') : 'Arc Testnet';
-      if (state.connected) {
-        connectLabel.textContent = 'CONNECTED';
-        connectBtn.classList.add('active');
-      } else {
-        connectLabel.textContent = 'CONNECT';
-      }
-      refreshBalanceLabels();
-      fillRequestDefaults();
-      renderMore();
-    }
-
-    function fillRequestDefaults(){
-      if (state.connected && !$('#requestWalletInput').value.trim()) $('#requestWalletInput').value = state.account;
+      $('#metricVolume').textContent = fmt(state.volume, 2);
+      $('#metricRequests').textContent = state.requests.length;
+      $('#metricLast').textContent = state.activity[0]?.type || '-';
+      $('#chartNote').textContent = state.activity.length
+        ? 'The curve is moving with real actions.'
+        : 'The graph wakes up after the first real action.';
     }
 
     function renderTokens(){
-      const list = $('#tokenList');
-      const cards = ['LMTV','USDC','EURC'].map(symbol => {
-        const token = TOKEN_CONFIG[symbol];
-        const balance = formatCompact(state.balances[symbol] || 0);
-        let reserveText = symbol === 'LMTV' ? 'Across USDC and EURC pairs' : symbol === 'USDC' ? 'Pair with LMTV' : 'Pair with LMTV';
-        let spot = '—';
-        if (symbol !== 'EURC') {
-          const pair = state.pairInfo.USDC;
-          if (pair) {
-            const lmtvIs0 = pair.token0 === TOKEN_CONFIG.LMTV.address.toLowerCase();
-            const lmtvReserve = Number(ethers.utils.formatUnits(lmtvIs0 ? pair.reserve0 : pair.reserve1, state.decimals.LMTV));
-            const usdcReserve = Number(ethers.utils.formatUnits(lmtvIs0 ? pair.reserve1 : pair.reserve0, state.decimals.USDC));
-            if (lmtvReserve && usdcReserve) {
-              const price = usdcReserve / lmtvReserve;
-              spot = symbol === 'LMTV' ? `${formatNum(price, 6)} USDC` : `${formatNum(1/price, 4)} LMTV`;
-            }
-          }
-        }
-        if (symbol === 'EURC') {
-          const pair = state.pairInfo.EURC;
-          if (pair) {
-            const lmtvIs0 = pair.token0 === TOKEN_CONFIG.LMTV.address.toLowerCase();
-            const lmtvReserve = Number(ethers.utils.formatUnits(lmtvIs0 ? pair.reserve0 : pair.reserve1, state.decimals.LMTV));
-            const eurcReserve = Number(ethers.utils.formatUnits(lmtvIs0 ? pair.reserve1 : pair.reserve0, state.decimals.EURC));
-            if (lmtvReserve && eurcReserve) spot = `${formatNum(eurcReserve / lmtvReserve, 6)} EURC`;
-          }
-        }
-        const pairAddress = symbol === 'LMTV' ? `${PAIRS.USDC.address.slice(0,6)}... / ${PAIRS.EURC.address.slice(0,6)}...` : symbol === 'USDC' ? shorten(PAIRS.USDC.address) : shorten(PAIRS.EURC.address);
+      const root = $('#tokenList');
+
+      root.innerHTML = ['LMTV','USDC','EURC'].map(symbol=>{
+        const t = TOKEN_CONFIG[symbol];
+        const pairTxt = symbol === 'USDC'
+          ? shorten(PAIRS.USDC)
+          : symbol === 'EURC'
+            ? shorten(PAIRS.EURC)
+            : `${shorten(PAIRS.USDC)} / ${shorten(PAIRS.EURC)}`;
+
         return `
-          <div class="token-card">
-            <div class="token-head">
-              <div class="token-main">
-                <div class="token-icon"><img src="${token.icon}" alt="${symbol}" onerror="this.style.display='none'; this.parentNode.textContent='${symbol.slice(0,2)}'" /></div>
-                <div><div class="token-name">${symbol}</div><div class="token-sub">Live balance ${balance}</div></div>
+          <div class=\"token-card\">
+            <div class=\"token-head\">
+              <div class=\"token-main\">
+                <div class=\"token-icon\">
+                  <img src=\"${t.icon}\" alt=\"${symbol}\" onerror=\"this.style.display='none'; this.parentNode.textContent='${symbol.slice(0,2)}'\" />
+                </div>
+                <div>
+                  <div class=\"token-name\">${symbol}</div>
+                  <div class=\"token-sub\">Live balance ${fmt(state.balances[symbol])}</div>
+                </div>
               </div>
-              <button class="copy-btn" data-copy="${token.address}">Copy</button>
+              <button class=\"copy-btn\" data-copy=\"${t.address}\">Copy</button>
             </div>
-            <div class="token-grid">
-              <div class="mini-stat"><div class="k">Contract</div><div class="v">${shorten(token.address)}</div></div>
-              <div class="mini-stat"><div class="k">Decimals</div><div class="v">${state.decimals[symbol] || '—'}</div></div>
-              <div class="mini-stat"><div class="k">Spot</div><div class="v">${spot}</div></div>
-              <div class="mini-stat"><div class="k">Pair</div><div class="v">${pairAddress}</div></div>
+
+            <div class=\"token-grid\">
+              <div class=\"mini-stat\"><div class=\"k\">Contract</div><div class=\"v\">${shorten(t.address)}</div></div>
+              <div class=\"mini-stat\"><div class=\"k\">Decimals</div><div class=\"v\">${state.decimals[symbol]}</div></div>
+              <div class=\"mini-stat\"><div class=\"k\">Pair</div><div class=\"v\">${pairTxt}</div></div>
+              <div class=\"mini-stat\"><div class=\"k\">Explorer</div><div class=\"v\">Arc Testnet</div></div>
             </div>
           </div>
         `;
       }).join('');
-      list.innerHTML = cards;
-      $$('[data-copy]', list).forEach(btn => btn.addEventListener('click', ()=>copyText(btn.dataset.copy)));
+
+      $$('[data-copy]', root).forEach(btn=>{
+        btn.addEventListener('click', ()=> copyText(btn.dataset.copy));
+      });
     }
 
     function renderMore(){
-      renderMoreRequests();
-      renderMoreActivity();
-      renderMoreStatus();
-      $('#moreRequestsPanel').classList.toggle('hidden', state.moreTab !== 'requests');
-      $('#moreActivityPanel').classList.toggle('hidden', state.moreTab !== 'activity');
-      $('#moreStatusPanel').classList.toggle('hidden', state.moreTab !== 'status');
-      $$('#moreMainTabs button').forEach(btn => btn.classList.toggle('is-on', btn.dataset.moreTab === state.moreTab));
-      $$('#activityFilters button').forEach(btn => btn.classList.toggle('is-on', btn.dataset.activityFilter === state.activityFilter));
-    }
+      const reqRoot = $('#moreRequestsList');
 
-    function renderMoreRequests(){
-      const root = $('#moreRequestsList');
-      if (!state.requests.length) { root.innerHTML = '<div class="empty-state">No payment notes yet. Generate one from Get Paid and it will land here.</div>'; return; }
-      root.innerHTML = `<div class="list">${state.requests.map(req => `
-        <div class="list-item">
-          <div class="left"><div class="title">${req.asset} • ${escapeHtml(req.amount)}</div><div class="meta">${shorten(req.wallet)} • ${humanDate(req.createdAt)}</div></div>
-          <div style="display:flex;gap:8px;flex-wrap:wrap">
-            <button class="soft-pill" data-req-action="copy" data-id="${req.id}" style="height:34px;padding:0 12px">Copy</button>
-            <button class="ghost-pill" data-req-action="delete" data-id="${req.id}" style="height:34px;padding:0 12px">Delete</button>
+      if (!state.requests.length) {
+        reqRoot.innerHTML = '<div class=\"empty-state\">No payment notes yet. Generate one from Get Paid and it will land here.</div>';
+      } else {
+        reqRoot.innerHTML = `<div class=\"list\">${state.requests.map(r=>`
+          <div class=\"list-item\">
+            <div class=\"left\">
+              <div class=\"title\">${r.asset} • ${r.amount}</div>
+              <div class=\"meta\">${shorten(r.wallet)} • ${new Date(r.createdAt).toLocaleString()}</div>
+            </div>
+            <button class=\"soft-pill\" data-copy-request=\"${r.link}\">Copy</button>
           </div>
-        </div>`).join('')}</div>`;
-      $$('[data-req-action]', root).forEach(btn => btn.addEventListener('click', ()=>handleRequestAction(btn.dataset.reqAction, btn.dataset.id)));
-    }
+        `).join('')}</div>`;
+      }
 
-    function renderMoreActivity(){
-      const root = $('#moreActivityList');
-      const list = state.activity.filter(item => state.activityFilter === 'all' || item.type === state.activityFilter);
-      if (!list.length) { root.innerHTML = '<div class="empty-state">No activity yet. Swaps, pay actions and generated requests will appear here.</div>'; return; }
-      root.innerHTML = `<div class="list">${list.map(item => `
-        <div class="list-item">
-          <div class="left"><div class="title">${escapeHtml(item.title)}</div><div class="meta">${item.type.toUpperCase()} • ${humanDate(item.createdAt)}${item.txHash ? ` • ${shorten(item.txHash)}` : ''}</div></div>
-          <div class="metric-chip">${formatCompact(item.valueUsd || 0)}</div>
-        </div>`).join('')}</div>`;
-    }
+      $$('[data-copy-request]', reqRoot).forEach(btn=>{
+        btn.addEventListener('click', ()=> copyText(btn.dataset.copyRequest));
+      });
 
-    function renderMoreStatus(){
-      const grid = $('#statusGrid');
-      const rows = [
-        ['Wallet', state.connected ? state.shortAccount : 'Disconnected'],
+      const actRoot = $('#moreActivityList');
+      const filtered = state.activity.filter(a => state.activityFilter === 'all' || a.type === state.activityFilter);
+
+      if (!filtered.length) {
+        actRoot.innerHTML = '<div class=\"empty-state\">No activity yet. Real swaps, payments and request events will appear here.</div>';
+      } else {
+        actRoot.innerHTML = `<div class=\"list\">${filtered.map(a=>`
+          <div class=\"list-item\">
+            <div class=\"left\">
+              <div class=\"title\">${a.title}</div>
+              <div class=\"meta\">${a.type.toUpperCase()} • ${new Date(a.createdAt).toLocaleString()}${a.txHash ? ` • ${shorten(a.txHash)}` : ''}</div>
+            </div>
+            <div class=\"metric-chip\">${fmt(a.amount,2)}</div>
+          </div>
+        `).join('')}</div>`;
+      }
+
+      const status = [
+        ['Wallet', state.connected ? shorten(state.account) : 'Disconnected'],
         ['Network', state.chainId === ARC_NETWORK.chainId ? 'Arc Testnet' : 'Not ready'],
         ['Selected page', state.selectedPage],
         ['Requests', String(state.requests.length)],
-        ['Transactions', String(state.stats.txCount || 0)],
-        ['Last action', state.stats.lastAction || '-']
+        ['Transactions', String(state.txCount)],
+        ['Theme', state.theme]
       ];
-      grid.innerHTML = rows.map(([k,v]) => `<div class="status-card"><div class="k">${k}</div><div class="v">${escapeHtml(v)}</div></div>`).join('');
+
+      $('#statusGrid').innerHTML = status.map(([k,v])=>`
+        <div class=\"status-card\">
+          <div class=\"k\">${k}</div>
+          <div class=\"v\">${v}</div>
+        </div>
+      `).join('');
+
+      $('#moreRequestsPanel').classList.toggle('hidden', state.moreTab !== 'requests');
+      $('#moreActivityPanel').classList.toggle('hidden', state.moreTab !== 'activity');
+      $('#moreStatusPanel').classList.toggle('hidden', state.moreTab !== 'status');
+
+      $$('#moreTabs button').forEach(btn=>{
+        btn.classList.toggle('is-on', btn.dataset.moreTab === state.moreTab);
+      });
+
+      $$('#activityFilters button').forEach(btn=>{
+        btn.classList.toggle('is-on', btn.dataset.activityFilter === state.activityFilter);
+      });
     }
 
-    function handleRequestAction(action, id){
-      const req = state.requests.find(r => r.id === id);
-      if (!req) return;
-      if (action === 'copy') return copyText(req.link || '');
-      if (action === 'delete') {
-        state.requests = state.requests.filter(r => r.id !== id);
-        renderMore(); saveLocal();
+    function updateAllUI(){
+      renderTrophies();
+      drawChart();
+      renderTokens();
+      renderMore();
+      refreshBalanceLabels();
+
+      noticeChain.textContent = state.chainId === ARC_NETWORK.chainId ? 'Arc Testnet' : 'Arc Testnet';
+      $('#themeToggleBtn').textContent = `Theme: ${state.theme === 'dark' ? 'Dark' : 'Light'}`;
+      $('#languageBtn').textContent = 'Language: EN';
+
+      app.classList.toggle('theme-dark', state.theme === 'dark');
+    }
+
+    function fillRequestDefaults(){
+      if (state.connected && !$('#requestWalletInput').value.trim()) {
+        $('#requestWalletInput').value = state.account;
       }
     }
 
     async function copyText(text){
-      try { await navigator.clipboard.writeText(text); setNotice([{ text:'Copied', helper:'The value is in your clipboard now.' }], 'Action', 'Clipboard updated.'); }
-      catch { setNotice([{ text:'Copy failed', helper:'Clipboard access was not available.' }], 'Action', 'Try again from a secure browser context.'); }
+      try{
+        await navigator.clipboard.writeText(text);
+        setNotice([{ text:'Copied', helper:'The value is in your clipboard now.' }], 'Action');
+      }catch{
+        setNotice([{ text:'Copy failed', helper:'Clipboard access was not available.' }], 'Action');
+      }
     }
 
-    async function generateRequest(){
-      const wallet = $('#requestWalletInput').value.trim();
-      const amount = $('#requestAmountInput').value.trim();
-      const note = state.request.hideNote ? '' : $('#requestNoteInput').value.trim();
-      if (!/^0x[a-fA-F0-9]{40}$/.test(wallet)) { setNotice([{ text:'Invalid wallet', helper:'Enter a valid receiver address before generating the QR.' }], 'Request', 'The QR needs a valid destination.'); return; }
-      if (!amount) { setNotice([{ text:'Missing amount', helper:'Enter the requested amount first.' }], 'Request', 'A payment note needs a value.'); return; }
-      const payload = { wallet, amount, asset: state.request.asset, note, chainId: ARC_NETWORK.chainId, createdAt: Date.now(), app:'StableFlow' };
-      requestLink = `${location.origin}${location.pathname}#paynote=${encodeURIComponent(btoa(JSON.stringify(payload)))}`;
-      const req = { id:`req_${Date.now()}`, ...payload, link: requestLink };
-      state.request.current = req;
-      state.requests.unshift(req);
-      state.stats.requests = state.requests.length;
-      pushActivity('request', { label:`${req.asset} request`, valueUsd:Number(amount) || 0 });
-      renderRequestResult(req);
-      renderMore();
-      saveLocal();
-      setNotice([{ text:'Payment note created', helper:'The QR and share link are now ready below.' }], 'Request', 'The same request also appears inside More → Requests.');
-    }
+    connectBtn.addEventListener('click', ()=>{
+      if (state.connected) return disconnectWallet();
 
-    function renderRequestResult(req){
-      const panel = $('#requestResult');
-      panel.classList.add('is-open');
-      const target = $('#qrTarget');
-      target.innerHTML = '';
-      qrInstance = new QRCode(target, { text:req.link, width:150, height:150, correctLevel:QRCode.CorrectLevel.M });
-      $('#requestMeta').innerHTML = `
-        <div><strong>${req.asset}</strong> • ${escapeHtml(req.amount)}</div>
-        <div>${shorten(req.wallet)}</div>
-        <div>${escapeHtml(req.note || 'No note')}</div>
-      `;
-    }
+      if (state.shellOpen) {
+        closeShell();
+      } else {
+        openShell();
+        showPage('connect');
+        contextNotice();
+      }
+    });
 
-    function resetRequestForm(){
-      $('#requestAmountInput').value = '';
-      $('#requestNoteInput').value = '';
-      state.request.current = null;
-      $('#requestResult').classList.remove('is-open');
-      $('#qrTarget').innerHTML = '';
-      $('#requestMeta').innerHTML = '';
-    }
-
-    function setupButtons(){
-      connectBtn.addEventListener('click', ()=> {
-        if (state.connected) {
-          showPage('home');
-          return;
-        }
-        if (state.shellOpen) closeShell(); else { openShell(); showPage('connect'); }
+    navButtons.forEach(btn=>{
+      btn.addEventListener('click', ()=>{
+        if (!state.connected) return;
+        showPage(btn.dataset.page);
       });
-      navButtons.forEach(btn => btn.addEventListener('click', ()=> { if (!state.connected) return; showPage(btn.dataset.page); }));
-      $('#disconnectBtn').addEventListener('click', disconnectWallet);
-      $('#slippageToggle').addEventListener('click', ()=> $('#slippageTrack').classList.toggle('is-open'));
-      $$('.slippage-choice').forEach(btn => btn.addEventListener('click', ()=> {
+    });
+
+    $('#disconnectBtn').addEventListener('click', disconnectWallet);
+
+    $('#slippageToggle').addEventListener('click', ()=>{
+      $('#slippageTrack').classList.toggle('is-open');
+    });
+
+    $$('.slippage-choice').forEach(btn=>{
+      btn.addEventListener('click', ()=>{
         state.swap.slippage = btn.dataset.slip;
         $('#swapSlipLabel').textContent = `${state.swap.slippage}%`;
-        $$('.slippage-choice').forEach(x => x.classList.toggle('is-on', x === btn));
-        updatePayQuote();
-      }));
-      $('#swapFlipBtn').addEventListener('click', async ()=> {
-        state.swap.direction = state.swap.direction === 'USDC_TO_LMTV' ? 'LMTV_TO_USDC' : 'USDC_TO_LMTV';
-        const topVal = $('#swapTopInput').value;
-        const bottomVal = $('#swapBottomInput').value;
-        $('#swapTopInput').value = bottomVal;
-        $('#swapBottomInput').value = topVal;
-        await updateSwapQuote();
+        $$('.slippage-choice').forEach(b=>b.classList.toggle('is-on', b === btn));
+        $('#paySlippage').textContent = `${state.swap.slippage}%`;
       });
-      $('#swapTopInput').addEventListener('input', ()=> { state.swap.activeField = 'top'; updateSwapQuoteDebounced(); });
-      $('#swapBottomInput').addEventListener('input', ()=> { state.swap.activeField = 'bottom'; updateSwapQuoteDebounced(); });
-      $$('.quick-btn[data-swap-quick]').forEach(btn => btn.addEventListener('click', ()=> swapQuick(Number(btn.dataset.swapQuick))));
-      $('#swapBtn').addEventListener('click', handleSwap);
-      $('#payHideNoteBtn').addEventListener('click', ()=> { state.pay.hideNote = !state.pay.hideNote; $('#payHideNoteBtn').classList.toggle('is-on', state.pay.hideNote); $('#payNoteBox').classList.toggle('hidden', state.pay.hideNote); });
-      $('#payUsdcBtn').addEventListener('click', ()=> setPayAsset('USDC'));
-      $('#payEurcBtn').addEventListener('click', ()=> setPayAsset('EURC'));
-      $('#payAmountInput').addEventListener('input', updatePayQuoteDebounced);
-      $('#payRecipientInput').addEventListener('input', updatePayQuoteDebounced);
-      $('#payNoteInput').addEventListener('input', ()=> state.pay.note = $('#payNoteInput').value.trim());
-      $('#payBtn').addEventListener('click', handlePay);
-      $('#payScanBtn').addEventListener('click', ()=> setNotice([{ text:'QR scanner placeholder', helper:'A scan parser can be layered next without changing the page structure.' }], 'Pay', 'The current build keeps the input flow clean and stable.'));
-      $('#requestHideNoteBtn').addEventListener('click', ()=> { state.request.hideNote = !state.request.hideNote; $('#requestHideNoteBtn').classList.toggle('is-on', state.request.hideNote); $('#requestNoteWrap').classList.toggle('hidden', state.request.hideNote); });
-      $('#requestUsdcBtn').addEventListener('click', ()=> setRequestAsset('USDC'));
-      $('#requestEurcBtn').addEventListener('click', ()=> setRequestAsset('EURC'));
-      $('#requestUseMineBtn').addEventListener('click', ()=> { if (state.connected) $('#requestWalletInput').value = state.account; });
-      $('#requestBtn').addEventListener('click', generateRequest);
-      $('#requestCopyBtn').addEventListener('click', ()=> copyText(requestLink));
-      $('#requestShareBtn').addEventListener('click', async ()=> {
-        try { if (navigator.share) await navigator.share({ title:'StableFlow payment note', text:requestLink, url:requestLink }); else await copyText(requestLink); }
-        catch {}
-      });
-      $('#requestDownloadBtn').addEventListener('click', downloadQr);
-      $('#requestNewBtn').addEventListener('click', resetRequestForm);
-      $$('.quick-btn[data-request-quick]').forEach(btn => btn.addEventListener('click', ()=> { $('#requestAmountInput').value = btn.dataset.requestQuick; }));
-      $('#themeToggleBtn').addEventListener('click', ()=> { state.theme = state.theme === 'light' ? 'dark' : 'light'; applyTheme(); saveLocal(); });
-      $('#languageBtn').addEventListener('click', ()=> { state.language = state.language === 'EN' ? 'EN' : 'EN'; applyTheme(); saveLocal(); });
-      $$('#moreMainTabs button').forEach(btn => btn.addEventListener('click', ()=> { state.moreTab = btn.dataset.moreTab; renderMore(); }));
-      $$('#activityFilters button').forEach(btn => btn.addEventListener('click', ()=> { state.activityFilter = btn.dataset.activityFilter; renderMore(); }));
-    }
+    });
 
-    function setPayAsset(asset){
-      state.pay.asset = asset;
-      $('#payUsdcBtn').classList.toggle('is-active', asset === 'USDC');
-      $('#payEurcBtn').classList.toggle('is-active', asset === 'EURC');
-      $('#payAmountOrb').classList.toggle('is-eurc', asset === 'EURC');
+    $('#swapTopInput').addEventListener('input', ()=>{
+      state.swap.active = 'top';
+      updateSwapQuote();
+    });
+
+    $('#swapBottomInput').addEventListener('input', ()=>{
+      state.swap.active = 'bottom';
+      updateSwapQuote();
+    });
+
+    $('#swapFlipBtn').addEventListener('click', ()=>{
+      state.swap.direction = state.swap.direction === 'USDC_TO_LMTV' ? 'LMTV_TO_USDC' : 'USDC_TO_LMTV';
+      const a = $('#swapTopInput').value;
+      const b = $('#swapBottomInput').value;
+      $('#swapTopInput').value = b;
+      $('#swapBottomInput').value = a;
+      updateSwapQuote();
+    });
+
+    $$('.quick-btn[data-swap-quick]').forEach(btn=>{
+      btn.addEventListener('click', ()=> swapQuick(Number(btn.dataset.swapQuick)));
+    });
+
+    $('#swapBtn').addEventListener('click', handleSwap);
+
+    $('#payHideNoteBtn').addEventListener('click', ()=>{
+      state.pay.hideNote = !state.pay.hideNote;
+      $('#payHideNoteBtn').classList.toggle('is-on', state.pay.hideNote);
+      $('#payNoteBox').classList.toggle('hidden', state.pay.hideNote);
+    });
+
+    $('#payUsdcBtn').addEventListener('click', ()=>{
+      state.pay.asset = 'USDC';
+      $('#payUsdcBtn').classList.add('is-active');
+      $('#payEurcBtn').classList.remove('is-active');
+      $('#payAmountOrb').classList.remove('is-eurc');
       updatePayQuote();
-    }
-    function setRequestAsset(asset){
-      state.request.asset = asset;
-      $('#requestUsdcBtn').classList.toggle('is-active', asset === 'USDC');
-      $('#requestEurcBtn').classList.toggle('is-active', asset === 'EURC');
-      $('#requestOrb').classList.toggle('is-eurc', asset === 'EURC');
-    }
+    });
 
-    function downloadQr(){
+    $('#payEurcBtn').addEventListener('click', ()=>{
+      state.pay.asset = 'EURC';
+      $('#payEurcBtn').classList.add('is-active');
+      $('#payUsdcBtn').classList.remove('is-active');
+      $('#payAmountOrb').classList.add('is-eurc');
+      updatePayQuote();
+    });
+
+    $('#payAmountInput').addEventListener('input', updatePayQuote);
+    $('#payRecipientInput').addEventListener('input', updatePayQuote);
+
+    $('#payBtn').addEventListener('click', handlePay);
+
+    $('#payScanBtn').addEventListener('click', ()=>{
+      setNotice([{ text:'QR scanner placeholder', helper:'Scanner integration can be layered next without changing the page structure.' }], 'Pay');
+    });
+
+    $('#requestHideNoteBtn').addEventListener('click', ()=>{
+      state.request.hideNote = !state.request.hideNote;
+      $('#requestHideNoteBtn').classList.toggle('is-on', state.request.hideNote);
+      $('#requestNoteWrap').classList.toggle('hidden', state.request.hideNote);
+    });
+
+    $('#requestUsdcBtn').addEventListener('click', ()=>{
+      state.request.asset = 'USDC';
+      $('#requestUsdcBtn').classList.add('is-active');
+      $('#requestEurcBtn').classList.remove('is-active');
+      $('#requestOrb').classList.remove('is-eurc');
+    });
+
+    $('#requestEurcBtn').addEventListener('click', ()=>{
+      state.request.asset = 'EURC';
+      $('#requestEurcBtn').classList.add('is-active');
+      $('#requestUsdcBtn').classList.remove('is-active');
+      $('#requestOrb').classList.add('is-eurc');
+    });
+
+    $('#requestAmountInput').addEventListener('input', ()=>{
+      setEmpty($('#requestAmountInput'), $('#requestOrb'));
+    });
+
+    $('#requestUseMineBtn').addEventListener('click', ()=>{
+      if (state.connected) $('#requestWalletInput').value = state.account;
+    });
+
+    $$('.quick-btn[data-request-quick]').forEach(btn=>{
+      btn.addEventListener('click', ()=>{
+        $('#requestAmountInput').value = btn.dataset.requestQuick;
+        setEmpty($('#requestAmountInput'), $('#requestOrb'));
+      });
+    });
+
+    $('#requestBtn').addEventListener('click', generateRequest);
+    $('#requestCopyBtn').addEventListener('click', ()=> state.request.current && copyText(state.request.current.link));
+
+    $('#requestShareBtn').addEventListener('click', async ()=>{
+      if (!state.request.current) return;
+      try{
+        if (navigator.share) {
+          await navigator.share({
+            title:'StableFlow payment note',
+            text:state.request.current.link,
+            url:state.request.current.link
+          });
+        } else {
+          await copyText(state.request.current.link);
+        }
+      }catch{}
+    });
+
+    $('#requestDownloadBtn').addEventListener('click', ()=>{
       const img = $('#qrTarget img') || $('#qrTarget canvas');
       if (!img) return;
-      let href = '';
-      if (img.tagName.toLowerCase() === 'img') href = img.src;
-      else href = img.toDataURL('image/png');
+
+      const href = img.tagName.toLowerCase() === 'img'
+        ? img.src
+        : img.toDataURL('image/png');
+
       const a = document.createElement('a');
-      a.href = href; a.download = 'stableflow-request.png'; a.click();
-    }
+      a.href = href;
+      a.download = 'stableflow-request.png';
+      a.click();
+    });
 
-    const updateSwapQuoteDebounced = debounce(updateSwapQuote, 260);
-    const updatePayQuoteDebounced = debounce(updatePayQuote, 260);
+    $('#requestNewBtn').addEventListener('click', resetRequestForm);
 
-    function hydrateInitialUI(){
-      renderWallets();
-      applyTheme();
-      renderTokens();
-      renderMore();
-      updateProfile();
-      updateHomeMetrics();
-      refreshAccountUI();
-      showPage('connect');
-      resetNavToOff();
-      setNoticeForContext();
-      setPayAsset('USDC');
-      setRequestAsset('USDC');
-      $('#swapSlipLabel').textContent = `${state.swap.slippage}%`;
-      $('#payFlowPanel').classList.remove('is-open');
-    }
+    $('#themeToggleBtn').addEventListener('click', ()=>{
+      state.theme = state.theme === 'light' ? 'dark' : 'light';
+      updateAllUI();
+    });
 
-    loadLocal();
-    setupButtons();
-    hydrateInitialUI();
+    $$('#moreTabs button').forEach(btn=>{
+      btn.addEventListener('click', ()=>{
+        state.moreTab = btn.dataset.moreTab;
+        renderMore();
+      });
+    });
+
+    $$('#activityFilters button').forEach(btn=>{
+      btn.addEventListener('click', ()=>{
+        state.activityFilter = btn.dataset.activityFilter;
+        renderMore();
+      });
+    });
+
+    renderWallets();
+    navOff();
+    renderTrophies();
+    drawChart();
+    renderTokens();
+    renderMore();
+    contextNotice();
   </script>
 </body>
-</html>
+                                                                                    </html>
