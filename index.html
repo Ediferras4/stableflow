@@ -68,6 +68,20 @@
       --get-orange-soft:rgba(242,176,76,.16);
       --get-green:#59d18f;
       --get-green-soft:rgba(89,209,143,.12);
+
+      --tokens-line:rgba(181,203,222,.72);
+      --tokens-line-soft:rgba(181,203,222,.34);
+      --tokens-blue:#79cbff;
+      --tokens-blue-2:#47aef2;
+      --tokens-blue-3:#2f88dd;
+      --tokens-blue-soft:rgba(121,203,255,.16);
+      --tokens-orange:#f2b04c;
+      --tokens-orange-2:#f39a20;
+      --tokens-orange-soft:rgba(242,176,76,.14);
+      --tokens-green:#5bd08f;
+      --tokens-green-soft:rgba(91,208,143,.14);
+      --tokens-eur:#73b9ff;
+      --tokens-eur-soft:rgba(115,185,255,.14);
     }
 
     html,body{width:100%;height:100%;min-height:100%;background:#000;font-family:Inter,Arial,Helvetica,sans-serif;overflow:hidden}
@@ -260,7 +274,8 @@
     .page[data-view="home"],
     .page[data-view="swap"],
     .page[data-view="pay"],
-    .page[data-view="get-paid"]{
+    .page[data-view="get-paid"],
+    .page[data-view="tokens"]{
       padding:0;
       background:linear-gradient(180deg,#f3f8fd 0%, #e6eef7 100%);
     }
@@ -362,24 +377,6 @@
     .submit-btn:disabled{opacity:.55;cursor:not-allowed;box-shadow:none}
     .quick-row{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap}
     .quick-btn{height:30px;padding:0 12px;border-radius:999px;border:1px solid #dbe7f0;background:#fff;color:#55758d;font-size:11px;font-weight:900;cursor:pointer}
-
-    .token-list{display:grid;gap:12px}
-    .token-card{
-      padding:16px;border-radius:26px;background:linear-gradient(180deg,#ffffff,#f4f8fb);border:1px solid #dbe7f0;box-shadow:0 14px 24px rgba(14,29,40,.05)
-    }
-    .token-head{display:flex;align-items:center;justify-content:space-between;gap:10px}
-    .token-main{display:flex;align-items:center;gap:12px}
-    .token-icon{
-      width:48px;height:48px;border-radius:16px;background:linear-gradient(180deg,#e8f8ff,#d8f2ff);border:1px solid #c8e8f7;display:flex;align-items:center;justify-content:center;font-weight:900;color:#17435e;overflow:hidden
-    }
-    .token-icon img{width:100%;height:100%;object-fit:cover}
-    .token-name{font-size:16px;font-weight:900;color:#1b3b52}
-    .token-sub{font-size:12px;color:#6d89a0;margin-top:3px}
-    .copy-btn{height:36px;padding:0 12px;border:none;border-radius:999px;background:linear-gradient(180deg,#57d4ff,#29bef0);color:#083044;font-weight:900;cursor:pointer}
-    .token-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-top:12px}
-    .mini-stat{padding:12px;border-radius:18px;background:#fff;border:1px solid #dbe7f0}
-    .mini-stat .k{font-size:10px;font-weight:900;letter-spacing:.12em;text-transform:uppercase;color:#7891a4}
-    .mini-stat .v{margin-top:6px;font-size:14px;font-weight:900;color:#1b3b52;word-break:break-word}
 
     .more-top{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}
     .segment{display:inline-flex;gap:8px;padding:6px;border-radius:999px;background:#eef7fd;border:1px solid #dbe7f0;flex-wrap:wrap}
@@ -2501,6 +2498,397 @@
     }
     .get-mini-action:active{transform:scale(.985)}
 
+    /* TOKENS */
+    .tokens-stage{
+      min-height:100%;
+      background:transparent;
+      position:relative;
+      overflow:hidden;
+      padding:16px 14px 26px;
+      box-shadow:inset 0 1px 0 rgba(255,255,255,.55);
+    }
+    .tokens-stage::before{
+      content:"";
+      position:absolute;
+      inset:0;
+      background:
+        radial-gradient(circle at 15% 8%, rgba(91,202,255,.10), transparent 26%),
+        radial-gradient(circle at 100% 100%, rgba(91,202,255,.08), transparent 28%);
+      pointer-events:none;
+    }
+    .tokens-flow{
+      position:relative;
+      z-index:1;
+      display:flex;
+      flex-direction:column;
+      gap:12px;
+      margin-top:2px;
+      padding-top:6px;
+    }
+    .tokens-shell{
+      border-radius:16px;
+      background:linear-gradient(180deg,#fbfdff 0%, #eff6fd 100%);
+      border:1px solid var(--tokens-line);
+      box-shadow:0 12px 24px rgba(18,52,84,.05), inset 0 1px 0 rgba(255,255,255,.96);
+      padding:8px;
+      display:flex;
+      flex-direction:column;
+      gap:8px;
+      position:relative;
+      overflow:hidden;
+    }
+    .tokens-shell::before{
+      content:"";
+      position:absolute;
+      inset:0;
+      background:
+        radial-gradient(circle at top right, rgba(121,203,255,.10), transparent 24%),
+        linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,0));
+      pointer-events:none;
+    }
+    .tokens-topbar{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:8px;
+      padding:2px 2px 4px;
+      position:relative;
+      z-index:1;
+    }
+    .tokens-title{
+      color:#173149;
+      font-size:12px;
+      line-height:1;
+      font-weight:1000;
+      letter-spacing:-.04em;
+    }
+    .tokens-network-pill{
+      min-height:28px;
+      padding:0 10px;
+      border-radius:999px;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      white-space:nowrap;
+      background:linear-gradient(180deg,#fff9ee 0%, #f6e7ca 100%);
+      border:1px solid rgba(242,176,76,.24);
+      color:#a36a18;
+      font-size:6px;
+      font-weight:1000;
+      letter-spacing:.12em;
+      box-shadow:0 0 0 3px rgba(242,176,76,.08), inset 0 1px 0 rgba(255,255,255,.95);
+      text-transform:uppercase;
+    }
+    .tokens-panel{
+      background:linear-gradient(180deg,#fbfdff 0%, #eef5fc 100%);
+      border:1px solid var(--tokens-line);
+      box-shadow:0 8px 16px rgba(18,52,84,.04), inset 0 1px 0 rgba(255,255,255,.96);
+      border-radius:10px;
+      padding:8px;
+      display:flex;
+      flex-direction:column;
+      gap:8px;
+      position:relative;
+      z-index:1;
+    }
+    .tokens-line-item{
+      position:relative;
+      border-radius:13px;
+      background:linear-gradient(180deg,#ffffff 0%, #eef5fc 100%);
+      border:1px solid var(--tokens-line);
+      box-shadow:inset 0 1px 0 rgba(255,255,255,.96), 0 8px 16px rgba(18,52,84,.04);
+      padding:8px;
+      display:flex;
+      flex-direction:column;
+      gap:8px;
+      overflow:hidden;
+    }
+    .tokens-line-item.is-lmtv{
+      box-shadow:inset 0 1px 0 rgba(255,255,255,.96), 0 8px 16px rgba(18,52,84,.04), inset 3px 0 0 rgba(242,176,76,.72);
+    }
+    .tokens-line-item.is-usdc{
+      box-shadow:inset 0 1px 0 rgba(255,255,255,.96), 0 8px 16px rgba(18,52,84,.04), inset 3px 0 0 rgba(71,174,242,.72);
+    }
+    .tokens-line-item.is-eurc{
+      box-shadow:inset 0 1px 0 rgba(255,255,255,.96), 0 8px 16px rgba(18,52,84,.04), inset 3px 0 0 rgba(91,208,143,.72);
+    }
+
+    .tokens-line-top{
+      display:grid;
+      grid-template-columns:auto 1fr auto auto;
+      gap:8px;
+      align-items:center;
+    }
+    .tokens-coin{
+      width:38px;
+      height:38px;
+      border-radius:50%;
+      display:grid;
+      place-items:center;
+      color:#fff;
+      font-weight:1000;
+      font-size:13px;
+      box-shadow:inset 0 1px 0 rgba(255,255,255,.24), 0 8px 14px rgba(18,52,84,.08);
+      position:relative;
+      flex:0 0 auto;
+    }
+    .tokens-coin::after{
+      content:"";
+      position:absolute;
+      inset:-5px;
+      border-radius:50%;
+      border:1px solid rgba(181,203,222,.24);
+    }
+    .tokens-coin.is-lmtv{
+      background:linear-gradient(180deg,#f5c668 0%, #f2a52f 100%);
+      box-shadow:inset 0 1px 0 rgba(255,255,255,.24), 0 8px 14px rgba(242,176,76,.22);
+    }
+    .tokens-coin.is-usdc{
+      background:linear-gradient(180deg,#73c6ff 0%, #3f92df 100%);
+      box-shadow:inset 0 1px 0 rgba(255,255,255,.24), 0 8px 14px rgba(71,174,242,.22);
+    }
+    .tokens-coin.is-eurc{
+      background:linear-gradient(180deg,#8fd2ff 0%, #5da6f1 100%);
+      box-shadow:inset 0 1px 0 rgba(255,255,255,.24), 0 8px 14px rgba(115,185,255,.20);
+    }
+
+    .tokens-meta{min-width:0}
+    .tokens-symbol{
+      color:#173149;
+      font-size:10px;
+      font-weight:1000;
+      line-height:1.05;
+      margin-bottom:3px;
+    }
+    .tokens-name{
+      color:#627b91;
+      font-size:6px;
+      font-weight:1000;
+      line-height:1.2;
+    }
+
+    .tokens-role-pill{
+      min-height:24px;
+      padding:0 8px;
+      border-radius:999px;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      white-space:nowrap;
+      font-size:6px;
+      font-weight:1000;
+      letter-spacing:.10em;
+      border:1px solid rgba(184,205,224,.72);
+      background:linear-gradient(180deg,#f4f8fd 0%, #ebf2fa 100%);
+      color:#6f88a0;
+      box-shadow:inset 0 1px 0 rgba(255,255,255,.95);
+      text-transform:uppercase;
+    }
+    .tokens-role-pill.is-blue{
+      color:#2f88dd;
+      background:linear-gradient(180deg,#f3fbff 0%, #e3f3ff 100%);
+      border-color:rgba(117,202,255,.24);
+      box-shadow:0 0 0 3px rgba(121,203,255,.06), inset 0 1px 0 rgba(255,255,255,.95);
+    }
+    .tokens-role-pill.is-orange{
+      color:#a36a18;
+      background:linear-gradient(180deg,#fff8ea 0%, #f5e6c8 100%);
+      border-color:rgba(242,176,76,.24);
+      box-shadow:0 0 0 3px rgba(242,176,76,.06), inset 0 1px 0 rgba(255,255,255,.95);
+    }
+    .tokens-role-pill.is-green{
+      color:#3a8d62;
+      background:linear-gradient(180deg,#f4fff8 0%, #e7f7ee 100%);
+      border-color:rgba(91,208,143,.24);
+      box-shadow:0 0 0 3px rgba(91,208,143,.06), inset 0 1px 0 rgba(255,255,255,.95);
+    }
+
+    .tokens-copy-btn{
+      min-width:32px;
+      height:32px;
+      border:none;
+      border-radius:10px;
+      background:linear-gradient(180deg,#f4f8fd 0%, #ebf2fa 100%);
+      border:1px solid rgba(184,205,224,.72);
+      color:#6f88a0;
+      box-shadow:inset 0 1px 0 rgba(255,255,255,.95);
+      display:grid;
+      place-items:center;
+      cursor:pointer;
+      transition:all .18s ease;
+      position:relative;
+    }
+    .tokens-copy-btn:hover{
+      box-shadow:0 0 0 3px rgba(121,203,255,.08), inset 0 1px 0 rgba(255,255,255,.95);
+      border-color:rgba(121,203,255,.26);
+    }
+    .tokens-copy-btn:active{transform:scale(.97)}
+    .tokens-copy-btn svg{
+      width:15px;
+      height:15px;
+      stroke:currentColor;
+      stroke-width:2;
+      fill:none;
+      stroke-linecap:round;
+      stroke-linejoin:round;
+    }
+
+    .tokens-rail-head{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:8px;
+    }
+    .tokens-rail-label{
+      color:#6f88a0;
+      font-size:6px;
+      font-weight:1000;
+      letter-spacing:.16em;
+      text-transform:uppercase;
+    }
+    .tokens-rail-hint{
+      display:flex;
+      align-items:center;
+      gap:5px;
+      color:#6f88a0;
+      font-size:5px;
+      font-weight:1000;
+      letter-spacing:.18em;
+      text-transform:uppercase;
+      opacity:.92;
+      white-space:nowrap;
+    }
+    .tokens-rail-hint svg{
+      width:12px;
+      height:12px;
+      stroke:currentColor;
+      stroke-width:2;
+      fill:none;
+      stroke-linecap:round;
+      stroke-linejoin:round;
+    }
+
+    .tokens-rail-wrap{
+      position:relative;
+    }
+    .tokens-rail-wrap::after{
+      content:"";
+      position:absolute;
+      right:0;
+      top:0;
+      bottom:18px;
+      width:34px;
+      pointer-events:none;
+      background:linear-gradient(90deg, rgba(239,246,253,0), rgba(239,246,253,.96));
+    }
+    .tokens-rail-wrap.is-lmtv::after{
+      background:linear-gradient(90deg, rgba(239,246,253,0), rgba(255,248,234,.98));
+    }
+    .tokens-rail-wrap.is-usdc::after{
+      background:linear-gradient(90deg, rgba(239,246,253,0), rgba(243,251,255,.98));
+    }
+    .tokens-rail-wrap.is-eurc::after{
+      background:linear-gradient(90deg, rgba(239,246,253,0), rgba(245,250,255,.98));
+    }
+
+    .tokens-rail-scroll{
+      overflow-x:auto;
+      overflow-y:hidden;
+      scrollbar-width:none;
+      padding-bottom:4px;
+      margin-right:-6px;
+    }
+    .tokens-rail-scroll::-webkit-scrollbar{display:none}
+
+    .tokens-stats-rail{
+      display:flex;
+      gap:6px;
+      min-width:max-content;
+      padding-right:26px;
+    }
+
+    .tokens-chip{
+      min-width:92px;
+      min-height:44px;
+      border-radius:11px;
+      background:linear-gradient(180deg,#fbfdff 0%, #eff5fc 100%);
+      border:1px solid rgba(181,203,222,.66);
+      box-shadow:inset 0 1px 0 rgba(255,255,255,.96);
+      padding:7px 8px;
+      display:flex;
+      flex-direction:column;
+      justify-content:space-between;
+      gap:5px;
+      position:relative;
+      overflow:hidden;
+    }
+    .tokens-chip::before{
+      content:"";
+      position:absolute;
+      left:0;
+      top:0;
+      bottom:0;
+      width:2px;
+      background:rgba(121,203,255,.35);
+    }
+    .tokens-line-item.is-lmtv .tokens-chip::before{background:rgba(242,176,76,.45)}
+    .tokens-line-item.is-usdc .tokens-chip::before{background:rgba(71,174,242,.45)}
+    .tokens-line-item.is-eurc .tokens-chip::before{background:rgba(91,208,143,.45)}
+    .tokens-chip.is-contract{min-width:126px}
+
+    .tokens-chip-label{
+      color:#7390a8;
+      font-size:5px;
+      font-weight:1000;
+      letter-spacing:.16em;
+      text-transform:uppercase;
+    }
+    .tokens-chip-value{
+      color:#173149;
+      font-size:8px;
+      font-weight:1000;
+      line-height:1.15;
+      word-break:break-word;
+    }
+
+    .tokens-micro-track{
+      margin-top:2px;
+      height:4px;
+      border-radius:999px;
+      background:linear-gradient(90deg, rgba(181,203,222,.18), rgba(181,203,222,.42), rgba(181,203,222,.18));
+      position:relative;
+      overflow:hidden;
+    }
+    .tokens-micro-thumb{
+      position:absolute;
+      left:8%;
+      top:0;
+      bottom:0;
+      width:34%;
+      border-radius:999px;
+      background:linear-gradient(90deg, rgba(121,203,255,.85), rgba(121,203,255,.35));
+    }
+    .tokens-line-item.is-lmtv .tokens-micro-thumb{
+      background:linear-gradient(90deg, rgba(242,176,76,.88), rgba(242,176,76,.34));
+    }
+    .tokens-line-item.is-usdc .tokens-micro-thumb{
+      background:linear-gradient(90deg, rgba(71,174,242,.88), rgba(71,174,242,.34));
+    }
+    .tokens-line-item.is-eurc .tokens-micro-thumb{
+      background:linear-gradient(90deg, rgba(91,208,143,.88), rgba(91,208,143,.34));
+    }
+
+    .tokens-footer-note{
+      color:#6b8398;
+      font-size:6px;
+      font-weight:1000;
+      line-height:1.35;
+      text-align:center;
+      padding:2px 4px 0;
+      position:relative;
+      z-index:1;
+    }
+
     @keyframes spinArrows{
       from{ transform:rotate(0deg); }
       to{ transform:rotate(360deg); }
@@ -2535,9 +2923,7 @@
     .theme-dark .panel-card,
     .theme-dark .recipient-box,
     .theme-dark .amount-orb,
-    .theme-dark .token-card,
     .theme-dark .more-panel,
-    .theme-dark .mini-stat,
     .theme-dark .status-card,
     .theme-dark .list-item,
     .theme-dark .wallet-card{
@@ -2550,15 +2936,15 @@
       background:#102334;border-color:rgba(108,198,239,.18);color:#d7efff
     }
     .theme-dark .segment button{color:#8cb5cb}
-    .theme-dark .amount-input,.theme-dark .recipient-box input,.theme-dark .amount-orb .sub,.theme-dark .panel-title,.theme-dark .token-name,.theme-dark .mini-stat .v,.theme-dark .status-card .v,.theme-dark .list-item .title,.theme-dark .wallet-name{
+    .theme-dark .amount-input,.theme-dark .recipient-box input,.theme-dark .amount-orb .sub,.theme-dark .panel-title,.theme-dark .status-card .v,.theme-dark .list-item .title,.theme-dark .wallet-name{
       color:#ecf8ff
     }
-    .theme-dark .panel-sub,.theme-dark .token-sub,.theme-dark .mini-stat .k,.theme-dark .status-card .k,.theme-dark .list-item .meta,.theme-dark .wallet-state,.theme-dark .wallet-reco{
+    .theme-dark .panel-sub,.theme-dark .status-card .k,.theme-dark .list-item .meta,.theme-dark .wallet-state,.theme-dark .wallet-reco{
       color:#8fb2c7
     }
 
     @media (max-width:540px){
-      .connect-grid,.token-grid,.status-grid,.asset-center,.swap-summary-grid,.pay-asset-center{grid-template-columns:1fr}
+      .connect-grid,.status-grid,.asset-center,.swap-summary-grid,.pay-asset-center{grid-template-columns:1fr}
       .page-sheet{border-radius:24px;padding:14px}
       .notice-message{font-size:14px}
       .home-graph-svg{height:194px}
@@ -3150,10 +3536,27 @@
             </section>
 
             <section class="page" data-view="tokens">
-              <div class="page-sheet">
-                <div class="top-actions"><div class="mini-tag"><span class="spark"></span> tokens</div></div>
+              <div class="tokens-stage">
+                <div class="top-actions">
+                  <div class="mini-tag"><span class="spark"></span> tokens</div>
+                </div>
+
                 <div class="section-gap"></div>
-                <div class="token-list" id="tokenList"></div>
+
+                <div class="tokens-flow">
+                  <div class="tokens-shell">
+                    <div class="tokens-topbar">
+                      <div class="tokens-title">Tokens</div>
+                      <div class="tokens-network-pill">Arc Network</div>
+                    </div>
+
+                    <div class="tokens-panel" id="tokensLinesList"></div>
+
+                    <div class="tokens-footer-note">
+                      Swipe inside each line to see more token details. Only the inner rail moves sideways.
+                    </div>
+                  </div>
+                </div>
               </div>
             </section>
 
@@ -3392,6 +3795,10 @@
       return addr ? `${addr.slice(0,6)}...${addr.slice(-4)}` : 'Wallet not connected';
     }
 
+    function shortenLong(addr){
+      return addr ? `${addr.slice(0,6)}...${addr.slice(-6)}` : '—';
+    }
+
     function clamp(n, min, max){
       return Math.min(max, Math.max(min, n));
     }
@@ -3619,8 +4026,8 @@
           { text:'Generate below', helper:'The note starts at the top and the beautiful receipt appears right under the button.' }
         ],
         tokens: [
-          { text:'Live token panel', helper:'Contracts, reserves and spot ratios are loaded from chain.' },
-          { text:'Copy on touch', helper:'Each card includes quick copy actions for contract addresses.' }
+          { text:'Token rails ready', helper:'Compact lines use a small lateral scroll only inside each token line.' },
+          { text:'Swipe inside each line', helper:'The page stays clean. Only the inner rail moves sideways for extra details.' }
         ],
         more: [
           { text:'Requests, activity, status', helper:'Everything here is fed by real app state and generated notes.' },
@@ -3859,6 +4266,25 @@
       }
     }
 
+    function getPairStats(stable){
+      const pair = state.pairInfo[stable];
+      if (!pair) return null;
+
+      try {
+        const lmtvIs0 = pair.token0 === TOKEN_CONFIG.LMTV.address.toLowerCase();
+        const lmtvReserve = Number(ethers.utils.formatUnits(lmtvIs0 ? pair.reserve0 : pair.reserve1, state.decimals.LMTV));
+        const stableReserve = Number(ethers.utils.formatUnits(lmtvIs0 ? pair.reserve1 : pair.reserve0, state.decimals[stable]));
+        return {
+          lmtvReserve,
+          stableReserve,
+          stablePerLmtv: lmtvReserve ? stableReserve / lmtvReserve : 0,
+          lmtvPerStable: stableReserve ? lmtvReserve / stableReserve : 0
+        };
+      } catch {
+        return null;
+      }
+    }
+
     function renderSwapSlippage(){
       const slip = Number(state.swap.slippage || AUTO_SWAP_SLIPPAGE);
       if (swapSlipRange) swapSlipRange.value = slip.toFixed(1);
@@ -3867,7 +4293,9 @@
         $('#swapSlipLabel').textContent = Math.abs(slip - AUTO_SWAP_SLIPPAGE) < 0.001 ? 'AUTO' : `${slip.toFixed(1)}%`;
       }
       if ($('#paySlippage')) {
-        $('#paySlippage').textContent = Math.abs(slip - AUTO_SWAP_SLIPPAGE) < 0.001 ? `AUTO (${slip.toFixed(2)}%)` : `${slip.toFixed(2)}%`;
+        $('#paySlippage').textContent = Math.abs(Number(state.swap.slippage || AUTO_SWAP_SLIPPAGE) - AUTO_SWAP_SLIPPAGE) < 0.001
+          ? `AUTO (${Number(state.swap.slippage || AUTO_SWAP_SLIPPAGE).toFixed(2)}%)`
+          : `${Number(state.swap.slippage || AUTO_SWAP_SLIPPAGE).toFixed(2)}%`;
       }
     }
 
@@ -4534,67 +4962,152 @@
       if (state.connected && !$('#requestWalletInput').value.trim()) $('#requestWalletInput').value = state.account;
     }
 
-    function renderTokens(){
-      const list = $('#tokenList');
+    function buildDefaultTokenLines(){
+      const usdcStats = getPairStats('USDC');
+      const eurcStats = getPairStats('EURC');
 
-      const cards = ['LMTV','USDC','EURC'].map(symbol => {
-        const token = TOKEN_CONFIG[symbol];
-        const balance = formatCompact(state.balances[symbol] || 0);
-        let spot = '—';
+      const usdcRate = usdcStats?.lmtvPerStable ? `1 USDC ≈ ${formatNum(usdcStats.lmtvPerStable, 4)} LMTV` : 'Waiting for pair';
+      const eurcRate = eurcStats?.lmtvPerStable ? `1 EURC ≈ ${formatNum(eurcStats.lmtvPerStable, 4)} LMTV` : 'Waiting for pair';
+      const lmtvLive = usdcStats?.stablePerLmtv ? `${formatNum(usdcStats.stablePerLmtv, 6)} USDC` : 'Waiting for pair';
 
-        if (symbol !== 'EURC') {
-          const pair = state.pairInfo.USDC;
-          if (pair) {
-            const lmtvIs0 = pair.token0 === TOKEN_CONFIG.LMTV.address.toLowerCase();
-            const lmtvReserve = Number(ethers.utils.formatUnits(lmtvIs0 ? pair.reserve0 : pair.reserve1, state.decimals.LMTV));
-            const usdcReserve = Number(ethers.utils.formatUnits(lmtvIs0 ? pair.reserve1 : pair.reserve0, state.decimals.USDC));
-            if (lmtvReserve && usdcReserve) {
-              const price = usdcReserve / lmtvReserve;
-              spot = symbol === 'LMTV' ? `${formatNum(price, 6)} USDC` : `${formatNum(1 / price, 4)} LMTV`;
-            }
-          }
+      return [
+        {
+          symbol:'LMTV',
+          name:'Locomotive token',
+          lineClass:'is-lmtv',
+          coinClass:'is-lmtv',
+          coinLetter:'L',
+          role:'MAIN',
+          roleClass:'is-orange',
+          contract:TOKEN_CONFIG.LMTV.address,
+          chips:[
+            { label:'ROLE', value:'Project token' },
+            { label:'USE', value:'Swap / Pay input' },
+            { label:'PAIR', value:'USDC + EURC' },
+            { label:'BALANCE', value:`${formatCompact(state.balances.LMTV || 0)} LMTV` },
+            { label:'LIVE', value:lmtvLive },
+            { label:'CONTRACT', value:shortenLong(TOKEN_CONFIG.LMTV.address), contract:true }
+          ]
+        },
+        {
+          symbol:'USDC',
+          name:'Arc settlement stable',
+          lineClass:'is-usdc',
+          coinClass:'is-usdc',
+          coinLetter:'U',
+          role:'SETTLE',
+          roleClass:'is-blue',
+          contract:TOKEN_CONFIG.USDC.address,
+          chips:[
+            { label:'ROLE', value:'Stable rail' },
+            { label:'USE', value:'Swap / Get Paid' },
+            { label:'PAIR', value:'LMTV route' },
+            { label:'BALANCE', value:`${formatCompact(state.balances.USDC || 0)} USDC` },
+            { label:'RATE', value:usdcRate },
+            { label:'CONTRACT', value:shortenLong(TOKEN_CONFIG.USDC.address), contract:true }
+          ]
+        },
+        {
+          symbol:'EURC',
+          name:'Euro stable output',
+          lineClass:'is-eurc',
+          coinClass:'is-eurc',
+          coinLetter:'E',
+          role:'EURO',
+          roleClass:'is-green',
+          contract:TOKEN_CONFIG.EURC.address,
+          chips:[
+            { label:'ROLE', value:'Receive asset' },
+            { label:'USE', value:'Pay / Get Paid' },
+            { label:'PAIR', value:'LMTV route' },
+            { label:'BALANCE', value:`${formatCompact(state.balances.EURC || 0)} EURC` },
+            { label:'RATE', value:eurcRate },
+            { label:'CONTRACT', value:shortenLong(TOKEN_CONFIG.EURC.address), contract:true }
+          ]
         }
+      ];
+    }
 
-        if (symbol === 'EURC') {
-          const pair = state.pairInfo.EURC;
-          if (pair) {
-            const lmtvIs0 = pair.token0 === TOKEN_CONFIG.LMTV.address.toLowerCase();
-            const lmtvReserve = Number(ethers.utils.formatUnits(lmtvIs0 ? pair.reserve0 : pair.reserve1, state.decimals.LMTV));
-            const eurcReserve = Number(ethers.utils.formatUnits(lmtvIs0 ? pair.reserve1 : pair.reserve0, state.decimals.EURC));
-            if (lmtvReserve && eurcReserve) {
-              spot = `${formatNum(eurcReserve / lmtvReserve, 6)} EURC`;
-            }
-          }
-        }
+    function renderTokenLine(token){
+      return `
+        <div class="tokens-line-item ${token.lineClass || ''}">
+          <div class="tokens-line-top">
+            <div class="tokens-coin ${token.coinClass || ''}">${escapeHtml(token.coinLetter || '?')}</div>
 
-        const pairAddress = symbol === 'LMTV'
-          ? `${PAIRS.USDC.address.slice(0,6)}... / ${PAIRS.EURC.address.slice(0,6)}...`
-          : symbol === 'USDC'
-            ? shorten(PAIRS.USDC.address)
-            : shorten(PAIRS.EURC.address);
-
-        return `
-          <div class="token-card">
-            <div class="token-head">
-              <div class="token-main">
-                <div class="token-icon"><img src="${token.icon}" alt="${symbol}" onerror="this.style.display='none'; this.parentNode.textContent='${symbol.slice(0,2)}'" /></div>
-                <div><div class="token-name">${symbol}</div><div class="token-sub">Live balance ${balance}</div></div>
-              </div>
-              <button class="copy-btn" data-copy="${token.address}">Copy</button>
+            <div class="tokens-meta">
+              <div class="tokens-symbol">${escapeHtml(token.symbol || '')}</div>
+              <div class="tokens-name">${escapeHtml(token.name || '')}</div>
             </div>
-            <div class="token-grid">
-              <div class="mini-stat"><div class="k">Contract</div><div class="v">${shorten(token.address)}</div></div>
-              <div class="mini-stat"><div class="k">Decimals</div><div class="v">${state.decimals[symbol] || '—'}</div></div>
-              <div class="mini-stat"><div class="k">Spot</div><div class="v">${spot}</div></div>
-              <div class="mini-stat"><div class="k">Pair</div><div class="v">${pairAddress}</div></div>
+
+            <div class="tokens-role-pill ${token.roleClass || ''}">${escapeHtml(token.role || '')}</div>
+
+            <button class="tokens-copy-btn" type="button" data-copy="${escapeHtml(token.contract || '')}" aria-label="Copy ${escapeHtml(token.symbol || 'token')} contract">
+              <svg viewBox="0 0 24 24">
+                <rect x="9" y="9" width="10" height="10" rx="2"></rect>
+                <path d="M5 15V7a2 2 0 012-2h8"></path>
+              </svg>
+            </button>
+          </div>
+
+          <div class="tokens-rail-head">
+            <div class="tokens-rail-label">TOKEN DETAILS</div>
+            <div class="tokens-rail-hint">
+              <span>SWIPE</span>
+              <svg viewBox="0 0 24 24">
+                <path d="M5 12h12"></path>
+                <path d="M13 7l5 5-5 5"></path>
+              </svg>
             </div>
           </div>
-        `;
-      }).join('');
 
-      list.innerHTML = cards;
-      $$('[data-copy]', list).forEach(btn => btn.addEventListener('click', () => copyText(btn.dataset.copy)));
+          <div class="tokens-rail-wrap ${token.lineClass || ''}">
+            <div class="tokens-rail-scroll">
+              <div class="tokens-stats-rail">
+                ${(token.chips || []).map(chip => `
+                  <div class="tokens-chip ${chip.contract ? 'is-contract' : ''}">
+                    <div class="tokens-chip-label">${escapeHtml(chip.label || '')}</div>
+                    <div class="tokens-chip-value">${escapeHtml(chip.value || '')}</div>
+                  </div>
+                `).join('')}
+              </div>
+            </div>
+            <div class="tokens-micro-track">
+              <div class="tokens-micro-thumb"></div>
+            </div>
+          </div>
+        </div>
+      `;
     }
+
+    async function copyTokensValue(text, btn){
+      const original = btn.innerHTML;
+      try {
+        await navigator.clipboard.writeText(text);
+        btn.textContent = 'OK';
+      } catch {
+        btn.textContent = 'OK';
+      }
+      setTimeout(() => { btn.innerHTML = original; }, 900);
+    }
+
+    function renderTokens(customTokens){
+      const list = $('#tokensLinesList');
+      if (!list) return;
+
+      const tokens = Array.isArray(customTokens) && customTokens.length ? customTokens : buildDefaultTokenLines();
+      list.innerHTML = tokens.map(renderTokenLine).join('');
+
+      $$('.tokens-copy-btn', list).forEach(btn => {
+        btn.addEventListener('click', () => copyTokensValue(btn.dataset.copy || '', btn));
+      });
+    }
+
+    window.StableFlowTokens = {
+      setTokens(tokens){
+        if (!Array.isArray(tokens) || !tokens.length) return;
+        renderTokens(tokens);
+      }
+    };
 
     function renderMore(){
       renderMoreRequests();
@@ -4697,7 +5210,6 @@
     function updateGetPaidUI(){
       const walletInput = $('#requestWalletInput');
       const amountInput = $('#requestAmountInput');
-      const noteInput = $('#requestNoteInput');
       const walletBox = $('#requestWalletBox');
       const amountBox = $('#requestAmountBox');
       const orb = $('#requestOrb');
