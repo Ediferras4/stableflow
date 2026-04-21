@@ -68,6 +68,39 @@
       --get-orange-soft:rgba(242,176,76,.16);
       --get-green:#59d18f;
       --get-green-soft:rgba(89,209,143,.12);
+
+      --tokens-page:#f8fcff;
+      --tokens-page-2:#eef5fc;
+      --tokens-panel:#fbfdff;
+      --tokens-panel-2:#eef5fc;
+      --tokens-text:#173149;
+      --tokens-text-2:#627b91;
+      --tokens-text-3:#92a7b9;
+      --tokens-line:rgba(181,203,222,.72);
+      --tokens-blue:#79cbff;
+      --tokens-blue-2:#47aef2;
+      --tokens-orange:#f2b04c;
+      --tokens-green:#5bd08f;
+      --tokens-green-soft:rgba(91,208,143,.14);
+      --tokens-blue-soft:rgba(121,203,255,.16);
+      --tokens-orange-soft:rgba(242,176,76,.14);
+      --tokens-eur:#73b9ff;
+
+      --more-page:#f7fbff;
+      --more-page-2:#eef5fc;
+      --more-panel:#f5faff;
+      --more-panel-2:#edf4fb;
+      --more-text:#173149;
+      --more-text-2:#5e7890;
+      --more-text-3:#8da2b4;
+      --more-line:rgba(181,203,222,.72);
+      --more-blue:#77ccff;
+      --more-blue-2:#47aef2;
+      --more-orange:#f2b04c;
+      --more-green:#5bd08f;
+      --more-green-soft:rgba(91,208,143,.14);
+      --more-blue-soft:rgba(119,204,255,.16);
+      --more-orange-soft:rgba(242,176,76,.16);
     }
 
     html,body{width:100%;height:100%;min-height:100%;background:#000;font-family:Inter,Arial,Helvetica,sans-serif;overflow:hidden}
@@ -88,71 +121,8 @@
       linear-gradient(180deg, rgba(255,255,255,.025), rgba(255,255,255,0)),
       linear-gradient(180deg,#03070b,#010408)
     }
-    .topbar{
-      top:0;height:var(--top-h);border-bottom:1px solid rgba(255,255,255,.05);box-shadow:0 8px 20px rgba(0,0,0,.22);
-      display:flex;align-items:center;justify-content:space-between;padding:0 12px
-    }
+    .topbar{top:0;height:var(--top-h);border-bottom:1px solid rgba(255,255,255,.05);box-shadow:0 8px 20px rgba(0,0,0,.22)}
     .bottombar{bottom:0;height:var(--bottom-h);border-top:1px solid rgba(255,255,255,.05);box-shadow:0 -8px 18px rgba(0,0,0,.20)}
-
-    .brandbar{
-      height:100%;
-      display:flex;
-      align-items:center;
-      gap:12px;
-      min-width:0;
-    }
-    .brand-logo-shell{
-      width:38px;
-      height:38px;
-      border-radius:12px;
-      background:
-        radial-gradient(circle at 32% 24%, rgba(255,255,255,.10), transparent 32%),
-        linear-gradient(180deg,#07111a 0%, #03080d 100%);
-      border:1px solid rgba(126,178,218,.22);
-      box-shadow:
-        inset 0 1px 0 rgba(255,255,255,.05),
-        inset 0 0 0 1px rgba(99,155,200,.08),
-        0 8px 18px rgba(0,0,0,.18),
-        0 0 0 1px rgba(28,201,255,.08);
-      display:grid;
-      place-items:center;
-      overflow:hidden;
-      flex:0 0 auto;
-    }
-    .brand-logo-shell img{
-      width:100%;
-      height:100%;
-      object-fit:contain;
-      padding:4px;
-    }
-    .brand-logo-fallback{
-      color:#dff3ff;
-      font-size:12px;
-      font-weight:1000;
-      letter-spacing:.08em;
-    }
-    .brand-copy{
-      min-width:0;
-      display:flex;
-      align-items:center;
-    }
-    .brand-name{
-      min-width:0;
-      white-space:nowrap;
-      overflow:hidden;
-      text-overflow:ellipsis;
-      font-size:20px;
-      line-height:1;
-      font-weight:1000;
-      letter-spacing:-.05em;
-      background:linear-gradient(180deg,#e4fbff 0%, #a7ebff 20%, #68d0ff 46%, #35b3ff 72%, #167ddd 100%);
-      -webkit-background-clip:text;
-      background-clip:text;
-      color:transparent;
-      text-shadow:
-        0 0 12px rgba(53,179,255,.12),
-        0 1px 0 rgba(255,255,255,.10);
-    }
 
     .workspace{
       position:absolute;top:var(--top-h);bottom:var(--bottom-h);left:0;right:0;overflow:hidden;
@@ -323,7 +293,9 @@
     .page[data-view="home"],
     .page[data-view="swap"],
     .page[data-view="pay"],
-    .page[data-view="get-paid"]{
+    .page[data-view="get-paid"],
+    .page[data-view="tokens"],
+    .page[data-view="more"]{
       padding:0;
       background:linear-gradient(180deg,#f3f8fd 0%, #e6eef7 100%);
     }
@@ -381,14 +353,7 @@
     .amount-box.is-empty .caret,
     .recipient-box.is-empty .caret,
     .amount-orb.is-empty .caret{opacity:1}
-
     @keyframes caretBlink{0%,100%{opacity:.15}50%{opacity:1}}
-
-    .token-badge{
-      display:inline-flex;align-items:center;gap:8px;padding:8px 10px;border-radius:999px;background:#eef7fd;border:1px solid #dbe7f0;color:#3c6179;font-weight:900;font-size:12px;text-transform:uppercase;letter-spacing:.06em
-    }
-    .token-dot{width:10px;height:10px;border-radius:50%;background:linear-gradient(180deg,#57d2ff,#2dbef0)}
-    .amount-top{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:8px}
 
     .asset-center{display:grid;grid-template-columns:1fr 1.05fr 1fr;gap:12px;align-items:stretch}
     .asset-card{
@@ -426,42 +391,6 @@
     .quick-row{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap}
     .quick-btn{height:30px;padding:0 12px;border-radius:999px;border:1px solid #dbe7f0;background:#fff;color:#55758d;font-size:11px;font-weight:900;cursor:pointer}
 
-    .token-list{display:grid;gap:12px}
-    .token-card{
-      padding:16px;border-radius:26px;background:linear-gradient(180deg,#ffffff,#f4f8fb);border:1px solid #dbe7f0;box-shadow:0 14px 24px rgba(14,29,40,.05)
-    }
-    .token-head{display:flex;align-items:center;justify-content:space-between;gap:10px}
-    .token-main{display:flex;align-items:center;gap:12px}
-    .token-icon{
-      width:48px;height:48px;border-radius:16px;background:linear-gradient(180deg,#e8f8ff,#d8f2ff);border:1px solid #c8e8f7;display:flex;align-items:center;justify-content:center;font-weight:900;color:#17435e;overflow:hidden
-    }
-    .token-icon img{width:100%;height:100%;object-fit:cover}
-    .token-name{font-size:16px;font-weight:900;color:#1b3b52}
-    .token-sub{font-size:12px;color:#6d89a0;margin-top:3px}
-    .copy-btn{height:36px;padding:0 12px;border:none;border-radius:999px;background:linear-gradient(180deg,#57d4ff,#29bef0);color:#083044;font-weight:900;cursor:pointer}
-    .token-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-top:12px}
-    .mini-stat{padding:12px;border-radius:18px;background:#fff;border:1px solid #dbe7f0}
-    .mini-stat .k{font-size:10px;font-weight:900;letter-spacing:.12em;text-transform:uppercase;color:#7891a4}
-    .mini-stat .v{margin-top:6px;font-size:14px;font-weight:900;color:#1b3b52;word-break:break-word}
-
-    .more-top{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}
-    .segment{display:inline-flex;gap:8px;padding:6px;border-radius:999px;background:#eef7fd;border:1px solid #dbe7f0;flex-wrap:wrap}
-    .segment button{height:34px;padding:0 12px;border:none;border-radius:999px;background:transparent;color:#58768d;font-weight:900;cursor:pointer}
-    .segment button.is-on{background:#fff;color:#173245;box-shadow:0 8px 16px rgba(14,29,40,.06)}
-    .more-panel{
-      margin-top:12px;padding:14px;border-radius:24px;background:linear-gradient(180deg,#ffffff,#f4f8fb);border:1px solid #dbe7f0;box-shadow:0 14px 24px rgba(14,29,40,.05)
-    }
-    .list{display:grid;gap:10px}
-    .list-item{padding:12px;border-radius:18px;background:#fff;border:1px solid #dbe7f0;display:flex;align-items:center;justify-content:space-between;gap:12px}
-    .list-item .left{min-width:0}
-    .list-item .title{font-size:13px;font-weight:900;color:#173245;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-    .list-item .meta{margin-top:4px;font-size:11px;color:#69859b;line-height:1.4}
-    .status-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
-    .status-card{padding:14px;border-radius:20px;background:#fff;border:1px solid #dbe7f0}
-    .status-card .k{font-size:10px;font-weight:900;letter-spacing:.12em;text-transform:uppercase;color:#7891a4}
-    .status-card .v{margin-top:6px;font-size:14px;font-weight:900;color:#173245;word-break:break-word}
-    .empty-state{padding:22px;border-radius:24px;background:linear-gradient(180deg,#ffffff,#f4f8fb);border:1px dashed #c8d8e4;text-align:center;color:#6f8799;font-weight:800}
-
     /* HOME */
     .home-stage{
       min-height:100%;
@@ -480,7 +409,6 @@
         radial-gradient(circle at 100% 100%, rgba(91,202,255,.08), transparent 28%);
       pointer-events:none;
     }
-
     .home-flow{
       position:relative;
       z-index:1;
@@ -490,14 +418,12 @@
       margin-top:2px;
       padding-top:6px;
     }
-
     .home-head{
       display:flex;
       align-items:flex-start;
       justify-content:space-between;
       gap:10px;
     }
-
     .home-copy{min-width:0}
     .home-kicker{
       color:var(--home-blue-3);
@@ -514,9 +440,7 @@
       font-weight:800;
       max-width:230px;
     }
-
     .home-chip{display:none!important}
-
     .home-card{
       width:100%;
       border-radius:24px;
@@ -526,7 +450,6 @@
       position:relative;
       overflow:hidden;
     }
-
     .home-card::before{
       content:"";
       position:absolute;
@@ -535,7 +458,6 @@
       border:1px solid rgba(190,212,230,.68);
       pointer-events:none;
     }
-
     .home-profile-card{padding:16px}
     .home-profile-grid{
       position:relative;
@@ -545,14 +467,12 @@
       gap:14px;
       align-items:start;
     }
-
     .home-avatar-col{
       display:flex;
       flex-direction:column;
       align-items:flex-start;
       gap:9px;
     }
-
     .home-avatar{
       width:64px;
       height:64px;
@@ -561,7 +481,6 @@
       background:linear-gradient(145deg,#c7d9ea 0%, #b9d1e8 100%);
       box-shadow:0 8px 18px rgba(86,132,178,.10);
     }
-
     .home-avatar img,
     .home-avatar-fallback{
       width:100%;
@@ -569,9 +488,7 @@
       border-radius:50%;
       border:2px solid rgba(255,255,255,.76);
     }
-
     .home-avatar img{object-fit:cover;background:#d9eef9}
-
     .home-avatar-fallback{
       display:grid;
       place-items:center;
@@ -582,7 +499,6 @@
       text-shadow:0 3px 8px rgba(0,0,0,.45);
       background:radial-gradient(circle at 28% 22%, rgba(255,255,255,.15), transparent 22%), linear-gradient(145deg,#0f1822 0%, #05080d 100%);
     }
-
     .home-lv{
       padding-left:2px;
       display:flex;
@@ -605,7 +521,6 @@
       letter-spacing:-.06em;
       color:#18324b;
     }
-
     .home-tx{
       margin-top:6px;
       padding:9px 12px;
@@ -631,7 +546,6 @@
       box-shadow:0 0 0 4px rgba(92,174,247,.10);
       flex:0 0 auto;
     }
-
     .home-profile-main{
       min-width:0;
       display:flex;
@@ -639,7 +553,6 @@
       gap:10px;
       padding-top:2px;
     }
-
     .home-wallet{
       display:flex;
       align-items:center;
@@ -668,13 +581,11 @@
       font-size:14px;
       font-weight:1000;
     }
-
     .home-rewards{
       display:grid;
       grid-template-columns:repeat(5,1fr);
       gap:8px;
     }
-
     .home-reward{
       height:54px;
       border-radius:16px;
@@ -685,7 +596,6 @@
       place-items:center;
       transition:transform .22s ease, box-shadow .22s ease, border-color .22s ease, background .22s ease;
     }
-
     .home-reward.trophy{position:relative}
     .home-reward.trophy::before{
       content:"";
@@ -698,7 +608,6 @@
       background:linear-gradient(90deg, #d7b56d, #f2d296, #d7b56d);
       opacity:.95;
     }
-
     .home-reward svg{
       width:19px;
       height:19px;
@@ -708,20 +617,17 @@
       stroke-linecap:round;
       stroke-linejoin:round;
     }
-
     .home-reward.trophy.is-on{
       background:linear-gradient(180deg,#f5fbff 0%, #e9f4fe 100%);
       border-color:rgba(130,188,236,.92);
       box-shadow:0 9px 16px rgba(91,181,242,.10), inset 0 1px 0 rgba(255,255,255,.86);
     }
     .home-reward.trophy.is-on svg{stroke:#8dbde8}
-
     .home-reward.medal.is-on{
       background:linear-gradient(180deg,#fff8eb 0%, #fee8c4 100%);
       border-color:rgba(230,186,109,.78);
       box-shadow:0 9px 16px rgba(241,170,68,.12), inset 0 1px 0 rgba(255,255,255,.90);
     }
-
     .home-coin{
       width:24px;
       height:24px;
@@ -740,7 +646,6 @@
     .home-reward.medal.is-on .home-coin{
       background:radial-gradient(circle at 35% 35%, rgba(255,255,255,.75), transparent 28%), linear-gradient(180deg, #f8d391 0%, #ecab47 100%);
     }
-
     .home-progress-row{
       display:grid;
       grid-template-columns:minmax(0,1fr) auto;
@@ -748,7 +653,6 @@
       align-items:center;
       margin-top:2px;
     }
-
     .home-progress-copy{min-width:0}
     .home-progress-bar{
       width:100%;
@@ -784,7 +688,6 @@
       align-self:start;
       padding-top:1px;
     }
-
     .home-watermark{
       position:absolute;
       right:18px;
@@ -795,7 +698,6 @@
       font-style:italic;
       pointer-events:none;
     }
-
     .home-live-dot{
       width:14px;
       height:14px;
@@ -807,18 +709,15 @@
       margin-right:2px;
       animation:pulse 1.9s ease-in-out infinite;
     }
-
     .home-graph-card{
       padding:16px 16px 15px;
     }
-
     .home-graph-svg{
       width:100%;
       height:208px;
       display:block;
       overflow:visible;
     }
-
     .home-legend{
       display:flex;
       flex-wrap:wrap;
@@ -842,7 +741,6 @@
     .home-legend-dot.blue{ background:#5caef7; box-shadow:0 0 0 5px rgba(92,174,247,.10); }
     .home-legend-dot.sky{ background:#8fd2ff; box-shadow:0 0 0 5px rgba(143,210,255,.10); }
     .home-legend-dot.orange{ background:#f1aa44; box-shadow:0 0 0 5px rgba(241,170,68,.12); }
-
     .home-graph-note{
       margin-top:10px;
       color:#61788f;
@@ -983,7 +881,6 @@
       min-width:42px;
       text-align:right;
     }
-
     .swap-quick-row{
       display:flex;
       justify-content:center;
@@ -1017,7 +914,6 @@
       transition:transform .18s ease, box-shadow .18s ease, background .18s ease, color .18s ease, border-color .18s ease;
     }
     .swap-quick-row .quick-btn:active{transform:scale(.98)}
-
     .swap-card{
       position:relative;
       border-radius:22px;
@@ -1091,34 +987,19 @@
       border-radius:50%;
       display:grid;
       place-items:center;
-      flex:0 0 auto;
-      overflow:hidden;
-      background:linear-gradient(180deg,#ffffff 0%, #edf4fb 100%);
-      border:1px solid rgba(184,205,224,.72);
-      box-shadow:0 8px 16px rgba(0,0,0,.04), inset 0 1px 0 rgba(255,255,255,.96);
-      position:relative;
-    }
-    .swap-token-icon.usdc{
-      background:linear-gradient(180deg,#ffffff 0%, #eef7ff 100%);
-      border-color:rgba(122,203,255,.42);
-      box-shadow:0 10px 18px rgba(87,180,242,.10), inset 0 1px 0 rgba(255,255,255,.96);
-    }
-    .swap-token-icon.lmtv{
-      background:linear-gradient(180deg,#fffaf1 0%, #fdf1dd 100%);
-      border-color:rgba(242,173,72,.32);
-      box-shadow:0 10px 18px rgba(242,173,72,.10), inset 0 1px 0 rgba(255,255,255,.96);
-    }
-    .swap-token-icon img{
-      width:100%;
-      height:100%;
-      object-fit:contain;
-      padding:5px;
-    }
-    .swap-token-fallback{
-      color:#173149;
+      color:#fff;
       font-size:17px;
       font-weight:1000;
-      line-height:1;
+      flex:0 0 auto;
+      box-shadow:0 10px 18px rgba(0,0,0,.05);
+    }
+    .swap-token-icon.usdc{
+      background:linear-gradient(145deg,#78caff 0%, #2f8ee3 100%);
+      box-shadow:0 10px 18px rgba(87,180,242,.14);
+    }
+    .swap-token-icon.lmtv{
+      background:linear-gradient(145deg,#f5be5d 0%, #ec9f2d 100%);
+      box-shadow:0 10px 18px rgba(242,173,72,.14);
     }
     .swap-token-main{
       min-width:0;
@@ -1162,7 +1043,6 @@
       font-weight:900;
       margin-top:4px;
     }
-
     .swap-divider{
       height:8px;
       display:flex;
@@ -1190,7 +1070,6 @@
       cursor:pointer;
     }
     .swap-invert.is-spinning{transform:rotate(180deg)}
-
     .swap-summary{
       border-radius:22px;
       background:linear-gradient(180deg,#f5f9fe 0%, #edf4fb 100%);
@@ -1446,7 +1325,6 @@
       background:linear-gradient(180deg,#f0f8ff 0%, #b7dfff 100%);
       box-shadow:0 3px 7px rgba(117,202,255,.15);
     }
-
     .pay-wallet-row{
       display:grid;
       grid-template-columns:44px minmax(0,1fr);
@@ -1478,7 +1356,6 @@
       stroke-width:2;
       fill:none;
     }
-
     .pay-wallet-box{
       min-width:0;
       border-radius:14px;
@@ -1520,7 +1397,6 @@
       background:linear-gradient(180deg,#ffcb75,#f5961f);
       box-shadow:0 0 0 4px rgba(242,176,76,.08);
     }
-
     .pay-asset-center{
       gap:8px;
       position:relative;
@@ -1575,7 +1451,6 @@
       background:linear-gradient(180deg,#7ad0ff,#2f89df);
       box-shadow:0 0 0 4px rgba(117,202,255,.08);
     }
-
     .pay-bar{
       display:flex;
       align-items:center;
@@ -1612,24 +1487,12 @@
       border-radius:50%;
       display:grid;
       place-items:center;
-      background:linear-gradient(180deg,#ffffff 0%, #eef4fb 100%);
-      border:1px solid rgba(184,205,224,.72);
-      color:#173149;
-      box-shadow:0 4px 8px rgba(63,143,231,.10);
-      animation:softFloat 2.2s ease-in-out infinite;
-      overflow:hidden;
-      flex:0 0 auto;
-    }
-    .pay-token-pill-badge img{
-      width:100%;
-      height:100%;
-      object-fit:contain;
-      padding:3px;
-    }
-    .pay-token-pill-badge .fallback{
+      background:linear-gradient(145deg,#73bfff 0%, #2d8ae2 100%);
+      color:#fff;
       font-size:10px;
       font-weight:1000;
-      line-height:1;
+      box-shadow:0 4px 8px rgba(63,143,231,.12);
+      animation:softFloat 2.2s ease-in-out infinite;
     }
     .pay-token-pill-text{
       color:#8b5c19;
@@ -1637,7 +1500,6 @@
       font-weight:1000;
       letter-spacing:-.03em;
     }
-
     .pay-note-card{
       border-radius:14px;
       padding:0;
@@ -1687,7 +1549,6 @@
       padding-right:10px;
     }
     .pay-note-card input::placeholder{color:#8aa0b3}
-
     .pay-mini-summary{
       display:grid;
       grid-template-columns:1fr 52px 1fr;
@@ -1764,7 +1625,6 @@
     .pay-flow-orb.is-running svg{
       animation:spinArrows 1.2s linear infinite;
     }
-
     .pay-preview{
       border-radius:16px;
       background:
@@ -2156,7 +2016,6 @@
       background:linear-gradient(180deg,#f0f8ff 0%, #b7dfff 100%);
       box-shadow:0 3px 7px rgba(117,202,255,.15);
     }
-
     .get-panel{
       border-radius:15px;
       background:linear-gradient(180deg,#f6fbff 0%, #eef5fc 100%);
@@ -2176,7 +2035,6 @@
       letter-spacing:.20em;
       text-transform:uppercase;
     }
-
     .get-wallet-box,
     .get-amount-box,
     .get-note-box{
@@ -2223,7 +2081,6 @@
       background:linear-gradient(180deg,#7ad0ff,#2f89df);
       box-shadow:0 0 0 4px rgba(117,202,255,.08);
     }
-
     .get-receiver-row{
       display:grid;
       grid-template-columns:1fr 40px 1fr;
@@ -2271,7 +2128,6 @@
       background:#f2b04c;
       box-shadow:0 0 0 4px rgba(242,176,76,.10);
     }
-
     .get-center-switch{
       width:40px;
       height:22px;
@@ -2312,7 +2168,6 @@
       border-color:rgba(242,176,76,.38);
       box-shadow:0 4px 10px rgba(242,176,76,.14), inset 0 1px 0 rgba(255,255,255,.95);
     }
-
     .get-orb-wrap{
       display:flex;
       justify-content:center;
@@ -2393,7 +2248,6 @@
       font-size:7px;
       font-weight:1000;
     }
-
     .get-amount-box{
       min-height:44px;
       display:flex;
@@ -2414,7 +2268,6 @@
       padding:0 12px;
     }
     .get-amount-box input::placeholder{color:#b1c1cf}
-
     .get-quick-row{
       display:grid;
       grid-template-columns:repeat(4,1fr);
@@ -2438,7 +2291,6 @@
       border-color:rgba(117,202,255,.28);
       box-shadow:0 0 0 3px rgba(117,202,255,.08), inset 0 1px 0 rgba(255,255,255,.95);
     }
-
     .get-note-wrap.hidden{display:none}
     .get-note-box{
       min-height:38px;
@@ -2456,7 +2308,6 @@
       font-weight:900;
     }
     .get-note-box input::placeholder{color:#93a5b6}
-
     .get-generate-btn{
       height:46px;
       border:none;
@@ -2486,7 +2337,6 @@
       stroke-width:2;
       fill:none;
     }
-
     .get-receipt{
       display:none;
       flex-direction:column;
@@ -2621,37 +2471,874 @@
       50%{ transform:scale(1.018); }
     }
 
+    /* TOKENS */
+    .tokens-stage{
+      min-height:100%;
+      background:transparent;
+      position:relative;
+      overflow:hidden;
+      padding:16px 14px 26px;
+      box-shadow:inset 0 1px 0 rgba(255,255,255,.55);
+    }
+    .tokens-stage::before{
+      content:"";
+      position:absolute;
+      inset:0;
+      background:
+        radial-gradient(circle at 15% 8%, rgba(91,202,255,.10), transparent 26%),
+        radial-gradient(circle at 100% 100%, rgba(91,202,255,.08), transparent 28%);
+      pointer-events:none;
+    }
+    .tokens-flow{
+      position:relative;
+      z-index:1;
+      display:flex;
+      flex-direction:column;
+      gap:12px;
+      margin-top:2px;
+      padding-top:6px;
+    }
+    .tokens-page{
+      width:100%;
+      border-radius:10px;
+      background:linear-gradient(180deg,var(--tokens-page) 0%, var(--tokens-page-2) 100%);
+      padding:6px;
+      box-shadow:0 12px 24px rgba(18,52,84,.05);
+    }
+    .tokens-shell{
+      border-radius:10px;
+      background:linear-gradient(180deg,#fbfdff 0%, #eff6fd 100%);
+      padding:6px;
+      display:flex;
+      flex-direction:column;
+      gap:8px;
+    }
+    .tokens-topbar{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:8px;
+      padding:2px 2px 4px;
+    }
+    .tokens-title{
+      color:var(--tokens-text);
+      font-size:12px;
+      line-height:1;
+      font-weight:1000;
+      letter-spacing:-.04em;
+    }
+    .tokens-network-pill{
+      min-height:28px;
+      padding:0 10px;
+      border-radius:999px;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      white-space:nowrap;
+      background:linear-gradient(180deg,#fff9ee 0%, #f6e7ca 100%);
+      border:1px solid rgba(242,176,76,.24);
+      color:#a36a18;
+      font-size:6px;
+      font-weight:1000;
+      letter-spacing:.12em;
+      box-shadow:0 0 0 3px rgba(242,176,76,.08), inset 0 1px 0 rgba(255,255,255,.95);
+    }
+    .tokens-panel{
+      background:linear-gradient(180deg,var(--tokens-panel) 0%, var(--tokens-panel-2) 100%);
+      border:1px solid var(--tokens-line);
+      box-shadow:0 8px 16px rgba(18,52,84,.04), inset 0 1px 0 rgba(255,255,255,.96);
+      border-radius:10px;
+      padding:8px;
+      display:flex;
+      flex-direction:column;
+      gap:8px;
+    }
+    .token-line{
+      position:relative;
+      border-radius:13px;
+      background:linear-gradient(180deg,#ffffff 0%, #eef5fc 100%);
+      border:1px solid var(--tokens-line);
+      box-shadow:inset 0 1px 0 rgba(255,255,255,.96), 0 8px 16px rgba(18,52,84,.04);
+      padding:8px;
+      display:flex;
+      flex-direction:column;
+      gap:8px;
+      overflow:hidden;
+    }
+    .token-line.lmtv{box-shadow:inset 0 1px 0 rgba(255,255,255,.96),0 8px 16px rgba(18,52,84,.04),inset 3px 0 0 rgba(242,176,76,.72)}
+    .token-line.usdc{box-shadow:inset 0 1px 0 rgba(255,255,255,.96),0 8px 16px rgba(18,52,84,.04),inset 3px 0 0 rgba(71,174,242,.72)}
+    .token-line.eurc{box-shadow:inset 0 1px 0 rgba(255,255,255,.96),0 8px 16px rgba(18,52,84,.04),inset 3px 0 0 rgba(115,185,255,.72)}
+    .token-top{
+      display:grid;
+      grid-template-columns:auto 1fr auto auto;
+      gap:8px;
+      align-items:center;
+    }
+    .coin{
+      width:38px;
+      height:38px;
+      border-radius:50%;
+      display:grid;
+      place-items:center;
+      color:#fff;
+      font-weight:1000;
+      font-size:13px;
+      box-shadow:inset 0 1px 0 rgba(255,255,255,.24), 0 8px 14px rgba(18,52,84,.08);
+      position:relative;
+      flex:0 0 auto;
+      overflow:hidden;
+    }
+    .coin::after{
+      content:"";
+      position:absolute;
+      inset:-5px;
+      border-radius:50%;
+      border:1px solid rgba(181,203,222,.24);
+      pointer-events:none;
+    }
+    .coin img{
+      width:100%;
+      height:100%;
+      object-fit:cover;
+      border-radius:50%;
+      position:relative;
+      z-index:2;
+    }
+    .coin-fallback{
+      position:absolute;
+      inset:0;
+      display:grid;
+      place-items:center;
+      z-index:1;
+    }
+    .coin.lmtv{
+      background:linear-gradient(180deg,#f5c668 0%, #f2a52f 100%);
+      box-shadow:inset 0 1px 0 rgba(255,255,255,.24), 0 8px 14px rgba(242,176,76,.22);
+    }
+    .coin.usdc{
+      background:linear-gradient(180deg,#73c6ff 0%, #3f92df 100%);
+      box-shadow:inset 0 1px 0 rgba(255,255,255,.24), 0 8px 14px rgba(71,174,242,.22);
+    }
+    .coin.eurc{
+      background:linear-gradient(180deg,#8fd2ff 0%, #5da6f1 100%);
+      box-shadow:inset 0 1px 0 rgba(255,255,255,.24), 0 8px 14px rgba(115,185,255,.20);
+    }
+    .token-meta{min-width:0}
+    .token-symbol{
+      color:var(--tokens-text);
+      font-size:10px;
+      font-weight:1000;
+      line-height:1.05;
+      margin-bottom:3px;
+    }
+    .token-name{
+      color:var(--tokens-text-2);
+      font-size:6px;
+      font-weight:1000;
+      line-height:1.2;
+    }
+    .role-pill{
+      min-height:24px;
+      padding:0 8px;
+      border-radius:999px;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      white-space:nowrap;
+      font-size:6px;
+      font-weight:1000;
+      letter-spacing:.10em;
+      border:1px solid rgba(184,205,224,.72);
+      background:linear-gradient(180deg,#f4f8fd 0%, #ebf2fa 100%);
+      color:#6f88a0;
+      box-shadow:inset 0 1px 0 rgba(255,255,255,.95);
+    }
+    .role-pill.blue{
+      color:#2f88dd;
+      background:linear-gradient(180deg,#f3fbff 0%, #e3f3ff 100%);
+      border-color:rgba(117,202,255,.24);
+      box-shadow:0 0 0 3px rgba(121,203,255,.06), inset 0 1px 0 rgba(255,255,255,.95);
+    }
+    .role-pill.orange{
+      color:#a36a18;
+      background:linear-gradient(180deg,#fff8ea 0%, #f5e6c8 100%);
+      border-color:rgba(242,176,76,.24);
+      box-shadow:0 0 0 3px rgba(242,176,76,.06), inset 0 1px 0 rgba(255,255,255,.95);
+    }
+    .role-pill.green{
+      color:#3a8d62;
+      background:linear-gradient(180deg,#f4fff8 0%, #e7f7ee 100%);
+      border-color:rgba(91,208,143,.24);
+      box-shadow:0 0 0 3px rgba(91,208,143,.06), inset 0 1px 0 rgba(255,255,255,.95);
+    }
+    .token-copy-btn{
+      min-width:32px;
+      height:32px;
+      border:none;
+      border-radius:10px;
+      background:linear-gradient(180deg,#f4f8fd 0%, #ebf2fa 100%);
+      border:1px solid rgba(184,205,224,.72);
+      color:#6f88a0;
+      box-shadow:inset 0 1px 0 rgba(255,255,255,.95);
+      display:grid;
+      place-items:center;
+      cursor:pointer;
+      transition:all .18s ease;
+      position:relative;
+    }
+    .token-copy-btn:hover{
+      box-shadow:0 0 0 3px rgba(121,203,255,.08), inset 0 1px 0 rgba(255,255,255,.95);
+      border-color:rgba(121,203,255,.26);
+    }
+    .token-copy-btn svg{
+      width:15px;
+      height:15px;
+      stroke:currentColor;
+      stroke-width:2;
+      fill:none;
+      stroke-linecap:round;
+      stroke-linejoin:round;
+    }
+    .token-rail-head{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:8px;
+    }
+    .token-rail-label{
+      color:#6f88a0;
+      font-size:6px;
+      font-weight:1000;
+      letter-spacing:.16em;
+    }
+    .token-rail-hint{
+      display:flex;
+      align-items:center;
+      gap:5px;
+      color:#6f88a0;
+      font-size:5px;
+      font-weight:1000;
+      letter-spacing:.18em;
+      text-transform:uppercase;
+      opacity:.92;
+      white-space:nowrap;
+    }
+    .token-rail-hint svg{
+      width:12px;
+      height:12px;
+      stroke:currentColor;
+      stroke-width:2;
+      fill:none;
+      stroke-linecap:round;
+      stroke-linejoin:round;
+    }
+    .token-rail-wrap{position:relative}
+    .token-rail-wrap::after{
+      content:"";
+      position:absolute;
+      right:0;
+      top:0;
+      bottom:18px;
+      width:34px;
+      pointer-events:none;
+      background:linear-gradient(90deg, rgba(239,246,253,0), rgba(239,246,253,.96));
+    }
+    .token-rail-wrap.lmtv::after{background:linear-gradient(90deg, rgba(239,246,253,0), rgba(255,248,234,.98))}
+    .token-rail-wrap.usdc::after{background:linear-gradient(90deg, rgba(239,246,253,0), rgba(243,251,255,.98))}
+    .token-rail-wrap.eurc::after{background:linear-gradient(90deg, rgba(239,246,253,0), rgba(245,250,255,.98))}
+    .token-rail-scroll{
+      overflow-x:auto;
+      overflow-y:hidden;
+      scrollbar-width:none;
+      padding-bottom:4px;
+      margin-right:-6px;
+    }
+    .token-rail-scroll::-webkit-scrollbar{display:none}
+    .token-stats-rail{
+      display:flex;
+      gap:6px;
+      min-width:max-content;
+      padding-right:26px;
+    }
+    .token-stat-chip{
+      min-width:90px;
+      min-height:44px;
+      border-radius:11px;
+      background:linear-gradient(180deg,#fbfdff 0%, #eff5fc 100%);
+      border:1px solid rgba(181,203,222,.66);
+      box-shadow:inset 0 1px 0 rgba(255,255,255,.96);
+      padding:7px 8px;
+      display:flex;
+      flex-direction:column;
+      justify-content:space-between;
+      gap:5px;
+      position:relative;
+      overflow:hidden;
+    }
+    .token-stat-chip::before{
+      content:"";
+      position:absolute;
+      left:0;
+      top:0;
+      bottom:0;
+      width:2px;
+      background:rgba(121,203,255,.35);
+    }
+    .token-line.lmtv .token-stat-chip::before{background:rgba(242,176,76,.45)}
+    .token-line.usdc .token-stat-chip::before{background:rgba(71,174,242,.45)}
+    .token-line.eurc .token-stat-chip::before{background:rgba(115,185,255,.45)}
+    .token-stat-chip.contract{min-width:126px}
+    .token-stat-label{
+      color:#7390a8;
+      font-size:5px;
+      font-weight:1000;
+      letter-spacing:.16em;
+      text-transform:uppercase;
+    }
+    .token-stat-value{
+      color:var(--tokens-text);
+      font-size:8px;
+      font-weight:1000;
+      line-height:1.15;
+      word-break:break-word;
+    }
+    .token-micro-track{
+      margin-top:2px;
+      height:4px;
+      border-radius:999px;
+      background:linear-gradient(90deg, rgba(181,203,222,.18), rgba(181,203,222,.42), rgba(181,203,222,.18));
+      position:relative;
+      overflow:hidden;
+    }
+    .token-micro-thumb{
+      position:absolute;
+      left:8%;
+      top:0;
+      bottom:0;
+      width:34%;
+      border-radius:999px;
+      background:linear-gradient(90deg, rgba(121,203,255,.85), rgba(121,203,255,.35));
+    }
+    .token-line.lmtv .token-micro-thumb{background:linear-gradient(90deg, rgba(242,176,76,.88), rgba(242,176,76,.34))}
+    .token-line.usdc .token-micro-thumb{background:linear-gradient(90deg, rgba(71,174,242,.88), rgba(71,174,242,.34))}
+    .token-line.eurc .token-micro-thumb{background:linear-gradient(90deg, rgba(115,185,255,.88), rgba(115,185,255,.34))}
+    .tokens-footer-note{
+      color:#6b8398;
+      font-size:6px;
+      font-weight:1000;
+      line-height:1.35;
+      text-align:center;
+      padding:2px 4px 0;
+    }
+
+    /* MORE */
+    .more-stage{
+      min-height:100%;
+      background:transparent;
+      position:relative;
+      overflow:hidden;
+      padding:16px 14px 26px;
+      box-shadow:inset 0 1px 0 rgba(255,255,255,.55);
+    }
+    .more-stage::before{
+      content:"";
+      position:absolute;
+      inset:0;
+      background:
+        radial-gradient(circle at 15% 8%, rgba(91,202,255,.10), transparent 26%),
+        radial-gradient(circle at 100% 100%, rgba(91,202,255,.08), transparent 28%);
+      pointer-events:none;
+    }
+    .more-flow{
+      position:relative;
+      z-index:1;
+      display:flex;
+      flex-direction:column;
+      gap:12px;
+      margin-top:2px;
+      padding-top:6px;
+    }
+    .more-page{
+      width:100%;
+      border-radius:10px;
+      background:linear-gradient(180deg,var(--more-page) 0%, var(--more-page-2) 100%);
+      padding:6px;
+      box-shadow:0 12px 24px rgba(18,52,84,.05);
+    }
+    .more-shell{
+      border-radius:10px;
+      background:linear-gradient(180deg,#f9fcff 0%, #eff6fd 100%);
+      padding:6px;
+      display:flex;
+      flex-direction:column;
+      gap:8px;
+    }
+    .more-topbar{
+      display:grid;
+      grid-template-columns:1fr auto;
+      gap:8px;
+      align-items:start;
+    }
+    .more-kicker{
+      color:#468fda;
+      font-size:7px;
+      font-weight:1000;
+      letter-spacing:.18em;
+      margin-bottom:3px;
+    }
+    .more-title{
+      color:var(--more-text);
+      font-size:11px;
+      line-height:1.02;
+      font-weight:1000;
+      letter-spacing:-.04em;
+      max-width:132px;
+      margin-bottom:6px;
+    }
+    .more-subtitle{
+      display:flex;
+      align-items:center;
+      gap:7px;
+      color:var(--more-text-2);
+      font-size:6px;
+      font-weight:1000;
+      line-height:1.2;
+    }
+    .more-subtitle-dot{
+      width:9px;
+      height:9px;
+      border-radius:50%;
+      background:var(--more-green);
+      box-shadow:0 0 0 4px var(--more-green-soft);
+      flex:0 0 auto;
+    }
+    .more-top-actions{
+      display:flex;
+      align-items:center;
+      gap:6px;
+    }
+    .more-bell-btn,
+    .more-theme-switch{
+      border:none;
+      border-radius:10px;
+      background:linear-gradient(180deg,#ffffff 0%, #eef5fc 100%);
+      border:1px solid var(--more-line);
+      box-shadow:inset 0 1px 0 rgba(255,255,255,.96);
+      position:relative;
+      cursor:pointer;
+    }
+    .more-bell-btn{
+      width:34px;
+      height:34px;
+      display:grid;
+      place-items:center;
+    }
+    .more-bell-btn svg{
+      width:15px;
+      height:15px;
+      stroke:#557895;
+      stroke-width:2;
+      fill:none;
+      stroke-linecap:round;
+      stroke-linejoin:round;
+    }
+    .more-bell-dot{
+      position:absolute;
+      top:6px;
+      right:7px;
+      width:7px;
+      height:7px;
+      border-radius:50%;
+      background:var(--more-orange);
+      box-shadow:0 0 0 4px rgba(242,176,76,.10);
+    }
+    .more-theme-switch{
+      width:56px;
+      height:34px;
+      padding:3px;
+      display:flex;
+      align-items:center;
+      justify-content:flex-start;
+      transition:all .22s ease;
+      overflow:hidden;
+    }
+    .more-theme-switch::before{
+      content:"";
+      position:absolute;
+      inset:5px;
+      border-radius:999px;
+      background:linear-gradient(90deg, rgba(117,202,255,.12), rgba(242,176,76,.10));
+    }
+    .more-theme-ball{
+      width:24px;
+      height:24px;
+      border-radius:50%;
+      background:linear-gradient(180deg,#ffffff 0%, #eef4fb 100%);
+      border:1px solid rgba(184,205,224,.72);
+      position:relative;
+      z-index:2;
+      box-shadow:0 4px 10px rgba(18,52,84,.08);
+      transition:transform .22s ease;
+    }
+    .more-theme-switch.dark .more-theme-ball{
+      transform:translateX(22px);
+      background:linear-gradient(180deg,#fff6e7 0%, #f3d9a6 100%);
+      border-color:rgba(242,176,76,.34);
+    }
+    .more-panel{
+      background:linear-gradient(180deg,var(--more-panel) 0%, var(--more-panel-2) 100%);
+      border:1px solid var(--more-line);
+      box-shadow:0 8px 16px rgba(18,52,84,.04), inset 0 1px 0 rgba(255,255,255,.96);
+      border-radius:10px;
+      padding:8px;
+    }
+    .more-controls{
+      display:grid;
+      grid-template-columns:1fr;
+      gap:8px;
+    }
+    .more-control-block{
+      background:linear-gradient(180deg,#ffffff 0%, #eff5fc 100%);
+      border:1px solid var(--more-line);
+      box-shadow:inset 0 1px 0 rgba(255,255,255,.96);
+      border-radius:10px;
+      padding:8px;
+      min-height:62px;
+      display:flex;
+      flex-direction:column;
+      justify-content:space-between;
+      gap:8px;
+    }
+    .more-control-label{
+      color:#5981a5;
+      font-size:7px;
+      font-weight:1000;
+      letter-spacing:.18em;
+    }
+    .more-language-segment{
+      display:grid;
+      grid-template-columns:1fr 1fr 1fr;
+      gap:5px;
+    }
+    .more-language-segment button{
+      border:none;
+      min-height:26px;
+      border-radius:9px;
+      font-size:7px;
+      font-weight:1000;
+      color:#73889c;
+      background:linear-gradient(180deg,#f4f8fd 0%, #ebf2fa 100%);
+      border:1px solid rgba(184,205,224,.72);
+      box-shadow:inset 0 1px 0 rgba(255,255,255,.95);
+      cursor:pointer;
+    }
+    .more-language-segment button.active{
+      color:#173149;
+      border-color:rgba(117,202,255,.30);
+      box-shadow:0 0 0 3px rgba(117,202,255,.08), inset 0 1px 0 rgba(255,255,255,.95);
+    }
+    .more-tabs{
+      display:grid;
+      grid-template-columns:1fr 1fr 1fr;
+      gap:6px;
+    }
+    .more-tab{
+      min-height:30px;
+      border:none;
+      border-radius:10px;
+      font-size:7px;
+      font-weight:1000;
+      letter-spacing:.10em;
+      color:#71879a;
+      background:linear-gradient(180deg,#f4f8fd 0%, #ebf2fa 100%);
+      border:1px solid rgba(184,205,224,.72);
+      box-shadow:inset 0 1px 0 rgba(255,255,255,.95);
+      cursor:pointer;
+    }
+    .more-tab.active{
+      color:#173149;
+      border-color:rgba(242,176,76,.26);
+      box-shadow:0 0 0 3px rgba(242,176,76,.08), inset 0 1px 0 rgba(255,255,255,.95);
+      background:linear-gradient(180deg,#fffaf0 0%, #f5e6c8 100%);
+    }
+    .more-tab-panels{
+      position:relative;
+      margin-top:8px;
+    }
+    .more-tab-panel{
+      display:none;
+      flex-direction:column;
+      gap:8px;
+    }
+    .more-tab-panel.active{display:flex}
+    .more-request-card,
+    .more-activity-card,
+    .more-status-card{
+      border-radius:10px;
+      background:linear-gradient(180deg,#ffffff 0%, #eef5fc 100%);
+      border:1px solid var(--more-line);
+      box-shadow:inset 0 1px 0 rgba(255,255,255,.96);
+      padding:8px;
+    }
+    .more-request-card,
+    .more-activity-card{
+      display:grid;
+      grid-template-columns:auto 1fr auto;
+      gap:8px;
+      align-items:center;
+    }
+    .more-request-icon,
+    .more-activity-icon,
+    .more-empty-icon{
+      width:30px;
+      height:30px;
+      border-radius:9px;
+      display:grid;
+      place-items:center;
+      background:linear-gradient(180deg,#f8fbff 0%, #ecf3fb 100%);
+      border:1px solid var(--more-line);
+      box-shadow:inset 0 1px 0 rgba(255,255,255,.96);
+      flex:0 0 auto;
+    }
+    .more-request-icon svg,
+    .more-activity-icon svg,
+    .more-empty-icon svg{
+      width:14px;
+      height:14px;
+      stroke:#567997;
+      stroke-width:2;
+      fill:none;
+      stroke-linecap:round;
+      stroke-linejoin:round;
+    }
+    .more-request-main,
+    .more-activity-main{min-width:0}
+    .more-request-title,
+    .more-activity-title,
+    .more-status-title{
+      color:var(--more-text);
+      font-size:8px;
+      font-weight:1000;
+      line-height:1.2;
+      margin-bottom:3px;
+    }
+    .more-request-sub,
+    .more-activity-sub,
+    .more-status-sub{
+      color:var(--more-text-2);
+      font-size:6px;
+      font-weight:1000;
+      line-height:1.25;
+    }
+    .more-chip{
+      min-height:24px;
+      border:none;
+      border-radius:999px;
+      padding:0 10px;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      font-size:6px;
+      font-weight:1000;
+      letter-spacing:.10em;
+      color:#6f88a0;
+      background:linear-gradient(180deg,#f4f8fd 0%, #ebf2fa 100%);
+      border:1px solid rgba(184,205,224,.72);
+      box-shadow:inset 0 1px 0 rgba(255,255,255,.95);
+      white-space:nowrap;
+      cursor:pointer;
+    }
+    .more-chip.orange{
+      color:#a36a18;
+      background:linear-gradient(180deg,#fff8ea 0%, #f5e6c8 100%);
+      border-color:rgba(242,176,76,.24);
+    }
+    .more-chip.blue{
+      color:#2f88dd;
+      background:linear-gradient(180deg,#f3fbff 0%, #e3f3ff 100%);
+      border-color:rgba(117,202,255,.24);
+    }
+    .more-status-list{
+      display:flex;
+      flex-direction:column;
+      gap:8px;
+    }
+    .more-status-card{
+      display:flex;
+      flex-direction:column;
+      gap:7px;
+    }
+    .more-status-row{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:8px;
+    }
+    .more-status-left{
+      display:flex;
+      align-items:center;
+      gap:7px;
+      min-width:0;
+    }
+    .more-status-dot{
+      width:8px;
+      height:8px;
+      border-radius:50%;
+      background:var(--more-green);
+      box-shadow:0 0 0 4px rgba(91,208,143,.10);
+      flex:0 0 auto;
+    }
+    .more-status-dot.orange{
+      background:var(--more-orange);
+      box-shadow:0 0 0 4px rgba(242,176,76,.10);
+    }
+    .more-status-dot.blue{
+      background:var(--more-blue-2);
+      box-shadow:0 0 0 4px rgba(117,202,255,.10);
+    }
+    .more-divider{
+      height:1px;
+      background:linear-gradient(90deg, rgba(184,205,223,0), rgba(184,205,223,.55), rgba(184,205,223,0));
+    }
+    .more-empty-state{
+      min-height:120px;
+      border-radius:10px;
+      background:
+        radial-gradient(circle at top right, rgba(117,202,255,.08), transparent 26%),
+        linear-gradient(180deg,#ffffff 0%, #eef5fc 100%);
+      border:1px solid var(--more-line);
+      box-shadow:inset 0 1px 0 rgba(255,255,255,.96);
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      justify-content:center;
+      text-align:center;
+      padding:14px 12px;
+    }
+    .more-empty-title{
+      color:var(--more-text);
+      font-size:8px;
+      font-weight:1000;
+      margin-bottom:4px;
+    }
+    .more-empty-text{
+      color:var(--more-text-2);
+      font-size:6px;
+      font-weight:1000;
+      line-height:1.35;
+      max-width:150px;
+    }
+
+    /* dark theme */
     .theme-dark .page-sheet,
     .theme-dark .panel-card,
     .theme-dark .recipient-box,
     .theme-dark .amount-orb,
-    .theme-dark .token-card,
-    .theme-dark .more-panel,
-    .theme-dark .mini-stat,
-    .theme-dark .status-card,
-    .theme-dark .list-item,
     .theme-dark .wallet-card{
       background:linear-gradient(180deg,#0b1b2a,#0f2335);
       border-color:rgba(108,198,239,.18);
       color:#e9f6ff
     }
     .theme-dark .page-sheet{background:linear-gradient(180deg,#0a1826,#10273a)}
-    .theme-dark .mini-tag,.theme-dark .metric-chip,.theme-dark .quick-btn,.theme-dark .soft-pill,.theme-dark .ghost-pill,.theme-dark .segment,.theme-dark .segment button.is-on{
+    .theme-dark .mini-tag,.theme-dark .metric-chip,.theme-dark .quick-btn,.theme-dark .soft-pill,.theme-dark .ghost-pill{
       background:#102334;border-color:rgba(108,198,239,.18);color:#d7efff
     }
-    .theme-dark .segment button{color:#8cb5cb}
-    .theme-dark .amount-input,.theme-dark .recipient-box input,.theme-dark .amount-orb .sub,.theme-dark .panel-title,.theme-dark .token-name,.theme-dark .mini-stat .v,.theme-dark .status-card .v,.theme-dark .list-item .title,.theme-dark .wallet-name{
+    .theme-dark .amount-input,.theme-dark .recipient-box input,.theme-dark .amount-orb .sub,.theme-dark .panel-title,.theme-dark .wallet-name{
       color:#ecf8ff
     }
-    .theme-dark .panel-sub,.theme-dark .token-sub,.theme-dark .mini-stat .k,.theme-dark .status-card .k,.theme-dark .list-item .meta,.theme-dark .wallet-state,.theme-dark .wallet-reco{
+    .theme-dark .panel-sub,.theme-dark .wallet-state,.theme-dark .wallet-reco{
       color:#8fb2c7
     }
 
+    .theme-dark .tokens-page{background:linear-gradient(180deg,#08131d 0%, #0c1824 100%)}
+    .theme-dark .tokens-shell{background:transparent}
+    .theme-dark .tokens-panel,
+    .theme-dark .token-line,
+    .theme-dark .token-stat-chip,
+    .theme-dark .token-copy-btn{
+      background:radial-gradient(circle at top right, rgba(117,202,255,.05), transparent 26%), linear-gradient(180deg,#091521 0%, #0d1b28 100%);
+      border-color:rgba(114,150,179,.18);
+      box-shadow:0 10px 18px rgba(0,0,0,.16), inset 0 1px 0 rgba(255,255,255,.03);
+    }
+    .theme-dark .tokens-title,
+    .theme-dark .token-symbol,
+    .theme-dark .token-stat-value{color:#edf6ff}
+    .theme-dark .token-name,
+    .theme-dark .tokens-footer-note,
+    .theme-dark .token-rail-label,
+    .theme-dark .token-rail-hint,
+    .theme-dark .token-stat-label{color:#8ea7bc}
+    .theme-dark .role-pill{
+      background:linear-gradient(180deg,#0d1b28 0%, #09131d 100%);
+      border-color:rgba(114,150,179,.18);
+      color:#96aec2;
+      box-shadow:inset 0 1px 0 rgba(255,255,255,.03);
+    }
+    .theme-dark .role-pill.orange{color:#ffd896;background:linear-gradient(180deg,#2a2112 0%, #19140d 100%);border-color:rgba(242,176,76,.20)}
+    .theme-dark .role-pill.blue{color:#97dcff;background:linear-gradient(180deg,#12283a 0%, #0d1d2a 100%);border-color:rgba(117,202,255,.20)}
+    .theme-dark .role-pill.green{color:#97e1bf;background:linear-gradient(180deg,#11261a 0%, #0d1b13 100%);border-color:rgba(91,208,143,.18)}
+    .theme-dark .tokens-network-pill{background:linear-gradient(180deg,#2a2112 0%, #19140d 100%);border-color:rgba(242,176,76,.20);color:#ffd896}
+    .theme-dark .token-rail-wrap::after{opacity:.55}
+
+    .theme-dark .more-page{background:linear-gradient(180deg,#08131d 0%, #0c1824 100%)}
+    .theme-dark .more-shell{background:transparent}
+    .theme-dark .more-panel,
+    .theme-dark .more-control-block,
+    .theme-dark .more-request-card,
+    .theme-dark .more-activity-card,
+    .theme-dark .more-status-card,
+    .theme-dark .more-empty-state,
+    .theme-dark .more-bell-btn,
+    .theme-dark .more-theme-switch,
+    .theme-dark .more-request-icon,
+    .theme-dark .more-activity-icon,
+    .theme-dark .more-empty-icon,
+    .theme-dark .more-chip,
+    .theme-dark .more-tab,
+    .theme-dark .more-language-segment button{
+      background:radial-gradient(circle at top right, rgba(117,202,255,.05), transparent 26%), linear-gradient(180deg,#091521 0%, #0d1b28 100%);
+      border-color:rgba(114,150,179,.18);
+      box-shadow:0 10px 18px rgba(0,0,0,.16), inset 0 1px 0 rgba(255,255,255,.03);
+      color:#96aec2;
+    }
+    .theme-dark .more-title,
+    .theme-dark .more-request-title,
+    .theme-dark .more-activity-title,
+    .theme-dark .more-status-title,
+    .theme-dark .more-empty-title{color:#edf6ff}
+    .theme-dark .more-subtitle,
+    .theme-dark .more-request-sub,
+    .theme-dark .more-activity-sub,
+    .theme-dark .more-status-sub,
+    .theme-dark .more-empty-text,
+    .theme-dark .more-kicker,
+    .theme-dark .more-control-label{color:#8ea7bc}
+    .theme-dark .more-kicker{color:#79cbff}
+    .theme-dark .more-tab.active{
+      color:#fff2d8;
+      background:linear-gradient(180deg,#2a2011 0%, #1a140c 100%);
+      border-color:rgba(242,176,76,.22);
+      box-shadow:0 0 0 3px rgba(242,176,76,.06), inset 0 1px 0 rgba(255,255,255,.03);
+    }
+    .theme-dark .more-language-segment button.active{
+      color:#eaf6ff;
+      background:linear-gradient(180deg,#14283a 0%, #0d1d2c 100%);
+      border-color:rgba(117,202,255,.22);
+      box-shadow:0 0 0 3px rgba(117,202,255,.06), inset 0 1px 0 rgba(255,255,255,.03);
+    }
+    .theme-dark .more-chip.orange{
+      color:#ffd896;
+      background:linear-gradient(180deg,#2a2112 0%, #19140d 100%);
+      border-color:rgba(242,176,76,.20);
+    }
+    .theme-dark .more-chip.blue{
+      color:#97dcff;
+      background:linear-gradient(180deg,#12283a 0%, #0d1d2a 100%);
+      border-color:rgba(117,202,255,.20);
+    }
+
     @media (max-width:540px){
-      .connect-grid,.token-grid,.status-grid,.asset-center,.swap-summary-grid,.pay-asset-center{grid-template-columns:1fr}
-      .page-sheet{border-radius:24px;padding:14px}
-      .notice-message{font-size:14px}
-      .home-graph-svg{height:194px}
+      .connect-grid,.asset-center,.swap-summary-grid,.pay-asset-center{grid-template-columns:1fr}
       .swap-summary-cta{align-items:flex-start}
       .swap-cta-shell{width:100px}
       .pay-mini-summary{grid-template-columns:1fr}
@@ -2659,7 +3346,6 @@
     }
 
     @media (max-width:390px){
-      .brand-name{font-size:18px}
       .home-profile-grid{grid-template-columns:70px minmax(0,1fr)}
       .home-sub{max-width:210px}
       .home-graph-svg{height:184px}
@@ -2673,23 +3359,12 @@
       .pay-hero-title{font-size:11px}
       .pay-mini-value{font-size:15px}
       .scanner-actions{flex-direction:column}
-      .get-receipt-actions{grid-template-columns:1fr 1fr}
     }
   </style>
 </head>
 <body>
   <div class="app" id="app">
-    <div class="topbar">
-      <div class="brandbar">
-        <div class="brand-logo-shell">
-          <img src="logo.png" alt="StableFlow logo" id="brandLogo" onerror="this.style.display='none';document.getElementById('brandLogoFallback').classList.remove('hidden')">
-          <div class="brand-logo-fallback hidden" id="brandLogoFallback">SF</div>
-        </div>
-        <div class="brand-copy">
-          <div class="brand-name">StableFlow</div>
-        </div>
-      </div>
-    </div>
+    <div class="topbar"></div>
 
     <div class="workspace">
       <aside class="sidebar">
@@ -2869,10 +3544,7 @@
 
                     <div class="swap-card-row">
                       <div class="swap-token-box">
-                        <div class="swap-token-icon usdc" id="swapTopIcon">
-                          <img id="swapTopIconImg" src="usdc.png" alt="USDC">
-                          <span class="swap-token-fallback hidden" id="swapTopIconFallback">U</span>
-                        </div>
+                        <div class="swap-token-icon usdc" id="swapTopIcon">U</div>
                         <div class="swap-token-main">
                           <div class="swap-symbol" id="swapTopToken">USDC</div>
                         </div>
@@ -2897,10 +3569,7 @@
 
                     <div class="swap-card-row">
                       <div class="swap-token-box">
-                        <div class="swap-token-icon lmtv" id="swapBottomIcon">
-                          <img id="swapBottomIconImg" src="lmtv.png" alt="LMTV">
-                          <span class="swap-token-fallback hidden" id="swapBottomIconFallback">L</span>
-                        </div>
+                        <div class="swap-token-icon lmtv" id="swapBottomIcon">L</div>
                         <div class="swap-token-main">
                           <div class="swap-symbol" id="swapBottomToken">LMTV</div>
                         </div>
@@ -3011,10 +3680,7 @@
                     <div class="pay-bar">
                       <div class="pay-bar-label">YOU PAY</div>
                       <div class="pay-token-pill">
-                        <div class="pay-token-pill-badge" id="payLmtvBadge">
-                          <img id="payLmtvBadgeImg" src="lmtv.png" alt="LMTV">
-                          <span class="fallback hidden" id="payLmtvBadgeFallback">L</span>
-                        </div>
+                        <div class="pay-token-pill-badge">L</div>
                         <div class="pay-token-pill-text">LMTV</div>
                       </div>
                     </div>
@@ -3260,53 +3926,95 @@
             </section>
 
             <section class="page" data-view="tokens">
-              <div class="page-sheet">
-                <div class="top-actions"><div class="mini-tag"><span class="spark"></span> tokens</div></div>
+              <div class="tokens-stage">
+                <div class="top-actions">
+                  <div class="mini-tag"><span class="spark"></span> tokens</div>
+                </div>
+
                 <div class="section-gap"></div>
-                <div class="token-list" id="tokenList"></div>
+
+                <div class="tokens-flow">
+                  <div class="tokens-page">
+                    <div class="tokens-shell">
+                      <div class="tokens-topbar">
+                        <div class="tokens-title">Tokens</div>
+                        <div class="tokens-network-pill">Arc Network</div>
+                      </div>
+
+                      <div class="tokens-panel" id="tokenLinesPanel"></div>
+
+                      <div class="tokens-footer-note">
+                        Drag the rails sideways to see more token details. This layout is ready to receive real onchain values later.
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </div>
             </section>
 
             <section class="page" data-view="more">
-              <div class="page-sheet">
-                <div class="more-top">
+              <div class="more-stage">
+                <div class="top-actions">
                   <div class="mini-tag"><span class="spark"></span> more</div>
-                  <div style="display:flex;gap:8px;flex-wrap:wrap">
-                    <button class="soft-pill" id="themeToggleBtn">Theme</button>
-                    <button class="soft-pill" id="languageBtn">Language: EN</button>
-                  </div>
                 </div>
 
                 <div class="section-gap"></div>
 
-                <div class="segment" id="moreMainTabs">
-                  <button class="is-on" data-more-tab="requests">Requests</button>
-                  <button data-more-tab="activity">Activity</button>
-                  <button data-more-tab="status">Status</button>
-                </div>
+                <div class="more-flow">
+                  <div class="more-page" id="morePageRoot">
+                    <div class="more-shell">
+                      <div class="more-topbar">
+                        <div>
+                          <div class="more-kicker">MORE</div>
+                          <div class="more-title">Controls, activity and smart status.</div>
+                          <div class="more-subtitle">
+                            <div class="more-subtitle-dot"></div>
+                            <div>Compact control center</div>
+                          </div>
+                        </div>
 
-                <div class="section-gap"></div>
+                        <div class="more-top-actions">
+                          <button class="more-bell-btn" id="moreBellBtn" type="button" aria-label="Notifications">
+                            <svg viewBox="0 0 24 24">
+                              <path d="M6 17h12"></path>
+                              <path d="M8 17V11a4 4 0 118 0v6"></path>
+                              <path d="M10 20a2 2 0 004 0"></path>
+                            </svg>
+                            <span class="more-bell-dot" id="moreBellDot"></span>
+                          </button>
 
-                <div class="more-panel" id="moreRequestsPanel">
-                  <div class="panel-head"><div><div class="panel-title">Generated requests</div><div class="panel-sub">Payment notes created in Get Paid appear here.</div></div></div>
-                  <div id="moreRequestsList"></div>
-                </div>
+                          <button class="more-theme-switch" id="moreThemeSwitch" type="button" aria-label="Toggle theme">
+                            <span class="more-theme-ball"></span>
+                          </button>
+                        </div>
+                      </div>
 
-                <div class="more-panel hidden" id="moreActivityPanel">
-                  <div class="panel-head"><div><div class="panel-title">Activity</div><div class="panel-sub">Short history from real app actions.</div></div></div>
-                  <div class="segment" id="activityFilters">
-                    <button class="is-on" data-activity-filter="all">All</button>
-                    <button data-activity-filter="swap">Swap</button>
-                    <button data-activity-filter="pay">Pay</button>
-                    <button data-activity-filter="request">Requests</button>
+                      <div class="more-controls">
+                        <div class="more-control-block">
+                          <div class="more-control-label">LANGUAGE</div>
+                          <div class="more-language-segment" id="moreLanguageSegment">
+                            <button data-lang="EN" class="active" type="button">EN</button>
+                            <button data-lang="ES" type="button">ES</button>
+                            <button data-lang="PT" type="button">PT</button>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="more-panel">
+                        <div class="more-tabs" id="moreTabs">
+                          <button class="more-tab active" data-more-tab="requests" type="button">REQUESTS</button>
+                          <button class="more-tab" data-more-tab="activity" type="button">ACTIVITY</button>
+                          <button class="more-tab" data-more-tab="status" type="button">STATUS</button>
+                        </div>
+
+                        <div class="more-tab-panels">
+                          <div class="more-tab-panel active" data-more-panel="requests" id="moreRequestsPanel"></div>
+                          <div class="more-tab-panel" data-more-panel="activity" id="moreActivityPanel"></div>
+                          <div class="more-tab-panel" data-more-panel="status" id="moreStatusPanel"></div>
+                        </div>
+                      </div>
+                    </div>
                   </div>
-                  <div class="section-gap"></div>
-                  <div id="moreActivityList"></div>
-                </div>
-
-                <div class="more-panel hidden" id="moreStatusPanel">
-                  <div class="panel-head"><div><div class="panel-title">Status</div><div class="panel-sub">Live wallet, network and shell status.</div></div></div>
-                  <div class="status-grid" id="statusGrid"></div>
                 </div>
               </div>
             </section>
@@ -3398,7 +4106,7 @@
       'function token1() view returns (address)'
     ];
 
-    const STORAGE_KEY = 'stableflow-shell-state-v1';
+    const STORAGE_KEY = 'stableflow-shell-state-v2';
     const $$ = (sel, root=document) => Array.from(root.querySelectorAll(sel));
     const $ = (sel, root=document) => root.querySelector(sel);
 
@@ -3458,9 +4166,11 @@
       noticeQueue: [],
       noticeIndex: 0,
       noticeTimer: null,
+      swapBusy: false,
       activityFilter: 'all',
       moreTab: 'requests',
-      swapBusy: false,
+      tokenLinesOverride: null,
+      moreExternal: { requests:null, activity:null, status:null },
       swap: {
         direction: 'USDC_TO_LMTV',
         activeField: 'top',
@@ -3534,23 +4244,6 @@
       box.classList.toggle('is-empty', !String(input.value || '').trim());
     }
 
-    function setTokenImage(imgEl, fallbackEl, symbol){
-      if (!imgEl || !fallbackEl) return;
-      fallbackEl.textContent = symbol === 'USDC' ? 'U' : symbol === 'LMTV' ? 'L' : symbol.charAt(0);
-      fallbackEl.classList.add('hidden');
-      imgEl.classList.remove('hidden');
-      if (imgEl.parentElement) imgEl.parentElement.classList.remove('is-fallback');
-
-      imgEl.onerror = () => {
-        imgEl.classList.add('hidden');
-        fallbackEl.classList.remove('hidden');
-        if (imgEl.parentElement) imgEl.parentElement.classList.add('is-fallback');
-      };
-
-      imgEl.src = TOKEN_CONFIG[symbol]?.icon || '';
-      imgEl.alt = symbol;
-    }
-
     function saveLocal(){
       const snapshot = {
         theme: state.theme,
@@ -3577,8 +4270,8 @@
 
     function applyTheme(){
       app.classList.toggle('theme-dark', state.theme === 'dark');
-      $('#themeToggleBtn').textContent = `Theme: ${state.theme === 'dark' ? 'Dark' : 'Light'}`;
-      $('#languageBtn').textContent = `Language: ${state.language}`;
+      const switchEl = $('#moreThemeSwitch');
+      if (switchEl) switchEl.classList.toggle('dark', state.theme === 'dark');
     }
 
     function clearLightTimers(){
@@ -3734,7 +4427,7 @@
           { text:'Activity feed ready', helper:'The graph reads real app actions, not decorative fake data.' }
         ],
         swap: [
-          { text:'Swap ready', helper:'USDC and LMTV now use the full stage with real token icons.' },
+          { text:'Swap ready', helper:'USDC and LMTV now use the full stage with a live premium summary.' },
           { text:'Slippage on top', helper:'AUTO resets fast, and 5 / 25 / 50 / MAX only appear when needed.' }
         ],
         pay: [
@@ -3746,12 +4439,12 @@
           { text:'Generate below', helper:'The note starts at the top and the beautiful receipt appears right under the button.' }
         ],
         tokens: [
-          { text:'Live token panel', helper:'Contracts, reserves and spot ratios are loaded from chain.' },
-          { text:'Copy on touch', helper:'Each card includes quick copy actions for contract addresses.' }
+          { text:'Token lines enhanced', helper:'Swipe sideways inside the lines to reveal more token details.' },
+          { text:'Copy on touch', helper:'Each token line includes a quick contract copy action.' }
         ],
         more: [
-          { text:'Requests, activity, status', helper:'Everything here is fed by real app state and generated notes.' },
-          { text:'Clean empty states', helper:'No fake counters. Only real data and elegant waiting states.' }
+          { text:'More module refined', helper:'One Light/Dark switch, EN / ES / PT and real data slots.' },
+          { text:'Status and activity', helper:'Requests, activity and smart status now accept live data methods.' }
         ]
       };
 
@@ -4011,10 +4704,10 @@
       swapRoutePay.textContent = swapTokens.top;
       swapRouteReceive.textContent = swapTokens.bottom;
 
+      swapTopIcon.textContent = swapTokens.top === 'USDC' ? 'U' : 'L';
+      swapBottomIcon.textContent = swapTokens.bottom === 'USDC' ? 'U' : 'L';
       swapTopIcon.className = `swap-token-icon ${swapTokens.top.toLowerCase()}`;
       swapBottomIcon.className = `swap-token-icon ${swapTokens.bottom.toLowerCase()}`;
-      setTokenImage($('#swapTopIconImg'), $('#swapTopIconFallback'), swapTokens.top);
-      setTokenImage($('#swapBottomIconImg'), $('#swapBottomIconFallback'), swapTokens.bottom);
 
       const topUsd = swapTokens.top === 'USDC' ? topVal : (lmtvPrice ? topVal * lmtvPrice : 0);
       const bottomUsd = swapTokens.bottom === 'USDC' ? bottomVal : (lmtvPrice ? bottomVal * lmtvPrice : 0);
@@ -4267,8 +4960,6 @@
       $('#payRecipientPreview').textContent = recipient ? shorten(recipient) : '—';
       $('#payNotePreview').textContent = state.pay.hideNote ? 'none' : (note || 'none');
 
-      setTokenImage($('#payLmtvBadgeImg'), $('#payLmtvBadgeFallback'), 'LMTV');
-
       setInputEmptyClass($('#payRecipientInput'), $('#payRecipientBox'));
       setInputEmptyClass($('#payAmountInput'), $('#payAmountOrb'));
       $('#payRecipientBox').classList.toggle('is-active', document.activeElement === $('#payRecipientInput') || !recipient);
@@ -4316,7 +5007,6 @@
       updatePayPreview();
 
       const amountRaw = $('#payAmountInput').value.trim();
-      const recipient = $('#payRecipientInput').value.trim();
 
       try {
         if (!state.connected || state.chainId !== ARC_CHAIN_ID) throw new Error('Connect on Arc Testnet to prepare Pay.');
@@ -4663,152 +5353,12 @@
       if (state.connected && !$('#requestWalletInput').value.trim()) $('#requestWalletInput').value = state.account;
     }
 
-    function renderTokens(){
-      const list = $('#tokenList');
-
-      const cards = ['LMTV','USDC','EURC'].map(symbol => {
-        const token = TOKEN_CONFIG[symbol];
-        const balance = formatCompact(state.balances[symbol] || 0);
-        let spot = '—';
-
-        if (symbol !== 'EURC') {
-          const pair = state.pairInfo.USDC;
-          if (pair) {
-            const lmtvIs0 = pair.token0 === TOKEN_CONFIG.LMTV.address.toLowerCase();
-            const lmtvReserve = Number(ethers.utils.formatUnits(lmtvIs0 ? pair.reserve0 : pair.reserve1, state.decimals.LMTV));
-            const usdcReserve = Number(ethers.utils.formatUnits(lmtvIs0 ? pair.reserve1 : pair.reserve0, state.decimals.USDC));
-            if (lmtvReserve && usdcReserve) {
-              const price = usdcReserve / lmtvReserve;
-              spot = symbol === 'LMTV' ? `${formatNum(price, 6)} USDC` : `${formatNum(1 / price, 4)} LMTV`;
-            }
-          }
-        }
-
-        if (symbol === 'EURC') {
-          const pair = state.pairInfo.EURC;
-          if (pair) {
-            const lmtvIs0 = pair.token0 === TOKEN_CONFIG.LMTV.address.toLowerCase();
-            const lmtvReserve = Number(ethers.utils.formatUnits(lmtvIs0 ? pair.reserve0 : pair.reserve1, state.decimals.LMTV));
-            const eurcReserve = Number(ethers.utils.formatUnits(lmtvIs0 ? pair.reserve1 : pair.reserve0, state.decimals.EURC));
-            if (lmtvReserve && eurcReserve) {
-              spot = `${formatNum(eurcReserve / lmtvReserve, 6)} EURC`;
-            }
-          }
-        }
-
-        const pairAddress = symbol === 'LMTV'
-          ? `${PAIRS.USDC.address.slice(0,6)}... / ${PAIRS.EURC.address.slice(0,6)}...`
-          : symbol === 'USDC'
-            ? shorten(PAIRS.USDC.address)
-            : shorten(PAIRS.EURC.address);
-
-        return `
-          <div class="token-card">
-            <div class="token-head">
-              <div class="token-main">
-                <div class="token-icon"><img src="${token.icon}" alt="${symbol}" onerror="this.style.display='none'; this.parentNode.textContent='${symbol.slice(0,2)}'" /></div>
-                <div><div class="token-name">${symbol}</div><div class="token-sub">Live balance ${balance}</div></div>
-              </div>
-              <button class="copy-btn" data-copy="${token.address}">Copy</button>
-            </div>
-            <div class="token-grid">
-              <div class="mini-stat"><div class="k">Contract</div><div class="v">${shorten(token.address)}</div></div>
-              <div class="mini-stat"><div class="k">Decimals</div><div class="v">${state.decimals[symbol] || '—'}</div></div>
-              <div class="mini-stat"><div class="k">Spot</div><div class="v">${spot}</div></div>
-              <div class="mini-stat"><div class="k">Pair</div><div class="v">${pairAddress}</div></div>
-            </div>
-          </div>
-        `;
-      }).join('');
-
-      list.innerHTML = cards;
-      $$('[data-copy]', list).forEach(btn => btn.addEventListener('click', () => copyText(btn.dataset.copy)));
-    }
-
-    function renderMore(){
-      renderMoreRequests();
-      renderMoreActivity();
-      renderMoreStatus();
-
-      $('#moreRequestsPanel').classList.toggle('hidden', state.moreTab !== 'requests');
-      $('#moreActivityPanel').classList.toggle('hidden', state.moreTab !== 'activity');
-      $('#moreStatusPanel').classList.toggle('hidden', state.moreTab !== 'status');
-
-      $$('#moreMainTabs button').forEach(btn => btn.classList.toggle('is-on', btn.dataset.moreTab === state.moreTab));
-      $$('#activityFilters button').forEach(btn => btn.classList.toggle('is-on', btn.dataset.activityFilter === state.activityFilter));
-    }
-
-    function renderMoreRequests(){
-      const root = $('#moreRequestsList');
-      if (!state.requests.length) {
-        root.innerHTML = '<div class="empty-state">No payment notes yet. Generate one from Get Paid and it will land here.</div>';
-        return;
-      }
-
-      root.innerHTML = `<div class="list">${state.requests.map(req => `
-        <div class="list-item">
-          <div class="left"><div class="title">${req.asset} • ${escapeHtml(req.amount)}</div><div class="meta">${shorten(req.wallet)} • ${humanDate(req.createdAt)}</div></div>
-          <div style="display:flex;gap:8px;flex-wrap:wrap">
-            <button class="soft-pill" data-req-action="copy" data-id="${req.id}" style="height:34px;padding:0 12px">Copy</button>
-            <button class="ghost-pill" data-req-action="delete" data-id="${req.id}" style="height:34px;padding:0 12px">Delete</button>
-          </div>
-        </div>`).join('')}</div>`;
-
-      $$('[data-req-action]', root).forEach(btn => btn.addEventListener('click', () => handleRequestAction(btn.dataset.reqAction, btn.dataset.id)));
-    }
-
-    function renderMoreActivity(){
-      const root = $('#moreActivityList');
-      const list = state.activity.filter(item => state.activityFilter === 'all' || item.type === state.activityFilter);
-
-      if (!list.length) {
-        root.innerHTML = '<div class="empty-state">No activity yet. Swaps, pay actions and generated requests will appear here.</div>';
-        return;
-      }
-
-      root.innerHTML = `<div class="list">${list.map(item => `
-        <div class="list-item">
-          <div class="left"><div class="title">${escapeHtml(item.title)}</div><div class="meta">${item.type.toUpperCase()} • ${humanDate(item.createdAt)}${item.txHash ? ` • ${shorten(item.txHash)}` : ''}</div></div>
-          <div class="metric-chip">${formatCompact(item.valueUsd || 0)}</div>
-        </div>`).join('')}</div>`;
-    }
-
-    function renderMoreStatus(){
-      const grid = $('#statusGrid');
-      const rows = [
-        ['Wallet', state.connected ? state.shortAccount : 'Disconnected'],
-        ['Network', state.chainId === ARC_CHAIN_ID ? 'Arc Testnet' : 'Not ready'],
-        ['Selected page', state.selectedPage],
-        ['Requests', String(state.requests.length)],
-        ['Transactions', String(state.stats.txCount || 0)],
-        ['Last action', state.stats.lastAction || '-']
-      ];
-
-      grid.innerHTML = rows.map(([k,v]) => `<div class="status-card"><div class="k">${k}</div><div class="v">${escapeHtml(v)}</div></div>`).join('');
-    }
-
-    function handleRequestAction(action, id){
-      const req = state.requests.find(r => r.id === id);
-      if (!req) return;
-
-      if (action === 'copy') return copyText(req.link || '');
-
-      if (action === 'delete') {
-        state.requests = state.requests.filter(r => r.id !== id);
-        state.stats.requests = state.requests.length;
-        renderMore();
-        updateHomeMetrics();
-        saveLocal();
-      }
-    }
-
-    async function copyText(text){
-      try {
-        await navigator.clipboard.writeText(text);
-        setNotice([{ text:'Copied', helper:'The value is in your clipboard now.' }], 'Action', 'Clipboard updated.');
-      } catch {
-        setNotice([{ text:'Copy failed', helper:'Clipboard access was not available.' }], 'Action', 'Try again from a secure browser context.');
-      }
+    function setPayAsset(asset){
+      state.pay.asset = asset;
+      $('#payUsdcBtn').classList.toggle('is-active', asset === 'USDC');
+      $('#payEurcBtn').classList.toggle('is-active', asset === 'EURC');
+      $('#payAmountOrb').classList.toggle('is-eurc', asset === 'EURC');
+      updatePayQuote();
     }
 
     function clampRequestAmountString(v){
@@ -4826,7 +5376,6 @@
     function updateGetPaidUI(){
       const walletInput = $('#requestWalletInput');
       const amountInput = $('#requestAmountInput');
-      const noteInput = $('#requestNoteInput');
       const walletBox = $('#requestWalletBox');
       const amountBox = $('#requestAmountBox');
       const orb = $('#requestOrb');
@@ -5101,6 +5650,497 @@
       fileReader.readAsDataURL(file);
     }
 
+    function copyWithFeedback(text, btn){
+      copyText(text).then(() => {
+        if (!btn) return;
+        const old = btn.innerHTML;
+        btn.innerHTML = 'OK';
+        setTimeout(() => btn.innerHTML = old, 900);
+      }).catch(() => {});
+    }
+
+    async function copyText(text){
+      try {
+        await navigator.clipboard.writeText(text);
+        return true;
+      } catch {
+        return false;
+      }
+    }
+
+    function buildDefaultTokenLines(){
+      const lmtvPrice = getLmtvUsdcPrice();
+      const usdcPair = state.pairInfo.USDC;
+      const eurcPair = state.pairInfo.EURC;
+
+      const lmtvUse = 'Swap / Pay input';
+      const usdcUse = 'Swap / Get Paid';
+      const eurcUse = 'Pay / Get Paid';
+
+      const lmtvChips = [
+        { label:'BALANCE', value:`${formatCompact(state.balances.LMTV)} LMTV` },
+        { label:'USE', value:lmtvUse },
+        { label:'PAIR', value:'USDC + EURC' },
+        { label:'SPOT', value:lmtvPrice ? `${formatNum(lmtvPrice, 6)} USDC` : 'Waiting pool' },
+        { label:'CONTRACT', value:`${TOKEN_CONFIG.LMTV.address.slice(0,10)}...${TOKEN_CONFIG.LMTV.address.slice(-6)}`, contract:true }
+      ];
+
+      const usdcChips = [
+        { label:'BALANCE', value:`${formatCompact(state.balances.USDC)} USDC` },
+        { label:'USE', value:usdcUse },
+        { label:'PAIR', value:shorten(PAIRS.USDC.address) },
+        { label:'NETWORK', value:'Arc base asset' },
+        { label:'CONTRACT', value:`${TOKEN_CONFIG.USDC.address.slice(0,8)}...${TOKEN_CONFIG.USDC.address.slice(-6)}`, contract:true }
+      ];
+
+      let eurcSpot = 'Waiting pool';
+      if (eurcPair) {
+        try {
+          const lmtvIs0 = eurcPair.token0 === TOKEN_CONFIG.LMTV.address.toLowerCase();
+          const lmtvReserve = Number(ethers.utils.formatUnits(lmtvIs0 ? eurcPair.reserve0 : eurcPair.reserve1, state.decimals.LMTV));
+          const eurcReserve = Number(ethers.utils.formatUnits(lmtvIs0 ? eurcPair.reserve1 : eurcPair.reserve0, state.decimals.EURC));
+          if (lmtvReserve && eurcReserve) eurcSpot = `${formatNum(eurcReserve / lmtvReserve, 6)} EURC`;
+        } catch {}
+      }
+
+      const eurcChips = [
+        { label:'BALANCE', value:`${formatCompact(state.balances.EURC)} EURC` },
+        { label:'USE', value:eurcUse },
+        { label:'PAIR', value:shorten(PAIRS.EURC.address) },
+        { label:'ROUTE', value:'LMTV payment route' },
+        { label:'SPOT', value:eurcSpot },
+        { label:'CONTRACT', value:`${TOKEN_CONFIG.EURC.address.slice(0,8)}...${TOKEN_CONFIG.EURC.address.slice(-6)}`, contract:true }
+      ];
+
+      return [
+        {
+          symbol:'LMTV',
+          name:'Locomotive token',
+          lineClass:'lmtv',
+          coinClass:'lmtv',
+          coinLetter:'L',
+          icon:TOKEN_CONFIG.LMTV.icon,
+          role:'MAIN',
+          roleClass:'orange',
+          contract:TOKEN_CONFIG.LMTV.address,
+          chips:lmtvChips
+        },
+        {
+          symbol:'USDC',
+          name:'Arc settlement stable',
+          lineClass:'usdc',
+          coinClass:'usdc',
+          coinLetter:'U',
+          icon:TOKEN_CONFIG.USDC.icon,
+          role:'SETTLE',
+          roleClass:'blue',
+          contract:TOKEN_CONFIG.USDC.address,
+          chips:usdcChips
+        },
+        {
+          symbol:'EURC',
+          name:'Euro stable output',
+          lineClass:'eurc',
+          coinClass:'eurc',
+          coinLetter:'E',
+          icon:TOKEN_CONFIG.EURC.icon,
+          role:'EURO',
+          roleClass:'green',
+          contract:TOKEN_CONFIG.EURC.address,
+          chips:eurcChips
+        }
+      ];
+    }
+
+    function normalizeTokenLines(lines){
+      if (!Array.isArray(lines) || !lines.length) return buildDefaultTokenLines();
+      return lines.map((token, index) => {
+        const fallbackClasses = ['lmtv','usdc','eurc'];
+        const fallbackLine = fallbackClasses[index] || 'usdc';
+        return {
+          symbol: token.symbol || token.name || 'TOKEN',
+          name: token.name || token.subtitle || 'Token',
+          lineClass: token.lineClass || fallbackLine,
+          coinClass: token.coinClass || fallbackLine,
+          coinLetter: token.coinLetter || (token.symbol || 'T')[0],
+          icon: token.icon || '',
+          role: token.role || 'LIVE',
+          roleClass: token.roleClass || 'blue',
+          contract: token.contract || '',
+          chips: Array.isArray(token.chips) ? token.chips : []
+        };
+      });
+    }
+
+    function renderTokenLine(token){
+      return `
+        <div class="token-line ${token.lineClass}">
+          <div class="token-top">
+            <div class="coin ${token.coinClass}">
+              <span class="coin-fallback">${escapeHtml(token.coinLetter || '?')}</span>
+              ${token.icon ? `<img src="${escapeHtml(token.icon)}" alt="${escapeHtml(token.symbol)}" onerror="this.style.display='none'">` : ''}
+            </div>
+
+            <div class="token-meta">
+              <div class="token-symbol">${escapeHtml(token.symbol)}</div>
+              <div class="token-name">${escapeHtml(token.name)}</div>
+            </div>
+
+            <div class="role-pill ${escapeHtml(token.roleClass || '')}">${escapeHtml(token.role || '')}</div>
+
+            <button class="token-copy-btn" type="button" data-copy-token="${escapeHtml(token.contract || '')}" aria-label="Copy ${escapeHtml(token.symbol)} contract">
+              <svg viewBox="0 0 24 24">
+                <rect x="9" y="9" width="10" height="10" rx="2"></rect>
+                <path d="M5 15V7a2 2 0 012-2h8"></path>
+              </svg>
+            </button>
+          </div>
+
+          <div class="token-rail-head">
+            <div class="token-rail-label">TOKEN DETAILS</div>
+            <div class="token-rail-hint">
+              <span>SWIPE</span>
+              <svg viewBox="0 0 24 24">
+                <path d="M5 12h12"></path>
+                <path d="M13 7l5 5-5 5"></path>
+              </svg>
+            </div>
+          </div>
+
+          <div class="token-rail-wrap ${token.lineClass}">
+            <div class="token-rail-scroll">
+              <div class="token-stats-rail">
+                ${token.chips.map(chip => `
+                  <div class="token-stat-chip ${chip.contract ? 'contract' : ''}">
+                    <div class="token-stat-label">${escapeHtml(chip.label || '')}</div>
+                    <div class="token-stat-value">${escapeHtml(chip.value || '')}</div>
+                  </div>
+                `).join('')}
+              </div>
+            </div>
+            <div class="token-micro-track"><div class="token-micro-thumb"></div></div>
+          </div>
+        </div>
+      `;
+    }
+
+    function renderTokens(){
+      const root = $('#tokenLinesPanel');
+      if (!root) return;
+
+      const lines = normalizeTokenLines(state.tokenLinesOverride || buildDefaultTokenLines());
+      root.innerHTML = lines.map(renderTokenLine).join('');
+
+      $$('[data-copy-token]', root).forEach(btn => {
+        btn.addEventListener('click', () => {
+          if (!btn.dataset.copyToken) return;
+          copyWithFeedback(btn.dataset.copyToken, btn);
+        });
+      });
+    }
+
+    function normalizeMoreRequests(items){
+      if (Array.isArray(items) && items.length) return items.map((item, index) => ({
+        id: item.id || `ext_req_${index}`,
+        title: item.title || `${item.asset || 'Request'} request`,
+        sub: item.sub || item.subtitle || `${shorten(item.wallet || '')}${item.amount ? ` • ${item.amount}` : ''}`.trim(),
+        chip: item.chip || item.status || 'READY',
+        chipClass: item.chipClass || item.statusClass || '',
+        link: item.link || '',
+        raw: item
+      }));
+
+      return state.requests.map((req, index) => ({
+        id: req.id || `req_${index}`,
+        title: `${req.asset} request`,
+        sub: `${shorten(req.wallet)} • ${req.amount} ${req.asset}`,
+        chip: 'READY',
+        chipClass: 'orange',
+        link: req.link || '',
+        raw: req
+      }));
+    }
+
+    function normalizeMoreActivity(items){
+      if (Array.isArray(items) && items.length) return items.map((item, index) => ({
+        id: item.id || `ext_act_${index}`,
+        title: item.title || 'Activity',
+        sub: item.sub || item.subtitle || humanDate(item.createdAt || Date.now()),
+        chip: item.chip || item.status || '',
+        chipClass: item.chipClass || item.statusClass || '',
+        raw: item
+      }));
+
+      return state.activity.slice(0, 12).map((item, index) => ({
+        id: item.id || `act_${index}`,
+        title: item.title || item.type,
+        sub: `${(item.type || '').toUpperCase()} • ${humanDate(item.createdAt)}${item.txHash ? ` • ${shorten(item.txHash)}` : ''}`,
+        chip: item.type === 'swap' ? 'NOW' : item.type === 'pay' ? 'LIVE' : 'LOG',
+        chipClass: item.type === 'swap' ? 'blue' : item.type === 'pay' ? 'orange' : '',
+        raw: item
+      }));
+    }
+
+    function buildDefaultStatusRows(){
+      return [
+        {
+          title: state.connected ? 'Wallet linked' : 'Wallet disconnected',
+          sub: state.connected ? 'Arc Testnet session active' : 'Connect wallet to unlock the shell',
+          chip: state.connected ? 'LIVE' : 'WAIT',
+          chipClass: 'blue',
+          dotClass: 'blue'
+        },
+        {
+          title: state.chainId === ARC_CHAIN_ID ? 'System stable' : 'Wrong network',
+          sub: state.chainId === ARC_CHAIN_ID ? 'Core modules responding' : 'Switch to Arc Testnet',
+          chip: state.chainId === ARC_CHAIN_ID ? 'OK' : 'CHECK',
+          chipClass: state.chainId === ARC_CHAIN_ID ? '' : 'orange',
+          dotClass: state.chainId === ARC_CHAIN_ID ? '' : 'orange'
+        },
+        {
+          title: 'Pending sync',
+          sub: state.requests.length ? `${state.requests.length} generated request${state.requests.length === 1 ? '' : 's'} available` : 'Historical items can enter here',
+          chip: state.requests.length ? 'QUEUE' : 'CLEAR',
+          chipClass: state.requests.length ? 'orange' : '',
+          dotClass: state.requests.length ? 'orange' : ''
+        }
+      ];
+    }
+
+    function normalizeMoreStatus(items){
+      if (Array.isArray(items) && items.length) return items.map((item, index) => ({
+        id: item.id || `ext_status_${index}`,
+        title: item.title || 'Status',
+        sub: item.sub || item.subtitle || '',
+        chip: item.chip || item.status || 'OK',
+        chipClass: item.chipClass || item.statusClass || '',
+        dotClass: item.dotClass || ''
+      }));
+      return buildDefaultStatusRows();
+    }
+
+    function bellHasSignal(){
+      const reqSource = state.moreExternal.requests && state.moreExternal.requests.length ? state.moreExternal.requests : state.requests;
+      const actSource = state.moreExternal.activity && state.moreExternal.activity.length ? state.moreExternal.activity : state.activity;
+      return !state.connected || reqSource.length > 0 || actSource.length > 0;
+    }
+
+    function renderMore(){
+      const requestsPanel = $('#moreRequestsPanel');
+      const activityPanel = $('#moreActivityPanel');
+      const statusPanel = $('#moreStatusPanel');
+      if (!requestsPanel || !activityPanel || !statusPanel) return;
+
+      const requestItems = normalizeMoreRequests(state.moreExternal.requests);
+      const activityItems = normalizeMoreActivity(state.moreExternal.activity);
+      const statusItems = normalizeMoreStatus(state.moreExternal.status);
+
+      $('#moreBellDot').style.display = bellHasSignal() ? 'block' : 'none';
+      $('#moreThemeSwitch').classList.toggle('dark', state.theme === 'dark');
+
+      $$('#moreLanguageSegment button').forEach(btn => {
+        btn.classList.toggle('active', btn.dataset.lang === state.language);
+      });
+
+      $$('#moreTabs .more-tab').forEach(btn => {
+        const on = btn.dataset.moreTab === state.moreTab;
+        btn.classList.toggle('active', on);
+      });
+
+      $$('.more-tab-panel').forEach(panel => {
+        panel.classList.toggle('active', panel.dataset.morePanel === state.moreTab);
+      });
+
+      if (!requestItems.length) {
+        requestsPanel.innerHTML = `
+          <div class="more-empty-state">
+            <div class="more-empty-icon">
+              <svg viewBox="0 0 24 24">
+                <rect x="4" y="4" width="6" height="6"></rect>
+                <rect x="14" y="4" width="6" height="6"></rect>
+                <rect x="4" y="14" width="6" height="6"></rect>
+                <path d="M15 15h5M15 19h5"></path>
+              </svg>
+            </div>
+            <div class="more-empty-title">No requests yet</div>
+            <div class="more-empty-text">Generate a payment note in Get Paid and it will appear here.</div>
+          </div>
+        `;
+      } else {
+        requestsPanel.innerHTML = requestItems.map(item => `
+          <div class="more-request-card">
+            <div class="more-request-icon">
+              <svg viewBox="0 0 24 24">
+                <rect x="4" y="4" width="6" height="6"></rect>
+                <rect x="14" y="4" width="6" height="6"></rect>
+                <rect x="4" y="14" width="6" height="6"></rect>
+                <path d="M15 15h5M15 19h5"></path>
+              </svg>
+            </div>
+
+            <div class="more-request-main">
+              <div class="more-request-title">${escapeHtml(item.title)}</div>
+              <div class="more-request-sub">${escapeHtml(item.sub)}</div>
+            </div>
+
+            <button class="more-chip ${escapeHtml(item.chipClass)}" type="button" data-more-copy="${escapeHtml(item.link || '')}">
+              ${escapeHtml(item.chip)}
+            </button>
+          </div>
+        `).join('');
+      }
+
+      if (!activityItems.length) {
+        activityPanel.innerHTML = `
+          <div class="more-empty-state">
+            <div class="more-empty-icon">
+              <svg viewBox="0 0 24 24">
+                <path d="M7 7h11"></path>
+                <path d="M14 4l4 3-4 3"></path>
+                <path d="M17 17H6"></path>
+                <path d="M10 14l-4 3 4 3"></path>
+              </svg>
+            </div>
+            <div class="more-empty-title">No activity yet</div>
+            <div class="more-empty-text">Swaps, Pay actions and request generation will land here.</div>
+          </div>
+        `;
+      } else {
+        activityPanel.innerHTML = activityItems.map(item => `
+          <div class="more-activity-card">
+            <div class="more-activity-icon">
+              <svg viewBox="0 0 24 24">
+                <path d="M7 7h11"></path>
+                <path d="M14 4l4 3-4 3"></path>
+                <path d="M17 17H6"></path>
+                <path d="M10 14l-4 3 4 3"></path>
+              </svg>
+            </div>
+
+            <div class="more-activity-main">
+              <div class="more-activity-title">${escapeHtml(item.title)}</div>
+              <div class="more-activity-sub">${escapeHtml(item.sub)}</div>
+            </div>
+
+            <div class="more-chip ${escapeHtml(item.chipClass)}">${escapeHtml(item.chip || 'LOG')}</div>
+          </div>
+        `).join('');
+      }
+
+      statusPanel.innerHTML = `
+        <div class="more-status-list">
+          <div class="more-status-card">
+            ${statusItems.map((item, index) => `
+              <div class="more-status-row">
+                <div class="more-status-left">
+                  <div class="more-status-dot ${escapeHtml(item.dotClass || '')}"></div>
+                  <div>
+                    <div class="more-status-title">${escapeHtml(item.title)}</div>
+                    <div class="more-status-sub">${escapeHtml(item.sub)}</div>
+                  </div>
+                </div>
+                <div class="more-chip ${escapeHtml(item.chipClass || '')}">${escapeHtml(item.chip)}</div>
+              </div>
+              ${index < statusItems.length - 1 ? '<div class="more-divider"></div>' : ''}
+            `).join('')}
+          </div>
+        </div>
+      `;
+
+      $$('[data-more-copy]').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const link = btn.dataset.moreCopy;
+          if (!link) return;
+          copyWithFeedback(link, btn);
+        });
+      });
+    }
+
+    function setTokensData(tokens){
+      state.tokenLinesOverride = Array.isArray(tokens) ? tokens : null;
+      renderTokens();
+    }
+
+    function setMoreRequestsData(requests){
+      state.moreExternal.requests = Array.isArray(requests) ? requests : null;
+      renderMore();
+    }
+
+    function setMoreActivityData(activity){
+      state.moreExternal.activity = Array.isArray(activity) ? activity : null;
+      renderMore();
+    }
+
+    function setMoreStatusData(status){
+      state.moreExternal.status = Array.isArray(status) ? status : null;
+      renderMore();
+    }
+
+    function addMoreRequest(request){
+      if (state.moreExternal.requests) {
+        state.moreExternal.requests.unshift(request);
+      } else {
+        const req = {
+          id: request.id || `req_ext_${Date.now()}`,
+          wallet: request.wallet || '',
+          asset: request.asset || 'USDC',
+          amount: request.amount || '0.00',
+          link: request.link || '',
+          createdAt: request.createdAt || Date.now()
+        };
+        state.requests.unshift(req);
+        state.stats.requests = state.requests.length;
+      }
+      renderMore();
+      updateHomeMetrics();
+      saveLocal();
+    }
+
+    function addMoreActivity(activity){
+      if (state.moreExternal.activity) {
+        state.moreExternal.activity.unshift(activity);
+      } else {
+        state.activity.unshift({
+          id: activity.id || `act_ext_${Date.now()}`,
+          type: activity.type || 'activity',
+          title: activity.title || 'Activity',
+          valueUsd: Number(activity.valueUsd || 0),
+          txHash: activity.txHash || '',
+          recipient: activity.recipient || '',
+          createdAt: activity.createdAt || Date.now()
+        });
+      }
+      renderMore();
+      saveLocal();
+    }
+
+    function removeMoreRequest(id){
+      if (state.moreExternal.requests) {
+        state.moreExternal.requests = state.moreExternal.requests.filter(item => item.id !== id);
+      } else {
+        state.requests = state.requests.filter(item => item.id !== id);
+        state.stats.requests = state.requests.length;
+      }
+      renderMore();
+      updateHomeMetrics();
+      saveLocal();
+    }
+
+    function updateMoreRequestStatus(id, status){
+      const applyStatus = list => {
+        const target = list.find(item => item.id === id);
+        if (!target) return;
+        target.status = status;
+        target.chip = status;
+      };
+
+      if (state.moreExternal.requests) applyStatus(state.moreExternal.requests);
+      else applyStatus(state.requests);
+
+      renderMore();
+      saveLocal();
+    }
+
     function setupButtons(){
       connectBtn.addEventListener('click', () => {
         if (state.connected) {
@@ -5214,31 +6254,38 @@
       $('#requestDownloadBtn').addEventListener('click', downloadQr);
       $('#requestCopyBtn').addEventListener('click', async () => {
         if (!requestLink) return;
-        try {
-          await navigator.clipboard.writeText(requestLink);
-          $('#requestCopyBtn').textContent = 'Copied';
-          setTimeout(() => $('#requestCopyBtn').textContent = 'Copy link', 900);
-        } catch {
-          $('#requestCopyBtn').textContent = 'Copy failed';
-          setTimeout(() => $('#requestCopyBtn').textContent = 'Copy link', 1200);
-        }
+        const ok = await copyText(requestLink);
+        $('#requestCopyBtn').textContent = ok ? 'Copied' : 'Copy failed';
+        setTimeout(() => $('#requestCopyBtn').textContent = 'Copy link', 900);
       });
       $('#requestNewBtn').addEventListener('click', resetRequestForm);
 
-      $('#themeToggleBtn').addEventListener('click', () => {
+      $('#moreThemeSwitch').addEventListener('click', () => {
         state.theme = state.theme === 'light' ? 'dark' : 'light';
         applyTheme();
+        renderMore();
         saveLocal();
       });
 
-      $('#languageBtn').addEventListener('click', () => {
-        state.language = state.language === 'EN' ? 'PT' : 'EN';
-        applyTheme();
+      $('#moreLanguageSegment').addEventListener('click', (e) => {
+        const btn = e.target.closest('button[data-lang]');
+        if (!btn) return;
+        state.language = btn.dataset.lang;
+        renderMore();
         saveLocal();
       });
 
-      $$('#moreMainTabs button').forEach(btn => btn.addEventListener('click', () => { state.moreTab = btn.dataset.moreTab; renderMore(); }));
-      $$('#activityFilters button').forEach(btn => btn.addEventListener('click', () => { state.activityFilter = btn.dataset.activityFilter; renderMore(); }));
+      $('#moreTabs').addEventListener('click', (e) => {
+        const btn = e.target.closest('.more-tab');
+        if (!btn) return;
+        state.moreTab = btn.dataset.moreTab;
+        renderMore();
+      });
+
+      $('#moreBellBtn').addEventListener('click', () => {
+        state.moreTab = 'status';
+        renderMore();
+      });
     }
 
     const updateSwapQuoteDebounced = debounce(updateSwapQuote, 260);
@@ -5263,22 +6310,41 @@
       $('#payFlowPanel').classList.remove('is-open');
       $('#payNoteBox').classList.remove('hidden');
       updateGetPaidUI();
-      setTokenImage($('#swapTopIconImg'), $('#swapTopIconFallback'), 'USDC');
-      setTokenImage($('#swapBottomIconImg'), $('#swapBottomIconFallback'), 'LMTV');
-      setTokenImage($('#payLmtvBadgeImg'), $('#payLmtvBadgeFallback'), 'LMTV');
     }
 
-    function setPayAsset(asset){
-      state.pay.asset = asset;
-      $('#payUsdcBtn').classList.toggle('is-active', asset === 'USDC');
-      $('#payEurcBtn').classList.toggle('is-active', asset === 'EURC');
-      $('#payAmountOrb').classList.toggle('is-eurc', asset === 'EURC');
-      updatePayQuote();
-    }
+    window.StableFlowTokens = {
+      setTokens(tokens){
+        setTokensData(tokens);
+      }
+    };
+
+    window.StableFlowMore = {
+      setRequests(requests){
+        setMoreRequestsData(requests);
+      },
+      setActivity(activity){
+        setMoreActivityData(activity);
+      },
+      setStatus(status){
+        setMoreStatusData(status);
+      },
+      addRequest(request){
+        addMoreRequest(request);
+      },
+      addActivity(activity){
+        addMoreActivity(activity);
+      },
+      removeRequest(id){
+        removeMoreRequest(id);
+      },
+      updateRequestStatus(id, status){
+        updateMoreRequestStatus(id, status);
+      }
+    };
 
     loadLocal();
     setupButtons();
     hydrateInitialUI();
   </script>
 </body>
-        </html>
+  </html>
