@@ -220,7 +220,7 @@
       radial-gradient(circle at 28% 36%, rgba(67,150,255,.10), transparent 26%),
       linear-gradient(180deg,#02070b 0%,#010407 100%);
       box-shadow:inset 0 0 0 1px rgba(255,255,255,.02), -12px 0 24px rgba(0,0,0,.28);
-      transition:transform .86s cubic-bezier(.2,.8,.16,1);display:flex;align-items:flex-start;justify-content:center;padding-top:62px
+      transition:transform .86s cubic-bezier(.2,.8,.16,1);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:20px
     }
     .app.open .cover{transform:translateX(104%)}
     .cover::before{
@@ -231,7 +231,47 @@
       content:"";position:absolute;left:-8px;top:0;bottom:0;width:14px;
       background:linear-gradient(90deg, rgba(112,224,255,.18), rgba(112,224,255,0));filter:blur(8px)
     }
-    .cover-mark{width:72%;height:1px;background:linear-gradient(90deg, transparent, rgba(242,161,0,.50), transparent);opacity:.54}
+    .cover-logo{
+      width:80px;
+      height:80px;
+      border-radius:50%;
+      background:linear-gradient(145deg,#1a2a38,#0a121c);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      box-shadow:0 0 0 2px rgba(28,201,255,.3), 0 18px 32px rgba(0,0,0,.4);
+    }
+    .cover-logo img{
+      width:60px;
+      height:60px;
+      border-radius:50%;
+      object-fit:cover;
+    }
+    .cover-logo-fallback{
+      font-size:32px;
+      font-weight:1000;
+      background:linear-gradient(135deg,#1cc9ff,#f2a100);
+      -webkit-background-clip:text;
+      background-clip:text;
+      color:transparent;
+    }
+    .cover-title{
+      font-size:28px;
+      font-weight:1000;
+      letter-spacing:-.02em;
+      background:linear-gradient(135deg,#eef6ff,#9bc5e8);
+      -webkit-background-clip:text;
+      background-clip:text;
+      color:transparent;
+      text-shadow:0 2px 12px rgba(28,201,255,.2);
+    }
+    .cover-mark{
+      width:72px;
+      height:2px;
+      background:linear-gradient(90deg, transparent, rgba(242,161,0,.70), transparent);
+      opacity:.7;
+      margin-top:8px;
+    }
 
     .notice-screen{
       position:absolute;top:0;left:0;right:0;height:var(--notice-h);z-index:20;background:
@@ -300,6 +340,40 @@
       background:linear-gradient(180deg,#f3f8fd 0%, #e6eef7 100%);
     }
 
+    /* TOKEN IMAGES */
+    .token-icon-img{
+      width:100%;
+      height:100%;
+      border-radius:50%;
+      object-fit:cover;
+    }
+    .swap-token-icon img,
+    .coin img{
+      width:100%;
+      height:100%;
+      border-radius:50%;
+      object-fit:cover;
+    }
+    .swap-token-icon{
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      overflow:hidden;
+    }
+    .pay-token-pill-badge img{
+      width:100%;
+      height:100%;
+      border-radius:50%;
+      object-fit:cover;
+    }
+    .pay-token-pill-badge{
+      overflow:hidden;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+    }
+
+    /* rest of existing styles continue... */
     .mini-tag{
       display:inline-flex;align-items:center;gap:6px;padding:7px 10px;border-radius:999px;background:#fff;border:1px solid #dbe7f0;color:#60829b;font-size:10px;font-weight:900;letter-spacing:.12em;text-transform:uppercase;box-shadow:0 8px 18px rgba(14,29,40,.04)
     }
@@ -985,21 +1059,18 @@
       width:48px;
       height:48px;
       border-radius:50%;
-      display:grid;
-      place-items:center;
-      color:#fff;
-      font-size:17px;
-      font-weight:1000;
+      display:flex;
+      align-items:center;
+      justify-content:center;
       flex:0 0 auto;
-      box-shadow:0 10px 18px rgba(0,0,0,.05);
+      overflow:hidden;
+      background:linear-gradient(145deg,#eef4fc,#e0eaf4);
     }
-    .swap-token-icon.usdc{
-      background:linear-gradient(145deg,#78caff 0%, #2f8ee3 100%);
-      box-shadow:0 10px 18px rgba(87,180,242,.14);
-    }
-    .swap-token-icon.lmtv{
-      background:linear-gradient(145deg,#f5be5d 0%, #ec9f2d 100%);
-      box-shadow:0 10px 18px rgba(242,173,72,.14);
+    .swap-token-icon img{
+      width:100%;
+      height:100%;
+      border-radius:50%;
+      object-fit:cover;
     }
     .swap-token-main{
       min-width:0;
@@ -1485,14 +1556,19 @@
       width:22px;
       height:22px;
       border-radius:50%;
-      display:grid;
-      place-items:center;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      overflow:hidden;
       background:linear-gradient(145deg,#73bfff 0%, #2d8ae2 100%);
-      color:#fff;
-      font-size:10px;
-      font-weight:1000;
       box-shadow:0 4px 8px rgba(63,143,231,.12);
       animation:softFloat 2.2s ease-in-out infinite;
+    }
+    .pay-token-pill-badge img{
+      width:100%;
+      height:100%;
+      border-radius:50%;
+      object-fit:cover;
     }
     .pay-token-pill-text{
       color:#8b5c19;
@@ -2578,8 +2654,9 @@
       width:38px;
       height:38px;
       border-radius:50%;
-      display:grid;
-      place-items:center;
+      display:flex;
+      align-items:center;
+      justify-content:center;
       color:#fff;
       font-weight:1000;
       font-size:13px;
@@ -3544,7 +3621,9 @@
 
                     <div class="swap-card-row">
                       <div class="swap-token-box">
-                        <div class="swap-token-icon usdc" id="swapTopIcon">U</div>
+                        <div class="swap-token-icon" id="swapTopIcon">
+                          <img src="usdc.png" alt="USDC" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 width=%2748%27 height=%2748%27%3E%3Crect width=%2748%27 height=%2748%27 fill=%27%233f92df%27/%3E%3Ctext x=%2724%27 y=%2732%27 text-anchor=%27middle%27 fill=%27white%27 font-size=%2724%27 font-weight=%27bold%27%3EU%3C/text%3E%3C/svg%3E'">
+                        </div>
                         <div class="swap-token-main">
                           <div class="swap-symbol" id="swapTopToken">USDC</div>
                         </div>
@@ -3569,7 +3648,9 @@
 
                     <div class="swap-card-row">
                       <div class="swap-token-box">
-                        <div class="swap-token-icon lmtv" id="swapBottomIcon">L</div>
+                        <div class="swap-token-icon" id="swapBottomIcon">
+                          <img src="lmtv.png" alt="LMTV" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 width=%2748%27 height=%2748%27%3E%3Crect width=%2748%27 height=%2748%27 fill=%27%23f2a52f%27/%3E%3Ctext x=%2724%27 y=%2732%27 text-anchor=%27middle%27 fill=%27white%27 font-size=%2724%27 font-weight=%27bold%27%3EL%3C/text%3E%3C/svg%3E'">
+                        </div>
                         <div class="swap-token-main">
                           <div class="swap-symbol" id="swapBottomToken">LMTV</div>
                         </div>
@@ -3680,7 +3761,9 @@
                     <div class="pay-bar">
                       <div class="pay-bar-label">YOU PAY</div>
                       <div class="pay-token-pill">
-                        <div class="pay-token-pill-badge">L</div>
+                        <div class="pay-token-pill-badge">
+                          <img src="lmtv.png" alt="LMTV" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 width=%2722%27 height=%2722%27%3E%3Crect width=%2722%27 height=%2722%27 fill=%27%23f2a52f%27/%3E%3Ctext x=%2711%27 y=%2716%27 text-anchor=%27middle%27 fill=%27white%27 font-size=%2712%27 font-weight=%27bold%27%3EL%3C/text%3E%3C/svg%3E'">
+                        </div>
                         <div class="pay-token-pill-text">LMTV</div>
                       </div>
                     </div>
@@ -4021,7 +4104,13 @@
           </div>
         </div>
 
-        <div class="cover" id="cover"><div class="cover-mark"></div></div>
+        <div class="cover" id="cover">
+          <div class="cover-logo">
+            <img src="logo.png" alt="StableFlow" onerror="this.style.display='none';this.parentElement.innerHTML='<span class=\'cover-logo-fallback\'>SF</span>'">
+          </div>
+          <div class="cover-title">StableFlow</div>
+          <div class="cover-mark"></div>
+        </div>
       </main>
     </div>
 
@@ -4044,7 +4133,7 @@
       </div>
 
       <div class="scanner-status" id="payScannerStatus">
-        Tap “Use camera” to scan live, or choose an image with a QR.
+        Tap "Use camera" to scan live, or choose an image with a QR.
       </div>
 
       <div class="scanner-actions">
@@ -4131,8 +4220,6 @@
     const swapMinText = $('#swapMinText');
     const swapRoutePay = $('#swapRoutePay');
     const swapRouteReceive = $('#swapRouteReceive');
-    const swapTopIcon = $('#swapTopIcon');
-    const swapBottomIcon = $('#swapBottomIcon');
 
     const payScannerOverlay = $('#payScannerOverlay');
     const payScannerClose = $('#payScannerClose');
@@ -4703,11 +4790,6 @@
       $('#swapBottomToken').textContent = swapTokens.bottom;
       swapRoutePay.textContent = swapTokens.top;
       swapRouteReceive.textContent = swapTokens.bottom;
-
-      swapTopIcon.textContent = swapTokens.top === 'USDC' ? 'U' : 'L';
-      swapBottomIcon.textContent = swapTokens.bottom === 'USDC' ? 'U' : 'L';
-      swapTopIcon.className = `swap-token-icon ${swapTokens.top.toLowerCase()}`;
-      swapBottomIcon.className = `swap-token-icon ${swapTokens.bottom.toLowerCase()}`;
 
       const topUsd = swapTokens.top === 'USDC' ? topVal : (lmtvPrice ? topVal * lmtvPrice : 0);
       const bottomUsd = swapTokens.bottom === 'USDC' ? bottomVal : (lmtvPrice ? bottomVal * lmtvPrice : 0);
@@ -5564,7 +5646,7 @@
 
     function openPayScanner(){
       payScannerOverlay.classList.add('is-open');
-      payScannerStatus.textContent = 'Tap “Use camera” to scan live, or choose an image with a QR.';
+      payScannerStatus.textContent = 'Tap "Use camera" to scan live, or choose an image with a QR.';
     }
 
     function closePayScanner(){
