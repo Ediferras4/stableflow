@@ -198,14 +198,6 @@
       overflow:hidden;
     }
 
-    .side-btn .icon{
-      width:20px;
-      height:20px;
-      object-fit:contain;
-      opacity:.92;
-      filter:drop-shadow(0 0 10px rgba(87,212,255,.08));
-    }
-
     .side-btn .icon-fallback{
       font-size:16px;
       line-height:1;
@@ -324,24 +316,36 @@
     .power-slot{
       margin-top:auto;
       width:100%;
-      display:none;
+      display:flex;
       align-items:center;
       justify-content:center;
       padding-top:4px;
+      min-height:128px;
+      opacity:0;
+      visibility:hidden;
+      pointer-events:none;
+      transition:opacity .22s ease, visibility .22s ease, transform .22s ease;
+      transform:translateY(8px);
     }
 
-    .power-slot.show{ display:flex; }
+    .power-slot.show{
+      opacity:1;
+      visibility:visible;
+      pointer-events:auto;
+      transform:translateY(0);
+    }
 
     .power-switch{
-      width:56px;
-      height:124px;
-      border-radius:30px;
+      width:58px;
+      height:126px;
+      border-radius:32px;
       position:relative;
-      background:linear-gradient(180deg,#08111a 0%, #050a10 100%);
-      border:1px solid rgba(151,194,230,.16);
+      background:
+        linear-gradient(180deg,#09131d 0%, #050a10 100%);
+      border:1px solid rgba(151,194,230,.18);
       box-shadow:
         inset 0 0 0 1px rgba(255,255,255,.03),
-        0 8px 16px rgba(0,0,0,.24);
+        0 10px 18px rgba(0,0,0,.24);
       overflow:hidden;
       touch-action:none;
       user-select:none;
@@ -351,8 +355,21 @@
       content:"";
       position:absolute;
       inset:4px;
-      border-radius:26px;
+      border-radius:28px;
       border:1px solid rgba(255,255,255,.05);
+      pointer-events:none;
+    }
+
+    .power-switch::after{
+      content:"";
+      position:absolute;
+      left:50%;
+      top:56px;
+      transform:translateX(-50%);
+      width:2px;
+      height:52px;
+      border-radius:999px;
+      background:linear-gradient(180deg, rgba(255,255,255,.10), rgba(255,255,255,.03));
       pointer-events:none;
     }
 
@@ -406,7 +423,9 @@
       opacity:.9;
     }
 
-    .power-switch.armed .power-hint{ color:#f1b24a; }
+    .power-switch.armed .power-hint{
+      color:#f1b24a;
+    }
 
     .power-knob{
       position:absolute;
@@ -416,10 +435,12 @@
       border-radius:50%;
       transform:translateX(-50%);
       background:
-        radial-gradient(circle at 35% 28%, rgba(255,255,255,.10), transparent 30%),
-        linear-gradient(180deg,#1f2a34 0%, #151d25 100%);
+        radial-gradient(circle at 35% 28%, rgba(255,255,255,.12), transparent 30%),
+        linear-gradient(180deg,#202d38 0%, #161d25 100%);
       border:1px solid rgba(255,255,255,.12);
-      box-shadow:0 12px 22px rgba(0,0,0,.24);
+      box-shadow:
+        0 12px 22px rgba(0,0,0,.24),
+        inset 0 1px 0 rgba(255,255,255,.04);
       touch-action:none;
       cursor:grab;
     }
@@ -429,7 +450,7 @@
       position:absolute;
       inset:8px;
       border-radius:50%;
-      border:1px solid rgba(255,255,255,.05);
+      border:1px solid rgba(255,255,255,.06);
     }
 
     .power-switch.dragging .power-knob{
@@ -516,11 +537,11 @@
 
     .page-top{
       position:relative;
-      height:176px;
-      padding:16px 18px 12px;
+      height:118px;
+      padding:12px 16px 10px;
       background:
-        linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,0)),
-        linear-gradient(180deg,#2a3946 0%, #1a2630 56%, #111920 100%);
+        linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,0)),
+        linear-gradient(180deg,#26333f 0%, #17212a 56%, #10171d 100%);
       border-bottom:1px solid rgba(255,255,255,.05);
       overflow:hidden;
       z-index:2;
@@ -567,8 +588,8 @@
     }
 
     .page-chip{
-      min-height:34px;
-      padding:0 18px;
+      min-height:32px;
+      padding:0 16px;
       border-radius:999px;
       display:inline-flex;
       align-items:center;
@@ -576,7 +597,7 @@
       background:linear-gradient(180deg,rgba(255,255,255,.08),rgba(255,255,255,.03));
       border:1px solid rgba(135,183,219,.16);
       color:#d9edf9;
-      font-size:11px;
+      font-size:10px;
       font-weight:1000;
       letter-spacing:.14em;
       text-transform:uppercase;
@@ -584,7 +605,7 @@
     }
 
     .page-chain{
-      font-size:11px;
+      font-size:10px;
       font-weight:1000;
       letter-spacing:.16em;
       text-transform:uppercase;
@@ -592,95 +613,89 @@
       white-space:nowrap;
     }
 
-    .page-title{
-      margin-top:10px;
-      font-size:24px;
-      font-weight:1000;
-      letter-spacing:-.04em;
-      color:#f2f7fc;
-      line-height:1;
-    }
-
-    .page-helper{
-      margin-top:10px;
-      color:#95acbf;
-      font-size:14px;
-      font-weight:900;
-      line-height:1.2;
-      white-space:nowrap;
-      overflow:hidden;
-      text-overflow:ellipsis;
-    }
-
-    .page-helper strong{ color:var(--cyan); }
-
     .assistant-bar{
-      margin-top:12px;
-      min-height:52px;
-      border-radius:18px;
-      padding:10px 12px;
+      margin-top:10px;
+      min-height:50px;
+      border-radius:16px;
+      padding:8px 10px;
       display:grid;
-      grid-template-columns:44px minmax(0,1fr);
-      gap:10px;
+      grid-template-columns:40px minmax(0,1fr);
+      gap:9px;
       align-items:center;
       background:
-        linear-gradient(180deg, rgba(255,255,255,.03), rgba(255,255,255,.01)),
-        linear-gradient(180deg,#18212a 0%, #121920 100%);
-      border:1px solid rgba(136,190,228,.10);
-      box-shadow:0 10px 18px rgba(0,0,0,.16);
+        linear-gradient(135deg, rgba(40,78,104,.82), rgba(22,31,41,.94)),
+        radial-gradient(circle at 15% 20%, rgba(87,212,255,.18), transparent 24%);
+      border:1px solid rgba(122,197,246,.14);
+      box-shadow:
+        0 10px 18px rgba(0,0,0,.18),
+        inset 0 1px 0 rgba(255,255,255,.04);
+      position:relative;
+      overflow:hidden;
+    }
+
+    .assistant-bar::before{
+      content:"";
+      position:absolute;
+      top:-14px;
+      right:-14px;
+      width:48px;
+      height:48px;
+      border-radius:50%;
+      background:radial-gradient(circle, rgba(241,178,74,.16), transparent 70%);
+      pointer-events:none;
     }
 
     .assistant-bar[data-tone="warn"]{
-      box-shadow:
-        0 0 0 1px rgba(241,178,74,.12),
-        0 10px 18px rgba(0,0,0,.16);
+      background:
+        linear-gradient(135deg, rgba(77,58,28,.88), rgba(24,30,39,.94)),
+        radial-gradient(circle at 15% 20%, rgba(241,178,74,.18), transparent 24%);
     }
 
     .assistant-bar[data-tone="success"]{
-      box-shadow:
-        0 0 0 1px rgba(87,212,255,.12),
-        0 10px 18px rgba(0,0,0,.16);
+      background:
+        linear-gradient(135deg, rgba(26,67,82,.9), rgba(18,29,37,.94)),
+        radial-gradient(circle at 15% 20%, rgba(87,212,255,.18), transparent 24%);
     }
 
     .assistant-bar[data-tone="danger"]{
-      box-shadow:
-        0 0 0 1px rgba(255,125,125,.16),
-        0 10px 18px rgba(0,0,0,.16);
+      background:
+        linear-gradient(135deg, rgba(86,36,36,.90), rgba(26,23,29,.96)),
+        radial-gradient(circle at 15% 20%, rgba(255,125,125,.16), transparent 24%);
     }
 
     .assistant-face{
-      width:44px;
-      height:44px;
+      width:40px;
+      height:40px;
       border-radius:50%;
       position:relative;
       background:
-        radial-gradient(circle at 35% 28%, rgba(255,255,255,.12), transparent 26%),
-        linear-gradient(180deg,#23303b 0%, #141c24 100%);
+        radial-gradient(circle at 35% 28%, rgba(255,255,255,.14), transparent 26%),
+        linear-gradient(180deg,#263744 0%, #152029 100%);
       border:1px solid rgba(255,255,255,.08);
-      box-shadow:0 10px 18px rgba(0,0,0,.18);
+      box-shadow:0 8px 16px rgba(0,0,0,.16);
       overflow:hidden;
       flex:0 0 auto;
     }
 
     .assistant-eye{
       position:absolute;
-      top:16px;
-      width:5px;
-      height:5px;
+      top:14px;
+      width:4px;
+      height:4px;
       border-radius:50%;
       background:#dff2ff;
       opacity:.95;
     }
 
-    .assistant-eye.left{ left:13px; }
-    .assistant-eye.right{ right:13px; }
+    .assistant-eye.left{ left:12px; }
+    .assistant-eye.right{ right:12px; }
 
     .assistant-mouth{
       position:absolute;
       left:50%;
-      bottom:11px;
-      width:12px;
-      height:6px;
+      bottom:10px;
+      width:10px;
+      height:5px;
       transform:translateX(-50%);
       border-bottom:2px solid #f1b24a;
       border-radius:0 0 12px 12px;
@@ -691,8 +706,8 @@
       position:absolute;
       top:5px;
       right:5px;
-      width:8px;
-      height:8px;
+      width:7px;
+      height:7px;
       border-radius:50%;
       background:linear-gradient(180deg,#dff7ff 0%, #8fd4ff 100%);
       box-shadow:0 0 0 0 rgba(87,212,255,.22);
@@ -719,12 +734,12 @@
       min-width:0;
       display:flex;
       flex-direction:column;
-      gap:3px;
+      gap:2px;
     }
 
     .assistant-kicker{
-      color:#86cfff;
-      font-size:8px;
+      color:#9bdcff;
+      font-size:7px;
       font-weight:1000;
       letter-spacing:.18em;
       text-transform:uppercase;
@@ -735,7 +750,7 @@
 
     .assistant-title{
       color:#f3f8fc;
-      font-size:13px;
+      font-size:12px;
       font-weight:1000;
       letter-spacing:-.02em;
       white-space:nowrap;
@@ -744,8 +759,8 @@
     }
 
     .assistant-text{
-      color:#9fb2c2;
-      font-size:10px;
+      color:#b3c5d3;
+      font-size:9px;
       font-weight:900;
       line-height:1.15;
       white-space:nowrap;
@@ -755,7 +770,7 @@
 
     .pages-area{
       position:absolute;
-      top:176px;
+      top:118px;
       left:0;
       right:0;
       bottom:0;
@@ -924,12 +939,6 @@
       box-shadow:0 12px 20px rgba(47,189,239,.12);
       flex:0 0 auto;
       overflow:hidden;
-    }
-
-    .wallet-badge img{
-      width:36px;
-      height:36px;
-      object-fit:contain;
     }
 
     .wallet-name{
@@ -2324,49 +2333,69 @@
     }
 
     .request-result{
-      border-radius:18px;
-      padding:12px;
+      border-radius:22px;
+      padding:16px;
       background:
-        radial-gradient(circle at top right, rgba(87,212,255,.08), transparent 22%),
-        linear-gradient(180deg,#18212a 0%, #121920 100%);
-      border:1px solid var(--stroke);
-      box-shadow:var(--shadow-soft);
+        linear-gradient(180deg,#ffffff 0%, #f7f8fb 100%);
+      border:1px solid rgba(255,255,255,.6);
+      box-shadow:
+        0 18px 36px rgba(0,0,0,.22),
+        inset 0 1px 0 rgba(255,255,255,.72);
       display:none;
       min-width:0;
+      position:relative;
+      overflow:hidden;
+    }
+
+    .request-result::before{
+      content:"";
+      position:absolute;
+      left:0;
+      right:0;
+      top:0;
+      height:5px;
+      background:
+        repeating-linear-gradient(
+          90deg,
+          rgba(0,0,0,.06) 0 8px,
+          rgba(0,0,0,0) 8px 16px
+        );
+      opacity:.45;
     }
 
     .request-result.show{ display:block; }
 
     .request-result-head{
       display:flex;
-      align-items:center;
+      align-items:flex-start;
       justify-content:space-between;
       gap:12px;
-      margin-bottom:10px;
+      margin-bottom:14px;
       min-width:0;
     }
 
     .request-result-title{
-      font-size:15px;
+      font-size:22px;
       font-weight:1000;
-      color:#f3f8fc;
-      letter-spacing:-.03em;
+      color:#11161d;
+      letter-spacing:-.04em;
       min-width:0;
       overflow:hidden;
       text-overflow:ellipsis;
       white-space:nowrap;
+      line-height:1;
     }
 
     .request-status{
-      min-height:28px;
+      min-height:30px;
       padding:0 10px;
       border-radius:999px;
       display:inline-flex;
       align-items:center;
       justify-content:center;
-      background:rgba(87,212,255,.08);
-      border:1px solid rgba(87,212,255,.12);
-      color:#9fe0ff;
+      background:rgba(24,170,110,.08);
+      border:1px solid rgba(24,170,110,.14);
+      color:#148a5d;
       font-size:8px;
       font-weight:1000;
       letter-spacing:.14em;
@@ -2376,44 +2405,46 @@
 
     .request-result-grid{
       display:grid;
-      grid-template-columns:94px minmax(0,1fr);
-      gap:10px;
+      grid-template-columns:170px minmax(0,1fr);
+      gap:16px;
       align-items:start;
       min-width:0;
     }
 
     .qr-box{
-      min-height:94px;
-      border-radius:14px;
-      padding:8px;
+      min-height:170px;
+      border-radius:18px;
+      padding:10px;
       display:flex;
       align-items:center;
       justify-content:center;
-      background:linear-gradient(180deg,#1c2530 0%, #151d25 100%);
-      border:1px solid rgba(255,255,255,.05);
+      background:#ffffff;
+      border:1px solid rgba(17,22,29,.08);
+      box-shadow:inset 0 1px 0 rgba(255,255,255,.8);
       flex:0 0 auto;
     }
 
     #requestQr{
-      width:78px;
-      min-height:78px;
+      width:148px;
+      min-height:148px;
       display:flex;
       align-items:center;
       justify-content:center;
     }
 
     #requestQr img,#requestQr canvas{
-      width:78px !important;
-      height:78px !important;
-      padding:4px;
+      width:148px !important;
+      height:148px !important;
+      padding:6px;
       background:#fff;
       border-radius:12px;
+      box-shadow:0 4px 10px rgba(0,0,0,.06);
     }
 
     .request-lines{
       display:flex;
       flex-direction:column;
-      gap:10px;
+      gap:8px;
       min-width:0;
     }
 
@@ -2421,9 +2452,9 @@
       display:flex;
       flex-wrap:wrap;
       gap:6px;
-      color:#d8ebf8;
-      font-size:10px;
-      line-height:1.35;
+      color:#384350;
+      font-size:9px;
+      line-height:1.32;
       font-weight:900;
       min-width:0;
     }
@@ -2433,10 +2464,11 @@
       overflow:hidden;
       text-overflow:ellipsis;
       white-space:nowrap;
+      color:#11161d;
     }
 
     .request-line .label{
-      color:#86cfff;
+      color:#6b7683;
       font-size:8px;
       letter-spacing:.14em;
       text-transform:uppercase;
@@ -2445,7 +2477,7 @@
     }
 
     .request-actions{
-      margin-top:10px;
+      margin-top:12px;
       display:grid;
       grid-template-columns:repeat(2,minmax(0,1fr));
       gap:8px;
@@ -2457,14 +2489,14 @@
       display:flex;
       align-items:center;
       justify-content:center;
-      background:linear-gradient(180deg,#1c2530 0%, #151d25 100%);
-      border:1px solid rgba(255,255,255,.05);
-      color:#e7f4fc;
+      background:linear-gradient(180deg,#f7f8fb 0%, #eef1f6 100%);
+      border:1px solid rgba(17,22,29,.08);
+      color:#1d2732;
       font-size:9px;
       font-weight:1000;
       letter-spacing:.10em;
       text-transform:uppercase;
-      box-shadow:var(--shadow-soft);
+      box-shadow:0 4px 10px rgba(0,0,0,.04);
       white-space:nowrap;
       overflow:hidden;
       text-overflow:ellipsis;
@@ -2649,7 +2681,6 @@
       line-height:1.35;
     }
 
-    /* mobile */
     @media (max-width:760px){
       :root{ --sidebar-w:86px; }
 
@@ -2661,42 +2692,41 @@
       }
 
       .page-top{
-        height:170px;
-        padding:14px 16px 10px;
+        height:110px;
+        padding:10px 12px 8px;
       }
 
-      .page-title{ font-size:22px; }
-      .page-helper{ font-size:12px; }
-      .pages-area{ top:170px; }
+      .pages-area{ top:110px; }
 
       .assistant-bar{
-        min-height:48px;
-        padding:8px 10px;
-        grid-template-columns:40px minmax(0,1fr);
+        margin-top:8px;
+        min-height:44px;
+        padding:7px 8px;
+        grid-template-columns:36px minmax(0,1fr);
         gap:8px;
       }
 
       .assistant-face{
-        width:40px;
-        height:40px;
+        width:36px;
+        height:36px;
       }
 
       .assistant-eye{
-        top:14px;
+        top:12px;
         width:4px;
         height:4px;
       }
 
-      .assistant-eye.left{ left:12px; }
-      .assistant-eye.right{ right:12px; }
+      .assistant-eye.left{ left:10px; }
+      .assistant-eye.right{ right:10px; }
 
       .assistant-mouth{
-        width:10px;
-        bottom:10px;
+        width:9px;
+        bottom:9px;
       }
 
-      .assistant-title{ font-size:12px; }
-      .assistant-text{ font-size:9px; }
+      .assistant-title{ font-size:11px; }
+      .assistant-text{ font-size:8px; }
 
       .page-view{
         padding:10px 10px 18px;
@@ -2718,9 +2748,16 @@
         letter-spacing:.03em;
       }
 
+      .power-slot{ min-height:116px; }
+
       .power-switch{
-        width:50px;
-        height:112px;
+        width:52px;
+        height:114px;
+      }
+
+      .power-switch::after{
+        height:46px;
+        top:50px;
       }
 
       .power-hint{ font-size:6.5px; }
@@ -2748,11 +2785,6 @@
         width:54px;
         height:54px;
         border-radius:16px;
-      }
-
-      .wallet-badge img{
-        width:30px;
-        height:30px;
       }
 
       .wallet-name{ font-size:16px; }
@@ -3130,31 +3162,35 @@
       }
 
       .request-result{
-        padding:10px;
-        border-radius:14px;
+        padding:12px;
+        border-radius:18px;
+      }
+
+      .request-result-title{
+        font-size:18px;
       }
 
       .request-result-grid{
         grid-template-columns:1fr;
-        gap:8px;
+        gap:10px;
       }
 
       .qr-box{
-        min-height:84px;
-        border-radius:12px;
-        padding:6px;
+        min-height:148px;
+        border-radius:14px;
+        padding:8px;
       }
 
       #requestQr{
-        width:72px;
-        min-height:72px;
+        width:126px;
+        min-height:126px;
       }
 
       #requestQr img,
       #requestQr canvas{
-        width:72px !important;
-        height:72px !important;
-        padding:4px;
+        width:126px !important;
+        height:126px !important;
+        padding:5px;
       }
 
       .mini-action{
@@ -3251,11 +3287,6 @@
                     <div class="page-chip" id="pageChip">Connect</div>
                   </div>
                   <div class="page-chain">Arc Testnet</div>
-                </div>
-
-                <div class="page-title" id="pageTitle">Connect page</div>
-                <div class="page-helper" id="pageHelper">
-                  Prepare a wallet on <strong>Arc Testnet</strong> and unlock StableFlow.
                 </div>
 
                 <div class="assistant-bar" id="assistantBar" data-tone="warn">
@@ -3677,7 +3708,6 @@
 
     <div class="bottombar"></div>
 
-    <!-- scanner -->
     <div class="scanner-overlay" id="scannerOverlay">
       <div class="scanner-card">
         <div class="scanner-head">
@@ -3695,9 +3725,6 @@
   </div>
 
   <script>
-    /* =========================
-       ARC / CONTRACT CONFIG
-    ========================= */
     const ARC = {
       chainId: 5042002,
       chainHex: "0x4cef52",
@@ -3784,18 +3811,9 @@
       scanner: {
         stream: null,
         timer: null
-      },
-      assistant: {
-        tone: "warn",
-        kicker: "Assistant",
-        title: "Hello",
-        text: "Please connect your wallet to begin."
       }
     };
 
-    /* =========================
-       DOM
-    ========================= */
     const app = document.getElementById("app");
     const connectBtn = document.getElementById("connectBtn");
     const connectLabel = document.getElementById("connectLabel");
@@ -3807,8 +3825,6 @@
     const navButtons = Array.from(document.querySelectorAll("[data-page]"));
 
     const pageChip = document.getElementById("pageChip");
-    const pageTitle = document.getElementById("pageTitle");
-    const pageHelper = document.getElementById("pageHelper");
 
     const assistantBar = document.getElementById("assistantBar");
     const assistantKicker = document.getElementById("assistantKicker");
@@ -3895,36 +3911,13 @@
     const scannerNote = document.getElementById("scannerNote");
 
     const pageMeta = {
-      connect: {
-        title: "Connect page",
-        chip: "Connect",
-        helper: 'Prepare a wallet on <strong>Arc Testnet</strong> and unlock StableFlow.'
-      },
-      home: {
-        title: "Home page",
-        chip: "Home",
-        helper: 'Profile, tokens and useful app information stay in <strong>HOME</strong>.'
-      },
-      swap: {
-        title: "Swap page",
-        chip: "Swap",
-        helper: 'Swap <strong>USDC ↔ LMTV</strong> on the Arc Testnet pool with live balances and limits.'
-      },
-      pay: {
-        title: "Pay page",
-        chip: "Pay",
-        helper: 'Send real <strong>USDC or EURC</strong> to a recipient using your LMTV through the pool.'
-      },
-      "get-paid": {
-        title: "Get Paid page",
-        chip: "Get Paid",
-        helper: 'Create a <strong>real payment request QR</strong>. The payer decides later how to pay.'
-      }
+      connect: { chip: "Connect" },
+      home: { chip: "Home" },
+      swap: { chip: "Swap" },
+      pay: { chip: "Pay" },
+      "get-paid": { chip: "Get Paid" }
     };
 
-    /* =========================
-       HELPERS
-    ========================= */
     function tokenAddr(symbol){
       return ADDR[symbol];
     }
@@ -4042,7 +4035,6 @@
     }
 
     function setAssistant(tone, kicker, title, text){
-      state.assistant = { tone, kicker, title, text };
       assistantBar.dataset.tone = tone;
       assistantKicker.textContent = kicker;
       assistantTitle.textContent = title;
@@ -4096,11 +4088,7 @@
       navButtons.forEach(btn => {
         btn.classList.toggle("current", btn.dataset.page === page);
       });
-
-      const meta = pageMeta[page];
-      pageChip.textContent = meta.chip;
-      pageTitle.textContent = meta.title;
-      pageHelper.innerHTML = meta.helper;
+      pageChip.textContent = pageMeta[page].chip;
       updateAssistant();
     }
 
@@ -4147,9 +4135,6 @@
       });
     }
 
-    /* =========================
-       WALLET
-    ========================= */
     function pickInjectedProvider(){
       if (!window.ethereum) return null;
       const providers = window.ethereum.providers || [window.ethereum];
@@ -4275,7 +4260,6 @@
         });
 
         picked.provider.on?.("chainChanged", async () => {
-          if (!window.ethereum) return;
           const ok2 = await ensureArcNetwork(picked.provider);
           if (!ok2) {
             setAssistant("danger", "Network", "Wrong network", "Please switch back to Arc Testnet.");
@@ -4285,7 +4269,6 @@
         });
 
         app.classList.add("open");
-        connectBtn.classList.remove("active");
         updateConnectLabel();
         updateNavState();
 
@@ -4298,6 +4281,7 @@
           requestWalletInput.value = state.address;
         }
 
+        resetPowerSlider(true);
         setAssistant("success", "Wallet", `${state.preferredWallet} connected`, "StableFlow is live on Arc Testnet.");
       }catch(err){
         console.error(err);
@@ -4330,9 +4314,6 @@
       setAssistant("warn", "Disconnected", "Wallet disconnected", "Open the shell again when you want to reconnect.");
     }
 
-    /* =========================
-       DAILY LIMITS
-    ========================= */
     function checkDailyLimit(type){
       const today = todayKey();
       if (state.stats.daily.date !== today) {
@@ -4347,9 +4328,6 @@
       return !Number.isFinite(n) || n > 10;
     }
 
-    /* =========================
-       CONTRACT HELPERS
-    ========================= */
     function getErc20(symbol, writable = false){
       const runner = writable ? state.signer : state.provider;
       return new ethers.Contract(tokenAddr(symbol), ERC20_ABI, runner);
@@ -4430,7 +4408,7 @@
       const decimals = state.tokenMeta[symbol].decimals;
       if (bal.lte(0)) return ethers.BigNumber.from(0);
 
-      let safe = bal.mul(9990).div(10000); // leave 0.1%
+      let safe = bal.mul(9990).div(10000);
       if (safe.lte(0)) safe = bal.sub(1).gt(0) ? bal.sub(1) : bal;
 
       const roundBase = decimals > 6 ? ethers.BigNumber.from(10).pow(decimals - 6) : ethers.BigNumber.from(1);
@@ -4438,9 +4416,6 @@
       return safe.gt(0) ? safe : bal;
     }
 
-    /* =========================
-       SWAP UI + LOGIC
-    ========================= */
     function updateSwapTokenVisuals(){
       swapTopToken.textContent = state.swap.topToken;
       swapBottomToken.textContent = state.swap.bottomToken;
@@ -4666,9 +4641,6 @@
       fitNumericField(swapBottomInput, 24, 13);
     }
 
-    /* =========================
-       PAY UI + LOGIC
-    ========================= */
     function setPayAsset(asset){
       state.pay.asset = asset;
       payAssetUsdc.classList.toggle("active", asset === "USDC");
@@ -4846,7 +4818,7 @@
         const pairAddr = stable === "EURC" ? ADDR.POOL_EURC : ADDR.POOL_USDC;
         const pair = getPairForStable(stable, true);
 
-        const bufferedIn = state.pay.lmtvNeeded.mul(1005).div(1000); // 0.5% buffer
+        const bufferedIn = state.pay.lmtvNeeded.mul(1005).div(1000);
 
         await ensureAllowance("LMTV", pairAddr, bufferedIn);
         setPayStep(2);
@@ -4897,9 +4869,6 @@
       setPayStep(0);
     }
 
-    /* =========================
-       GET PAID
-    ========================= */
     function clampRequestAmount(value){
       const clean = sanitizeNumeric(value);
       if (!clean) return "";
@@ -4972,8 +4941,8 @@
       if (typeof QRCode !== "undefined") {
         new QRCode(requestQr, {
           text: state.request.link,
-          width: 100,
-          height: 100,
+          width: 148,
+          height: 148,
           correctLevel: QRCode.CorrectLevel.M
         });
       }
@@ -5023,23 +4992,97 @@
       }catch{}
     }
 
-    function downloadRequestQr(){
-      const qrCanvas = requestQr.querySelector("canvas");
-      const qrImg = requestQr.querySelector("img");
-      let href = "";
-      if (qrCanvas) href = qrCanvas.toDataURL("image/png");
-      if (qrImg) href = qrImg.src;
-      if (!href) return;
+    function drawReceiptCanvas(){
+      return new Promise(resolve => {
+        const canvas = document.createElement("canvas");
+        const ctx = canvas.getContext("2d");
 
+        const width = 900;
+        const height = 1180;
+        canvas.width = width;
+        canvas.height = height;
+
+        ctx.fillStyle = "#f7f8fb";
+        ctx.fillRect(0, 0, width, height);
+
+        ctx.fillStyle = "#ffffff";
+        ctx.fillRect(38, 38, width - 76, height - 76);
+
+        ctx.strokeStyle = "rgba(17,22,29,.08)";
+        ctx.lineWidth = 2;
+        ctx.strokeRect(38, 38, width - 76, height - 76);
+
+        ctx.fillStyle = "#11161d";
+        ctx.font = "bold 54px Inter, Arial";
+        ctx.fillText("Payment request", 82, 120);
+
+        ctx.fillStyle = "#148a5d";
+        ctx.font = "bold 20px Inter, Arial";
+        ctx.fillText("READY", width - 190, 118);
+
+        const qrCanvas = requestQr.querySelector("canvas");
+        const qrImg = requestQr.querySelector("img");
+
+        const afterQr = () => {
+          ctx.fillStyle = "#11161d";
+          ctx.font = "bold 24px Inter, Arial";
+
+          const lines = [
+            ["WALLET", requestOutWallet.textContent || "—"],
+            ["ASSET", requestOutAsset.textContent || "—"],
+            ["AMOUNT", requestOutAmount.textContent || "—"],
+            ["NOTE", requestOutNote.textContent || "none"]
+          ];
+
+          let y = 720;
+          lines.forEach(([label, value]) => {
+            ctx.fillStyle = "#7a8693";
+            ctx.font = "bold 18px Inter, Arial";
+            ctx.fillText(label, 82, y);
+
+            ctx.fillStyle = "#11161d";
+            ctx.font = "bold 24px Inter, Arial";
+            const text = String(value);
+            ctx.fillText(text.length > 44 ? text.slice(0, 44) + "..." : text, 82, y + 34);
+            y += 110;
+          });
+
+          ctx.fillStyle = "#9aa6b2";
+          ctx.font = "bold 16px Inter, Arial";
+          ctx.fillText("Generated by StableFlow • Arc Testnet", 82, height - 90);
+
+          resolve(canvas);
+        };
+
+        if (qrCanvas) {
+          ctx.drawImage(qrCanvas, 220, 180, 460, 460);
+          afterQr();
+          return;
+        }
+
+        if (qrImg) {
+          const img = new Image();
+          img.onload = () => {
+            ctx.drawImage(img, 220, 180, 460, 460);
+            afterQr();
+          };
+          img.src = qrImg.src;
+          return;
+        }
+
+        afterQr();
+      });
+    }
+
+    async function downloadRequestQr(){
+      if (!state.request.link) return;
+      const canvas = await drawReceiptCanvas();
       const a = document.createElement("a");
-      a.href = href;
-      a.download = "stableflow-request.png";
+      a.href = canvas.toDataURL("image/png");
+      a.download = "stableflow-request-note.png";
       a.click();
     }
 
-    /* =========================
-       QR SCANNER
-    ========================= */
     async function openScanner(){
       if (!navigator.mediaDevices?.getUserMedia) {
         setAssistant("danger", "Scanner", "Camera unavailable", "This browser does not support camera access.");
@@ -5133,9 +5176,6 @@
       }
     }
 
-    /* =========================
-       ASSISTANT LOGIC
-    ========================= */
     function updateAssistant(){
       if (!state.connected) {
         if (!state.shellOpen) {
@@ -5255,9 +5295,6 @@
       }
     }
 
-    /* =========================
-       RESET OFF SLIDER
-    ========================= */
     let powerDrag = null;
 
     function getPowerBounds(){
@@ -5316,9 +5353,6 @@
       }
     }
 
-    /* =========================
-       EVENTS
-    ========================= */
     connectBtn.addEventListener("click", () => {
       if (state.connected) return;
       if (state.shellOpen) {
@@ -5515,10 +5549,7 @@
       if (state.connected) resetPowerSlider(false);
     });
 
-    /* =========================
-       BOOT
-    ========================= */
-    (function boot(){
+    function boot(){
       loadStats();
       renderTokens("");
       refreshHomeUI();
@@ -5534,9 +5565,10 @@
       if (state.connected && state.address && !requestWalletInput.value.trim()) {
         requestWalletInput.value = state.address;
       }
-    })();
+    }
 
-    /* expose */
+    boot();
+
     window.StableFlowShell = {
       go(page){
         if (!state.shellOpen && !state.connected) return;
