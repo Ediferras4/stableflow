@@ -559,8 +559,8 @@
 
     .page-top{
       position:relative;
-      height:120px;
-      padding:10px 16px 10px;
+      height:138px;
+      padding:10px 12px 8px;
       background:
         radial-gradient(circle at 83% 26%, rgba(221,176,101,.10), transparent 16%),
         radial-gradient(circle at 18% 18%, rgba(101,180,236,.10), transparent 24%),
@@ -591,6 +591,7 @@
       align-items:center;
       justify-content:space-between;
       gap:12px;
+      margin-bottom:6px;
     }
 
     .page-chip-wrap{
@@ -619,18 +620,17 @@
     }
 
     .assistant-bar{
-      margin-top:10px;
-      min-height:54px;
-      border-radius:17px;
-      padding:8px 12px 8px 14px;
+      min-height:84px;
+      border-radius:18px;
+      padding:10px 12px 10px 14px;
       display:grid;
-      grid-template-columns:42px minmax(0,1fr);
-      gap:10px;
+      grid-template-columns:58px minmax(0,1fr);
+      gap:12px;
       align-items:center;
       background:
-        radial-gradient(circle at 86% 24%, rgba(221,176,101,.08), transparent 14%),
-        radial-gradient(circle at 15% 22%, rgba(113,211,255,.12), transparent 28%),
-        linear-gradient(135deg, rgba(34,63,83,.96), rgba(22,31,41,.96));
+        radial-gradient(circle at 88% 24%, rgba(221,176,101,.08), transparent 14%),
+        radial-gradient(circle at 15% 22%, rgba(113,211,255,.13), transparent 28%),
+        linear-gradient(135deg, rgba(38,68,89,.97), rgba(20,30,40,.97));
       border:1px solid rgba(126,192,233,.11);
       box-shadow:
         0 10px 18px rgba(0,0,0,.16),
@@ -644,8 +644,8 @@
       position:absolute;
       top:-14px;
       right:-14px;
-      width:48px;
-      height:48px;
+      width:56px;
+      height:56px;
       border-radius:50%;
       background:radial-gradient(circle, rgba(221,176,101,.12), transparent 70%);
       pointer-events:none;
@@ -655,8 +655,8 @@
       content:"";
       position:absolute;
       left:0;
-      top:9px;
-      bottom:9px;
+      top:10px;
+      bottom:10px;
       width:3px;
       border-radius:999px;
       background:linear-gradient(180deg, rgba(113,211,255,.70), rgba(221,176,101,.62));
@@ -668,66 +668,135 @@
       background:
         radial-gradient(circle at 84% 26%, rgba(221,176,101,.11), transparent 14%),
         radial-gradient(circle at 14% 22%, rgba(113,211,255,.08), transparent 24%),
-        linear-gradient(135deg, rgba(53,58,43,.94), rgba(27,34,40,.96));
+        linear-gradient(135deg, rgba(53,58,43,.95), rgba(27,34,40,.97));
     }
 
     .assistant-bar[data-tone="success"]{
       background:
         radial-gradient(circle at 83% 24%, rgba(130,239,181,.10), transparent 14%),
         radial-gradient(circle at 15% 22%, rgba(113,211,255,.08), transparent 24%),
-        linear-gradient(135deg, rgba(24,69,73,.96), rgba(17,31,36,.96));
+        linear-gradient(135deg, rgba(24,69,73,.97), rgba(17,31,36,.97));
     }
 
     .assistant-bar[data-tone="danger"]{
       background:
         radial-gradient(circle at 84% 24%, rgba(255,134,134,.10), transparent 14%),
         radial-gradient(circle at 14% 22%, rgba(113,211,255,.06), transparent 24%),
-        linear-gradient(135deg, rgba(73,34,34,.96), rgba(29,23,28,.97));
+        linear-gradient(135deg, rgba(73,34,34,.97), rgba(29,23,28,.98));
     }
 
     .assistant-face{
-      width:42px;
-      height:42px;
-      border-radius:50%;
+      width:56px;
+      height:56px;
+      border-radius:18px;
       position:relative;
       background:
-        radial-gradient(circle at 35% 28%, rgba(255,255,255,.12), transparent 26%),
-        linear-gradient(180deg,#253542 0%, #15212a 100%);
+        radial-gradient(circle at 35% 24%, rgba(255,255,255,.10), transparent 26%),
+        linear-gradient(180deg,#263846 0%, #16232c 100%);
       border:1px solid rgba(255,255,255,.07);
-      box-shadow:0 8px 16px rgba(0,0,0,.16);
+      box-shadow:
+        0 10px 18px rgba(0,0,0,.18),
+        inset 0 1px 0 rgba(255,255,255,.03);
       overflow:hidden;
       flex:0 0 auto;
     }
 
+    .assistant-face::before,
+    .assistant-face::after{
+      content:"";
+      position:absolute;
+      top:20px;
+      width:5px;
+      height:14px;
+      border-radius:999px;
+      background:linear-gradient(180deg,#32495a,#1c2a35);
+      border:1px solid rgba(255,255,255,.05);
+    }
+
+    .assistant-face::before{ left:-2px; }
+    .assistant-face::after{ right:-2px; }
+
+    .assistant-antenna{
+      position:absolute;
+      top:4px;
+      left:50%;
+      transform:translateX(-50%);
+      width:4px;
+      height:10px;
+      border-radius:999px;
+      background:linear-gradient(180deg,#85d8ff,#4bbdf0);
+      box-shadow:0 0 0 3px rgba(113,211,255,.04);
+    }
+
+    .assistant-antenna::after{
+      content:"";
+      position:absolute;
+      top:-4px;
+      left:50%;
+      transform:translateX(-50%);
+      width:8px;
+      height:8px;
+      border-radius:50%;
+      background:linear-gradient(180deg,#fff3d7,#ddb065);
+      box-shadow:0 0 0 4px rgba(221,176,101,.05);
+    }
+
+    .assistant-visor{
+      position:absolute;
+      left:8px;
+      right:8px;
+      top:15px;
+      height:20px;
+      border-radius:999px;
+      background:
+        radial-gradient(circle at 30% 30%, rgba(255,255,255,.08), transparent 34%),
+        linear-gradient(180deg,#0f1b23 0%, #10222d 100%);
+      border:1px solid rgba(113,211,255,.15);
+      box-shadow:inset 0 1px 0 rgba(255,255,255,.03);
+    }
+
     .assistant-eye{
       position:absolute;
-      top:15px;
-      width:4px;
-      height:4px;
+      top:6px;
+      width:6px;
+      height:6px;
       border-radius:50%;
       background:#dff2ff;
       opacity:.95;
+      box-shadow:0 0 8px rgba(113,211,255,.18);
     }
 
-    .assistant-eye.left{ left:12px; }
-    .assistant-eye.right{ right:12px; }
+    .assistant-eye.left{ left:13px; }
+    .assistant-eye.right{ right:13px; }
 
     .assistant-mouth{
       position:absolute;
       left:50%;
-      bottom:10px;
-      width:10px;
-      height:5px;
+      bottom:11px;
+      width:16px;
+      height:6px;
       transform:translateX(-50%);
       border-bottom:2px solid #ddb065;
       border-radius:0 0 12px 12px;
       opacity:.95;
     }
 
+    .assistant-jaw{
+      position:absolute;
+      left:50%;
+      bottom:7px;
+      transform:translateX(-50%);
+      width:24px;
+      height:2px;
+      border-radius:999px;
+      background:linear-gradient(90deg, rgba(113,211,255,.0), rgba(113,211,255,.38), rgba(113,211,255,.0));
+      opacity:.8;
+    }
+
     .assistant-pulse{
       position:absolute;
-      top:5px;
-      right:5px;
+      top:6px;
+      right:6px;
       width:7px;
       height:7px;
       border-radius:50%;
@@ -756,7 +825,7 @@
       min-width:0;
       display:flex;
       flex-direction:column;
-      gap:2px;
+      gap:4px;
     }
 
     .assistant-kicker{
@@ -772,7 +841,7 @@
 
     .assistant-title{
       color:#f3f8fc;
-      font-size:13px;
+      font-size:14px;
       font-weight:1000;
       letter-spacing:-.02em;
       white-space:nowrap;
@@ -784,7 +853,7 @@
       color:#b9c9d6;
       font-size:9px;
       font-weight:900;
-      line-height:1.16;
+      line-height:1.2;
       display:-webkit-box;
       -webkit-box-orient:vertical;
       -webkit-line-clamp:2;
@@ -793,7 +862,7 @@
 
     .pages-area{
       position:absolute;
-      top:120px;
+      top:138px;
       left:0;
       right:0;
       bottom:0;
@@ -1015,6 +1084,26 @@
       box-shadow:0 12px 20px rgba(47,189,239,.10);
       flex:0 0 auto;
       overflow:hidden;
+      position:relative;
+    }
+
+    .wallet-badge img{
+      width:100%;
+      height:100%;
+      object-fit:cover;
+      display:block;
+    }
+
+    .wallet-fallback{
+      position:absolute;
+      inset:0;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      font-size:20px;
+      font-weight:1000;
+      color:#082739;
+      pointer-events:none;
     }
 
     .wallet-name{
@@ -1079,7 +1168,8 @@
       position:absolute;
       inset:8px;
       border-radius:18px;
-      border:1px solid rgba(255,255,255,.025);
+      border:1px solid rgba(221,176,101,.16);
+      box-shadow:inset 0 0 0 1px rgba(221,176,101,.04);
       pointer-events:none;
     }
 
@@ -2229,6 +2319,10 @@
       margin-bottom:10px;
     }
 
+    .steps-row.two-step{
+      grid-template-columns:repeat(2,1fr);
+    }
+
     .step-chip{
       min-height:32px;
       border-radius:12px;
@@ -2244,6 +2338,13 @@
       text-transform:uppercase;
       text-align:center;
       min-width:0;
+      white-space:nowrap;
+      overflow:hidden;
+      text-overflow:ellipsis;
+    }
+
+    .step-chip.hidden{
+      display:none;
     }
 
     .step-chip.current{
@@ -2816,43 +2917,56 @@
       }
 
       .page-top{
-        height:114px;
-        padding:10px 12px 8px;
+        height:130px;
+        padding:10px 10px 8px;
       }
 
-      .pages-area{ top:114px; }
+      .pages-area{ top:130px; }
 
       .assistant-bar{
-        margin-top:10px;
-        min-height:48px;
-        padding:8px 10px 8px 12px;
-        grid-template-columns:38px minmax(0,1fr);
-        gap:8px;
+        min-height:72px;
+        padding:9px 10px 9px 12px;
+        grid-template-columns:50px minmax(0,1fr);
+        gap:10px;
       }
 
       .assistant-face{
-        width:38px;
-        height:38px;
+        width:48px;
+        height:48px;
+        border-radius:15px;
+      }
+
+      .assistant-face::before,
+      .assistant-face::after{
+        top:18px;
+        height:12px;
+      }
+
+      .assistant-visor{
+        left:6px;
+        right:6px;
+        top:13px;
+        height:18px;
       }
 
       .assistant-eye{
-        top:13px;
-        width:4px;
-        height:4px;
+        top:5px;
+        width:5px;
+        height:5px;
       }
 
       .assistant-eye.left{ left:11px; }
       .assistant-eye.right{ right:11px; }
 
       .assistant-mouth{
-        width:9px;
-        bottom:9px;
+        width:13px;
+        bottom:10px;
       }
 
-      .assistant-title{ font-size:11px; }
+      .assistant-title{ font-size:12px; }
       .assistant-text{
         font-size:8px;
-        line-height:1.15;
+        line-height:1.16;
       }
 
       .page-view{
@@ -2912,6 +3026,10 @@
         width:54px;
         height:54px;
         border-radius:16px;
+      }
+
+      .wallet-fallback{
+        font-size:18px;
       }
 
       .wallet-name{ font-size:16px; }
@@ -3417,11 +3535,16 @@
 
                 <div class="assistant-bar" id="assistantBar" data-tone="warn">
                   <div class="assistant-face">
-                    <span class="assistant-eye left"></span>
-                    <span class="assistant-eye right"></span>
-                    <span class="assistant-mouth"></span>
+                    <span class="assistant-antenna"></span>
                     <span class="assistant-pulse"></span>
+                    <div class="assistant-visor">
+                      <span class="assistant-eye left"></span>
+                      <span class="assistant-eye right"></span>
+                    </div>
+                    <span class="assistant-mouth"></span>
+                    <span class="assistant-jaw"></span>
                   </div>
+
                   <div class="assistant-copy">
                     <div class="assistant-kicker" id="assistantKicker">Assistant</div>
                     <div class="assistant-title" id="assistantTitle">Hello</div>
@@ -3452,7 +3575,10 @@
 
                     <div class="wallet-list">
                       <button class="wallet-row" data-wallet="MetaMask" type="button">
-                        <div class="wallet-badge"><div class="icon-fallback">MM</div></div>
+                        <div class="wallet-badge">
+                          <img src="metamask.png" alt="MetaMask" onload="this.nextElementSibling.style.display='none'" onerror="this.style.display='none'">
+                          <div class="wallet-fallback">MM</div>
+                        </div>
                         <div>
                           <div class="wallet-name">MetaMask</div>
                           <div class="wallet-desc">Recommended. Browser extension and wallet browser are both supported.</div>
@@ -3461,7 +3587,10 @@
                       </button>
 
                       <button class="wallet-row" data-wallet="Rabby" type="button">
-                        <div class="wallet-badge"><div class="icon-fallback">RB</div></div>
+                        <div class="wallet-badge">
+                          <img src="rabby.png" alt="Rabby" onload="this.nextElementSibling.style.display='none'" onerror="this.style.display='none'">
+                          <div class="wallet-fallback">RB</div>
+                        </div>
                         <div>
                           <div class="wallet-name">Rabby</div>
                           <div class="wallet-desc">If Rabby injects a provider, StableFlow will use it correctly.</div>
@@ -3470,7 +3599,10 @@
                       </button>
 
                       <button class="wallet-row" data-wallet="OKX" type="button">
-                        <div class="wallet-badge"><div class="icon-fallback">OK</div></div>
+                        <div class="wallet-badge">
+                          <img src="okx.png" alt="OKX" onload="this.nextElementSibling.style.display='none'" onerror="this.style.display='none'">
+                          <div class="wallet-fallback">OK</div>
+                        </div>
                         <div>
                           <div class="wallet-name">OKX</div>
                           <div class="wallet-desc">If you are inside the OKX wallet browser, connection should be smooth.</div>
@@ -3479,7 +3611,10 @@
                       </button>
 
                       <button class="wallet-row" data-wallet="Base" type="button">
-                        <div class="wallet-badge"><div class="icon-fallback">BS</div></div>
+                        <div class="wallet-badge">
+                          <img src="base.png" alt="Base" onload="this.nextElementSibling.style.display='none'" onerror="this.style.display='none'">
+                          <div class="wallet-fallback">BS</div>
+                        </div>
                         <div>
                           <div class="wallet-name">Base</div>
                           <div class="wallet-desc">Works if a Base-compatible injected provider is available.</div>
@@ -3718,10 +3853,10 @@
 
                     <div class="pay-action-row">
                       <div class="pay-flow-panel" id="payFlowPanel">
-                        <div class="steps-row">
-                          <div class="step-chip" data-step="1">Approve</div>
-                          <div class="step-chip" data-step="2">Swap</div>
-                          <div class="step-chip" data-step="3">Transfer</div>
+                        <div class="steps-row" id="payStepsRow">
+                          <div class="step-chip" data-step="1">1/3 Approve</div>
+                          <div class="step-chip" data-step="2">2/3 Swap</div>
+                          <div class="step-chip" data-step="3">3/3 Transfer</div>
                         </div>
 
                         <div class="flow-lines">
@@ -3918,7 +4053,10 @@
         hideNote: false,
         quotePending: false,
         busy: false,
-        lmtvNeeded: null
+        lmtvNeeded: null,
+        flowTotal: 3,
+        flowPhase: 0,
+        liveAssistant: null
       },
       request: {
         asset: "USDC",
@@ -4021,6 +4159,7 @@
     const payPreviewAmount = document.getElementById("payPreviewAmount");
     const payPreviewNote = document.getElementById("payPreviewNote");
     const payPreviewStatus = document.getElementById("payPreviewStatus");
+    const payStepsRow = document.getElementById("payStepsRow");
     const payStepChips = Array.from(payFlowPanel.querySelectorAll(".step-chip"));
     const payDailyText = document.getElementById("payDailyText");
     const payQrBtn = document.getElementById("payQrBtn");
@@ -4210,6 +4349,15 @@
         state.assistantHoldUntil = 0;
         updateAssistant();
       }, ms);
+    }
+
+    function setPayLiveAssistant(tone, kicker, title, text){
+      state.pay.liveAssistant = { tone, kicker, title, text };
+      setAssistant(tone, kicker, title, text);
+    }
+
+    function clearPayLiveAssistant(){
+      state.pay.liveAssistant = null;
     }
 
     function updateConnectLabel(){
@@ -4474,6 +4622,7 @@
       state.swap.quotePending = false;
       state.pay.busy = false;
       state.pay.quotePending = false;
+      clearPayLiveAssistant();
       app.classList.remove("open");
       state.shellOpen = false;
       clearTimeout(swapQuoteTimer);
@@ -4573,6 +4722,47 @@
       setAssistant("warn", "Approve", `Approve ${symbol}`, `Approve ${symbol} in your wallet to continue.`);
       const tx = await erc20.approve(spender, amount);
       await tx.wait();
+    }
+
+    async function flushUi(ms = 240){
+      refreshPayUI();
+      await new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve)));
+      if (ms > 0) await new Promise(resolve => setTimeout(resolve, ms));
+    }
+
+    function configurePaySteps(total = 3){
+      state.pay.flowTotal = total;
+      state.pay.flowPhase = 0;
+
+      payStepsRow.classList.toggle("two-step", total === 2);
+
+      if (total === 2) {
+        payStepChips[0].textContent = "1/2 Swap";
+        payStepChips[1].textContent = "2/2 Transfer";
+        payStepChips[2].classList.add("hidden");
+      } else {
+        payStepChips[0].textContent = "1/3 Approve";
+        payStepChips[1].textContent = "2/3 Swap";
+        payStepChips[2].textContent = "3/3 Transfer";
+        payStepChips[2].classList.remove("hidden");
+      }
+
+      payStepChips.forEach(chip => {
+        chip.classList.remove("current", "done");
+      });
+    }
+
+    function setPayStep(step){
+      state.pay.flowPhase = step;
+      payStepChips.forEach((chip, index) => {
+        const n = index + 1;
+        if (chip.classList.contains("hidden")) {
+          chip.classList.remove("current", "done");
+          return;
+        }
+        chip.classList.toggle("current", n === step);
+        chip.classList.toggle("done", n < step);
+      });
     }
 
     function updateSwapTokenVisuals(){
@@ -5015,14 +5205,6 @@
       updateAssistant();
     }
 
-    function setPayStep(step){
-      payStepChips.forEach(chip => {
-        const n = Number(chip.dataset.step);
-        chip.classList.toggle("current", n === step);
-        chip.classList.toggle("done", n < step);
-      });
-    }
-
     async function doPay(){
       if (!state.connected || state.pay.busy || state.pay.quotePending) return;
 
@@ -5064,19 +5246,48 @@
       state.pay.busy = true;
       payFlowPanel.classList.add("open");
       payFlowOrb.classList.add("running");
-      setPayStep(1);
-      payPreviewStatus.textContent = "Approve LMTV";
+      clearPayLiveAssistant();
       refreshPayUI();
+
+      let phase = "start";
 
       try{
         const pairAddr = stable === "EURC" ? ADDR.POOL_EURC : ADDR.POOL_USDC;
         const pair = getPairForStable(stable, true);
         const exactIn = state.pay.lmtvNeeded;
 
-        await ensureAllowance("LMTV", pairAddr, exactIn);
-        setPayStep(2);
-        payPreviewStatus.textContent = "Swap LMTV";
+        phase = "allowance-check";
+        const lmtvRead = getErc20("LMTV", false);
+        const allowance = await lmtvRead.allowance(state.address, pairAddr);
+        const needsApprove = allowance.lt(exactIn);
 
+        if (needsApprove) {
+          configurePaySteps(3);
+
+          setPayStep(1);
+          payPreviewStatus.textContent = "Approve LMTV";
+          setPayLiveAssistant("warn", "Pay flow", "1/3 Approve", "Approve LMTV in MetaMask to continue.");
+          await flushUi(260);
+
+          phase = "approve";
+          const lmtvWrite = getErc20("LMTV", true);
+          const txApprove = await lmtvWrite.approve(pairAddr, exactIn);
+          await txApprove.wait();
+
+          setPayStep(2);
+          payPreviewStatus.textContent = "Approval confirmed";
+          setPayLiveAssistant("warn", "Pay flow", "2/3 Swap", "Approval done. Now confirm the swap in MetaMask.");
+          await flushUi(300);
+        } else {
+          configurePaySteps(2);
+
+          setPayStep(1);
+          payPreviewStatus.textContent = "Approval already active";
+          setPayLiveAssistant("warn", "Pay flow", "1/2 Swap", "Approval already active. Now confirm the swap in MetaMask.");
+          await flushUi(300);
+        }
+
+        phase = "swap";
         const beforeStableBal = state.balances[stable];
         const txSwap = await pair.swap(ADDR.LMTV, exactIn);
         await txSwap.wait();
@@ -5088,9 +5299,19 @@
           throw new Error("Not enough stable received after swap");
         }
 
-        setPayStep(3);
-        payPreviewStatus.textContent = "Transfer stable";
+        if (needsApprove) {
+          setPayStep(3);
+          payPreviewStatus.textContent = "Swap confirmed";
+          setPayLiveAssistant("warn", "Pay flow", "3/3 Transfer", "Swap done. Now confirm the transfer in MetaMask.");
+        } else {
+          setPayStep(2);
+          payPreviewStatus.textContent = "Swap confirmed";
+          setPayLiveAssistant("warn", "Pay flow", "2/2 Transfer", "Swap done. Now confirm the transfer in MetaMask.");
+        }
 
+        await flushUi(300);
+
+        phase = "transfer";
         const stableToken = getErc20(stable, true);
         const txTransfer = await stableToken.transfer(recipient, desiredAmount);
         await txTransfer.wait();
@@ -5100,11 +5321,26 @@
         resetPayFields();
 
         payPreviewStatus.textContent = "Complete";
-        holdAssistant("success", "Pay", "Transaction completed ✓", `${desiredText} ${stable} was sent to the recipient.`, 2000);
+        clearPayLiveAssistant();
+        holdAssistant("success", "Pay", "Transaction completed ✓", `${desiredText} ${stable} was sent to the recipient.`, 2200);
       }catch(err){
         console.error(err);
-        payPreviewStatus.textContent = "Failed";
-        setAssistant("danger", "Pay", "Payment failed", "The payment flow failed or was rejected.");
+
+        clearPayLiveAssistant();
+
+        if (phase === "approve") {
+          payPreviewStatus.textContent = "Approve failed";
+          setAssistant("danger", "Pay flow", "Approve failed", "The approval was rejected or failed.");
+        } else if (phase === "swap") {
+          payPreviewStatus.textContent = "Swap failed";
+          setAssistant("danger", "Pay flow", "Swap failed", "The swap transaction was rejected or failed.");
+        } else if (phase === "transfer") {
+          payPreviewStatus.textContent = "Transfer failed";
+          setAssistant("danger", "Pay flow", "Transfer failed", "The final transfer was rejected or failed.");
+        } else {
+          payPreviewStatus.textContent = "Failed";
+          setAssistant("danger", "Pay", "Payment failed", "The payment flow failed or was rejected.");
+        }
       }finally{
         state.pay.busy = false;
         payFlowOrb.classList.remove("running");
@@ -5118,9 +5354,11 @@
       payAmountInput.value = "";
       payNoteInput.value = "";
       clearPayQuote();
+      clearPayLiveAssistant();
+      configurePaySteps(3);
       fitNumericField(payAmountInput, 24, 13);
       payFlowPanel.classList.remove("open");
-      setPayStep(0);
+      payPreviewStatus.textContent = "Waiting";
     }
 
     function clampRequestAmount(value){
@@ -5439,6 +5677,16 @@
     function updateAssistant(){
       if (Date.now() < state.assistantHoldUntil) return;
 
+      if (state.pay.busy && state.pay.liveAssistant) {
+        setAssistant(
+          state.pay.liveAssistant.tone,
+          state.pay.liveAssistant.kicker,
+          state.pay.liveAssistant.title,
+          state.pay.liveAssistant.text
+        );
+        return;
+      }
+
       if (!state.connected) {
         if (!state.shellOpen) {
           setAssistant("warn", "Connect", "Open the shell", "Tap Connect to wake up StableFlow.");
@@ -5543,11 +5791,11 @@
         }
 
         if (state.pay.busy) {
-          setAssistant("warn", "Pay", "Payment in progress", "StableFlow is handling approval, swap and transfer.");
+          setAssistant("warn", "Pay", "Payment in progress", "StableFlow is following the wallet step by step.");
           return;
         }
 
-        setAssistant("success", "Pay", "Ready to pay", "Pay quote is smoother now and no longer uses a blind extra buffer.");
+        setAssistant("success", "Pay", "Ready to pay", "Pay flow now follows the wallet in real time with 2 or 3 steps depending on approval.");
         return;
       }
 
@@ -5707,8 +5955,6 @@
 
         const topSymbol = state.swap.topToken;
         const decimals = state.tokenMeta[topSymbol].decimals;
-        const bal = state.balances[topSymbol] || ethers.BigNumber.from(0);
-
         let target = ethers.BigNumber.from(0);
 
         if (btn.dataset.quick === "100") {
@@ -5842,6 +6088,7 @@
       renderTokens("");
       refreshHomeUI();
       refreshSwapUI();
+      configurePaySteps(3);
       refreshPayUI();
       refreshRequestUI();
       updateConnectLabel();
