@@ -908,7 +908,6 @@
         var(--shadow-soft);
     }
 
-    /* connect */
     .connect-stars{
       border-radius:18px;
       padding:12px 14px;
@@ -1062,7 +1061,6 @@
       margin:2px 8px 0;
     }
 
-    /* home */
     .profile-card{
       border-radius:22px;
       padding:15px;
@@ -1447,7 +1445,6 @@
       transform:translate(2px,2px);
     }
 
-    /* swap */
     .swap-top-row{
       display:flex;
       align-items:flex-start;
@@ -1846,7 +1843,6 @@
       text-align:center;
     }
 
-    /* pay */
     .top-toggle-row{
       display:flex;
       align-items:center;
@@ -2294,7 +2290,6 @@
       flex:0 0 auto;
     }
 
-    /* get paid */
     .request-top{
       display:flex;
       align-items:center;
@@ -2632,7 +2627,6 @@
       padding:0 8px;
     }
 
-    /* cover */
     .cover{
       position:absolute;
       inset:0;
@@ -2734,7 +2728,6 @@
       box-shadow:0 0 8px rgba(221,176,101,.05);
     }
 
-    /* scanner */
     .scanner-overlay{
       position:absolute;
       inset:0;
@@ -3438,7 +3431,6 @@
               </div>
 
               <div class="pages-area">
-                <!-- CONNECT -->
                 <div class="page-view active" data-view="connect">
                   <div class="page-shell">
                     <div class="connect-stars" aria-hidden="true">
@@ -3500,7 +3492,6 @@
                   </div>
                 </div>
 
-                <!-- HOME -->
                 <div class="page-view" data-view="home">
                   <div class="page-shell">
                     <div class="profile-card">
@@ -3555,7 +3546,6 @@
                   </div>
                 </div>
 
-                <!-- SWAP -->
                 <div class="page-view" data-view="swap">
                   <div class="page-shell">
                     <div class="swap-top-row">
@@ -3658,7 +3648,6 @@
                   </div>
                 </div>
 
-                <!-- PAY -->
                 <div class="page-view" data-view="pay">
                   <div class="page-shell">
                     <div class="top-toggle-row">
@@ -3749,7 +3738,6 @@
                   </div>
                 </div>
 
-                <!-- GET PAID -->
                 <div class="page-view" data-view="get-paid">
                   <div class="page-shell">
                     <div class="request-top">
@@ -3922,11 +3910,13 @@
         slippage: 0.5,
         quoteOut: null,
         minOut: null,
+        quotePending: false,
         busy: false
       },
       pay: {
         asset: "USDC",
         hideNote: false,
+        quotePending: false,
         busy: false,
         lmtvNeeded: null
       },
@@ -3961,6 +3951,11 @@
       assistantHoldUntil: 0,
       assistantHoldTimer: null
     };
+
+    let swapQuoteTimer = null;
+    let swapQuoteSeq = 0;
+    let payQuoteTimer = null;
+    let payQuoteSeq = 0;
 
     const app = document.getElementById("app");
     const connectBtn = document.getElementById("connectBtn");
@@ -4171,6 +4166,33 @@
       }catch{
         return null;
       }
+    }
+
+    function roundDownBN(value, decimals, displayDp){
+      if (!value || value.lte(0)) return ethers.BigNumber.from(0);
+      if (decimals <= displayDp) return value;
+      const base = ethers.BigNumber.from(10).pow(decimals - displayDp);
+      return value.div(base).mul(base);
+    }
+
+    function getSafeMaxForSwapInput(symbol){
+      const bal = state.balances[symbol] || ethers.BigNumber.from(0);
+      const decimals = state.tokenMeta[symbol].decimals;
+      if (bal.lte(0)) return ethers.BigNumber.from(0);
+
+      let safe = bal;
+
+      if (symbol === "USDC") {
+        const gasReserve = ethers.utils.parseUnits("0.05", decimals);
+        safe = bal.gt(gasReserve) ? bal.sub(gasReserve) : bal.div(2);
+        safe = safe.mul(9950).div(10000);
+        safe = roundDownBN(safe, decimals, 4);
+      } else {
+        safe = safe.mul(9990).div(10000);
+        safe = roundDownBN(safe, decimals, 6);
+      }
+
+      return safe.gt(0) ? safe : ethers.BigNumber.from(0);
     }
 
     function setAssistant(tone, kicker, title, text){
@@ -4449,9 +4471,13 @@
         EURC: ethers.BigNumber.from(0)
       };
       state.swap.busy = false;
+      state.swap.quotePending = false;
       state.pay.busy = false;
+      state.pay.quotePending = false;
       app.classList.remove("open");
       state.shellOpen = false;
+      clearTimeout(swapQuoteTimer);
+      clearTimeout(payQuoteTimer);
       updateConnectLabel();
       updateNavState();
       refreshHomeUI();
@@ -4549,19 +4575,6 @@
       await tx.wait();
     }
 
-    function getSafeMax(symbol){
-      const bal = state.balances[symbol] || ethers.BigNumber.from(0);
-      const decimals = state.tokenMeta[symbol].decimals;
-      if (bal.lte(0)) return ethers.BigNumber.from(0);
-
-      let safe = bal.mul(9990).div(10000);
-      if (safe.lte(0)) safe = bal.sub(1).gt(0) ? bal.sub(1) : bal;
-
-      const roundBase = decimals > 6 ? ethers.BigNumber.from(10).pow(decimals - 6) : ethers.BigNumber.from(1);
-      safe = safe.div(roundBase).mul(roundBase);
-      return safe.gt(0) ? safe : bal;
-    }
-
     function updateSwapTokenVisuals(){
       swapTopToken.textContent = state.swap.topToken;
       swapBottomToken.textContent = state.swap.bottomToken;
@@ -4583,54 +4596,104 @@
       swapRoute.textContent = `${state.swap.topToken} → ${state.swap.bottomToken}`;
     }
 
-    async function updateSwapQuoteFromTop(){
+    function clearSwapQuote(){
+      state.swap.quoteOut = null;
+      state.swap.minOut = null;
+      state.swap.quotePending = false;
+    }
+
+    function scheduleSwapQuote(source = "top", delay = 120){
+      clearTimeout(swapQuoteTimer);
+      const runId = ++swapQuoteSeq;
+
+      const hasInput = source === "top"
+        ? !!swapTopInput.value.trim()
+        : !!swapBottomInput.value.trim();
+
+      if (!hasInput || !state.connected || !state.provider) {
+        clearSwapQuote();
+        refreshSwapUI();
+        return;
+      }
+
+      state.swap.quotePending = true;
+      refreshSwapUI();
+
+      swapQuoteTimer = setTimeout(async () => {
+        if (source === "top") {
+          await updateSwapQuoteFromTop(runId);
+        } else {
+          await updateSwapQuoteFromBottom(runId);
+        }
+      }, delay);
+    }
+
+    async function updateSwapQuoteFromTop(runId = swapQuoteSeq){
       const inSymbol = state.swap.topToken;
       const outSymbol = state.swap.bottomToken;
 
       const amountIn = parseAmountToBN(swapTopInput.value, state.tokenMeta[inSymbol].decimals);
       if (!amountIn || amountIn.lte(0) || !state.provider) {
+        if (runId !== swapQuoteSeq) return;
         swapBottomInput.value = "";
-        state.swap.quoteOut = null;
-        state.swap.minOut = null;
+        clearSwapQuote();
         refreshSwapUI();
         return;
       }
 
-      const pair = getPairForStable("USDC", false);
-      const out = await quoteOut(pair, tokenAddr(inSymbol), amountIn);
-      state.swap.quoteOut = out;
+      try{
+        const pair = getPairForStable("USDC", false);
+        const out = await quoteOut(pair, tokenAddr(inSymbol), amountIn);
+        if (runId !== swapQuoteSeq) return;
 
-      const slippageBps = Math.floor(state.swap.slippage * 100);
-      state.swap.minOut = out.mul(10000 - slippageBps).div(10000);
+        state.swap.quoteOut = out;
+        const slippageBps = Math.floor(state.swap.slippage * 100);
+        state.swap.minOut = out.mul(10000 - slippageBps).div(10000);
 
-      swapBottomInput.value = formatUnitsSmart(out, state.tokenMeta[outSymbol].decimals, 6);
-      fitNumericField(swapBottomInput, 24, 13);
+        swapBottomInput.value = formatUnitsSmart(out, state.tokenMeta[outSymbol].decimals, 6);
+        fitNumericField(swapBottomInput, 24, 13);
+      }catch{
+        if (runId !== swapQuoteSeq) return;
+        clearSwapQuote();
+      }
+
+      if (runId !== swapQuoteSeq) return;
+      state.swap.quotePending = false;
       refreshSwapUI();
     }
 
-    async function updateSwapQuoteFromBottom(){
+    async function updateSwapQuoteFromBottom(runId = swapQuoteSeq){
       const inSymbol = state.swap.topToken;
       const outSymbol = state.swap.bottomToken;
 
       const desiredOut = parseAmountToBN(swapBottomInput.value, state.tokenMeta[outSymbol].decimals);
       if (!desiredOut || desiredOut.lte(0) || !state.provider) {
+        if (runId !== swapQuoteSeq) return;
         swapTopInput.value = "";
-        state.swap.quoteOut = null;
-        state.swap.minOut = null;
+        clearSwapQuote();
         refreshSwapUI();
         return;
       }
 
-      const pair = getPairForStable("USDC", false);
-      const amountIn = await quoteInputForDesiredOut(pair, tokenAddr(inSymbol), tokenAddr(outSymbol), desiredOut);
-      const exactOut = await quoteOut(pair, tokenAddr(inSymbol), amountIn);
+      try{
+        const pair = getPairForStable("USDC", false);
+        const amountIn = await quoteInputForDesiredOut(pair, tokenAddr(inSymbol), tokenAddr(outSymbol), desiredOut);
+        const exactOut = await quoteOut(pair, tokenAddr(inSymbol), amountIn);
+        if (runId !== swapQuoteSeq) return;
 
-      state.swap.quoteOut = exactOut;
-      const slippageBps = Math.floor(state.swap.slippage * 100);
-      state.swap.minOut = exactOut.mul(10000 - slippageBps).div(10000);
+        state.swap.quoteOut = exactOut;
+        const slippageBps = Math.floor(state.swap.slippage * 100);
+        state.swap.minOut = exactOut.mul(10000 - slippageBps).div(10000);
 
-      swapTopInput.value = formatUnitsSmart(amountIn, state.tokenMeta[inSymbol].decimals, 6);
-      fitNumericField(swapTopInput, 24, 13);
+        swapTopInput.value = formatUnitsSmart(amountIn, state.tokenMeta[inSymbol].decimals, 6);
+        fitNumericField(swapTopInput, 24, 13);
+      }catch{
+        if (runId !== swapQuoteSeq) return;
+        clearSwapQuote();
+      }
+
+      if (runId !== swapQuoteSeq) return;
+      state.swap.quotePending = false;
       refreshSwapUI();
     }
 
@@ -4657,6 +4720,13 @@
         swapStatus.textContent = "Connect wallet to start";
         swapActionBtn.textContent = "Connect wallet";
         swapActionBtn.className = "action-btn";
+        return;
+      }
+
+      if (state.swap.quotePending) {
+        swapStatus.textContent = "Updating quote";
+        swapActionBtn.textContent = "Updating...";
+        swapActionBtn.className = "action-btn disabled";
         return;
       }
 
@@ -4715,7 +4785,7 @@
     }
 
     async function doSwap(){
-      if (!state.connected || state.swap.busy) return;
+      if (!state.connected || state.swap.busy || state.swap.quotePending) return;
 
       if (!checkDailyLimit("swap")) {
         setAssistant("danger", "Limit", "Daily swap limit reached", "You can only do 7 swaps per day.");
@@ -4779,10 +4849,10 @@
     }
 
     function resetSwapFields(){
+      clearTimeout(swapQuoteTimer);
       swapTopInput.value = "";
       swapBottomInput.value = "";
-      state.swap.quoteOut = null;
-      state.swap.minOut = null;
+      clearSwapQuote();
       fitNumericField(swapTopInput, 24, 13);
       fitNumericField(swapBottomInput, 24, 13);
     }
@@ -4791,12 +4861,37 @@
       state.pay.asset = asset;
       payAssetUsdc.classList.toggle("active", asset === "USDC");
       payAssetEurc.classList.toggle("active", asset === "EURC");
-      refreshPayUI();
+      schedulePayQuote(0);
     }
 
-    async function refreshPayQuote(){
+    function clearPayQuote(){
+      state.pay.lmtvNeeded = null;
+      state.pay.quotePending = false;
+    }
+
+    function schedulePayQuote(delay = 140){
+      clearTimeout(payQuoteTimer);
+      const runId = ++payQuoteSeq;
+
+      const hasAmount = !!payAmountInput.value.trim();
+      if (!hasAmount || !state.connected || !state.provider) {
+        clearPayQuote();
+        refreshPayUI();
+        return;
+      }
+
+      state.pay.quotePending = true;
+      refreshPayUI();
+
+      payQuoteTimer = setTimeout(async () => {
+        await refreshPayQuote(runId);
+      }, delay);
+    }
+
+    async function refreshPayQuote(runId = payQuoteSeq){
       if (!state.connected || !state.provider) {
-        state.pay.lmtvNeeded = null;
+        if (runId !== payQuoteSeq) return;
+        clearPayQuote();
         refreshPayUI();
         return;
       }
@@ -4806,7 +4901,8 @@
       const desiredOut = parseAmountToBN(amountText, state.tokenMeta[stable].decimals);
 
       if (!desiredOut || desiredOut.lte(0)) {
-        state.pay.lmtvNeeded = null;
+        if (runId !== payQuoteSeq) return;
+        clearPayQuote();
         refreshPayUI();
         return;
       }
@@ -4814,11 +4910,16 @@
       try{
         const pair = getPairForStable(stable, false);
         const amountIn = await quoteInputForDesiredOut(pair, ADDR.LMTV, ADDR[stable], desiredOut);
+        if (runId !== payQuoteSeq) return;
         state.pay.lmtvNeeded = amountIn;
       }catch(err){
         console.error(err);
+        if (runId !== payQuoteSeq) return;
         state.pay.lmtvNeeded = null;
       }
+
+      if (runId !== payQuoteSeq) return;
+      state.pay.quotePending = false;
       refreshPayUI();
     }
 
@@ -4888,6 +4989,13 @@
         return;
       }
 
+      if (state.pay.quotePending) {
+        payActionBtn.textContent = "Updating...";
+        payActionBtn.className = "action-btn disabled";
+        updateAssistant();
+        return;
+      }
+
       if (!state.pay.lmtvNeeded || state.balances.LMTV.lt(state.pay.lmtvNeeded)) {
         payActionBtn.textContent = "Insufficient balance";
         payActionBtn.className = "action-btn disabled danger";
@@ -4916,7 +5024,7 @@
     }
 
     async function doPay(){
-      if (!state.connected || state.pay.busy) return;
+      if (!state.connected || state.pay.busy || state.pay.quotePending) return;
 
       const recipient = payWalletInput.value.trim();
       if (!ethers.utils.isAddress(recipient)) {
@@ -4963,15 +5071,14 @@
       try{
         const pairAddr = stable === "EURC" ? ADDR.POOL_EURC : ADDR.POOL_USDC;
         const pair = getPairForStable(stable, true);
+        const exactIn = state.pay.lmtvNeeded;
 
-        const bufferedIn = state.pay.lmtvNeeded.mul(1005).div(1000);
-
-        await ensureAllowance("LMTV", pairAddr, bufferedIn);
+        await ensureAllowance("LMTV", pairAddr, exactIn);
         setPayStep(2);
         payPreviewStatus.textContent = "Swap LMTV";
 
         const beforeStableBal = state.balances[stable];
-        const txSwap = await pair.swap(ADDR.LMTV, bufferedIn);
+        const txSwap = await pair.swap(ADDR.LMTV, exactIn);
         await txSwap.wait();
 
         await refreshBalances();
@@ -5006,10 +5113,11 @@
     }
 
     function resetPayFields(){
+      clearTimeout(payQuoteTimer);
       payWalletInput.value = "";
       payAmountInput.value = "";
       payNoteInput.value = "";
-      state.pay.lmtvNeeded = null;
+      clearPayQuote();
       fitNumericField(payAmountInput, 24, 13);
       payFlowPanel.classList.remove("open");
       setPayStep(0);
@@ -5313,7 +5421,6 @@
         if (payload.note) payNoteInput.value = payload.note;
         setPayAsset(payload.asset === "EURC" ? "EURC" : "USDC");
         setPage("pay");
-        refreshPayQuote();
         return true;
       }catch{
         return false;
@@ -5364,7 +5471,12 @@
         }
 
         if (!swapTopInput.value.trim() && !swapBottomInput.value.trim()) {
-          setAssistant("success", "Swap", "Choose the side you want", "USDC ↔ LMTV works both ways. Max 10 dollars per swap.");
+          setAssistant("success", "Swap", "Choose the side you want", "USDC ↔ LMTV works both ways. MAX now uses safe max without dirty decimal dust.");
+          return;
+        }
+
+        if (state.swap.quotePending) {
+          setAssistant("warn", "Swap", "Refreshing quote", "StableFlow is recalculating the trade before letting you confirm.");
           return;
         }
 
@@ -5389,7 +5501,7 @@
           return;
         }
 
-        setAssistant("success", "Swap", "Ready to swap", "Review route and min received, then confirm in your wallet.");
+        setAssistant("success", "Swap", "Ready to swap", "Route, min received and MAX logic are updated. Confirm when ready.");
         return;
       }
 
@@ -5420,6 +5532,11 @@
           return;
         }
 
+        if (state.pay.quotePending) {
+          setAssistant("warn", "Pay", "Refreshing quote", "StableFlow is recalculating the exact LMTV needed.");
+          return;
+        }
+
         if (!state.pay.lmtvNeeded || state.balances.LMTV.lt(state.pay.lmtvNeeded)) {
           setAssistant("danger", "Pay", "Insufficient balance", "You need more LMTV for this payment.");
           return;
@@ -5430,7 +5547,7 @@
           return;
         }
 
-        setAssistant("success", "Pay", "Ready to pay", "StableFlow will swap LMTV and send the stable token to the recipient.");
+        setAssistant("success", "Pay", "Ready to pay", "Pay quote is smoother now and no longer uses a blind extra buffer.");
         return;
       }
 
@@ -5551,80 +5668,92 @@
       state.swap.slippage = 0.5;
       slippageRange.value = "0.5";
       slippageVal.textContent = "0.5%";
-      refreshSwapUI();
+      if (swapTopInput.value.trim() || swapBottomInput.value.trim()) {
+        scheduleSwapQuote("top", 0);
+      } else {
+        refreshSwapUI();
+      }
     });
 
     slippageRange.addEventListener("input", () => {
       state.swap.slippage = Number(slippageRange.value);
       slippageVal.textContent = `${state.swap.slippage.toFixed(1)}%`;
-      refreshSwapUI();
+      if (swapTopInput.value.trim() || swapBottomInput.value.trim()) {
+        scheduleSwapQuote("top", 0);
+      } else {
+        refreshSwapUI();
+      }
     });
 
-    swapTopInput.addEventListener("input", async () => {
+    swapTopInput.addEventListener("input", () => {
       swapTopInput.value = sanitizeNumeric(swapTopInput.value);
       state.swap.activeInput = "top";
       fitNumericField(swapTopInput, 24, 13);
-      await updateSwapQuoteFromTop();
+      scheduleSwapQuote("top");
       updateAssistant();
     });
 
-    swapBottomInput.addEventListener("input", async () => {
+    swapBottomInput.addEventListener("input", () => {
       swapBottomInput.value = sanitizeNumeric(swapBottomInput.value);
       state.swap.activeInput = "bottom";
       fitNumericField(swapBottomInput, 24, 13);
-      await updateSwapQuoteFromBottom();
+      scheduleSwapQuote("bottom");
       updateAssistant();
     });
 
     document.querySelectorAll("[data-quick]").forEach(btn => {
-      btn.addEventListener("click", async () => {
+      btn.addEventListener("click", () => {
         if (!state.connected) return;
-        const symbol = state.swap.activeInput === "top" ? state.swap.topToken : state.swap.bottomToken;
-        const decimals = state.tokenMeta[symbol].decimals;
+
+        const topSymbol = state.swap.topToken;
+        const decimals = state.tokenMeta[topSymbol].decimals;
+        const bal = state.balances[topSymbol] || ethers.BigNumber.from(0);
+
+        let target = ethers.BigNumber.from(0);
 
         if (btn.dataset.quick === "100") {
-          const maxBn = getSafeMax(symbol);
-          const val = formatUnitsSmart(maxBn, decimals, 6);
-          if (state.swap.activeInput === "top") {
-            swapTopInput.value = val;
-            await updateSwapQuoteFromTop();
-          } else {
-            swapBottomInput.value = val;
-            await updateSwapQuoteFromBottom();
-          }
+          target = getSafeMaxForSwapInput(topSymbol);
         } else {
           const pct = Number(btn.dataset.quick) / 100;
-          const baseSymbol = state.swap.activeInput === "top" ? state.swap.topToken : state.swap.bottomToken;
-          const bal = state.balances[baseSymbol];
-          const part = bal.mul(Math.floor(pct * 10000)).div(10000);
-          const val = formatUnitsSmart(part, state.tokenMeta[baseSymbol].decimals, 6);
-          if (state.swap.activeInput === "top") {
-            swapTopInput.value = val;
-            await updateSwapQuoteFromTop();
-          } else {
-            swapBottomInput.value = val;
-            await updateSwapQuoteFromBottom();
-          }
+          const safeMax = getSafeMaxForSwapInput(topSymbol);
+          target = safeMax.mul(Math.floor(pct * 10000)).div(10000);
         }
+
+        const val = formatUnitsSmart(target, decimals, topSymbol === "USDC" ? 4 : 6);
+        swapTopInput.value = val;
+        state.swap.activeInput = "top";
+        fitNumericField(swapTopInput, 24, 13);
+        scheduleSwapQuote("top", 0);
       });
     });
 
-    swapFlipBtn.addEventListener("click", async () => {
+    swapFlipBtn.addEventListener("click", () => {
       const oldTopToken = state.swap.topToken;
       const oldTopValue = swapTopInput.value;
+      const oldBottomValue = swapBottomInput.value;
 
       state.swap.topToken = state.swap.bottomToken;
       state.swap.bottomToken = oldTopToken;
 
-      swapTopInput.value = swapBottomInput.value;
+      swapTopInput.value = oldBottomValue;
       swapBottomInput.value = oldTopValue;
+      state.swap.activeInput = "top";
 
       swapFlipBtn.classList.add("spinning");
       setTimeout(() => swapFlipBtn.classList.remove("spinning"), 360);
 
       fitNumericField(swapTopInput, 24, 13);
       fitNumericField(swapBottomInput, 24, 13);
-      refreshSwapUI();
+
+      if (swapTopInput.value.trim()) {
+        scheduleSwapQuote("top", 0);
+      } else if (swapBottomInput.value.trim()) {
+        scheduleSwapQuote("bottom", 0);
+      } else {
+        clearSwapQuote();
+        refreshSwapUI();
+      }
+
       updateAssistant();
     });
 
@@ -5644,21 +5773,14 @@
       refreshPayUI();
     });
 
-    payAssetUsdc.addEventListener("click", async () => {
-      setPayAsset("USDC");
-      await refreshPayQuote();
-    });
-
-    payAssetEurc.addEventListener("click", async () => {
-      setPayAsset("EURC");
-      await refreshPayQuote();
-    });
+    payAssetUsdc.addEventListener("click", () => setPayAsset("USDC"));
+    payAssetEurc.addEventListener("click", () => setPayAsset("EURC"));
 
     payWalletInput.addEventListener("input", refreshPayUI);
-    payAmountInput.addEventListener("input", async () => {
+    payAmountInput.addEventListener("input", () => {
       payAmountInput.value = sanitizeNumeric(payAmountInput.value);
       fitNumericField(payAmountInput, 24, 13);
-      await refreshPayQuote();
+      schedulePayQuote();
     });
     payNoteInput.addEventListener("input", refreshPayUI);
 
