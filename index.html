@@ -831,6 +831,33 @@
       text-transform:uppercase;
     }
 
+    .qr-glyph{
+      width:16px;
+      height:16px;
+      display:grid;
+      grid-template-columns:repeat(3,1fr);
+      gap:1px;
+      flex:0 0 auto;
+    }
+
+    .qr-glyph i{
+      display:block;
+      background:currentColor;
+      border-radius:1px;
+      opacity:.95;
+    }
+
+    .qr-glyph i.blank{
+      opacity:.18;
+    }
+
+    .btn-with-icon{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      gap:8px;
+    }
+
     /* connect */
     .connect-stars{
       border-radius:18px;
@@ -1815,7 +1842,6 @@
       background:linear-gradient(180deg,#1b242d 0%, #151d25 100%);
       border:1px solid var(--stroke);
       box-shadow:var(--shadow-soft);
-      font-size:18px;
       color:#f3c972;
       flex:0 0 auto;
     }
@@ -2916,7 +2942,6 @@
       .qr-btn{
         height:40px;
         border-radius:12px;
-        font-size:15px;
       }
 
       .wide-input{
@@ -3540,7 +3565,13 @@
                     </div>
 
                     <div class="pay-grid-top">
-                      <button class="qr-btn" id="payQrBtn" type="button">⌗</button>
+                      <button class="qr-btn" id="payQrBtn" type="button" aria-label="Scan QR code">
+                        <span class="qr-glyph" aria-hidden="true">
+                          <i></i><i></i><i></i>
+                          <i></i><i class="blank"></i><i></i>
+                          <i></i><i></i><i></i>
+                        </span>
+                      </button>
                       <input class="wide-input" id="payWalletInput" placeholder="Recipient wallet" />
                     </div>
 
@@ -3659,7 +3690,14 @@
 
                     <textarea class="note-input" id="requestNoteInput" rows="2" placeholder="Optional note"></textarea>
 
-                    <button class="action-btn" id="requestGenerateBtn" type="button">Generate</button>
+                    <button class="action-btn btn-with-icon" id="requestGenerateBtn" type="button">
+                      <span class="qr-glyph" aria-hidden="true">
+                        <i></i><i></i><i></i>
+                        <i></i><i class="blank"></i><i></i>
+                        <i></i><i></i><i></i>
+                      </span>
+                      <span>Generate</span>
+                    </button>
 
                     <div class="request-result" id="requestResult">
                       <div class="request-result-head">
@@ -3811,7 +3849,9 @@
       scanner: {
         stream: null,
         timer: null
-      }
+      },
+      assistantHoldUntil: 0,
+      assistantHoldTimer: null
     };
 
     const app = document.getElementById("app");
@@ -4039,6 +4079,16 @@
       assistantKicker.textContent = kicker;
       assistantTitle.textContent = title;
       assistantText.textContent = text;
+    }
+
+    function holdAssistant(tone, kicker, title, text, ms = 2000){
+      state.assistantHoldUntil = Date.now() + ms;
+      clearTimeout(state.assistantHoldTimer);
+      setAssistant(tone, kicker, title, text);
+      state.assistantHoldTimer = setTimeout(() => {
+        state.assistantHoldUntil = 0;
+        updateAssistant();
+      }, ms);
     }
 
     function updateConnectLabel(){
@@ -4504,8 +4554,11 @@
         swapMinReceived.textContent = "—";
       }
 
-      const target = state.swap.activeInput === "top" ? swapTopInput.value.trim() : swapBottomInput.value.trim();
-      swapQuickRow.classList.toggle("hidden", !target && !state.connected);
+      const hasTyped =
+        !!swapTopInput.value.trim() ||
+        !!swapBottomInput.value.trim();
+
+      swapQuickRow.classList.toggle("hidden", !hasTyped);
 
       if (!state.connected) {
         swapStatus.textContent = "Connect wallet to start";
@@ -4622,7 +4675,7 @@
         await refreshBalances();
         resetSwapFields();
 
-        setAssistant("success", "Swap", "Swap complete", `${inputSymbol} → ${outputSymbol} completed successfully.`);
+        holdAssistant("success", "Swap", "Transaction completed ✓", `${inputSymbol} → ${outputSymbol} completed successfully.`, 2000);
       }catch(err){
         console.error(err);
         setAssistant("danger", "Swap", "Swap failed", "The transaction was rejected or failed on-chain.");
@@ -4847,7 +4900,7 @@
         resetPayFields();
 
         payPreviewStatus.textContent = "Complete";
-        setAssistant("success", "Pay", "Payment complete", `${desiredText} ${stable} was sent to the recipient.`);
+        holdAssistant("success", "Pay", "Transaction completed ✓", `${desiredText} ${stable} was sent to the recipient.`, 2000);
       }catch(err){
         console.error(err);
         payPreviewStatus.textContent = "Failed";
@@ -4900,6 +4953,13 @@
     }
 
     function generateRequest(){
+      if (!state.connected) {
+        openShell();
+        setPage("connect");
+        setAssistant("warn", "Connect", "Wallet required", "Connect your wallet before generating a payment QR.");
+        return;
+      }
+
       const wallet = requestWalletInput.value.trim();
       const amount = Number(requestAmountInput.value || 0);
       const note = state.request.hideNote ? "" : requestNoteInput.value.trim();
@@ -5177,6 +5237,8 @@
     }
 
     function updateAssistant(){
+      if (Date.now() < state.assistantHoldUntil) return;
+
       if (!state.connected) {
         if (!state.shellOpen) {
           setAssistant("warn", "Connect", "Open the shell", "Tap Connect to wake up StableFlow.");
@@ -5185,6 +5247,11 @@
 
         if (state.currentPage === "connect") {
           setAssistant("warn", "Connect", "MetaMask recommended", "Wallet browser and extension both work. Arc Testnet is required.");
+          return;
+        }
+
+        if (state.currentPage === "get-paid") {
+          setAssistant("warn", "Get Paid", "Connect required", "Generate takes you to Connect when no wallet is active.");
           return;
         }
 
