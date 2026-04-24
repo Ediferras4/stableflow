@@ -152,8 +152,6 @@
       padding:14px 8px 12px;
       display:flex;
       flex-direction:column;
-      align-items:center;
-      gap:14px;
       z-index:20;
       background:
         radial-gradient(circle at 88% 26%, rgba(81,181,243,.08), transparent 28%),
@@ -172,6 +170,25 @@
       filter:blur(7px);
       pointer-events:none;
       opacity:.58;
+    }
+
+    .sidebar-top{
+      width:100%;
+      display:flex;
+      flex-direction:column;
+      gap:10px;
+      z-index:2;
+    }
+
+    .nav-stack{
+      flex:1;
+      width:100%;
+      display:flex;
+      flex-direction:column;
+      justify-content:space-evenly;
+      gap:12px;
+      padding:8px 0 2px;
+      z-index:2;
     }
 
     .side-btn{
@@ -232,7 +249,6 @@
     .connect-btn{
       height:70px;
       border-radius:20px;
-      margin-bottom:2px;
       box-shadow:
         inset 0 0 0 1px rgba(255,255,255,.08),
         inset 0 0 0 3px rgba(255,255,255,.015),
@@ -2483,6 +2499,98 @@
       padding:0 8px;
     }
 
+    .more-placeholder{
+      min-height:360px;
+      border-radius:24px;
+      padding:18px;
+      background:
+        radial-gradient(circle at 16% 18%, rgba(113,211,255,.05), transparent 22%),
+        radial-gradient(circle at 84% 74%, rgba(216,174,107,.04), transparent 18%),
+        linear-gradient(180deg,#17212a 0%, #121920 100%);
+      border:1px solid rgba(134,186,226,.08);
+      box-shadow:var(--shadow);
+      display:flex;
+      flex-direction:column;
+      justify-content:space-between;
+      overflow:hidden;
+      position:relative;
+    }
+
+    .more-placeholder::before{
+      content:"";
+      position:absolute;
+      inset:10px;
+      border-radius:18px;
+      border:1px solid rgba(255,255,255,.03);
+      pointer-events:none;
+    }
+
+    .more-ghost-top{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
+    }
+
+    .more-ghost-pill{
+      height:24px;
+      border-radius:999px;
+      background:linear-gradient(180deg,#1d2832 0%, #171f28 100%);
+      border:1px solid rgba(255,255,255,.04);
+      opacity:.9;
+    }
+
+    .more-ghost-pill.sm{ width:72px; }
+    .more-ghost-pill.md{ width:112px; }
+    .more-ghost-pill.lg{ width:142px; }
+
+    .more-ghost-grid{
+      display:grid;
+      grid-template-columns:repeat(2,minmax(0,1fr));
+      gap:10px;
+      margin-top:18px;
+    }
+
+    .more-ghost-card{
+      min-height:92px;
+      border-radius:18px;
+      background:linear-gradient(180deg,#1a242d 0%, #141c24 100%);
+      border:1px solid rgba(255,255,255,.04);
+      box-shadow:var(--shadow-soft);
+      position:relative;
+      overflow:hidden;
+    }
+
+    .more-ghost-card::after{
+      content:"";
+      position:absolute;
+      left:12px;
+      right:12px;
+      top:18px;
+      height:8px;
+      border-radius:999px;
+      background:linear-gradient(90deg, rgba(113,211,255,.22), rgba(216,174,107,.14));
+      opacity:.66;
+    }
+
+    .more-placeholder-foot{
+      display:flex;
+      flex-direction:column;
+      gap:8px;
+      margin-top:20px;
+    }
+
+    .more-ghost-line{
+      height:10px;
+      border-radius:999px;
+      background:linear-gradient(90deg, rgba(255,255,255,.10), rgba(255,255,255,.03));
+      opacity:.76;
+    }
+
+    .more-ghost-line.w1{ width:58%; }
+    .more-ghost-line.w2{ width:74%; }
+    .more-ghost-line.w3{ width:46%; }
+
     .cover{
       position:absolute;
       inset:0;
@@ -2677,6 +2785,11 @@
       }
 
       .pages-area{ top:130px; }
+
+      .nav-stack{
+        gap:10px;
+        padding:6px 0 0;
+      }
 
       .assistant-bar{
         min-height:74px;
@@ -3176,6 +3289,21 @@
         font-size:8px;
       }
 
+      .more-placeholder{
+        min-height:300px;
+        padding:14px;
+        border-radius:20px;
+      }
+
+      .more-ghost-grid{
+        gap:8px;
+      }
+
+      .more-ghost-card{
+        min-height:78px;
+        border-radius:14px;
+      }
+
       .cover-title{ font-size:34px; }
       .cover-logo{
         width:98px;
@@ -3208,40 +3336,51 @@
 
     <div class="workspace">
       <aside class="sidebar">
-        <button class="side-btn connect-btn" id="connectBtn" type="button">
-          <div class="inner">
-            <div class="icon-fallback">▶</div>
-            <div class="label" id="connectLabel">CONNECT</div>
-          </div>
-        </button>
+        <div class="sidebar-top">
+          <button class="side-btn connect-btn" id="connectBtn" type="button">
+            <div class="inner">
+              <div class="icon-fallback">▶</div>
+              <div class="label" id="connectLabel">CONNECT</div>
+            </div>
+          </button>
+        </div>
 
-        <button class="side-btn nav-btn" data-page="swap" type="button">
-          <div class="inner">
-            <div class="icon-fallback">⇄</div>
-            <div class="label">SWAP</div>
-          </div>
-        </button>
+        <div class="nav-stack">
+          <button class="side-btn nav-btn" data-page="swap" type="button">
+            <div class="inner">
+              <div class="icon-fallback">⇄</div>
+              <div class="label">SWAP</div>
+            </div>
+          </button>
 
-        <button class="side-btn home-btn" data-page="home" type="button">
-          <div class="inner">
-            <div class="icon-fallback">⌂</div>
-            <div class="label">HOME</div>
-          </div>
-        </button>
+          <button class="side-btn home-btn" data-page="home" type="button">
+            <div class="inner">
+              <div class="icon-fallback">⌂</div>
+              <div class="label">HOME</div>
+            </div>
+          </button>
 
-        <button class="side-btn nav-btn" data-page="pay" type="button">
-          <div class="inner">
-            <div class="icon-fallback">Σ</div>
-            <div class="label">PAY</div>
-          </div>
-        </button>
+          <button class="side-btn nav-btn" data-page="pay" type="button">
+            <div class="inner">
+              <div class="icon-fallback">Σ</div>
+              <div class="label">PAY</div>
+            </div>
+          </button>
 
-        <button class="side-btn nav-btn" data-page="get-paid" type="button">
-          <div class="inner">
-            <div class="icon-fallback">▣</div>
-            <div class="label">GET PAID</div>
-          </div>
-        </button>
+          <button class="side-btn nav-btn" data-page="get-paid" type="button">
+            <div class="inner">
+              <div class="icon-fallback">▣</div>
+              <div class="label">GET PAID</div>
+            </div>
+          </button>
+
+          <button class="side-btn nav-btn" data-page="more" type="button">
+            <div class="inner">
+              <div class="icon-fallback">⋯</div>
+              <div class="label">MORE</div>
+            </div>
+          </button>
+        </div>
       </aside>
 
       <main class="main">
@@ -3560,7 +3699,7 @@
                       <div class="summary-box">
                         <div class="summary-kicker">LMTV needed</div>
                         <div class="summary-value" id="payQuoteLeft">—</div>
-                        <div class="summary-foot" id="payBufferFoot">dynamic buffer active</div>
+                        <div class="summary-foot" id="payBufferFoot">buffer ready</div>
                       </div>
 
                       <div class="flow-orb" id="payFlowOrb">
@@ -3681,6 +3820,37 @@
                     </div>
                   </div>
                 </div>
+
+                <div class="page-view" data-view="more">
+                  <div class="page-shell">
+                    <div>
+                      <div class="section-title">More</div>
+                      <div class="section-sub">Shell placeholder ready for the next lapidation.</div>
+                    </div>
+
+                    <div class="more-placeholder">
+                      <div>
+                        <div class="more-ghost-top">
+                          <div class="more-ghost-pill md"></div>
+                          <div class="more-ghost-pill sm"></div>
+                        </div>
+
+                        <div class="more-ghost-grid">
+                          <div class="more-ghost-card"></div>
+                          <div class="more-ghost-card"></div>
+                          <div class="more-ghost-card"></div>
+                          <div class="more-ghost-card"></div>
+                        </div>
+                      </div>
+
+                      <div class="more-placeholder-foot">
+                        <div class="more-ghost-line w2"></div>
+                        <div class="more-ghost-line w1"></div>
+                        <div class="more-ghost-line w3"></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </div>
             </section>
 
@@ -3751,6 +3921,642 @@
       "function swap(address tokenIn,uint256 amountIn)"
     ];
 
+    const ASSISTANT_I18N = {
+      en: {
+        fallback: {
+          kicker: "Assistant",
+          title: "StableFlow",
+          text: "Ready."
+        },
+
+        onboarding_1: {
+          kicker: "Hello",
+          title: "StableFlow is awake",
+          text: "Connect your wallet to begin on Arc Testnet."
+        },
+        onboarding_2: {
+          kicker: "Guide",
+          title: "Arc Testnet required",
+          text: "Use Arc Testnet before trying swap or pay."
+        },
+        onboarding_3: {
+          kicker: "Guide",
+          title: "MetaMask works best",
+          text: "MetaMask is the smoothest option here, but other wallets can work too."
+        },
+
+        shell_closed: {
+          kicker: "Connect",
+          title: "Open the shell",
+          text: "Tap Connect to wake up StableFlow."
+        },
+        connect_page: {
+          kicker: "Connect",
+          title: "MetaMask recommended",
+          text: "Browser extension and in-wallet browser both work. Arc Testnet is required."
+        },
+        browse_page: {
+          kicker: "Browse",
+          title: "You can look around first",
+          text: "Connect your wallet when you want real balances and actions."
+        },
+        get_paid_connect_required: {
+          kicker: "Get Paid",
+          title: "Connect required",
+          text: "Generate takes you to Connect when no wallet is active."
+        },
+
+        home_ready: {
+          kicker: "Home guide",
+          title: "Your profile grows with activity",
+          text: "Each successful swap or pay adds +1 LV until level 10."
+        },
+
+        swap_empty: {
+          kicker: "Swap",
+          title: "Choose your swap direction",
+          text: "USDC ↔ LMTV works in both directions. First approval helps future swaps run faster."
+        },
+        swap_refreshing: {
+          kicker: "Swap",
+          title: "Refreshing quote",
+          text: "StableFlow is recalculating the trade before letting you confirm."
+        },
+        swap_limit: {
+          kicker: "Swap",
+          title: "Pool protection active",
+          text: "Each swap is limited to 10 dollars."
+        },
+        swap_balance: {
+          kicker: "Swap",
+          title: "Insufficient balance",
+          text: "You do not have enough {token}."
+        },
+        swap_busy: {
+          kicker: "Swap",
+          title: "Transaction in progress",
+          text: "Check your wallet and wait for confirmation."
+        },
+        swap_ready: {
+          kicker: "Swap",
+          title: "Ready to swap",
+          text: "Route, minimum received and MAX logic are updated. Confirm when ready."
+        },
+        swap_prepare: {
+          kicker: "Swap",
+          title: "Preparing swap",
+          text: "StableFlow is preparing your {token} swap."
+        },
+        swap_confirm: {
+          kicker: "Swap",
+          title: "Confirm swap",
+          text: "Confirm the swap in MetaMask."
+        },
+        swap_success: {
+          kicker: "Swap",
+          title: "Transaction completed ✓",
+          text: "{from} → {to} completed successfully."
+        },
+        swap_fail: {
+          kicker: "Swap",
+          title: "Swap failed",
+          text: "The transaction was rejected or failed on-chain."
+        },
+        approve_swap: {
+          kicker: "Approve",
+          title: "Approve {token}",
+          text: "First-time approval helps future swaps run faster. Confirm in MetaMask."
+        },
+
+        pay_recipient_required: {
+          kicker: "Pay",
+          title: "Recipient wallet required",
+          text: "Paste or scan the wallet that will receive the payment."
+        },
+        pay_invalid_wallet: {
+          kicker: "Pay",
+          title: "Invalid wallet",
+          text: "The recipient address is not valid."
+        },
+        pay_amount_required: {
+          kicker: "Pay",
+          title: "Amount required",
+          text: "Choose USDC or EURC and enter the amount to send."
+        },
+        pay_recipient_ready: {
+          kicker: "Pay",
+          title: "Recipient ready",
+          text: "Now enter the amount to continue."
+        },
+        pay_quote_refreshing: {
+          kicker: "Pay",
+          title: "Refreshing quote",
+          text: "StableFlow is recalculating the exact LMTV needed."
+        },
+        pay_limit: {
+          kicker: "Pay",
+          title: "Pool protection active",
+          text: "Each payment is limited to 10 dollars."
+        },
+        pay_balance: {
+          kicker: "Pay",
+          title: "Insufficient balance",
+          text: "You need more LMTV for this payment."
+        },
+        pay_busy: {
+          kicker: "Pay",
+          title: "Payment in progress",
+          text: "StableFlow is following the wallet step by step."
+        },
+        pay_ready: {
+          kicker: "Pay",
+          title: "Ready to pay",
+          text: "The pay flow now checks the final stable balance before transfer."
+        },
+        pay_flow_approve: {
+          kicker: "Pay flow",
+          title: "1/3 Approve",
+          text: "Approve LMTV in MetaMask to continue."
+        },
+        pay_flow_swap_after_approve: {
+          kicker: "Pay flow",
+          title: "2/3 Swap",
+          text: "Approval confirmed. Now confirm the swap in MetaMask."
+        },
+        pay_flow_swap_no_approve: {
+          kicker: "Pay flow",
+          title: "1/2 Swap",
+          text: "Allowance is ready. Now confirm the swap in MetaMask."
+        },
+        pay_flow_transfer_3: {
+          kicker: "Pay flow",
+          title: "3/3 Transfer",
+          text: "Swap completed. {amount} {asset} arrived. Confirm the transfer now."
+        },
+        pay_flow_transfer_2: {
+          kicker: "Pay flow",
+          title: "2/2 Transfer",
+          text: "Swap completed. {amount} {asset} arrived. Confirm the transfer now."
+        },
+        pay_target_fail: {
+          kicker: "Pay flow",
+          title: "Target not reached",
+          text: "Swap completed but the exact stable target was not reached. Try again."
+        },
+        pay_transfer_fail: {
+          kicker: "Pay flow",
+          title: "Transfer failed",
+          text: "The final transfer was rejected or failed."
+        },
+        pay_approve_fail: {
+          kicker: "Pay flow",
+          title: "Approve failed",
+          text: "The approval was rejected or failed."
+        },
+        pay_swap_fail: {
+          kicker: "Pay flow",
+          title: "Swap failed",
+          text: "The swap transaction was rejected or failed."
+        },
+        pay_fail: {
+          kicker: "Pay",
+          title: "Payment failed",
+          text: "The payment flow failed or was rejected."
+        },
+        pay_success: {
+          kicker: "Pay",
+          title: "Transaction completed ✓",
+          text: "{amount} {asset} was sent to the recipient."
+        },
+
+        get_paid_receiver: {
+          kicker: "Get Paid",
+          title: "Receiver wallet required",
+          text: "StableFlow can start with your connected wallet automatically."
+        },
+        get_paid_amount: {
+          kicker: "Get Paid",
+          title: "Choose an amount and asset",
+          text: "This page only creates a QR request. The payer decides later how to pay."
+        },
+        get_paid_ready: {
+          kicker: "Get Paid",
+          title: "Ready to generate",
+          text: "This QR is larger and stronger for real camera reading."
+        },
+        get_paid_generated: {
+          kicker: "Get Paid",
+          title: "Request generated",
+          text: "Your QR request is ready to share or scan."
+        },
+        get_paid_copy: {
+          kicker: "Get Paid",
+          title: "Link copied",
+          text: "The payment request link is in your clipboard."
+        },
+        get_paid_share: {
+          kicker: "Get Paid",
+          title: "Shared",
+          text: "The payment request was shared successfully."
+        },
+        get_paid_copy_fail: {
+          kicker: "Get Paid",
+          title: "Copy failed",
+          text: "Clipboard access was blocked on this browser."
+        },
+        get_paid_invalid_wallet: {
+          kicker: "Get Paid",
+          title: "Receiver wallet required",
+          text: "Enter a valid receiver wallet before generating the request."
+        },
+        get_paid_invalid_amount: {
+          kicker: "Get Paid",
+          title: "Invalid amount",
+          text: "Enter a valid request amount."
+        },
+        get_paid_limit: {
+          kicker: "Get Paid",
+          title: "Max 1000",
+          text: "A payment request can be at most 1000 dollars."
+        },
+
+        more_placeholder: {
+          kicker: "More",
+          title: "Shell placeholder ready",
+          text: "This area is back and ready for the next lapidation."
+        },
+
+        scanner_unavailable: {
+          kicker: "Scanner",
+          title: "Camera unavailable",
+          text: "This browser does not support camera access."
+        },
+        scanner_blocked: {
+          kicker: "Scanner",
+          title: "Camera blocked",
+          text: "Allow camera access to scan the QR code."
+        },
+        scanner_loaded: {
+          kicker: "Scanner",
+          title: "Request loaded",
+          text: "The payment request was loaded into Pay."
+        },
+
+        wallet_none: {
+          kicker: "Wallet",
+          title: "No wallet detected",
+          text: "Install MetaMask or open StableFlow in a wallet browser."
+        },
+        wallet_no_provider: {
+          kicker: "Wallet",
+          title: "No provider found",
+          text: "StableFlow could not find an injected wallet provider."
+        },
+        wallet_connected: {
+          kicker: "Wallet",
+          title: "{wallet} connected",
+          text: "StableFlow is live on Arc Testnet."
+        },
+        wallet_failed: {
+          kicker: "Wallet",
+          title: "Connection failed",
+          text: "The wallet connection was rejected or interrupted."
+        },
+        network_failed: {
+          kicker: "Network",
+          title: "Arc setup failed",
+          text: "Please add or switch to Arc Testnet and try again."
+        },
+        network_wrong: {
+          kicker: "Network",
+          title: "Wrong network",
+          text: "Please switch back to Arc Testnet."
+        },
+        disconnected: {
+          kicker: "Disconnected",
+          title: "Wallet disconnected",
+          text: "Open the shell again when you want to reconnect."
+        }
+      },
+
+      es: {
+        fallback: {
+          kicker: "Asistente",
+          title: "StableFlow",
+          text: "Listo."
+        },
+
+        onboarding_1: {
+          kicker: "Hola",
+          title: "StableFlow está activo",
+          text: "Conecta tu wallet para empezar en Arc Testnet."
+        },
+        onboarding_2: {
+          kicker: "Guía",
+          title: "Arc Testnet es obligatoria",
+          text: "Usa Arc Testnet antes de probar swap o pay."
+        },
+        onboarding_3: {
+          kicker: "Guía",
+          title: "MetaMask funciona mejor",
+          text: "MetaMask es la opción más fluida aquí, aunque otras wallets también pueden funcionar."
+        },
+
+        shell_closed: {
+          kicker: "Connect",
+          title: "Abre la shell",
+          text: "Toca Connect para activar StableFlow."
+        },
+        connect_page: {
+          kicker: "Connect",
+          title: "MetaMask recomendada",
+          text: "La extensión del navegador y el navegador interno de la wallet funcionan. Arc Testnet es obligatoria."
+        },
+        browse_page: {
+          kicker: "Browse",
+          title: "Puedes mirar primero",
+          text: "Conecta tu wallet cuando quieras balances y acciones reales."
+        },
+        get_paid_connect_required: {
+          kicker: "Get Paid",
+          title: "Conexión requerida",
+          text: "Generate te lleva a Connect cuando no hay una wallet activa."
+        },
+
+        home_ready: {
+          kicker: "Home guide",
+          title: "Tu perfil crece con actividad",
+          text: "Cada swap o pay exitoso suma +1 LV hasta el nivel 10."
+        },
+
+        swap_empty: {
+          kicker: "Swap",
+          title: "Elige la dirección del swap",
+          text: "USDC ↔ LMTV funciona en ambas direcciones. La primera aprobación ayuda a que los próximos swaps sean más rápidos."
+        },
+        swap_refreshing: {
+          kicker: "Swap",
+          title: "Actualizando cotización",
+          text: "StableFlow está recalculando el trade antes de dejarte confirmar."
+        },
+        swap_limit: {
+          kicker: "Swap",
+          title: "Protección de pool activa",
+          text: "Cada swap está limitado a 10 dólares."
+        },
+        swap_balance: {
+          kicker: "Swap",
+          title: "Saldo insuficiente",
+          text: "No tienes suficiente {token}."
+        },
+        swap_busy: {
+          kicker: "Swap",
+          title: "Transacción en curso",
+          text: "Revisa tu wallet y espera la confirmación."
+        },
+        swap_ready: {
+          kicker: "Swap",
+          title: "Listo para swap",
+          text: "La ruta, el mínimo recibido y la lógica MAX ya están actualizados. Confirma cuando quieras."
+        },
+        swap_prepare: {
+          kicker: "Swap",
+          title: "Preparando swap",
+          text: "StableFlow está preparando tu swap de {token}."
+        },
+        swap_confirm: {
+          kicker: "Swap",
+          title: "Confirma el swap",
+          text: "Confirma el swap en MetaMask."
+        },
+        swap_success: {
+          kicker: "Swap",
+          title: "Transacción completada ✓",
+          text: "{from} → {to} se completó con éxito."
+        },
+        swap_fail: {
+          kicker: "Swap",
+          title: "El swap falló",
+          text: "La transacción fue rechazada o falló en cadena."
+        },
+        approve_swap: {
+          kicker: "Approve",
+          title: "Aprueba {token}",
+          text: "La primera aprobación ayuda a que los futuros swaps sean más rápidos. Confirma en MetaMask."
+        },
+
+        pay_recipient_required: {
+          kicker: "Pay",
+          title: "Wallet del destinatario requerida",
+          text: "Pega o escanea la wallet que recibirá el pago."
+        },
+        pay_invalid_wallet: {
+          kicker: "Pay",
+          title: "Wallet inválida",
+          text: "La dirección del destinatario no es válida."
+        },
+        pay_amount_required: {
+          kicker: "Pay",
+          title: "Falta el monto",
+          text: "Elige USDC o EURC y escribe el monto a enviar."
+        },
+        pay_recipient_ready: {
+          kicker: "Pay",
+          title: "Destinatario listo",
+          text: "Ahora escribe el monto para continuar."
+        },
+        pay_quote_refreshing: {
+          kicker: "Pay",
+          title: "Actualizando cotización",
+          text: "StableFlow está recalculando el LMTV exacto necesario."
+        },
+        pay_limit: {
+          kicker: "Pay",
+          title: "Protección de pool activa",
+          text: "Cada pago está limitado a 10 dólares."
+        },
+        pay_balance: {
+          kicker: "Pay",
+          title: "Saldo insuficiente",
+          text: "Necesitas más LMTV para este pago."
+        },
+        pay_busy: {
+          kicker: "Pay",
+          title: "Pago en curso",
+          text: "StableFlow está siguiendo la wallet paso a paso."
+        },
+        pay_ready: {
+          kicker: "Pay",
+          title: "Listo para pagar",
+          text: "El flujo de pay ahora revisa el balance final del stable antes de transferir."
+        },
+        pay_flow_approve: {
+          kicker: "Pay flow",
+          title: "1/3 Aprobar",
+          text: "Aprueba LMTV en MetaMask para continuar."
+        },
+        pay_flow_swap_after_approve: {
+          kicker: "Pay flow",
+          title: "2/3 Swap",
+          text: "Aprobación confirmada. Ahora confirma el swap en MetaMask."
+        },
+        pay_flow_swap_no_approve: {
+          kicker: "Pay flow",
+          title: "1/2 Swap",
+          text: "El allowance ya está listo. Ahora confirma el swap en MetaMask."
+        },
+        pay_flow_transfer_3: {
+          kicker: "Pay flow",
+          title: "3/3 Transferencia",
+          text: "Swap completado. Llegaron {amount} {asset}. Confirma la transferencia ahora."
+        },
+        pay_flow_transfer_2: {
+          kicker: "Pay flow",
+          title: "2/2 Transferencia",
+          text: "Swap completado. Llegaron {amount} {asset}. Confirma la transferencia ahora."
+        },
+        pay_target_fail: {
+          kicker: "Pay flow",
+          title: "Objetivo no alcanzado",
+          text: "El swap se completó pero no se alcanzó el stable exacto. Intenta de nuevo."
+        },
+        pay_transfer_fail: {
+          kicker: "Pay flow",
+          title: "La transferencia falló",
+          text: "La transferencia final fue rechazada o falló."
+        },
+        pay_approve_fail: {
+          kicker: "Pay flow",
+          title: "La aprobación falló",
+          text: "La aprobación fue rechazada o falló."
+        },
+        pay_swap_fail: {
+          kicker: "Pay flow",
+          title: "El swap falló",
+          text: "La transacción de swap fue rechazada o falló."
+        },
+        pay_fail: {
+          kicker: "Pay",
+          title: "El pago falló",
+          text: "El flujo de pago falló o fue rechazado."
+        },
+        pay_success: {
+          kicker: "Pay",
+          title: "Transacción completada ✓",
+          text: "{amount} {asset} se envió al destinatario."
+        },
+
+        get_paid_receiver: {
+          kicker: "Get Paid",
+          title: "Wallet receptora requerida",
+          text: "StableFlow puede empezar con tu wallet conectada automáticamente."
+        },
+        get_paid_amount: {
+          kicker: "Get Paid",
+          title: "Elige monto y activo",
+          text: "Esta página solo crea un QR de cobro. El pagador decide después cómo pagar."
+        },
+        get_paid_ready: {
+          kicker: "Get Paid",
+          title: "Listo para generar",
+          text: "Este QR es más grande y más fuerte para lectura real con cámara."
+        },
+        get_paid_generated: {
+          kicker: "Get Paid",
+          title: "Solicitud generada",
+          text: "Tu solicitud QR está lista para compartir o escanear."
+        },
+        get_paid_copy: {
+          kicker: "Get Paid",
+          title: "Enlace copiado",
+          text: "El enlace de la solicitud quedó en tu portapapeles."
+        },
+        get_paid_share: {
+          kicker: "Get Paid",
+          title: "Compartido",
+          text: "La solicitud de pago se compartió correctamente."
+        },
+        get_paid_copy_fail: {
+          kicker: "Get Paid",
+          title: "La copia falló",
+          text: "El acceso al portapapeles fue bloqueado en este navegador."
+        },
+        get_paid_invalid_wallet: {
+          kicker: "Get Paid",
+          title: "Wallet receptora requerida",
+          text: "Introduce una wallet receptora válida antes de generar la solicitud."
+        },
+        get_paid_invalid_amount: {
+          kicker: "Get Paid",
+          title: "Monto inválido",
+          text: "Introduce un monto válido para la solicitud."
+        },
+        get_paid_limit: {
+          kicker: "Get Paid",
+          title: "Máximo 1000",
+          text: "Una solicitud de pago puede ser como máximo de 1000 dólares."
+        },
+
+        more_placeholder: {
+          kicker: "More",
+          title: "Shell placeholder lista",
+          text: "Esta área volvió y ya está lista para la próxima lapidación."
+        },
+
+        scanner_unavailable: {
+          kicker: "Scanner",
+          title: "Cámara no disponible",
+          text: "Este navegador no soporta acceso a la cámara."
+        },
+        scanner_blocked: {
+          kicker: "Scanner",
+          title: "Cámara bloqueada",
+          text: "Permite el acceso a la cámara para escanear el QR."
+        },
+        scanner_loaded: {
+          kicker: "Scanner",
+          title: "Solicitud cargada",
+          text: "La solicitud de pago fue cargada en Pay."
+        },
+
+        wallet_none: {
+          kicker: "Wallet",
+          title: "No se detectó wallet",
+          text: "Instala MetaMask o abre StableFlow dentro del navegador de una wallet."
+        },
+        wallet_no_provider: {
+          kicker: "Wallet",
+          title: "No se encontró provider",
+          text: "StableFlow no pudo encontrar un provider de wallet inyectado."
+        },
+        wallet_connected: {
+          kicker: "Wallet",
+          title: "{wallet} conectada",
+          text: "StableFlow ya está activo en Arc Testnet."
+        },
+        wallet_failed: {
+          kicker: "Wallet",
+          title: "La conexión falló",
+          text: "La conexión de la wallet fue rechazada o interrumpida."
+        },
+        network_failed: {
+          kicker: "Network",
+          title: "La configuración de Arc falló",
+          text: "Agrega Arc Testnet o cambia a esa red e inténtalo de nuevo."
+        },
+        network_wrong: {
+          kicker: "Network",
+          title: "Red incorrecta",
+          text: "Vuelve a cambiar a Arc Testnet."
+        },
+        disconnected: {
+          kicker: "Disconnected",
+          title: "Wallet desconectada",
+          text: "Abre la shell de nuevo cuando quieras reconectar."
+        }
+      }
+    };
+
     const state = {
       shellOpen: false,
       connected: false,
@@ -3759,6 +4565,14 @@
       signer: null,
       address: "",
       preferredWallet: "",
+
+      assistant: {
+        lang: "en",
+        lastKey: "",
+        lastAt: 0,
+        onboardingTimers: []
+      },
+
       swap: {
         topToken: "USDC",
         bottomToken: "LMTV",
@@ -3769,6 +4583,7 @@
         quotePending: false,
         busy: false
       },
+
       pay: {
         asset: "USDC",
         hideNote: false,
@@ -3781,22 +4596,26 @@
         flowPhase: 0,
         liveAssistant: null
       },
+
       request: {
         asset: "USDC",
         hideNote: false,
         link: "",
         payload: null
       },
+
       tokenMeta: {
         LMTV: { symbol: "LMTV", decimals: 18 },
         USDC: { symbol: "USDC", decimals: 18 },
         EURC: { symbol: "EURC", decimals: 18 }
       },
+
       balances: {
         LMTV: ethers.BigNumber.from(0),
         USDC: ethers.BigNumber.from(0),
         EURC: ethers.BigNumber.from(0)
       },
+
       stats: {
         totalTx: 0,
         daily: {
@@ -3805,10 +4624,12 @@
           pay: 0
         }
       },
+
       scanner: {
         stream: null,
         timer: null
       },
+
       assistantHoldUntil: 0,
       assistantHoldTimer: null
     };
@@ -3950,6 +4771,21 @@
       }
     }
 
+    function loadAssistantLanguage(){
+      try{
+        const saved = localStorage.getItem("stableflow_assistant_lang");
+        if (saved && ASSISTANT_I18N[saved]) {
+          state.assistant.lang = saved;
+        }
+      }catch{}
+    }
+
+    function saveAssistantLanguage(){
+      try{
+        localStorage.setItem("stableflow_assistant_lang", state.assistant.lang);
+      }catch{}
+    }
+
     function incrementDaily(type){
       const today = todayKey();
       if (state.stats.daily.date !== today) {
@@ -4036,12 +4872,6 @@
       return safe.gt(0) ? safe : ethers.BigNumber.from(0);
     }
 
-    function getStableDustTolerance(symbol){
-      const decimals = state.tokenMeta[symbol]?.decimals || 18;
-      const pow = Math.max(decimals - 5, 0);
-      return ethers.BigNumber.from(10).pow(pow);
-    }
-
     function getDynamicPayBuffer(rawIn, stable, desiredText){
       if (!rawIn || rawIn.lte(0)) return ethers.BigNumber.from(0);
 
@@ -4072,30 +4902,98 @@
       return rawIn.add(bonus);
     }
 
-    function setAssistant(tone, kicker, title, text){
+    function template(str, vars = {}){
+      return String(str || "").replace(/\{(\w+)\}/g, (_, key) => {
+        const val = vars[key];
+        return val === undefined || val === null ? "" : String(val);
+      });
+    }
+
+    function getAssistantCopy(key, vars = {}){
+      const langPack = ASSISTANT_I18N[state.assistant.lang] || ASSISTANT_I18N.en;
+      const fallbackPack = ASSISTANT_I18N.en;
+      const msg = langPack[key] || fallbackPack[key] || fallbackPack.fallback;
+      return {
+        kicker: template(msg.kicker, vars),
+        title: template(msg.title, vars),
+        text: template(msg.text, vars)
+      };
+    }
+
+    function setAssistant(tone, kicker, title, text, key = "", force = false){
+      const now = Date.now();
+      if (!force && key && state.assistant.lastKey === key && (now - state.assistant.lastAt) < 550) {
+        return;
+      }
+
       assistantBar.dataset.tone = tone;
       assistantKicker.textContent = kicker;
       assistantTitle.textContent = title;
       assistantText.textContent = text;
+
+      if (key) {
+        state.assistant.lastKey = key;
+        state.assistant.lastAt = now;
+      }
     }
 
-    function holdAssistant(tone, kicker, title, text, ms = 2000){
+    function applyAssistantKey(key, tone = "warn", vars = {}, force = false){
+      const msg = getAssistantCopy(key, vars);
+      setAssistant(tone, msg.kicker, msg.title, msg.text, key, force);
+    }
+
+    function holdAssistant(tone, kicker, title, text, ms = 1800, key = ""){
       state.assistantHoldUntil = Date.now() + ms;
       clearTimeout(state.assistantHoldTimer);
-      setAssistant(tone, kicker, title, text);
+      setAssistant(tone, kicker, title, text, key, true);
       state.assistantHoldTimer = setTimeout(() => {
         state.assistantHoldUntil = 0;
         updateAssistant();
       }, ms);
     }
 
-    function setPayLiveAssistant(tone, kicker, title, text){
-      state.pay.liveAssistant = { tone, kicker, title, text };
-      setAssistant(tone, kicker, title, text);
+    function holdAssistantKey(key, tone = "warn", vars = {}, ms = 1800){
+      const msg = getAssistantCopy(key, vars);
+      holdAssistant(tone, msg.kicker, msg.title, msg.text, ms, key);
+    }
+
+    function setPayLiveAssistantKey(key, tone = "warn", vars = {}){
+      state.pay.liveAssistant = { key, tone, vars };
+      applyAssistantKey(key, tone, vars, true);
     }
 
     function clearPayLiveAssistant(){
       state.pay.liveAssistant = null;
+    }
+
+    function clearAssistantOnboarding(){
+      state.assistant.onboardingTimers.forEach(clearTimeout);
+      state.assistant.onboardingTimers = [];
+    }
+
+    function startAssistantOnboarding(){
+      clearAssistantOnboarding();
+
+      holdAssistantKey("onboarding_1", "warn", {}, 1400);
+
+      state.assistant.onboardingTimers.push(setTimeout(() => {
+        if (!state.connected && state.shellOpen && state.currentPage === "connect") {
+          holdAssistantKey("onboarding_2", "warn", {}, 1500);
+        }
+      }, 1600));
+
+      state.assistant.onboardingTimers.push(setTimeout(() => {
+        if (!state.connected && state.shellOpen && state.currentPage === "connect") {
+          holdAssistantKey("onboarding_3", "warn", {}, 1700);
+        }
+      }, 3400));
+    }
+
+    function setAssistantLanguage(lang){
+      if (!ASSISTANT_I18N[lang]) return;
+      state.assistant.lang = lang;
+      saveAssistantLanguage();
+      updateAssistant();
     }
 
     function updateConnectLabel(){
@@ -4122,6 +5020,11 @@
       connectBtn.classList.add("active");
       updateNavState();
       updateConnectLabel();
+
+      if (!state.connected) {
+        startAssistantOnboarding();
+      }
+
       updateAssistant();
     }
 
@@ -4130,6 +5033,7 @@
       state.shellOpen = false;
       app.classList.remove("open");
       connectBtn.classList.remove("active");
+      clearAssistantOnboarding();
       updateNavState();
       updateConnectLabel();
       updateAssistant();
@@ -4248,13 +5152,13 @@
 
     async function connectWallet(preferred = "MetaMask"){
       if (!window.ethereum) {
-        setAssistant("danger", "Wallet", "No wallet detected", "Install MetaMask or open StableFlow in a wallet browser.");
+        applyAssistantKey("wallet_none", "danger");
         return;
       }
 
       const picked = pickInjectedProvider();
       if (!picked) {
-        setAssistant("danger", "Wallet", "No provider found", "StableFlow could not find an injected wallet provider.");
+        applyAssistantKey("wallet_no_provider", "danger");
         return;
       }
 
@@ -4263,7 +5167,7 @@
       try{
         const ok = await ensureArcNetwork(picked.provider);
         if (!ok) {
-          setAssistant("danger", "Network", "Arc setup failed", "Please add or switch to Arc Testnet and try again.");
+          applyAssistantKey("network_failed", "danger");
           return;
         }
 
@@ -4273,6 +5177,7 @@
         state.address = await state.signer.getAddress();
         state.connected = true;
         state.shellOpen = true;
+        clearAssistantOnboarding();
 
         picked.provider.removeAllListeners?.("accountsChanged");
         picked.provider.removeAllListeners?.("chainChanged");
@@ -4292,7 +5197,7 @@
         picked.provider.on?.("chainChanged", async () => {
           const ok2 = await ensureArcNetwork(picked.provider);
           if (!ok2) {
-            setAssistant("danger", "Network", "Wrong network", "Please switch back to Arc Testnet.");
+            applyAssistantKey("network_wrong", "danger");
           }
           await refreshBalances();
           updateAssistant();
@@ -4311,10 +5216,10 @@
           requestWalletInput.value = state.address;
         }
 
-        setAssistant("success", "Wallet", `${state.preferredWallet} connected`, "StableFlow is live on Arc Testnet.");
+        holdAssistantKey("wallet_connected", "success", { wallet: state.preferredWallet }, 1700);
       }catch(err){
         console.error(err);
-        setAssistant("danger", "Wallet", "Connection failed", "The wallet connection was rejected or interrupted.");
+        applyAssistantKey("wallet_failed", "danger");
       }
     }
 
@@ -4334,6 +5239,7 @@
       state.pay.busy = false;
       state.pay.quotePending = false;
       clearPayLiveAssistant();
+      clearAssistantOnboarding();
       app.classList.remove("open");
       state.shellOpen = false;
       clearTimeout(swapQuoteTimer);
@@ -4344,7 +5250,7 @@
       refreshSwapUI();
       refreshPayUI();
       setPage("connect");
-      setAssistant("warn", "Disconnected", "Wallet disconnected", "Open the shell again when you want to reconnect.");
+      applyAssistantKey("disconnected", "warn");
     }
 
     function checkDailyLimit(type){
@@ -4434,7 +5340,7 @@
       const allowance = await erc20.allowance(state.address, spender);
       if (allowance.gte(amount)) return false;
 
-      setAssistant("warn", "Approve", `Approve ${symbol}`, `First-time approval helps future swaps run faster. Confirm in MetaMask.`);
+      applyAssistantKey("approve_swap", "warn", { token: symbol });
       const tx = await erc20.approve(spender, ethers.constants.MaxUint256);
       await tx.wait();
       return true;
@@ -4694,7 +5600,7 @@
       if (!state.connected || state.swap.busy || state.swap.quotePending) return;
 
       if (!checkDailyLimit("swap")) {
-        setAssistant("danger", "Limit", "Daily swap limit reached", "You can only do 7 swaps per day.");
+        applyAssistantKey("swap_limit", "danger");
         refreshSwapUI();
         return;
       }
@@ -4705,7 +5611,7 @@
       const amountIn = parseAmountToBN(swapTopInput.value, inputDecimals);
 
       if (!amountIn || amountIn.lte(0)) {
-        setAssistant("danger", "Swap", "Invalid amount", "Enter a valid amount before swapping.");
+        applyAssistantKey("swap_limit", "danger");
         refreshSwapUI();
         return;
       }
@@ -4715,13 +5621,13 @@
         : Number(formatUnitsSmart(state.swap.quoteOut || ethers.BigNumber.from(0), state.tokenMeta.USDC.decimals, 6) || 0);
 
       if (!Number.isFinite(stableValue) || stableValue <= 0 || stableValue > 10) {
-        setAssistant("danger", "Swap", "Pool protection active", "Each swap is limited to 10 dollars.");
+        applyAssistantKey("swap_limit", "danger");
         refreshSwapUI();
         return;
       }
 
       if (state.balances[inputSymbol].lt(amountIn)) {
-        setAssistant("danger", "Swap", "Insufficient balance", `You do not have enough ${inputSymbol}.`);
+        applyAssistantKey("swap_balance", "danger", { token: inputSymbol });
         refreshSwapUI();
         return;
       }
@@ -4730,13 +5636,13 @@
       refreshSwapUI();
 
       try{
-        setAssistant("warn", "Swap", "Preparing swap", `StableFlow is preparing your ${inputSymbol} swap.`);
+        applyAssistantKey("swap_prepare", "warn", { token: inputSymbol });
         const pair = getPairForStable("USDC", true);
         const pairAddr = ADDR.POOL_USDC;
 
         await ensureSmoothSwapAllowance(inputSymbol, pairAddr, amountIn);
 
-        setAssistant("warn", "Swap", "Confirm swap", "Confirm the swap in MetaMask.");
+        applyAssistantKey("swap_confirm", "warn");
         const tx = await pair.swap(tokenAddr(inputSymbol), amountIn);
         await tx.wait();
 
@@ -4744,10 +5650,10 @@
         await refreshBalances();
         resetSwapFields();
 
-        holdAssistant("success", "Swap", "Transaction completed ✓", `${inputSymbol} → ${outputSymbol} completed successfully.`, 2000);
+        holdAssistantKey("swap_success", "success", { from: inputSymbol, to: outputSymbol }, 2000);
       }catch(err){
         console.error(err);
-        setAssistant("danger", "Swap", "Swap failed", "The transaction was rejected or failed on-chain.");
+        applyAssistantKey("swap_fail", "danger");
       }finally{
         state.swap.busy = false;
         refreshSwapUI();
@@ -4848,7 +5754,7 @@
       if (state.pay.lastBuffer && state.pay.lastBuffer.gt(0)) {
         payBufferFoot.textContent = `buffer ${formatUnitsSmart(state.pay.lastBuffer, 18, 4)} LMTV`;
       } else {
-        payBufferFoot.textContent = "dynamic buffer active";
+        payBufferFoot.textContent = "buffer ready";
       }
 
       payPreviewWallet.textContent = payWalletInput.value.trim() || "—";
@@ -4937,7 +5843,7 @@
 
       const recipient = payWalletInput.value.trim();
       if (!ethers.utils.isAddress(recipient)) {
-        setAssistant("danger", "Pay", "Invalid wallet", "The recipient wallet is not valid.");
+        applyAssistantKey("pay_invalid_wallet", "danger");
         refreshPayUI();
         return;
       }
@@ -4947,25 +5853,25 @@
       const desiredText = payAmountInput.value.trim();
 
       if (!desiredAmount || desiredAmount.lte(0)) {
-        setAssistant("danger", "Pay", "Invalid amount", "Enter a valid amount before paying.");
+        applyAssistantKey("pay_amount_required", "warn");
         refreshPayUI();
         return;
       }
 
       if (Number(desiredText) > 10) {
-        setAssistant("danger", "Pay", "Pool protection active", "Each payment is limited to 10 dollars.");
+        applyAssistantKey("pay_limit", "danger");
         refreshPayUI();
         return;
       }
 
       if (!checkDailyLimit("pay")) {
-        setAssistant("danger", "Limit", "Daily pay limit reached", "You can only do 7 payments per day.");
+        applyAssistantKey("pay_limit", "danger");
         refreshPayUI();
         return;
       }
 
       if (!state.pay.lmtvNeeded || state.balances.LMTV.lt(state.pay.lmtvNeeded)) {
-        setAssistant("danger", "Pay", "Insufficient balance", "You do not have enough LMTV for this payment.");
+        applyAssistantKey("pay_balance", "danger");
         refreshPayUI();
         return;
       }
@@ -4993,7 +5899,7 @@
 
           setPayStep(1);
           payPreviewStatus.textContent = "Approve LMTV";
-          setPayLiveAssistant("warn", "Pay flow", "1/3 Approve", "Approve LMTV in MetaMask to continue.");
+          setPayLiveAssistantKey("pay_flow_approve", "warn");
           await flushUi(260);
 
           phase = "approve";
@@ -5003,14 +5909,14 @@
 
           setPayStep(2);
           payPreviewStatus.textContent = "Approval confirmed";
-          setPayLiveAssistant("warn", "Pay flow", "2/3 Swap", "Approval confirmed. Now confirm the swap in MetaMask.");
+          setPayLiveAssistantKey("pay_flow_swap_after_approve", "warn");
           await flushUi(300);
         } else {
           configurePaySteps(2);
 
           setPayStep(1);
           payPreviewStatus.textContent = "Allowance ready";
-          setPayLiveAssistant("warn", "Pay flow", "1/2 Swap", "Allowance is ready. Now confirm the swap in MetaMask.");
+          setPayLiveAssistantKey("pay_flow_swap_no_approve", "warn");
           await flushUi(300);
         }
 
@@ -5028,24 +5934,22 @@
           throw new Error("Stable target not reached after swap");
         }
 
+        const gainedText = formatUnitsSmart(gained, state.tokenMeta[stable].decimals, 6);
+
         if (needsApprove) {
           setPayStep(3);
           payPreviewStatus.textContent = "Swap confirmed";
-          setPayLiveAssistant(
-            "warn",
-            "Pay flow",
-            "3/3 Transfer",
-            `Swap completed. ${formatUnitsSmart(gained, state.tokenMeta[stable].decimals, 6)} ${stable} arrived. Confirm the transfer now.`
-          );
+          setPayLiveAssistantKey("pay_flow_transfer_3", "warn", {
+            amount: gainedText,
+            asset: stable
+          });
         } else {
           setPayStep(2);
           payPreviewStatus.textContent = "Swap confirmed";
-          setPayLiveAssistant(
-            "warn",
-            "Pay flow",
-            "2/2 Transfer",
-            `Swap completed. ${formatUnitsSmart(gained, state.tokenMeta[stable].decimals, 6)} ${stable} arrived. Confirm the transfer now.`
-          );
+          setPayLiveAssistantKey("pay_flow_transfer_2", "warn", {
+            amount: gainedText,
+            asset: stable
+          });
         }
 
         await flushUi(320);
@@ -5061,7 +5965,10 @@
 
         payPreviewStatus.textContent = "Complete";
         clearPayLiveAssistant();
-        holdAssistant("success", "Pay", "Transaction completed ✓", `${desiredText} ${stable} was sent to the recipient.`, 2200);
+        holdAssistantKey("pay_success", "success", {
+          amount: desiredText,
+          asset: stable
+        }, 2200);
       }catch(err){
         console.error(err);
 
@@ -5069,19 +5976,19 @@
 
         if (phase === "approve") {
           payPreviewStatus.textContent = "Approve failed";
-          setAssistant("danger", "Pay flow", "Approve failed", "The approval was rejected or failed.");
+          applyAssistantKey("pay_approve_fail", "danger");
         } else if (phase === "swap") {
           payPreviewStatus.textContent = "Swap failed";
-          setAssistant("danger", "Pay flow", "Swap failed", "The swap transaction was rejected or failed.");
+          applyAssistantKey("pay_swap_fail", "danger");
         } else if (phase === "post-swap-check") {
           payPreviewStatus.textContent = "Requote needed";
-          setAssistant("danger", "Pay flow", "Target not reached", "Swap completed but the exact stable target was not reached. Try again.");
+          applyAssistantKey("pay_target_fail", "danger");
         } else if (phase === "transfer") {
           payPreviewStatus.textContent = "Transfer failed";
-          setAssistant("danger", "Pay flow", "Transfer failed", "The final transfer was rejected or failed.");
+          applyAssistantKey("pay_transfer_fail", "danger");
         } else {
           payPreviewStatus.textContent = "Failed";
-          setAssistant("danger", "Pay", "Payment failed", "The payment flow failed or was rejected.");
+          applyAssistantKey("pay_fail", "danger");
         }
       }finally{
         state.pay.busy = false;
@@ -5163,7 +6070,7 @@
       if (!state.connected) {
         openShell();
         setPage("connect");
-        setAssistant("warn", "Connect", "Wallet required", "Connect your wallet before generating a payment QR.");
+        applyAssistantKey("get_paid_connect_required", "warn");
         return;
       }
 
@@ -5172,17 +6079,17 @@
       const note = state.request.hideNote ? "" : requestNoteInput.value.trim();
 
       if (!wallet || !ethers.utils.isAddress(wallet)) {
-        setAssistant("danger", "Get Paid", "Receiver wallet required", "Enter a valid receiver wallet before generating the request.");
+        applyAssistantKey("get_paid_invalid_wallet", "danger");
         return;
       }
 
       if (!amount || amount <= 0) {
-        setAssistant("danger", "Get Paid", "Invalid amount", "Enter a valid request amount.");
+        applyAssistantKey("get_paid_invalid_amount", "danger");
         return;
       }
 
       if (amount > 1000) {
-        setAssistant("danger", "Get Paid", "Max 1000", "A payment request can be at most 1000 dollars.");
+        applyAssistantKey("get_paid_limit", "danger");
         return;
       }
 
@@ -5215,7 +6122,7 @@
       }
 
       requestResult.classList.add("show");
-      setAssistant("success", "Get Paid", "Request generated", "Your QR request is ready to share or scan.");
+      applyAssistantKey("get_paid_generated", "success");
     }
 
     function resetRequestFields(){
@@ -5237,9 +6144,9 @@
       if (!state.request.link) return;
       try{
         await navigator.clipboard.writeText(state.request.link);
-        setAssistant("success", "Get Paid", "Link copied", "The payment request link is in your clipboard.");
+        applyAssistantKey("get_paid_copy", "success");
       }catch{
-        setAssistant("danger", "Get Paid", "Copy failed", "Clipboard access was blocked on this browser.");
+        applyAssistantKey("get_paid_copy_fail", "danger");
       }
     }
 
@@ -5252,7 +6159,7 @@
             text: state.request.link,
             url: state.request.link
           });
-          setAssistant("success", "Get Paid", "Shared", "The payment request was shared successfully.");
+          applyAssistantKey("get_paid_share", "success");
         } else {
           await copyRequestLink();
         }
@@ -5356,7 +6263,7 @@
 
     async function openScanner(){
       if (!navigator.mediaDevices?.getUserMedia) {
-        setAssistant("danger", "Scanner", "Camera unavailable", "This browser does not support camera access.");
+        applyAssistantKey("scanner_unavailable", "danger");
         return;
       }
 
@@ -5383,7 +6290,7 @@
                 const ok = consumeRequestString(raw);
                 if (ok) {
                   closeScanner();
-                  setAssistant("success", "Scanner", "Request loaded", "The payment request was loaded into Pay.");
+                  applyAssistantKey("scanner_loaded", "success");
                 }
               }
             }catch{}
@@ -5393,7 +6300,7 @@
         }
       }catch(err){
         console.error(err);
-        setAssistant("danger", "Scanner", "Camera blocked", "Allow camera access to scan the QR code.");
+        applyAssistantKey("scanner_blocked", "danger");
       }
     }
 
@@ -5459,53 +6366,53 @@
       if (Date.now() < state.assistantHoldUntil) return;
 
       if (state.pay.busy && state.pay.liveAssistant) {
-        setAssistant(
+        applyAssistantKey(
+          state.pay.liveAssistant.key,
           state.pay.liveAssistant.tone,
-          state.pay.liveAssistant.kicker,
-          state.pay.liveAssistant.title,
-          state.pay.liveAssistant.text
+          state.pay.liveAssistant.vars || {},
+          true
         );
         return;
       }
 
       if (!state.connected) {
         if (!state.shellOpen) {
-          setAssistant("warn", "Connect", "Open the shell", "Tap Connect to wake up StableFlow.");
+          applyAssistantKey("shell_closed", "warn");
           return;
         }
 
         if (state.currentPage === "connect") {
-          setAssistant("warn", "Connect", "MetaMask recommended", "Browser extension and in-wallet browser both work. Arc Testnet is required.");
+          applyAssistantKey("connect_page", "warn");
           return;
         }
 
         if (state.currentPage === "get-paid") {
-          setAssistant("warn", "Get Paid", "Connect required", "Generate takes you to Connect when no wallet is active.");
+          applyAssistantKey("get_paid_connect_required", "warn");
           return;
         }
 
-        setAssistant("warn", "Browse", "You can look around first", "Connect your wallet when you want real balances and actions.");
+        applyAssistantKey("browse_page", "warn");
         return;
       }
 
       if (state.currentPage === "home") {
-        setAssistant("success", "Home guide", "Your profile grows with activity", "Each successful swap or pay adds +1 LV until level 10.");
+        applyAssistantKey("home_ready", "success");
         return;
       }
 
       if (state.currentPage === "swap") {
         if (state.stats.daily.swap >= 7) {
-          setAssistant("danger", "Swap", "Daily swap limit reached", "You already used 7 swaps today.");
+          applyAssistantKey("swap_limit", "danger");
           return;
         }
 
         if (!swapTopInput.value.trim() && !swapBottomInput.value.trim()) {
-          setAssistant("success", "Swap", "Choose your swap direction", "USDC ↔ LMTV works in both directions. First approval helps future swaps run faster.");
+          applyAssistantKey("swap_empty", "success");
           return;
         }
 
         if (state.swap.quotePending) {
-          setAssistant("warn", "Swap", "Refreshing quote", "StableFlow is recalculating the trade before letting you confirm.");
+          applyAssistantKey("swap_refreshing", "warn");
           return;
         }
 
@@ -5514,90 +6421,98 @@
           : (state.swap.quoteOut ? formatUnitsSmart(state.swap.quoteOut, state.tokenMeta.USDC.decimals, 6) : "");
 
         if (stableTxLimitExceeded(amountText)) {
-          setAssistant("danger", "Swap", "Pool protection active", "Each swap is limited to 10 dollars.");
+          applyAssistantKey("swap_limit", "danger");
           return;
         }
 
         const inputSymbol = state.swap.topToken;
         const inputBn = parseAmountToBN(swapTopInput.value, state.tokenMeta[inputSymbol].decimals);
         if (inputBn && state.balances[inputSymbol].lt(inputBn)) {
-          setAssistant("danger", "Swap", "Insufficient balance", `You do not have enough ${inputSymbol}.`);
+          applyAssistantKey("swap_balance", "danger", { token: inputSymbol });
           return;
         }
 
         if (state.swap.busy) {
-          setAssistant("warn", "Swap", "Transaction in progress", "Check your wallet and wait for confirmation.");
+          applyAssistantKey("swap_busy", "warn");
           return;
         }
 
-        setAssistant("success", "Swap", "Ready to swap", "Route, minimum received and MAX logic are updated. Confirm when ready.");
+        applyAssistantKey("swap_ready", "success");
         return;
       }
 
       if (state.currentPage === "pay") {
         if (state.stats.daily.pay >= 7) {
-          setAssistant("danger", "Pay", "Daily pay limit reached", "You already used 7 payments today.");
+          applyAssistantKey("pay_limit", "danger");
           return;
         }
 
-        if (!payWalletInput.value.trim()) {
-          setAssistant("warn", "Pay", "Recipient wallet required", "Paste or scan the wallet that will receive the payment.");
+        const wallet = payWalletInput.value.trim();
+
+        if (!wallet) {
+          applyAssistantKey("pay_recipient_required", "warn");
           return;
         }
 
-        if (!ethers.utils.isAddress(payWalletInput.value.trim())) {
-          setAssistant("danger", "Pay", "Invalid wallet", "The recipient address is not valid.");
+        if (!ethers.utils.isAddress(wallet)) {
+          applyAssistantKey("pay_invalid_wallet", "danger");
           return;
         }
 
         const amount = Number(payAmountInput.value || 0);
+
         if (!amount || amount <= 0) {
-          setAssistant("warn", "Pay", "Amount required", "Choose USDC or EURC and enter the amount to send.");
+          applyAssistantKey("pay_recipient_ready", "warn");
           return;
         }
 
         if (amount > 10) {
-          setAssistant("danger", "Pay", "Pool protection active", "Each payment is limited to 10 dollars.");
+          applyAssistantKey("pay_limit", "danger");
           return;
         }
 
         if (state.pay.quotePending) {
-          setAssistant("warn", "Pay", "Refreshing quote", "StableFlow is recalculating the exact LMTV needed.");
+          applyAssistantKey("pay_quote_refreshing", "warn");
           return;
         }
 
         if (!state.pay.lmtvNeeded || state.balances.LMTV.lt(state.pay.lmtvNeeded)) {
-          setAssistant("danger", "Pay", "Insufficient balance", "You need more LMTV for this payment.");
+          applyAssistantKey("pay_balance", "danger");
           return;
         }
 
         if (state.pay.busy) {
-          setAssistant("warn", "Pay", "Payment in progress", "StableFlow is following the wallet step by step.");
+          applyAssistantKey("pay_busy", "warn");
           return;
         }
 
-        setAssistant("success", "Pay", "Ready to pay", "The pay flow now checks the final stable balance before transfer.");
+        applyAssistantKey("pay_ready", "success");
         return;
       }
 
       if (state.currentPage === "get-paid") {
         if (!requestWalletInput.value.trim()) {
-          setAssistant("warn", "Get Paid", "Receiver wallet required", "StableFlow can start with your connected wallet automatically.");
+          applyAssistantKey("get_paid_receiver", "warn");
           return;
         }
 
         const amount = Number(requestAmountInput.value || 0);
         if (!amount || amount <= 0) {
-          setAssistant("warn", "Get Paid", "Choose an amount and asset", "This page only creates a QR request. The payer decides later how to pay.");
+          applyAssistantKey("get_paid_amount", "warn");
           return;
         }
 
         if (amount > 1000) {
-          setAssistant("danger", "Get Paid", "Request too large", "A generated request is limited to 1000 dollars.");
+          applyAssistantKey("get_paid_limit", "danger");
           return;
         }
 
-        setAssistant("success", "Get Paid", "Ready to generate", "This QR is larger and stronger for real camera reading.");
+        applyAssistantKey("get_paid_ready", "success");
+        return;
+      }
+
+      if (state.currentPage === "more") {
+        applyAssistantKey("more_placeholder", "success");
       }
     }
 
@@ -5794,6 +6709,7 @@
 
     function boot(){
       loadStats();
+      loadAssistantLanguage();
       refreshHomeUI();
       refreshSwapUI();
       configurePaySteps(3);
@@ -5811,6 +6727,15 @@
 
     boot();
 
+    window.StableFlowAssistant = {
+      setLanguage(lang){
+        setAssistantLanguage(lang);
+      },
+      getLanguage(){
+        return state.assistant.lang;
+      }
+    };
+
     window.StableFlowShell = {
       go(page){
         if (!state.shellOpen && !state.connected) return;
@@ -5825,6 +6750,9 @@
       },
       disconnect(){
         disconnectWallet();
+      },
+      setAssistantLanguage(lang){
+        setAssistantLanguage(lang);
       }
     };
   </script>
