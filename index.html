@@ -29,36 +29,29 @@
       --panel-2:#141d27;
       --panel-3:#182430;
       --panel-4:#1d2b38;
-      --panel-soft:#0e1720;
-      --panel-cold:#111c26;
-      --panel-cold-2:#162330;
 
       --stroke:rgba(134,186,226,.12);
       --stroke-2:rgba(255,255,255,.035);
-      --stroke-gold:rgba(224,176,93,.16);
 
       --cyan:#71d3ff;
       --cyan-2:#48bbf0;
       --cyan-3:#9ce4ff;
       --cyan-soft:rgba(113,211,255,.12);
-      --cyan-soft-2:rgba(113,211,255,.06);
 
       --gold:#ddb065;
       --gold-2:#b98634;
       --gold-3:#f2d59b;
       --gold-soft:rgba(221,176,101,.10);
-      --gold-soft-2:rgba(221,176,101,.05);
 
       --text:#edf6fd;
       --text-soft:#a8b7c5;
       --text-dim:#738495;
 
-      --shadow:0 18px 36px rgba(0,0,0,.34);
-      --shadow-soft:0 10px 22px rgba(0,0,0,.24);
-      --shadow-xs:0 6px 14px rgba(0,0,0,.18);
-
       --danger:#ff8686;
       --ok:#82efb5;
+
+      --shadow:0 18px 36px rgba(0,0,0,.34);
+      --shadow-soft:0 10px 22px rgba(0,0,0,.24);
     }
 
     html,body{
@@ -259,9 +252,8 @@
     }
 
     .connect-btn.connected{
-      opacity:.58;
+      opacity:.62;
       filter:saturate(.82);
-      cursor:default;
       box-shadow:
         inset 0 0 0 1px rgba(255,255,255,.06),
         inset 0 0 0 3px rgba(255,255,255,.012),
@@ -324,159 +316,6 @@
     .nav-btn.current .label,
     .home-btn.current .label{
       color:#ddb065;
-    }
-
-    .power-slot{
-      margin-top:auto;
-      width:100%;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      padding-top:4px;
-      min-height:132px;
-      opacity:0;
-      visibility:hidden;
-      pointer-events:none;
-      transition:opacity .22s ease, visibility .22s ease, transform .22s ease;
-      transform:translateY(8px);
-    }
-
-    .power-slot.show{
-      opacity:1;
-      visibility:visible;
-      pointer-events:auto;
-      transform:translateY(0);
-    }
-
-    .power-switch{
-      width:58px;
-      height:126px;
-      border-radius:32px;
-      position:relative;
-      background:
-        radial-gradient(circle at 30% 18%, rgba(103,189,241,.07), transparent 24%),
-        linear-gradient(180deg,#09131d 0%, #04090f 100%);
-      border:1px solid rgba(151,194,230,.15);
-      box-shadow:
-        inset 0 0 0 1px rgba(255,255,255,.03),
-        inset 0 10px 18px rgba(255,255,255,.01),
-        0 12px 20px rgba(0,0,0,.28);
-      overflow:hidden;
-      touch-action:none;
-      user-select:none;
-    }
-
-    .power-switch::before{
-      content:"";
-      position:absolute;
-      inset:4px;
-      border-radius:28px;
-      border:1px solid rgba(255,255,255,.045);
-      pointer-events:none;
-    }
-
-    .power-switch::after{
-      content:"";
-      position:absolute;
-      left:50%;
-      top:55px;
-      transform:translateX(-50%);
-      width:2px;
-      height:54px;
-      border-radius:999px;
-      background:
-        linear-gradient(180deg,
-          rgba(255,255,255,.10),
-          rgba(113,211,255,.18),
-          rgba(255,255,255,.03));
-      pointer-events:none;
-      box-shadow:0 0 8px rgba(113,211,255,.06);
-    }
-
-    .power-switch.armed{
-      box-shadow:
-        inset 0 0 0 1px rgba(255,255,255,.03),
-        0 0 0 1px rgba(221,176,101,.24),
-        0 0 14px rgba(221,176,101,.08),
-        0 10px 18px rgba(0,0,0,.24);
-    }
-
-    .power-dot{
-      position:absolute;
-      top:10px;
-      left:50%;
-      transform:translateX(-50%);
-      width:10px;
-      height:10px;
-      border-radius:50%;
-      background:linear-gradient(180deg,#ecf8ff 0%, #94dcff 100%);
-      box-shadow:0 0 0 4px rgba(113,211,255,.08);
-      pointer-events:none;
-    }
-
-    .power-label{
-      position:absolute;
-      top:28px;
-      left:50%;
-      transform:translateX(-50%);
-      color:#e0f1fb;
-      font-size:9px;
-      font-weight:1000;
-      letter-spacing:.12em;
-      text-transform:uppercase;
-      line-height:1;
-      pointer-events:none;
-    }
-
-    .power-hint{
-      position:absolute;
-      top:43px;
-      left:50%;
-      transform:translateX(-50%);
-      color:#6f8698;
-      font-size:6.8px;
-      font-weight:1000;
-      letter-spacing:.10em;
-      text-transform:uppercase;
-      white-space:nowrap;
-      pointer-events:none;
-      opacity:.95;
-      transition:color .18s ease;
-    }
-
-    .power-switch.armed .power-hint{
-      color:#ddb065;
-    }
-
-    .power-knob{
-      position:absolute;
-      left:50%;
-      width:38px;
-      height:38px;
-      border-radius:50%;
-      transform:translateX(-50%);
-      background:
-        radial-gradient(circle at 35% 28%, rgba(255,255,255,.13), transparent 30%),
-        linear-gradient(180deg,#23323e 0%, #161f29 100%);
-      border:1px solid rgba(255,255,255,.11);
-      box-shadow:
-        0 12px 22px rgba(0,0,0,.28),
-        inset 0 1px 0 rgba(255,255,255,.04);
-      touch-action:none;
-      cursor:grab;
-    }
-
-    .power-knob::after{
-      content:"";
-      position:absolute;
-      inset:8px;
-      border-radius:50%;
-      border:1px solid rgba(255,255,255,.06);
-    }
-
-    .power-switch.dragging .power-knob{
-      cursor:grabbing;
-      box-shadow:0 14px 26px rgba(0,0,0,.30);
     }
 
     .main{
@@ -594,12 +433,6 @@
       margin-bottom:6px;
     }
 
-    .page-chip-wrap{
-      display:flex;
-      align-items:center;
-      min-width:0;
-    }
-
     .page-dot{
       width:13px;
       height:13px;
@@ -681,7 +514,7 @@
     .assistant-bar[data-tone="danger"]{
       background:
         radial-gradient(circle at 84% 24%, rgba(255,134,134,.10), transparent 14%),
-        radial-gradient(circle at 14% 22%, rgba(113,211,255,.06), transparent 24%),
+        radial-gradient(circle at 15% 22%, rgba(113,211,255,.06), transparent 24%),
         linear-gradient(135deg, rgba(73,34,34,.97), rgba(29,23,28,.98));
     }
 
@@ -923,6 +756,13 @@
       text-transform:uppercase;
     }
 
+    .btn-with-icon{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      gap:8px;
+    }
+
     .qr-glyph{
       width:16px;
       height:16px;
@@ -941,40 +781,6 @@
 
     .qr-glyph i.blank{
       opacity:.18;
-    }
-
-    .btn-with-icon{
-      display:inline-flex;
-      align-items:center;
-      justify-content:center;
-      gap:8px;
-    }
-
-    .wide-input,
-    .trade-input,
-    .request-amount-input,
-    .note-input{
-      transition:border-color .18s ease, box-shadow .18s ease, background .18s ease;
-    }
-
-    .wide-input:focus,
-    .trade-input:focus,
-    .request-amount-input:focus,
-    .note-input:focus{
-      border-color:rgba(113,211,255,.18);
-      box-shadow:
-        0 0 0 1px rgba(113,211,255,.12),
-        0 0 14px rgba(113,211,255,.05),
-        var(--shadow-soft);
-    }
-
-    .amount-box:focus-within,
-    .search-shell:focus-within{
-      border-color:rgba(113,211,255,.18);
-      box-shadow:
-        0 0 0 1px rgba(113,211,255,.12),
-        0 0 14px rgba(113,211,255,.05),
-        var(--shadow-soft);
     }
 
     .connect-stars{
@@ -1148,6 +954,65 @@
       background:linear-gradient(90deg, transparent, rgba(221,176,101,.82), transparent);
       box-shadow:0 0 10px rgba(221,176,101,.06);
       margin:2px 8px 0;
+    }
+
+    .home-profile-row{
+      min-height:50px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+      padding:0 2px;
+    }
+
+    .home-profile-title{
+      color:#f5f8fb;
+      font-size:22px;
+      font-weight:1000;
+      letter-spacing:-.05em;
+      line-height:1;
+    }
+
+    .home-disconnect{
+      display:flex;
+      align-items:center;
+      gap:12px;
+      flex:0 0 auto;
+    }
+
+    .home-disconnect-track{
+      width:66px;
+      height:34px;
+      border-radius:999px;
+      background:linear-gradient(180deg,#1b242d 0%, #121a22 100%);
+      border:1px solid rgba(255,255,255,.05);
+      box-shadow:
+        inset 0 1px 0 rgba(255,255,255,.02),
+        0 8px 16px rgba(0,0,0,.20);
+      position:relative;
+      flex:0 0 auto;
+    }
+
+    .home-disconnect-track::after{
+      content:"";
+      position:absolute;
+      top:4px;
+      left:4px;
+      width:24px;
+      height:24px;
+      border-radius:50%;
+      background:linear-gradient(180deg,#f4e1bb 0%, #d8a34b 100%);
+      box-shadow:
+        0 6px 12px rgba(221,176,101,.12),
+        inset 0 1px 0 rgba(255,255,255,.22);
+    }
+
+    .home-disconnect-label{
+      color:#eef5fb;
+      font-size:15px;
+      font-weight:1000;
+      letter-spacing:-.03em;
+      white-space:nowrap;
     }
 
     .profile-card{
@@ -1396,143 +1261,6 @@
       font-weight:1000;
       font-style:italic;
       white-space:nowrap;
-    }
-
-    .search-shell{
-      min-height:46px;
-      border-radius:16px;
-      padding:0 14px;
-      display:flex;
-      align-items:center;
-      gap:12px;
-      background:
-        radial-gradient(circle at 88% 20%, rgba(113,211,255,.04), transparent 16%),
-        linear-gradient(180deg,#17212b 0%, #121920 100%);
-      border:1px solid rgba(134,186,226,.08);
-      box-shadow:var(--shadow-soft);
-      transition:border-color .18s ease, box-shadow .18s ease;
-    }
-
-    .search-icon{
-      font-size:16px;
-      color:#8fd4ff;
-      flex:0 0 auto;
-    }
-
-    .search-input{
-      width:100%;
-      color:#eff7fd;
-      font-size:13px;
-      font-weight:900;
-    }
-
-    .token-list{
-      display:flex;
-      flex-direction:column;
-      gap:10px;
-    }
-
-    .token-row{
-      border-radius:18px;
-      padding:12px;
-      display:grid;
-      grid-template-columns:46px minmax(0,1fr) 40px;
-      gap:10px;
-      align-items:center;
-      background:
-        radial-gradient(circle at 84% 22%, rgba(113,211,255,.04), transparent 16%),
-        linear-gradient(180deg,#17212a 0%, #11181f 100%);
-      border:1px solid rgba(136,190,228,.08);
-      box-shadow:var(--shadow-soft);
-    }
-
-    .token-avatar{
-      width:46px;
-      height:46px;
-      border-radius:50%;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      color:#071724;
-      font-size:14px;
-      font-weight:1000;
-      background:linear-gradient(180deg,#69d9ff 0%, #2fbdef 100%);
-      box-shadow:0 10px 16px rgba(47,189,239,.08);
-      flex:0 0 auto;
-      overflow:hidden;
-    }
-
-    .token-avatar img{
-      width:100%;
-      height:100%;
-      object-fit:cover;
-    }
-
-    .token-main{ min-width:0; }
-
-    .token-main strong{
-      display:block;
-      color:#f4f8fb;
-      font-size:17px;
-      font-weight:1000;
-      letter-spacing:-.04em;
-      line-height:1;
-    }
-
-    .token-role{
-      margin-top:4px;
-      color:#8ea2b4;
-      font-size:11px;
-      line-height:1.2;
-      font-weight:900;
-    }
-
-    .token-contract{
-      margin-top:4px;
-      color:#cdddeb;
-      font-size:12px;
-      line-height:1;
-      font-weight:900;
-      letter-spacing:.02em;
-      white-space:nowrap;
-      overflow:hidden;
-      text-overflow:ellipsis;
-    }
-
-    .copy-icon-btn{
-      width:40px;
-      height:40px;
-      border-radius:12px;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      background:linear-gradient(180deg,#151a20 0%, #11161b 100%);
-      border:1px solid rgba(221,176,101,.14);
-      color:#ddb065;
-      box-shadow:
-        inset 0 1px 0 rgba(255,255,255,.02),
-        0 6px 14px rgba(0,0,0,.18);
-      position:relative;
-      flex:0 0 auto;
-    }
-
-    .copy-icon-btn::before,
-    .copy-icon-btn::after{
-      content:"";
-      position:absolute;
-      border:1.5px solid currentColor;
-      border-radius:4px;
-      width:12px;
-      height:14px;
-    }
-
-    .copy-icon-btn::before{
-      transform:translate(-2px,-2px);
-      opacity:.68;
-    }
-
-    .copy-icon-btn::after{
-      transform:translate(2px,2px);
     }
 
     .swap-top-row{
@@ -2021,7 +1749,6 @@
 
     .wide-input::placeholder,
     .note-input::placeholder,
-    .search-input::placeholder,
     .request-amount-input::placeholder{
       color:#66798a;
     }
@@ -2046,7 +1773,6 @@
       color:#eaf5fd;
       font-size:13px;
       font-weight:1000;
-      letter-spacing:0;
       box-shadow:var(--shadow-soft);
       white-space:nowrap;
       overflow:hidden;
@@ -2076,6 +1802,8 @@
     }
 
     .asset-btn.active img{
+      width:24px;
+      height:24px;
       box-shadow:0 0 0 4px rgba(113,211,255,.08);
     }
 
@@ -2092,6 +1820,8 @@
     }
 
     .asset-btn.eurc.active img{
+      width:24px;
+      height:24px;
       box-shadow:0 0 0 4px rgba(221,176,101,.08);
     }
 
@@ -2107,7 +1837,6 @@
       justify-content:center;
       min-width:0;
       overflow:hidden;
-      transition:border-color .18s ease, box-shadow .18s ease;
     }
 
     .amount-box input{
@@ -2630,40 +2359,44 @@
 
     .request-result-grid{
       display:grid;
-      grid-template-columns:170px minmax(0,1fr);
+      grid-template-columns:220px minmax(0,1fr);
       gap:16px;
       align-items:start;
       min-width:0;
     }
 
     .qr-box{
-      min-height:170px;
+      min-height:220px;
       border-radius:18px;
-      padding:10px;
+      padding:14px;
       display:flex;
       align-items:center;
       justify-content:center;
       background:#ffffff;
       border:1px solid rgba(17,22,29,.08);
-      box-shadow:inset 0 1px 0 rgba(255,255,255,.8);
+      box-shadow:
+        inset 0 1px 0 rgba(255,255,255,.8),
+        0 4px 10px rgba(0,0,0,.03);
       flex:0 0 auto;
     }
 
     #requestQr{
-      width:148px;
-      min-height:148px;
+      width:190px;
+      min-height:190px;
       display:flex;
       align-items:center;
       justify-content:center;
+      background:#fff;
+      border-radius:16px;
+      padding:10px;
     }
 
     #requestQr img,#requestQr canvas{
-      width:148px !important;
-      height:148px !important;
-      padding:6px;
-      background:#fff;
-      border-radius:12px;
-      box-shadow:0 4px 10px rgba(0,0,0,.06);
+      width:190px !important;
+      height:190px !important;
+      background:#fff !important;
+      border-radius:10px;
+      box-shadow:none;
     }
 
     .request-lines{
@@ -2924,7 +2657,7 @@
       .pages-area{ top:130px; }
 
       .assistant-bar{
-        min-height:72px;
+        min-height:74px;
         padding:9px 10px 9px 12px;
         grid-template-columns:50px minmax(0,1fr);
         gap:10px;
@@ -2978,34 +2711,9 @@
         padding-bottom:14px;
       }
 
-      .section-title{ font-size:22px; }
-      .section-sub{
-        margin-top:8px;
-        font-size:12px;
-      }
-
       .connect-btn.connected .label{
         font-size:6.4px;
         letter-spacing:.03em;
-      }
-
-      .power-slot{ min-height:118px; }
-
-      .power-switch{
-        width:52px;
-        height:114px;
-      }
-
-      .power-switch::after{
-        height:46px;
-        top:50px;
-      }
-
-      .power-hint{ font-size:6.5px; }
-
-      .power-knob{
-        width:34px;
-        height:34px;
       }
 
       .connect-stars{
@@ -3041,6 +2749,35 @@
         min-width:0;
         height:36px;
         font-size:10px;
+      }
+
+      .home-profile-row{
+        min-height:44px;
+        gap:8px;
+      }
+
+      .home-profile-title{
+        font-size:20px;
+      }
+
+      .home-disconnect{
+        gap:8px;
+      }
+
+      .home-disconnect-track{
+        width:56px;
+        height:30px;
+      }
+
+      .home-disconnect-track::after{
+        top:4px;
+        left:4px;
+        width:20px;
+        height:20px;
+      }
+
+      .home-disconnect-label{
+        font-size:13px;
       }
 
       .profile-grid{
@@ -3099,43 +2836,6 @@
       .progress{ height:10px; }
       .signature{ font-size:12px; }
 
-      .search-shell{
-        min-height:42px;
-        border-radius:12px;
-        padding:0 12px;
-        gap:10px;
-      }
-
-      .search-input{ font-size:12px; }
-
-      .token-row{
-        grid-template-columns:42px minmax(0,1fr) 36px;
-        padding:10px;
-        border-radius:14px;
-        gap:8px;
-      }
-
-      .token-avatar{
-        width:42px;
-        height:42px;
-      }
-
-      .token-main strong{ font-size:14px; }
-      .token-role{ font-size:10px; }
-      .token-contract{ font-size:10px; }
-
-      .copy-icon-btn{
-        width:36px;
-        height:36px;
-        border-radius:10px;
-      }
-
-      .copy-icon-btn::before,
-      .copy-icon-btn::after{
-        width:10px;
-        height:12px;
-      }
-
       .pay-shell .section-title{ font-size:20px; }
       .toggle-label{ font-size:8px; }
 
@@ -3186,6 +2886,12 @@
       .asset-btn img{
         width:20px;
         height:20px;
+      }
+
+      .asset-btn.active img,
+      .asset-btn.eurc.active img{
+        width:22px;
+        height:22px;
       }
 
       .amount-box{
@@ -3421,21 +3127,21 @@
       }
 
       .qr-box{
-        min-height:148px;
+        min-height:210px;
         border-radius:14px;
-        padding:8px;
+        padding:10px;
       }
 
       #requestQr{
-        width:126px;
-        min-height:126px;
+        width:200px;
+        min-height:200px;
+        padding:10px;
       }
 
       #requestQr img,
       #requestQr canvas{
-        width:126px !important;
-        height:126px !important;
-        padding:5px;
+        width:200px !important;
+        height:200px !important;
       }
 
       .mini-action{
@@ -3510,15 +3216,6 @@
             <div class="label">GET PAID</div>
           </div>
         </button>
-
-        <div class="power-slot" id="powerSlot">
-          <div class="power-switch" id="powerSwitch" aria-label="Disconnect wallet by sliding up">
-            <div class="power-dot"></div>
-            <div class="power-label">OFF</div>
-            <div class="power-hint" id="powerHint">slide up</div>
-            <div class="power-knob" id="powerKnob"></div>
-          </div>
-        </div>
       </aside>
 
       <main class="main">
@@ -3527,9 +3224,7 @@
             <section class="page">
               <div class="page-top">
                 <div class="page-top-row">
-                  <div class="page-chip-wrap">
-                    <div class="page-dot"></div>
-                  </div>
+                  <div class="page-dot"></div>
                   <div class="page-chain">Arc Testnet</div>
                 </div>
 
@@ -3629,6 +3324,14 @@
 
                 <div class="page-view" data-view="home">
                   <div class="page-shell">
+                    <div class="home-profile-row">
+                      <div class="home-profile-title">Profile</div>
+                      <button class="home-disconnect" id="homeDisconnectBtn" type="button">
+                        <span class="home-disconnect-track"></span>
+                        <span class="home-disconnect-label">Disconnect</span>
+                      </button>
+                    </div>
+
                     <div class="profile-card">
                       <div class="profile-grid">
                         <div class="avatar-col">
@@ -3671,13 +3374,6 @@
                         </div>
                       </div>
                     </div>
-
-                    <div class="search-shell">
-                      <div class="search-icon">⌕</div>
-                      <input class="search-input" id="tokenSearch" placeholder="Search token" />
-                    </div>
-
-                    <div class="token-list" id="tokenList"></div>
                   </div>
                 </div>
 
@@ -3786,9 +3482,7 @@
                 <div class="page-view" data-view="pay">
                   <div class="page-shell">
                     <div class="top-toggle-row">
-                      <div>
-                        <div class="section-title">Pay</div>
-                      </div>
+                      <div class="section-title">Pay</div>
 
                       <div class="toggle-wrap">
                         <span class="toggle-label">Hide note</span>
@@ -3876,9 +3570,7 @@
                 <div class="page-view" data-view="get-paid">
                   <div class="page-shell">
                     <div class="request-top">
-                      <div>
-                        <div class="section-title">Get Paid</div>
-                      </div>
+                      <div class="section-title">Get Paid</div>
 
                       <div class="toggle-wrap">
                         <span class="toggle-label">Hide note</span>
@@ -3996,7 +3688,7 @@
   <script>
     const ARC = {
       chainId: 5042002,
-      chainHex: "0x4cef52",
+      chainHex: "0x4cf332",
       name: "Arc Testnet",
       rpc: "https://rpc.testnet.arc.network",
       explorer: "https://testnet.arcscan.app",
@@ -4054,6 +3746,7 @@
         quotePending: false,
         busy: false,
         lmtvNeeded: null,
+        rawLmtvNeeded: null,
         flowTotal: 3,
         flowPhase: 0,
         liveAssistant: null
@@ -4098,10 +3791,6 @@
     const app = document.getElementById("app");
     const connectBtn = document.getElementById("connectBtn");
     const connectLabel = document.getElementById("connectLabel");
-    const powerSlot = document.getElementById("powerSlot");
-    const powerSwitch = document.getElementById("powerSwitch");
-    const powerKnob = document.getElementById("powerKnob");
-    const powerHint = document.getElementById("powerHint");
 
     const pageViews = Array.from(document.querySelectorAll(".page-view"));
     const navButtons = Array.from(document.querySelectorAll("[data-page]"));
@@ -4111,15 +3800,13 @@
     const assistantTitle = document.getElementById("assistantTitle");
     const assistantText = document.getElementById("assistantText");
 
+    const homeDisconnectBtn = document.getElementById("homeDisconnectBtn");
     const profileWallet = document.getElementById("profileWallet");
     const profileLv = document.getElementById("profileLv");
     const profileTx = document.getElementById("profileTx");
     const profileProgress = document.getElementById("profileProgress");
     const trophyRow = document.getElementById("trophyRow");
     const coinRow = document.getElementById("coinRow");
-
-    const tokenList = document.getElementById("tokenList");
-    const tokenSearch = document.getElementById("tokenSearch");
 
     const slippageShell = document.getElementById("slippageShell");
     const slippageToggle = document.getElementById("slippageToggle");
@@ -4245,25 +3932,9 @@
       refreshPayUI();
     }
 
-    function refreshHomeProgress(){
-      const lv = Math.min(state.stats.totalTx, 10);
-      profileLv.textContent = String(lv);
-      profileTx.textContent = `TX ${state.stats.totalTx}`;
-      profileProgress.style.width = `${lv * 10}%`;
-
-      const trophySlots = Array.from(trophyRow.children);
-      const coinSlots = Array.from(coinRow.children);
-      trophySlots.forEach((el, i) => el.classList.toggle("on", lv >= i + 1));
-      coinSlots.forEach((el, i) => el.classList.toggle("on", lv >= i + 6));
-    }
-
     function shortenAddress(addr){
       if (!addr) return "Wallet not connected";
       return `${addr.slice(0, 6)}...${addr.slice(-4)}`;
-    }
-
-    function shortenContract(addr){
-      return `${addr.slice(0, 6)}...${addr.slice(-5)}`;
     }
 
     function trimZeros(str){
@@ -4334,6 +4005,19 @@
       return safe.gt(0) ? safe : ethers.BigNumber.from(0);
     }
 
+    function getStableDustTolerance(symbol){
+      const decimals = state.tokenMeta[symbol]?.decimals || 18;
+      const pow = Math.max(decimals - 5, 0);
+      return ethers.BigNumber.from(10).pow(pow);
+    }
+
+    function getBufferedPayInput(rawIn, stable){
+      if (!rawIn || rawIn.lte(0)) return ethers.BigNumber.from(0);
+      const minDust = ethers.BigNumber.from(10).pow(Math.max((state.tokenMeta.LMTV?.decimals || 18) - 8, 0));
+      const bps = stable === "USDC" ? 10008 : 10005;
+      return rawIn.mul(bps).div(10000).add(minDust);
+    }
+
     function setAssistant(tone, kicker, title, text){
       assistantBar.dataset.tone = tone;
       assistantKicker.textContent = kicker;
@@ -4365,11 +4049,9 @@
         connectLabel.textContent = "CONNECTED";
         connectBtn.classList.add("connected");
         connectBtn.classList.remove("active");
-        powerSlot.classList.add("show");
       } else {
         connectLabel.textContent = "CONNECT";
         connectBtn.classList.remove("connected");
-        powerSlot.classList.remove("show");
       }
     }
 
@@ -4410,47 +4092,23 @@
       updateAssistant();
     }
 
+    function refreshHomeProgress(){
+      const lv = Math.min(state.stats.totalTx, 10);
+      profileLv.textContent = String(lv);
+      profileTx.textContent = `TX ${state.stats.totalTx}`;
+      profileProgress.style.width = `${lv * 10}%`;
+
+      const trophySlots = Array.from(trophyRow.children);
+      const coinSlots = Array.from(coinRow.children);
+      trophySlots.forEach((el, i) => el.classList.toggle("on", lv >= i + 1));
+      coinSlots.forEach((el, i) => el.classList.toggle("on", lv >= i + 6));
+    }
+
     function refreshHomeUI(){
       profileWallet.textContent = state.connected
         ? `${state.preferredWallet || "Wallet"} · ${shortenAddress(state.address)}`
         : "Wallet not connected";
       refreshHomeProgress();
-    }
-
-    function renderTokens(filter = ""){
-      const q = filter.trim().toLowerCase();
-      const rows = [
-        { symbol: "LMTV", role: "Main token", address: ADDR.LMTV },
-        { symbol: "USDC", role: "Arc stable / gas side", address: ADDR.USDC },
-        { symbol: "EURC", role: "Euro stable", address: ADDR.EURC }
-      ].filter(t => !q || t.symbol.toLowerCase().includes(q) || t.role.toLowerCase().includes(q));
-
-      tokenList.innerHTML = rows.map(row => `
-        <div class="token-row">
-          <div class="token-avatar">
-            <img src="${tokenImage(row.symbol)}" alt="${row.symbol}" onerror="this.remove()">
-          </div>
-          <div class="token-main">
-            <strong>${row.symbol}</strong>
-            <div class="token-role">${row.role}</div>
-            <div class="token-contract">${shortenContract(row.address)}</div>
-          </div>
-          <button class="copy-icon-btn" data-copy="${row.address}" type="button" aria-label="Copy ${row.symbol} contract"></button>
-        </div>
-      `).join("");
-
-      tokenList.querySelectorAll("[data-copy]").forEach(btn => {
-        btn.addEventListener("click", async () => {
-          try{
-            await navigator.clipboard.writeText(btn.dataset.copy);
-            btn.style.transform = "scale(.92)";
-            setTimeout(() => btn.style.transform = "", 180);
-            setAssistant("success", "Copied", "Contract copied", "The token contract was copied to your clipboard.");
-          }catch{
-            setAssistant("danger", "Clipboard", "Copy failed", "Clipboard access was blocked on this browser.");
-          }
-        });
-      });
     }
 
     function pickInjectedProvider(){
@@ -4599,7 +4257,6 @@
           requestWalletInput.value = state.address;
         }
 
-        resetPowerSlider(true);
         setAssistant("success", "Wallet", `${state.preferredWallet} connected`, "StableFlow is live on Arc Testnet.");
       }catch(err){
         console.error(err);
@@ -4632,7 +4289,6 @@
       refreshHomeUI();
       refreshSwapUI();
       refreshPayUI();
-      resetPowerSlider(true);
       setPage("connect");
       setAssistant("warn", "Disconnected", "Wallet disconnected", "Open the shell again when you want to reconnect.");
     }
@@ -4714,14 +4370,15 @@
       return best;
     }
 
-    async function ensureAllowance(symbol, spender, amount){
+    async function ensureSmoothSwapAllowance(symbol, spender, amount){
       const erc20 = getErc20(symbol, true);
       const allowance = await erc20.allowance(state.address, spender);
-      if (allowance.gte(amount)) return;
+      if (allowance.gte(amount)) return false;
 
-      setAssistant("warn", "Approve", `Approve ${symbol}`, `Approve ${symbol} in your wallet to continue.`);
-      const tx = await erc20.approve(spender, amount);
+      setAssistant("warn", "Approve", `Approve ${symbol}`, `First-time approval for smoother future swaps. Confirm in MetaMask.`);
+      const tx = await erc20.approve(spender, ethers.constants.MaxUint256);
       await tx.wait();
+      return true;
     }
 
     async function flushUi(ms = 240){
@@ -5014,13 +4671,13 @@
       refreshSwapUI();
 
       try{
-        setAssistant("warn", "Swap", "Preparing approval", `StableFlow is preparing your ${inputSymbol} swap.`);
+        setAssistant("warn", "Swap", "Preparing swap", `StableFlow is preparing your ${inputSymbol} swap.`);
         const pair = getPairForStable("USDC", true);
         const pairAddr = ADDR.POOL_USDC;
 
-        await ensureAllowance(inputSymbol, pairAddr, amountIn);
+        await ensureSmoothSwapAllowance(inputSymbol, pairAddr, amountIn);
 
-        setAssistant("warn", "Swap", "Confirm swap", "Approve the swap transaction in your wallet.");
+        setAssistant("warn", "Swap", "Confirm swap", "Confirm the swap in MetaMask.");
         const tx = await pair.swap(tokenAddr(inputSymbol), amountIn);
         await tx.wait();
 
@@ -5056,6 +4713,7 @@
 
     function clearPayQuote(){
       state.pay.lmtvNeeded = null;
+      state.pay.rawLmtvNeeded = null;
       state.pay.quotePending = false;
     }
 
@@ -5099,12 +4757,14 @@
 
       try{
         const pair = getPairForStable(stable, false);
-        const amountIn = await quoteInputForDesiredOut(pair, ADDR.LMTV, ADDR[stable], desiredOut);
+        const rawIn = await quoteInputForDesiredOut(pair, ADDR.LMTV, ADDR[stable], desiredOut);
         if (runId !== payQuoteSeq) return;
-        state.pay.lmtvNeeded = amountIn;
+        state.pay.rawLmtvNeeded = rawIn;
+        state.pay.lmtvNeeded = getBufferedPayInput(rawIn, stable);
       }catch(err){
         console.error(err);
         if (runId !== payQuoteSeq) return;
+        state.pay.rawLmtvNeeded = null;
         state.pay.lmtvNeeded = null;
       }
 
@@ -5295,7 +4955,9 @@
         await refreshBalances();
 
         const gained = state.balances[stable].sub(beforeStableBal);
-        if (gained.lt(desiredAmount)) {
+        const tolerance = getStableDustTolerance(stable);
+
+        if (gained.add(tolerance).lt(desiredAmount)) {
           throw new Error("Not enough stable received after swap");
         }
 
@@ -5379,8 +5041,34 @@
     }
 
     function makeRequestLink(payload){
-      const encoded = btoa(unescape(encodeURIComponent(JSON.stringify(payload))));
-      return `${location.origin}${location.pathname}#sfreq=${encodeURIComponent(encoded)}`;
+      const compact = {
+        w: payload.wallet,
+        a: payload.asset === "EURC" ? "e" : "u",
+        m: payload.amount,
+        n: payload.note || "",
+        t: payload.createdAt
+      };
+
+      const encoded = btoa(unescape(encodeURIComponent(JSON.stringify(compact))))
+        .replace(/\+/g, "-")
+        .replace(/\//g, "_")
+        .replace(/=+$/g, "");
+
+      return `${location.origin}${location.pathname}#q=${encoded}`;
+    }
+
+    function decodeCompactPayload(encoded){
+      const normalized = encoded.replace(/-/g, "+").replace(/_/g, "/");
+      const padded = normalized + "===".slice((normalized.length + 3) % 4);
+      const json = decodeURIComponent(escape(atob(padded)));
+      const compact = JSON.parse(json);
+      return {
+        wallet: compact.w,
+        asset: compact.a === "e" ? "EURC" : "USDC",
+        amount: compact.m,
+        note: compact.n || "",
+        createdAt: compact.t || Date.now()
+      };
     }
 
     function refreshRequestUI(){
@@ -5440,9 +5128,9 @@
       if (typeof QRCode !== "undefined") {
         new QRCode(requestQr, {
           text: state.request.link,
-          width: 148,
-          height: 148,
-          correctLevel: QRCode.CorrectLevel.M
+          width: 190,
+          height: 190,
+          correctLevel: QRCode.CorrectLevel.L
         });
       }
 
@@ -5497,7 +5185,7 @@
         const ctx = canvas.getContext("2d");
 
         const width = 900;
-        const height = 1180;
+        const height = 1240;
         canvas.width = width;
         canvas.height = height;
 
@@ -5533,7 +5221,7 @@
             ["NOTE", requestOutNote.textContent || "none"]
           ];
 
-          let y = 720;
+          let y = 780;
           lines.forEach(([label, value]) => {
             ctx.fillStyle = "#7a8693";
             ctx.font = "bold 18px Inter, Arial";
@@ -5554,7 +5242,9 @@
         };
 
         if (qrCanvas) {
-          ctx.drawImage(qrCanvas, 220, 180, 460, 460);
+          ctx.fillStyle = "#ffffff";
+          ctx.fillRect(180, 180, 540, 540);
+          ctx.drawImage(qrCanvas, 180, 180, 540, 540);
           afterQr();
           return;
         }
@@ -5562,7 +5252,9 @@
         if (qrImg) {
           const img = new Image();
           img.onload = () => {
-            ctx.drawImage(img, 220, 180, 460, 460);
+            ctx.fillStyle = "#ffffff";
+            ctx.fillRect(180, 180, 540, 540);
+            ctx.drawImage(img, 180, 180, 540, 540);
             afterQr();
           };
           img.src = qrImg.src;
@@ -5640,17 +5332,19 @@
 
     function consumeRequestString(str){
       try{
-        let encoded = "";
-        if (str.includes("#sfreq=")) {
-          encoded = str.split("#sfreq=")[1];
-        } else if (str.startsWith("sfreq=")) {
-          encoded = str.replace("sfreq=", "");
+        let payload;
+
+        if (str.includes("#q=")) {
+          payload = decodeCompactPayload(str.split("#q=")[1]);
+        } else if (str.startsWith("q=")) {
+          payload = decodeCompactPayload(str.replace("q=", ""));
+        } else if (str.includes("#sfreq=")) {
+          const encoded = str.split("#sfreq=")[1];
+          const json = decodeURIComponent(escape(atob(decodeURIComponent(encoded))));
+          payload = JSON.parse(json);
         } else {
           return false;
         }
-
-        const json = decodeURIComponent(escape(atob(decodeURIComponent(encoded))));
-        const payload = JSON.parse(json);
 
         if (!payload.wallet || !ethers.utils.isAddress(payload.wallet)) return false;
 
@@ -5667,8 +5361,15 @@
 
     function consumeHashRequest(){
       const hash = location.hash || "";
-      if (!hash.startsWith("#sfreq=")) return;
-      const ok = consumeRequestString(hash.slice(1));
+      if (!hash) return;
+
+      let ok = false;
+      if (hash.startsWith("#q=")) {
+        ok = consumeRequestString(hash.slice(1));
+      } else if (hash.startsWith("#sfreq=")) {
+        ok = consumeRequestString(hash.slice(1));
+      }
+
       if (ok) {
         history.replaceState({}, "", location.pathname + location.search);
       }
@@ -5719,7 +5420,7 @@
         }
 
         if (!swapTopInput.value.trim() && !swapBottomInput.value.trim()) {
-          setAssistant("success", "Swap", "Choose the side you want", "USDC ↔ LMTV works both ways. MAX now uses safe max without dirty decimal dust.");
+          setAssistant("success", "Swap", "Choose the side you want", "USDC ↔ LMTV works both ways. First approval is smoother now for future swaps.");
           return;
         }
 
@@ -5795,7 +5496,7 @@
           return;
         }
 
-        setAssistant("success", "Pay", "Ready to pay", "Pay flow now follows the wallet in real time with 2 or 3 steps depending on approval.");
+        setAssistant("success", "Pay", "Ready to pay", "Pay flow now follows the wallet in real time with micro dust tolerance.");
         return;
       }
 
@@ -5816,76 +5517,15 @@
           return;
         }
 
-        setAssistant("success", "Get Paid", "Ready to generate", "Create the QR request and share it with the payer.");
-      }
-    }
-
-    let powerDrag = null;
-
-    function getPowerBounds(){
-      const trackRect = powerSwitch.getBoundingClientRect();
-      const knobH = powerKnob.offsetHeight || 38;
-      const minTop = 62;
-      const maxTop = trackRect.height - knobH - 10;
-      return { trackRect, knobH, minTop, maxTop };
-    }
-
-    function setPowerKnobTop(topPx, animate = false){
-      powerKnob.style.transition = animate ? "top .18s ease" : "none";
-      powerKnob.style.top = `${topPx}px`;
-    }
-
-    function setPowerArmedState(armed){
-      powerSwitch.classList.toggle("armed", armed);
-      if (powerHint) powerHint.textContent = armed ? "release" : "slide up";
-    }
-
-    function resetPowerSlider(animate = true){
-      requestAnimationFrame(() => {
-        const { maxTop } = getPowerBounds();
-        setPowerArmedState(false);
-        powerSwitch.classList.remove("dragging");
-        setPowerKnobTop(maxTop, animate);
-      });
-    }
-
-    function beginPowerDrag(clientY){
-      if (!state.connected) return;
-      const { trackRect } = getPowerBounds();
-      const knobRect = powerKnob.getBoundingClientRect();
-      powerDrag = {
-        startOffset: clientY - knobRect.top,
-        trackTop: trackRect.top
-      };
-      powerSwitch.classList.add("dragging");
-    }
-
-    function movePowerDrag(clientY){
-      if (!powerDrag || !state.connected) return;
-      const { minTop, maxTop } = getPowerBounds();
-      let nextTop = clientY - powerDrag.trackTop - powerDrag.startOffset;
-      nextTop = Math.max(minTop, Math.min(maxTop, nextTop));
-      setPowerKnobTop(nextTop, false);
-
-      const progress = 1 - ((nextTop - minTop) / (maxTop - minTop));
-      setPowerArmedState(progress >= 0.88);
-    }
-
-    function endPowerDrag(){
-      if (!powerDrag) return;
-      const armed = powerSwitch.classList.contains("armed");
-      powerDrag = null;
-      powerSwitch.classList.remove("dragging");
-
-      if (armed && state.connected) {
-        disconnectWallet();
-      } else {
-        resetPowerSlider(true);
+        setAssistant("success", "Get Paid", "Ready to generate", "This QR is larger and stronger for real camera reading.");
       }
     }
 
     connectBtn.addEventListener("click", () => {
-      if (state.connected) return;
+      if (state.connected) {
+        setPage("home");
+        return;
+      }
       if (state.shellOpen) {
         closeShell();
       } else {
@@ -5906,7 +5546,9 @@
       });
     });
 
-    tokenSearch.addEventListener("input", e => renderTokens(e.target.value));
+    homeDisconnectBtn.addEventListener("click", () => {
+      if (state.connected) disconnectWallet();
+    });
 
     slippageToggle.addEventListener("click", () => {
       slippageShell.classList.toggle("open");
@@ -6070,22 +5712,8 @@
     requestDownloadBtn.addEventListener("click", downloadRequestQr);
     requestNewBtn.addEventListener("click", resetRequestFields);
 
-    powerKnob.addEventListener("pointerdown", e => {
-      beginPowerDrag(e.clientY);
-      powerKnob.setPointerCapture?.(e.pointerId);
-    });
-
-    window.addEventListener("pointermove", e => movePowerDrag(e.clientY));
-    window.addEventListener("pointerup", endPowerDrag);
-    window.addEventListener("pointercancel", endPowerDrag);
-
-    window.addEventListener("resize", () => {
-      if (state.connected) resetPowerSlider(false);
-    });
-
     function boot(){
       loadStats();
-      renderTokens("");
       refreshHomeUI();
       refreshSwapUI();
       configurePaySteps(3);
@@ -6094,7 +5722,6 @@
       updateConnectLabel();
       updateNavState();
       setPage("connect");
-      resetPowerSlider(false);
       consumeHashRequest();
 
       if (state.connected && state.address && !requestWalletInput.value.trim()) {
