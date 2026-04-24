@@ -1762,7 +1762,24 @@
       display:grid;
       grid-template-columns:88px minmax(0,1fr) 88px;
       gap:8px;
-      align-items:center;
+      align-items:end;
+    }
+
+    .amount-stack{
+      min-width:0;
+      display:flex;
+      flex-direction:column;
+      gap:5px;
+    }
+
+    .amount-mini-label{
+      text-align:center;
+      color:#8ecff6;
+      font-size:8px;
+      font-weight:1000;
+      letter-spacing:.18em;
+      text-transform:uppercase;
+      line-height:1;
     }
 
     .asset-btn{
@@ -2881,6 +2898,11 @@
         gap:6px;
       }
 
+      .amount-mini-label{
+        font-size:7px;
+        letter-spacing:.14em;
+      }
+
       .asset-btn{
         min-height:38px;
         border-radius:12px;
@@ -3511,8 +3533,11 @@
                         <span>USDC</span>
                       </button>
 
-                      <div class="amount-box">
-                        <input id="payAmountInput" placeholder="0" inputmode="decimal" />
+                      <div class="amount-stack">
+                        <div class="amount-mini-label">Amount</div>
+                        <div class="amount-box">
+                          <input id="payAmountInput" placeholder="0" inputmode="decimal" />
+                        </div>
                       </div>
 
                       <button class="asset-btn eurc" id="payAssetEurc" type="button">
@@ -3535,7 +3560,7 @@
                       <div class="summary-box">
                         <div class="summary-kicker">LMTV needed</div>
                         <div class="summary-value" id="payQuoteLeft">—</div>
-                        <div class="summary-foot">estimated amount to spend</div>
+                        <div class="summary-foot" id="payBufferFoot">dynamic buffer active</div>
                       </div>
 
                       <div class="flow-orb" id="payFlowOrb">
@@ -3751,6 +3776,7 @@
         busy: false,
         lmtvNeeded: null,
         rawLmtvNeeded: null,
+        lastBuffer: null,
         flowTotal: 3,
         flowPhase: 0,
         liveAssistant: null
@@ -3854,6 +3880,7 @@
     const payStepChips = Array.from(payFlowPanel.querySelectorAll(".step-chip"));
     const payDailyText = document.getElementById("payDailyText");
     const payQrBtn = document.getElementById("payQrBtn");
+    const payBufferFoot = document.getElementById("payBufferFoot");
 
     const requestHideNoteBtn = document.getElementById("requestHideNoteBtn");
     const requestWalletInput = document.getElementById("requestWalletInput");
@@ -4015,11 +4042,34 @@
       return ethers.BigNumber.from(10).pow(pow);
     }
 
-    function getBufferedPayInput(rawIn, stable){
+    function getDynamicPayBuffer(rawIn, stable, desiredText){
       if (!rawIn || rawIn.lte(0)) return ethers.BigNumber.from(0);
-      const minDust = ethers.BigNumber.from(10).pow(Math.max((state.tokenMeta.LMTV?.decimals || 18) - 8, 0));
-      const bps = stable === "USDC" ? 10008 : 10005;
-      return rawIn.mul(bps).div(10000).add(minDust);
+
+      const desired = Math.max(0, Math.min(10, Number(desiredText || 0)));
+      const ratio = desired / 10;
+
+      const floor = ethers.utils.parseUnits(stable === "USDC" ? "0.0040" : "0.0020", 18);
+      const cap = ethers.utils.parseUnits(stable === "USDC" ? "0.0500" : "0.0300", 18);
+
+      const curveFloat = stable === "USDC"
+        ? (0.004 + ratio * 0.046)
+        : (0.002 + ratio * 0.020);
+
+      const curveBN = ethers.utils.parseUnits(curveFloat.toFixed(6), 18);
+      const pctBN = rawIn.mul(stable === "USDC" ? 8 : 5).div(10000);
+
+      let bonus = pctBN;
+      if (bonus.lt(floor)) bonus = floor;
+      if (bonus.lt(curveBN)) bonus = curveBN;
+      if (bonus.gt(cap)) bonus = cap;
+
+      return bonus;
+    }
+
+    function getBufferedPayInput(rawIn, stable, desiredText){
+      const bonus = getDynamicPayBuffer(rawIn, stable, desiredText);
+      state.pay.lastBuffer = bonus;
+      return rawIn.add(bonus);
     }
 
     function setAssistant(tone, kicker, title, text){
@@ -4314,6 +4364,11 @@
     function getErc20(symbol, writable = false){
       const runner = writable ? state.signer : state.provider;
       return new ethers.Contract(tokenAddr(symbol), ERC20_ABI, runner);
+    }
+
+    async function readTokenBalance(symbol, account = state.address){
+      const token = getErc20(symbol, false);
+      return token.balanceOf(account);
     }
 
     function getPairForStable(stableSymbol, writable = false){
@@ -4718,6 +4773,7 @@
     function clearPayQuote(){
       state.pay.lmtvNeeded = null;
       state.pay.rawLmtvNeeded = null;
+      state.pay.lastBuffer = null;
       state.pay.quotePending = false;
     }
 
@@ -4764,12 +4820,13 @@
         const rawIn = await quoteInputForDesiredOut(pair, ADDR.LMTV, ADDR[stable], desiredOut);
         if (runId !== payQuoteSeq) return;
         state.pay.rawLmtvNeeded = rawIn;
-        state.pay.lmtvNeeded = getBufferedPayInput(rawIn, stable);
+        state.pay.lmtvNeeded = getBufferedPayInput(rawIn, stable, amountText);
       }catch(err){
         console.error(err);
         if (runId !== payQuoteSeq) return;
         state.pay.rawLmtvNeeded = null;
         state.pay.lmtvNeeded = null;
+        state.pay.lastBuffer = null;
       }
 
       if (runId !== payQuoteSeq) return;
@@ -4787,6 +4844,12 @@
       payQuoteAsset.textContent = state.pay.asset;
       payQuoteRight.textContent = payAmountInput.value.trim() || "0";
       payDailyText.textContent = `${state.stats.daily.pay} / 7 today`;
+
+      if (state.pay.lastBuffer && state.pay.lastBuffer.gt(0)) {
+        payBufferFoot.textContent = `buffer ${formatUnitsSmart(state.pay.lastBuffer, 18, 4)} LMTV`;
+      } else {
+        payBufferFoot.textContent = "dynamic buffer active";
+      }
 
       payPreviewWallet.textContent = payWalletInput.value.trim() || "—";
       payPreviewAsset.textContent = state.pay.asset;
@@ -4946,36 +5009,46 @@
           configurePaySteps(2);
 
           setPayStep(1);
-          payPreviewStatus.textContent = "Approval already active";
-          setPayLiveAssistant("warn", "Pay flow", "1/2 Swap", "Approval already active. Now confirm the swap in MetaMask.");
+          payPreviewStatus.textContent = "Allowance ready";
+          setPayLiveAssistant("warn", "Pay flow", "1/2 Swap", "Allowance is ready. Now confirm the swap in MetaMask.");
           await flushUi(300);
         }
 
         phase = "swap";
-        const beforeStableBal = state.balances[stable];
+        const beforeStableBal = await readTokenBalance(stable);
+
         const txSwap = await pair.swap(ADDR.LMTV, exactIn);
         await txSwap.wait();
 
-        await refreshBalances();
+        const afterStableBal = await readTokenBalance(stable);
+        const gained = afterStableBal.sub(beforeStableBal);
 
-        const gained = state.balances[stable].sub(beforeStableBal);
-        const tolerance = getStableDustTolerance(stable);
-
-        if (gained.add(tolerance).lt(desiredAmount)) {
-          throw new Error("Not enough stable received after swap");
+        if (afterStableBal.lt(desiredAmount)) {
+          phase = "post-swap-check";
+          throw new Error("Stable target not reached after swap");
         }
 
         if (needsApprove) {
           setPayStep(3);
           payPreviewStatus.textContent = "Swap confirmed";
-          setPayLiveAssistant("warn", "Pay flow", "3/3 Transfer", "Swap completed. Now confirm the final transfer.");
+          setPayLiveAssistant(
+            "warn",
+            "Pay flow",
+            "3/3 Transfer",
+            `Swap completed. ${formatUnitsSmart(gained, state.tokenMeta[stable].decimals, 6)} ${stable} arrived. Confirm the transfer now.`
+          );
         } else {
           setPayStep(2);
           payPreviewStatus.textContent = "Swap confirmed";
-          setPayLiveAssistant("warn", "Pay flow", "2/2 Transfer", "Swap completed. Now confirm the final transfer.");
+          setPayLiveAssistant(
+            "warn",
+            "Pay flow",
+            "2/2 Transfer",
+            `Swap completed. ${formatUnitsSmart(gained, state.tokenMeta[stable].decimals, 6)} ${stable} arrived. Confirm the transfer now.`
+          );
         }
 
-        await flushUi(300);
+        await flushUi(320);
 
         phase = "transfer";
         const stableToken = getErc20(stable, true);
@@ -5000,6 +5073,9 @@
         } else if (phase === "swap") {
           payPreviewStatus.textContent = "Swap failed";
           setAssistant("danger", "Pay flow", "Swap failed", "The swap transaction was rejected or failed.");
+        } else if (phase === "post-swap-check") {
+          payPreviewStatus.textContent = "Requote needed";
+          setAssistant("danger", "Pay flow", "Target not reached", "Swap completed but the exact stable target was not reached. Try again.");
         } else if (phase === "transfer") {
           payPreviewStatus.textContent = "Transfer failed";
           setAssistant("danger", "Pay flow", "Transfer failed", "The final transfer was rejected or failed.");
@@ -5500,7 +5576,7 @@
           return;
         }
 
-        setAssistant("success", "Pay", "Ready to pay", "The pay flow follows the wallet in real time with dust tolerance control.");
+        setAssistant("success", "Pay", "Ready to pay", "The pay flow now checks the final stable balance before transfer.");
         return;
       }
 
