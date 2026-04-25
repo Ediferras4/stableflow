@@ -293,7 +293,7 @@
     }
 
     .connect-btn.connected .label{
-      font-size:7px;
+      font-size:6.8px;
       letter-spacing:.04em;
       color:#deeffb;
       padding:0 3px;
@@ -2704,6 +2704,17 @@
       align-items:center;
     }
 
+    .request-bottom-row .quick-btn{
+      min-width:0;
+      height:34px;
+      padding:0 8px;
+      font-size:14px;
+      font-weight:1000;
+      letter-spacing:.02em;
+      text-transform:none;
+      color:#ecf7ff;
+    }
+
     .request-result{
       border-radius:22px;
       padding:16px;
@@ -3805,7 +3816,7 @@
       }
 
       .connect-btn.connected .label{
-        font-size:6.4px;
+        font-size:6.2px;
         letter-spacing:.03em;
       }
 
@@ -4126,6 +4137,11 @@
         height:24px;
         padding:0 8px;
         font-size:8px;
+      }
+
+      .request-bottom-row .quick-btn{
+        height:32px;
+        font-size:13px;
       }
 
       .trade-box{
@@ -4978,7 +4994,7 @@
                         <span class="more-eyebrow">Arc links</span>
 
                         <div class="more-arc-links">
-                          <a class="more-arc-link" href="#" data-coming="Community">
+                          <a class="more-arc-link" href="https://discord.com/invite/buildonarc" target="_blank" rel="noopener noreferrer">
                             <span>Community</span>
                             <small>Open</small>
                           </a>
@@ -5005,7 +5021,7 @@
                             <span>Profile</span>
                           </a>
 
-                          <a class="more-social-btn" href="https://discord.com/invite/buildonarc" target="_blank" rel="noopener noreferrer">
+                          <a class="more-social-btn" href="#" data-coming="Discord">
                             <b>Discord</b>
                             <span>Profile</span>
                           </a>
@@ -5088,637 +5104,143 @@
 
     const ASSISTANT_I18N = {
       en: {
-        fallback: {
-          kicker: "Assistant",
-          title: "StableFlow",
-          text: "Ready."
-        },
+        fallback: { kicker: "Assistant", title: "StableFlow", text: "Ready." },
+        onboarding_1: { kicker: "Hello", title: "StableFlow is awake", text: "Connect your wallet to begin on Arc Testnet." },
+        onboarding_2: { kicker: "Guide", title: "Arc Testnet is required", text: "Use Arc Testnet before trying swap or pay." },
+        onboarding_3: { kicker: "Guide", title: "MetaMask works best", text: "MetaMask is the smoothest option here, but other wallets can work too." },
+        shell_closed: { kicker: "Connect", title: "Open the shell", text: "Tap Connect to wake up StableFlow." },
+        connect_page: { kicker: "Connect", title: "MetaMask recommended", text: "Browser extension and in-wallet browser both work. Arc Testnet is required." },
+        browse_page: { kicker: "Browse", title: "You can look around first", text: "Connect your wallet when you want real balances and actions." },
+        get_paid_connect_required: { kicker: "Get Paid", title: "Connect required", text: "Generate takes you to Connect when no wallet is active." },
+        home_ready: { kicker: "Home guide", title: "Your profile grows with activity", text: "Each successful swap or pay adds +1 LV until level 10." },
 
-        onboarding_1: {
-          kicker: "Hello",
-          title: "StableFlow is awake",
-          text: "Connect your wallet to begin on Arc Testnet."
-        },
-        onboarding_2: {
-          kicker: "Guide",
-          title: "Arc Testnet is required",
-          text: "Use Arc Testnet before trying swap or pay."
-        },
-        onboarding_3: {
-          kicker: "Guide",
-          title: "MetaMask works best",
-          text: "MetaMask is the smoothest option here, but other wallets can work too."
-        },
+        swap_empty: { kicker: "Swap", title: "Choose your swap direction", text: "USDC ↔ LMTV works in both directions. First approval helps future swaps run faster." },
+        swap_refreshing: { kicker: "Swap", title: "Refreshing quote", text: "StableFlow is recalculating the trade before letting you confirm." },
+        swap_limit: { kicker: "Swap", title: "Pool protection active", text: "Each swap is limited to 10 dollars." },
+        swap_balance: { kicker: "Swap", title: "Insufficient balance", text: "You do not have enough {token}." },
+        swap_busy: { kicker: "Swap", title: "Transaction in progress", text: "Check your wallet and wait for confirmation." },
+        swap_ready: { kicker: "Swap", title: "Ready to swap", text: "Route, minimum received and MAX logic are updated. Confirm when ready." },
+        swap_prepare: { kicker: "Swap", title: "Preparing swap", text: "StableFlow is preparing your {token} swap." },
+        swap_confirm: { kicker: "Swap", title: "Confirm swap", text: "Confirm the swap in MetaMask." },
+        swap_success: { kicker: "Swap", title: "Transaction completed ✓", text: "{from} → {to} completed successfully." },
+        swap_fail: { kicker: "Swap", title: "Swap failed", text: "The transaction was rejected or failed on-chain." },
+        approve_swap: { kicker: "Approve", title: "Approve {token}", text: "First-time approval helps future swaps run faster. Confirm in MetaMask." },
 
-        shell_closed: {
-          kicker: "Connect",
-          title: "Open the shell",
-          text: "Tap Connect to wake up StableFlow."
-        },
-        connect_page: {
-          kicker: "Connect",
-          title: "MetaMask recommended",
-          text: "Browser extension and in-wallet browser both work. Arc Testnet is required."
-        },
-        browse_page: {
-          kicker: "Browse",
-          title: "You can look around first",
-          text: "Connect your wallet when you want real balances and actions."
-        },
-        get_paid_connect_required: {
-          kicker: "Get Paid",
-          title: "Connect required",
-          text: "Generate takes you to Connect when no wallet is active."
-        },
+        pay_recipient_required: { kicker: "Pay", title: "Recipient wallet required", text: "Paste or scan the wallet that will receive the payment." },
+        pay_invalid_wallet: { kicker: "Pay", title: "Invalid wallet", text: "The recipient address is not valid." },
+        pay_amount_required: { kicker: "Pay", title: "Amount required", text: "Choose USDC or EURC and enter the amount to send." },
+        pay_recipient_ready: { kicker: "Pay", title: "Recipient ready", text: "Now enter the amount to continue." },
+        pay_quote_refreshing: { kicker: "Pay", title: "Refreshing quote", text: "StableFlow is recalculating the exact LMTV needed." },
+        pay_limit: { kicker: "Pay", title: "Pool protection active", text: "Each payment is limited to 10 dollars." },
+        pay_balance: { kicker: "Pay", title: "Insufficient balance", text: "You need more LMTV for this payment." },
+        pay_busy: { kicker: "Pay", title: "Payment in progress", text: "StableFlow is following the wallet step by step." },
+        pay_ready: { kicker: "Pay", title: "Ready to pay", text: "The pay flow now checks the final stable balance before transfer." },
+        pay_flow_approve: { kicker: "Pay flow", title: "1/3 Approve", text: "Approve LMTV in MetaMask to continue." },
+        pay_flow_swap_after_approve: { kicker: "Pay flow", title: "2/3 Swap", text: "Approval confirmed. Now confirm the swap in MetaMask." },
+        pay_flow_swap_no_approve: { kicker: "Pay flow", title: "1/2 Swap", text: "Allowance is ready. Now confirm the swap in MetaMask." },
+        pay_flow_transfer_3: { kicker: "Pay flow", title: "3/3 Transfer", text: "Swap completed. {amount} {asset} arrived. Confirm the transfer now." },
+        pay_flow_transfer_2: { kicker: "Pay flow", title: "2/2 Transfer", text: "Swap completed. {amount} {asset} arrived. Confirm the transfer now." },
+        pay_target_fail: { kicker: "Pay flow", title: "Target not reached", text: "Swap completed but the exact stable target was not reached. Try again." },
+        pay_transfer_fail: { kicker: "Pay flow", title: "Transfer failed", text: "The final transfer was rejected or failed." },
+        pay_approve_fail: { kicker: "Pay flow", title: "Approve failed", text: "The approval was rejected or failed." },
+        pay_swap_fail: { kicker: "Pay flow", title: "Swap failed", text: "The swap transaction was rejected or failed." },
+        pay_fail: { kicker: "Pay", title: "Payment failed", text: "The payment flow failed or was rejected." },
+        pay_success: { kicker: "Pay", title: "Transaction completed ✓", text: "{amount} {asset} was sent to the recipient." },
 
-        home_ready: {
-          kicker: "Home guide",
-          title: "Your profile grows with activity",
-          text: "Each successful swap or pay adds +1 LV until level 10."
-        },
+        get_paid_receiver: { kicker: "Get Paid", title: "Receiver wallet required", text: "StableFlow can start with your connected wallet automatically." },
+        get_paid_amount: { kicker: "Get Paid", title: "Choose an amount", text: "Use one of the quick values. This page only creates a QR request." },
+        get_paid_ready: { kicker: "Get Paid", title: "Ready to generate", text: "This QR is larger and stronger for real camera reading." },
+        get_paid_generated: { kicker: "Get Paid", title: "Request generated", text: "Your QR request is ready to share or scan." },
+        get_paid_copy: { kicker: "Get Paid", title: "Link copied", text: "The payment request link is in your clipboard." },
+        get_paid_share: { kicker: "Get Paid", title: "Shared", text: "The payment request was shared successfully." },
+        get_paid_copy_fail: { kicker: "Get Paid", title: "Copy failed", text: "Clipboard access was blocked on this browser." },
+        get_paid_invalid_wallet: { kicker: "Get Paid", title: "Receiver wallet required", text: "Enter a valid receiver wallet before generating the request." },
+        get_paid_invalid_amount: { kicker: "Get Paid", title: "Invalid amount", text: "Choose one of the quick values before generating." },
+        get_paid_limit: { kicker: "Get Paid", title: "Max 10", text: "A payment request can be at most 10 dollars in this test version." },
 
-        swap_empty: {
-          kicker: "Swap",
-          title: "Choose your swap direction",
-          text: "USDC ↔ LMTV works in both directions. First approval helps future swaps run faster."
-        },
-        swap_refreshing: {
-          kicker: "Swap",
-          title: "Refreshing quote",
-          text: "StableFlow is recalculating the trade before letting you confirm."
-        },
-        swap_limit: {
-          kicker: "Swap",
-          title: "Pool protection active",
-          text: "Each swap is limited to 10 dollars."
-        },
-        swap_balance: {
-          kicker: "Swap",
-          title: "Insufficient balance",
-          text: "You do not have enough {token}."
-        },
-        swap_busy: {
-          kicker: "Swap",
-          title: "Transaction in progress",
-          text: "Check your wallet and wait for confirmation."
-        },
-        swap_ready: {
-          kicker: "Swap",
-          title: "Ready to swap",
-          text: "Route, minimum received and MAX logic are updated. Confirm when ready."
-        },
-        swap_prepare: {
-          kicker: "Swap",
-          title: "Preparing swap",
-          text: "StableFlow is preparing your {token} swap."
-        },
-        swap_confirm: {
-          kicker: "Swap",
-          title: "Confirm swap",
-          text: "Confirm the swap in MetaMask."
-        },
-        swap_success: {
-          kicker: "Swap",
-          title: "Transaction completed ✓",
-          text: "{from} → {to} completed successfully."
-        },
-        swap_fail: {
-          kicker: "Swap",
-          title: "Swap failed",
-          text: "The transaction was rejected or failed on-chain."
-        },
-        approve_swap: {
-          kicker: "Approve",
-          title: "Approve {token}",
-          text: "First-time approval helps future swaps run faster. Confirm in MetaMask."
-        },
+        more_placeholder: { kicker: "More", title: "Language, notes and tokens", text: "Assistant language is live here. Get Paid notes and token cards are ready." },
 
-        pay_recipient_required: {
-          kicker: "Pay",
-          title: "Recipient wallet required",
-          text: "Paste or scan the wallet that will receive the payment."
-        },
-        pay_invalid_wallet: {
-          kicker: "Pay",
-          title: "Invalid wallet",
-          text: "The recipient address is not valid."
-        },
-        pay_amount_required: {
-          kicker: "Pay",
-          title: "Amount required",
-          text: "Choose USDC or EURC and enter the amount to send."
-        },
-        pay_recipient_ready: {
-          kicker: "Pay",
-          title: "Recipient ready",
-          text: "Now enter the amount to continue."
-        },
-        pay_quote_refreshing: {
-          kicker: "Pay",
-          title: "Refreshing quote",
-          text: "StableFlow is recalculating the exact LMTV needed."
-        },
-        pay_limit: {
-          kicker: "Pay",
-          title: "Pool protection active",
-          text: "Each payment is limited to 10 dollars."
-        },
-        pay_balance: {
-          kicker: "Pay",
-          title: "Insufficient balance",
-          text: "You need more LMTV for this payment."
-        },
-        pay_busy: {
-          kicker: "Pay",
-          title: "Payment in progress",
-          text: "StableFlow is following the wallet step by step."
-        },
-        pay_ready: {
-          kicker: "Pay",
-          title: "Ready to pay",
-          text: "The pay flow now checks the final stable balance before transfer."
-        },
-        pay_flow_approve: {
-          kicker: "Pay flow",
-          title: "1/3 Approve",
-          text: "Approve LMTV in MetaMask to continue."
-        },
-        pay_flow_swap_after_approve: {
-          kicker: "Pay flow",
-          title: "2/3 Swap",
-          text: "Approval confirmed. Now confirm the swap in MetaMask."
-        },
-        pay_flow_swap_no_approve: {
-          kicker: "Pay flow",
-          title: "1/2 Swap",
-          text: "Allowance is ready. Now confirm the swap in MetaMask."
-        },
-        pay_flow_transfer_3: {
-          kicker: "Pay flow",
-          title: "3/3 Transfer",
-          text: "Swap completed. {amount} {asset} arrived. Confirm the transfer now."
-        },
-        pay_flow_transfer_2: {
-          kicker: "Pay flow",
-          title: "2/2 Transfer",
-          text: "Swap completed. {amount} {asset} arrived. Confirm the transfer now."
-        },
-        pay_target_fail: {
-          kicker: "Pay flow",
-          title: "Target not reached",
-          text: "Swap completed but the exact stable target was not reached. Try again."
-        },
-        pay_transfer_fail: {
-          kicker: "Pay flow",
-          title: "Transfer failed",
-          text: "The final transfer was rejected or failed."
-        },
-        pay_approve_fail: {
-          kicker: "Pay flow",
-          title: "Approve failed",
-          text: "The approval was rejected or failed."
-        },
-        pay_swap_fail: {
-          kicker: "Pay flow",
-          title: "Swap failed",
-          text: "The swap transaction was rejected or failed."
-        },
-        pay_fail: {
-          kicker: "Pay",
-          title: "Payment failed",
-          text: "The payment flow failed or was rejected."
-        },
-        pay_success: {
-          kicker: "Pay",
-          title: "Transaction completed ✓",
-          text: "{amount} {asset} was sent to the recipient."
-        },
+        scanner_unavailable: { kicker: "Scanner", title: "Camera unavailable", text: "This browser does not support camera access." },
+        scanner_blocked: { kicker: "Scanner", title: "Camera blocked", text: "Allow camera access to scan the QR code." },
+        scanner_loaded: { kicker: "Scanner", title: "Request loaded", text: "The payment request was loaded into Pay." },
 
-        get_paid_receiver: {
-          kicker: "Get Paid",
-          title: "Receiver wallet required",
-          text: "StableFlow can start with your connected wallet automatically."
-        },
-        get_paid_amount: {
-          kicker: "Get Paid",
-          title: "Choose an amount",
-          text: "Use one of the quick values. This page only creates a QR request."
-        },
-        get_paid_ready: {
-          kicker: "Get Paid",
-          title: "Ready to generate",
-          text: "This QR is larger and stronger for real camera reading."
-        },
-        get_paid_generated: {
-          kicker: "Get Paid",
-          title: "Request generated",
-          text: "Your QR request is ready to share or scan."
-        },
-        get_paid_copy: {
-          kicker: "Get Paid",
-          title: "Link copied",
-          text: "The payment request link is in your clipboard."
-        },
-        get_paid_share: {
-          kicker: "Get Paid",
-          title: "Shared",
-          text: "The payment request was shared successfully."
-        },
-        get_paid_copy_fail: {
-          kicker: "Get Paid",
-          title: "Copy failed",
-          text: "Clipboard access was blocked on this browser."
-        },
-        get_paid_invalid_wallet: {
-          kicker: "Get Paid",
-          title: "Receiver wallet required",
-          text: "Enter a valid receiver wallet before generating the request."
-        },
-        get_paid_invalid_amount: {
-          kicker: "Get Paid",
-          title: "Invalid amount",
-          text: "Choose one of the quick values before generating."
-        },
-        get_paid_limit: {
-          kicker: "Get Paid",
-          title: "Max 10",
-          text: "A payment request can be at most 10 dollars in this test version."
-        },
-
-        more_placeholder: {
-          kicker: "More",
-          title: "Language, notes and tokens",
-          text: "Assistant language is live here. Get Paid notes and token cards are ready."
-        },
-
-        scanner_unavailable: {
-          kicker: "Scanner",
-          title: "Camera unavailable",
-          text: "This browser does not support camera access."
-        },
-        scanner_blocked: {
-          kicker: "Scanner",
-          title: "Camera blocked",
-          text: "Allow camera access to scan the QR code."
-        },
-        scanner_loaded: {
-          kicker: "Scanner",
-          title: "Request loaded",
-          text: "The payment request was loaded into Pay."
-        },
-
-        wallet_none: {
-          kicker: "Wallet",
-          title: "No wallet detected",
-          text: "Install MetaMask or open StableFlow in a wallet browser."
-        },
-        wallet_no_provider: {
-          kicker: "Wallet",
-          title: "No provider found",
-          text: "StableFlow could not find an injected wallet provider."
-        },
-        wallet_connected: {
-          kicker: "Wallet",
-          title: "{wallet} connected",
-          text: "StableFlow is live on Arc Testnet."
-        },
-        wallet_failed: {
-          kicker: "Wallet",
-          title: "Connection failed",
-          text: "The wallet connection was rejected or interrupted."
-        },
-        network_failed: {
-          kicker: "Network",
-          title: "Arc setup failed",
-          text: "Please add or switch to Arc Testnet and try again."
-        },
-        network_wrong: {
-          kicker: "Network",
-          title: "Wrong network",
-          text: "Please switch back to Arc Testnet."
-        },
-        disconnected: {
-          kicker: "Disconnected",
-          title: "Wallet disconnected",
-          text: "Open the shell again when you want to reconnect."
-        }
+        wallet_none: { kicker: "Wallet", title: "No wallet detected", text: "Install MetaMask or open StableFlow in a wallet browser." },
+        wallet_no_provider: { kicker: "Wallet", title: "No provider found", text: "StableFlow could not find an injected wallet provider." },
+        wallet_connected: { kicker: "Wallet", title: "{wallet} connected", text: "StableFlow is live on Arc Testnet." },
+        wallet_failed: { kicker: "Wallet", title: "Connection failed", text: "The wallet connection was rejected or interrupted." },
+        network_failed: { kicker: "Network", title: "Arc setup failed", text: "Please add or switch to Arc Testnet and try again." },
+        network_wrong: { kicker: "Network", title: "Wrong network", text: "Please switch back to Arc Testnet." },
+        disconnected: { kicker: "Disconnected", title: "Wallet disconnected", text: "Open the shell again when you want to reconnect." }
       },
 
       es: {
-        fallback: {
-          kicker: "Asistente",
-          title: "StableFlow",
-          text: "Listo."
-        },
+        fallback: { kicker: "Asistente", title: "StableFlow", text: "Listo." },
+        onboarding_1: { kicker: "Hola", title: "StableFlow está activo", text: "Conecta tu wallet para empezar en Arc Testnet." },
+        onboarding_2: { kicker: "Guía", title: "Arc Testnet es obligatoria", text: "Usa Arc Testnet antes de probar swap o pay." },
+        onboarding_3: { kicker: "Guía", title: "MetaMask funciona mejor", text: "MetaMask es la opción más fluida aquí, aunque otras wallets también pueden funcionar." },
+        shell_closed: { kicker: "Connect", title: "Abre la shell", text: "Toca Connect para activar StableFlow." },
+        connect_page: { kicker: "Connect", title: "MetaMask recomendada", text: "La extensión del navegador y el navegador interno de la wallet funcionan. Arc Testnet es obligatoria." },
+        browse_page: { kicker: "Browse", title: "Puedes mirar primero", text: "Conecta tu wallet cuando quieras balances y acciones reales." },
+        get_paid_connect_required: { kicker: "Get Paid", title: "Conexión requerida", text: "Generate te lleva a Connect cuando no hay una wallet activa." },
+        home_ready: { kicker: "Home guide", title: "Tu perfil crece con actividad", text: "Cada swap o pay exitoso suma +1 LV hasta el nivel 10." },
 
-        onboarding_1: {
-          kicker: "Hola",
-          title: "StableFlow está activo",
-          text: "Conecta tu wallet para empezar en Arc Testnet."
-        },
-        onboarding_2: {
-          kicker: "Guía",
-          title: "Arc Testnet es obligatoria",
-          text: "Usa Arc Testnet antes de probar swap o pay."
-        },
-        onboarding_3: {
-          kicker: "Guía",
-          title: "MetaMask funciona mejor",
-          text: "MetaMask es la opción más fluida aquí, aunque otras wallets también pueden funcionar."
-        },
+        swap_empty: { kicker: "Swap", title: "Elige la dirección del swap", text: "USDC ↔ LMTV funciona en ambas direcciones. La primera aprobación ayuda a que los próximos swaps sean más rápidos." },
+        swap_refreshing: { kicker: "Swap", title: "Actualizando cotización", text: "StableFlow está recalculando el trade antes de dejarte confirmar." },
+        swap_limit: { kicker: "Swap", title: "Protección de pool activa", text: "Cada swap está limitado a 10 dólares." },
+        swap_balance: { kicker: "Swap", title: "Saldo insuficiente", text: "No tienes suficiente {token}." },
+        swap_busy: { kicker: "Swap", title: "Transacción en curso", text: "Revisa tu wallet y espera la confirmación." },
+        swap_ready: { kicker: "Swap", title: "Listo para swap", text: "La ruta, el mínimo recibido y la lógica MAX ya están actualizados. Confirma cuando quieras." },
+        swap_prepare: { kicker: "Swap", title: "Preparando swap", text: "StableFlow está preparando tu swap de {token}." },
+        swap_confirm: { kicker: "Swap", title: "Confirma el swap", text: "Confirma el swap en MetaMask." },
+        swap_success: { kicker: "Swap", title: "Transacción completada ✓", text: "{from} → {to} se completó con éxito." },
+        swap_fail: { kicker: "Swap", title: "El swap falló", text: "La transacción fue rechazada o falló en cadena." },
+        approve_swap: { kicker: "Approve", title: "Aprueba {token}", text: "La primera aprobación ayuda a que los futuros swaps sean más rápidos. Confirma en MetaMask." },
 
-        shell_closed: {
-          kicker: "Connect",
-          title: "Abre la shell",
-          text: "Toca Connect para activar StableFlow."
-        },
-        connect_page: {
-          kicker: "Connect",
-          title: "MetaMask recomendada",
-          text: "La extensión del navegador y el navegador interno de la wallet funcionan. Arc Testnet es obligatoria."
-        },
-        browse_page: {
-          kicker: "Browse",
-          title: "Puedes mirar primero",
-          text: "Conecta tu wallet cuando quieras balances y acciones reales."
-        },
-        get_paid_connect_required: {
-          kicker: "Get Paid",
-          title: "Conexión requerida",
-          text: "Generate te lleva a Connect cuando no hay una wallet activa."
-        },
+        pay_recipient_required: { kicker: "Pay", title: "Wallet del destinatario requerida", text: "Pega o escanea la wallet que recibirá el pago." },
+        pay_invalid_wallet: { kicker: "Pay", title: "Wallet inválida", text: "La dirección del destinatario no es válida." },
+        pay_amount_required: { kicker: "Pay", title: "Falta el monto", text: "Elige USDC o EURC y escribe el monto a enviar." },
+        pay_recipient_ready: { kicker: "Pay", title: "Destinatario listo", text: "Ahora escribe el monto para continuar." },
+        pay_quote_refreshing: { kicker: "Pay", title: "Actualizando cotización", text: "StableFlow está recalculando el LMTV exacto necesario." },
+        pay_limit: { kicker: "Pay", title: "Protección de pool activa", text: "Cada pago está limitado a 10 dólares." },
+        pay_balance: { kicker: "Pay", title: "Saldo insuficiente", text: "Necesitas más LMTV para este pago." },
+        pay_busy: { kicker: "Pay", title: "Pago en curso", text: "StableFlow está siguiendo la wallet paso a paso." },
+        pay_ready: { kicker: "Pay", title: "Listo para pagar", text: "El flujo de pay ahora revisa el balance final del stable antes de transferir." },
+        pay_flow_approve: { kicker: "Pay flow", title: "1/3 Aprobar", text: "Aprueba LMTV en MetaMask para continuar." },
+        pay_flow_swap_after_approve: { kicker: "Pay flow", title: "2/3 Swap", text: "Aprobación confirmada. Ahora confirma el swap en MetaMask." },
+        pay_flow_swap_no_approve: { kicker: "Pay flow", title: "1/2 Swap", text: "El allowance ya está listo. Ahora confirma el swap en MetaMask." },
+        pay_flow_transfer_3: { kicker: "Pay flow", title: "3/3 Transferencia", text: "Swap completado. Llegaron {amount} {asset}. Confirma la transferencia ahora." },
+        pay_flow_transfer_2: { kicker: "Pay flow", title: "2/2 Transferencia", text: "Swap completado. Llegaron {amount} {asset}. Confirma la transferencia ahora." },
+        pay_target_fail: { kicker: "Pay flow", title: "Objetivo no alcanzado", text: "El swap se completó pero no se alcanzó el stable exacto. Intenta de nuevo." },
+        pay_transfer_fail: { kicker: "Pay flow", title: "La transferencia falló", text: "La transferencia final fue rechazada o falló." },
+        pay_approve_fail: { kicker: "Pay flow", title: "La aprobación falló", text: "La aprobación fue rechazada o falló." },
+        pay_swap_fail: { kicker: "Pay flow", title: "El swap falló", text: "La transacción de swap fue rechazada o falló." },
+        pay_fail: { kicker: "Pay", title: "El pago falló", text: "El flujo de pago falló o fue rechazado." },
+        pay_success: { kicker: "Pay", title: "Transacción completada ✓", text: "{amount} {asset} se envió al destinatario." },
 
-        home_ready: {
-          kicker: "Home guide",
-          title: "Tu perfil crece con actividad",
-          text: "Cada swap o pay exitoso suma +1 LV hasta el nivel 10."
-        },
+        get_paid_receiver: { kicker: "Get Paid", title: "Wallet receptora requerida", text: "StableFlow puede empezar con tu wallet conectada automáticamente." },
+        get_paid_amount: { kicker: "Get Paid", title: "Elige un monto", text: "Usa uno de los valores rápidos. Esta página solo crea un QR de cobro." },
+        get_paid_ready: { kicker: "Get Paid", title: "Listo para generar", text: "Este QR es más grande y más fuerte para lectura real con cámara." },
+        get_paid_generated: { kicker: "Get Paid", title: "Solicitud generada", text: "Tu solicitud QR está lista para compartir o escanear." },
+        get_paid_copy: { kicker: "Get Paid", title: "Enlace copiado", text: "El enlace de la solicitud quedó en tu portapapeles." },
+        get_paid_share: { kicker: "Get Paid", title: "Compartido", text: "La solicitud de pago se compartió correctamente." },
+        get_paid_copy_fail: { kicker: "Get Paid", title: "La copia falló", text: "El acceso al portapapeles fue bloqueado en este navegador." },
+        get_paid_invalid_wallet: { kicker: "Get Paid", title: "Wallet receptora requerida", text: "Introduce una wallet receptora válida antes de generar la solicitud." },
+        get_paid_invalid_amount: { kicker: "Get Paid", title: "Monto inválido", text: "Elige uno de los valores rápidos antes de generar." },
+        get_paid_limit: { kicker: "Get Paid", title: "Máximo 10", text: "Una solicitud de pago puede ser como máximo de 10 dólares en esta versión de prueba." },
 
-        swap_empty: {
-          kicker: "Swap",
-          title: "Elige la dirección del swap",
-          text: "USDC ↔ LMTV funciona en ambas direcciones. La primera aprobación ayuda a que los próximos swaps sean más rápidos."
-        },
-        swap_refreshing: {
-          kicker: "Swap",
-          title: "Actualizando cotización",
-          text: "StableFlow está recalculando el trade antes de dejarte confirmar."
-        },
-        swap_limit: {
-          kicker: "Swap",
-          title: "Protección de pool activa",
-          text: "Cada swap está limitado a 10 dólares."
-        },
-        swap_balance: {
-          kicker: "Swap",
-          title: "Saldo insuficiente",
-          text: "No tienes suficiente {token}."
-        },
-        swap_busy: {
-          kicker: "Swap",
-          title: "Transacción en curso",
-          text: "Revisa tu wallet y espera la confirmación."
-        },
-        swap_ready: {
-          kicker: "Swap",
-          title: "Listo para swap",
-          text: "La ruta, el mínimo recibido y la lógica MAX ya están actualizados. Confirma cuando quieras."
-        },
-        swap_prepare: {
-          kicker: "Swap",
-          title: "Preparando swap",
-          text: "StableFlow está preparando tu swap de {token}."
-        },
-        swap_confirm: {
-          kicker: "Swap",
-          title: "Confirma el swap",
-          text: "Confirma el swap en MetaMask."
-        },
-        swap_success: {
-          kicker: "Swap",
-          title: "Transacción completada ✓",
-          text: "{from} → {to} se completó con éxito."
-        },
-        swap_fail: {
-          kicker: "Swap",
-          title: "El swap falló",
-          text: "La transacción fue rechazada o falló en cadena."
-        },
-        approve_swap: {
-          kicker: "Approve",
-          title: "Aprueba {token}",
-          text: "La primera aprobación ayuda a que los futuros swaps sean más rápidos. Confirma en MetaMask."
-        },
+        more_placeholder: { kicker: "More", title: "Idioma, notas y tokens", text: "El idioma del asistente funciona aquí. Las notas de Get Paid y los tokens están listos." },
 
-        pay_recipient_required: {
-          kicker: "Pay",
-          title: "Wallet del destinatario requerida",
-          text: "Pega o escanea la wallet que recibirá el pago."
-        },
-        pay_invalid_wallet: {
-          kicker: "Pay",
-          title: "Wallet inválida",
-          text: "La dirección del destinatario no es válida."
-        },
-        pay_amount_required: {
-          kicker: "Pay",
-          title: "Falta el monto",
-          text: "Elige USDC o EURC y escribe el monto a enviar."
-        },
-        pay_recipient_ready: {
-          kicker: "Pay",
-          title: "Destinatario listo",
-          text: "Ahora escribe el monto para continuar."
-        },
-        pay_quote_refreshing: {
-          kicker: "Pay",
-          title: "Actualizando cotización",
-          text: "StableFlow está recalculando el LMTV exacto necesario."
-        },
-        pay_limit: {
-          kicker: "Pay",
-          title: "Protección de pool activa",
-          text: "Cada pago está limitado a 10 dólares."
-        },
-        pay_balance: {
-          kicker: "Pay",
-          title: "Saldo insuficiente",
-          text: "Necesitas más LMTV para este pago."
-        },
-        pay_busy: {
-          kicker: "Pay",
-          title: "Pago en curso",
-          text: "StableFlow está siguiendo la wallet paso a paso."
-        },
-        pay_ready: {
-          kicker: "Pay",
-          title: "Listo para pagar",
-          text: "El flujo de pay ahora revisa el balance final del stable antes de transferir."
-        },
-        pay_flow_approve: {
-          kicker: "Pay flow",
-          title: "1/3 Aprobar",
-          text: "Aprueba LMTV en MetaMask para continuar."
-        },
-        pay_flow_swap_after_approve: {
-          kicker: "Pay flow",
-          title: "2/3 Swap",
-          text: "Aprobación confirmada. Ahora confirma el swap en MetaMask."
-        },
-        pay_flow_swap_no_approve: {
-          kicker: "Pay flow",
-          title: "1/2 Swap",
-          text: "El allowance ya está listo. Ahora confirma el swap en MetaMask."
-        },
-        pay_flow_transfer_3: {
-          kicker: "Pay flow",
-          title: "3/3 Transferencia",
-          text: "Swap completado. Llegaron {amount} {asset}. Confirma la transferencia ahora."
-        },
-        pay_flow_transfer_2: {
-          kicker: "Pay flow",
-          title: "2/2 Transferencia",
-          text: "Swap completado. Llegaron {amount} {asset}. Confirma la transferencia ahora."
-        },
-        pay_target_fail: {
-          kicker: "Pay flow",
-          title: "Objetivo no alcanzado",
-          text: "El swap se completó pero no se alcanzó el stable exacto. Intenta de nuevo."
-        },
-        pay_transfer_fail: {
-          kicker: "Pay flow",
-          title: "La transferencia falló",
-          text: "La transferencia final fue rechazada o falló."
-        },
-        pay_approve_fail: {
-          kicker: "Pay flow",
-          title: "La aprobación falló",
-          text: "La aprobación fue rechazada o falló."
-        },
-        pay_swap_fail: {
-          kicker: "Pay flow",
-          title: "El swap falló",
-          text: "La transacción de swap fue rechazada o falló."
-        },
-        pay_fail: {
-          kicker: "Pay",
-          title: "El pago falló",
-          text: "El flujo de pago falló o fue rechazado."
-        },
-        pay_success: {
-          kicker: "Pay",
-          title: "Transacción completada ✓",
-          text: "{amount} {asset} se envió al destinatario."
-        },
+        scanner_unavailable: { kicker: "Scanner", title: "Cámara no disponible", text: "Este navegador no soporta acceso a la cámara." },
+        scanner_blocked: { kicker: "Scanner", title: "Cámara bloqueada", text: "Permite el acceso a la cámara para escanear el QR." },
+        scanner_loaded: { kicker: "Scanner", title: "Solicitud cargada", text: "La solicitud de pago fue cargada en Pay." },
 
-        get_paid_receiver: {
-          kicker: "Get Paid",
-          title: "Wallet receptora requerida",
-          text: "StableFlow puede empezar con tu wallet conectada automáticamente."
-        },
-        get_paid_amount: {
-          kicker: "Get Paid",
-          title: "Elige un monto",
-          text: "Usa uno de los valores rápidos. Esta página solo crea un QR de cobro."
-        },
-        get_paid_ready: {
-          kicker: "Get Paid",
-          title: "Listo para generar",
-          text: "Este QR es más grande y más fuerte para lectura real con cámara."
-        },
-        get_paid_generated: {
-          kicker: "Get Paid",
-          title: "Solicitud generada",
-          text: "Tu solicitud QR está lista para compartir o escanear."
-        },
-        get_paid_copy: {
-          kicker: "Get Paid",
-          title: "Enlace copiado",
-          text: "El enlace de la solicitud quedó en tu portapapeles."
-        },
-        get_paid_share: {
-          kicker: "Get Paid",
-          title: "Compartido",
-          text: "La solicitud de pago se compartió correctamente."
-        },
-        get_paid_copy_fail: {
-          kicker: "Get Paid",
-          title: "La copia falló",
-          text: "El acceso al portapapeles fue bloqueado en este navegador."
-        },
-        get_paid_invalid_wallet: {
-          kicker: "Get Paid",
-          title: "Wallet receptora requerida",
-          text: "Introduce una wallet receptora válida antes de generar la solicitud."
-        },
-        get_paid_invalid_amount: {
-          kicker: "Get Paid",
-          title: "Monto inválido",
-          text: "Elige uno de los valores rápidos antes de generar."
-        },
-        get_paid_limit: {
-          kicker: "Get Paid",
-          title: "Máximo 10",
-          text: "Una solicitud de pago puede ser como máximo de 10 dólares en esta versión de prueba."
-        },
-
-        more_placeholder: {
-          kicker: "More",
-          title: "Idioma, notas y tokens",
-          text: "El idioma del asistente funciona aquí. Las notas de Get Paid y los tokens están listos."
-        },
-
-        scanner_unavailable: {
-          kicker: "Scanner",
-          title: "Cámara no disponible",
-          text: "Este navegador no soporta acceso a la cámara."
-        },
-        scanner_blocked: {
-          kicker: "Scanner",
-          title: "Cámara bloqueada",
-          text: "Permite el acceso a la cámara para escanear el QR."
-        },
-        scanner_loaded: {
-          kicker: "Scanner",
-          title: "Solicitud cargada",
-          text: "La solicitud de pago fue cargada en Pay."
-        },
-
-        wallet_none: {
-          kicker: "Wallet",
-          title: "No se detectó wallet",
-          text: "Instala MetaMask o abre StableFlow dentro del navegador de una wallet."
-        },
-        wallet_no_provider: {
-          kicker: "Wallet",
-          title: "No se encontró provider",
-          text: "StableFlow no pudo encontrar un provider de wallet inyectado."
-        },
-        wallet_connected: {
-          kicker: "Wallet",
-          title: "{wallet} conectada",
-          text: "StableFlow ya está activo en Arc Testnet."
-        },
-        wallet_failed: {
-          kicker: "Wallet",
-          title: "La conexión falló",
-          text: "La conexión de la wallet fue rechazada o interrumpida."
-        },
-        network_failed: {
-          kicker: "Network",
-          title: "La configuración de Arc falló",
-          text: "Agrega Arc Testnet o cambia a esa red e inténtalo de nuevo."
-        },
-        network_wrong: {
-          kicker: "Network",
-          title: "Red incorrecta",
-          text: "Vuelve a cambiar a Arc Testnet."
-        },
-        disconnected: {
-          kicker: "Disconnected",
-          title: "Wallet desconectada",
-          text: "Abre la shell de nuevo cuando quieras reconectar."
-        }
+        wallet_none: { kicker: "Wallet", title: "No se detectó wallet", text: "Instala MetaMask o abre StableFlow dentro del navegador de una wallet." },
+        wallet_no_provider: { kicker: "Wallet", title: "No se encontró provider", text: "StableFlow no pudo encontrar un provider de wallet inyectado." },
+        wallet_connected: { kicker: "Wallet", title: "{wallet} conectada", text: "StableFlow ya está activo en Arc Testnet." },
+        wallet_failed: { kicker: "Wallet", title: "La conexión falló", text: "La conexión de la wallet fue rechazada o interrumpida." },
+        network_failed: { kicker: "Network", title: "La configuración de Arc falló", text: "Agrega Arc Testnet o cambia a esa red e inténtalo de nuevo." },
+        network_wrong: { kicker: "Network", title: "Red incorrecta", text: "Vuelve a cambiar a Arc Testnet." },
+        disconnected: { kicker: "Disconnected", title: "Wallet desconectada", text: "Abre la shell de nuevo cuando quieras reconectar." }
       }
     };
 
@@ -6644,6 +6166,16 @@
       });
     }
 
+    function resetPayFlowUi(hidePanel = true){
+      configurePaySteps(3);
+      payPreviewStatus.textContent = "Waiting";
+      payFlowOrb.classList.remove("running");
+      clearPayLiveAssistant();
+      if (hidePanel) {
+        payFlowPanel.classList.remove("open");
+      }
+    }
+
     function updateSwapTokenVisuals(){
       swapTopToken.textContent = state.swap.topToken;
       swapBottomToken.textContent = state.swap.bottomToken;
@@ -6671,16 +6203,43 @@
       state.swap.quotePending = false;
     }
 
-    function scheduleSwapQuote(source = "top", delay = 120){
+    function invalidateSwapQuote(clearTop = false, clearBottom = false){
       clearTimeout(swapQuoteTimer);
-      const runId = ++swapQuoteSeq;
+      swapQuoteSeq += 1;
+      clearSwapQuote();
 
-      const hasInput = source === "top"
-        ? !!swapTopInput.value.trim()
-        : !!swapBottomInput.value.trim();
+      if (clearTop) {
+        swapTopInput.value = "";
+        fitNumericField(swapTopInput, 24, 13);
+      }
 
-      if (!hasInput || !state.connected || !state.provider) {
-        clearSwapQuote();
+      if (clearBottom) {
+        swapBottomInput.value = "";
+        fitNumericField(swapBottomInput, 24, 13);
+      }
+    }
+
+    function scheduleSwapQuote(source = "top", delay = 110){
+      clearTimeout(swapQuoteTimer);
+      state.swap.activeInput = source;
+
+      const topSnapshot = swapTopInput.value.trim();
+      const bottomSnapshot = swapBottomInput.value.trim();
+
+      if (!state.connected || !state.provider) {
+        invalidateSwapQuote();
+        refreshSwapUI();
+        return;
+      }
+
+      if (source === "top" && !topSnapshot) {
+        invalidateSwapQuote(false, true);
+        refreshSwapUI();
+        return;
+      }
+
+      if (source === "bottom" && !bottomSnapshot) {
+        invalidateSwapQuote(true, false);
         refreshSwapUI();
         return;
       }
@@ -6688,80 +6247,91 @@
       state.swap.quotePending = true;
       refreshSwapUI();
 
+      const seq = ++swapQuoteSeq;
+      const topTokenSnapshot = state.swap.topToken;
+      const bottomTokenSnapshot = state.swap.bottomToken;
+      const slippageSnapshot = state.swap.slippage;
+
       swapQuoteTimer = setTimeout(async () => {
         if (source === "top") {
-          await updateSwapQuoteFromTop(runId);
+          await updateSwapQuoteFromTop(seq, topSnapshot, topTokenSnapshot, bottomTokenSnapshot, slippageSnapshot);
         } else {
-          await updateSwapQuoteFromBottom(runId);
+          await updateSwapQuoteFromBottom(seq, bottomSnapshot, topTokenSnapshot, bottomTokenSnapshot, slippageSnapshot);
         }
       }, delay);
     }
 
-    async function updateSwapQuoteFromTop(runId = swapQuoteSeq){
-      const inSymbol = state.swap.topToken;
-      const outSymbol = state.swap.bottomToken;
+    async function updateSwapQuoteFromTop(seq, topSnapshot, topTokenSnapshot, bottomTokenSnapshot, slippageSnapshot){
+      const amountIn = parseAmountToBN(topSnapshot, state.tokenMeta[topTokenSnapshot].decimals);
 
-      const amountIn = parseAmountToBN(swapTopInput.value, state.tokenMeta[inSymbol].decimals);
       if (!amountIn || amountIn.lte(0) || !state.provider) {
-        if (runId !== swapQuoteSeq) return;
-        swapBottomInput.value = "";
-        clearSwapQuote();
+        if (seq !== swapQuoteSeq) return;
+        invalidateSwapQuote(false, true);
         refreshSwapUI();
         return;
       }
 
       try{
         const pair = getPairForStable("USDC", false);
-        const out = await quoteOut(pair, tokenAddr(inSymbol), amountIn);
-        if (runId !== swapQuoteSeq) return;
+        const out = await quoteOut(pair, tokenAddr(topTokenSnapshot), amountIn);
+
+        if (
+          seq !== swapQuoteSeq ||
+          topSnapshot !== swapTopInput.value.trim() ||
+          topTokenSnapshot !== state.swap.topToken ||
+          bottomTokenSnapshot !== state.swap.bottomToken
+        ) return;
 
         state.swap.quoteOut = out;
-        const slippageBps = Math.floor(state.swap.slippage * 100);
+        const slippageBps = Math.floor(slippageSnapshot * 100);
         state.swap.minOut = out.mul(10000 - slippageBps).div(10000);
 
-        swapBottomInput.value = formatUnitsSmart(out, state.tokenMeta[outSymbol].decimals, 6);
+        swapBottomInput.value = formatUnitsSmart(out, state.tokenMeta[bottomTokenSnapshot].decimals, 6);
         fitNumericField(swapBottomInput, 24, 13);
       }catch{
-        if (runId !== swapQuoteSeq) return;
-        clearSwapQuote();
+        if (seq !== swapQuoteSeq) return;
+        invalidateSwapQuote(false, true);
       }
 
-      if (runId !== swapQuoteSeq) return;
+      if (seq !== swapQuoteSeq) return;
       state.swap.quotePending = false;
       refreshSwapUI();
     }
 
-    async function updateSwapQuoteFromBottom(runId = swapQuoteSeq){
-      const inSymbol = state.swap.topToken;
-      const outSymbol = state.swap.bottomToken;
+    async function updateSwapQuoteFromBottom(seq, bottomSnapshot, topTokenSnapshot, bottomTokenSnapshot, slippageSnapshot){
+      const desiredOut = parseAmountToBN(bottomSnapshot, state.tokenMeta[bottomTokenSnapshot].decimals);
 
-      const desiredOut = parseAmountToBN(swapBottomInput.value, state.tokenMeta[outSymbol].decimals);
       if (!desiredOut || desiredOut.lte(0) || !state.provider) {
-        if (runId !== swapQuoteSeq) return;
-        swapTopInput.value = "";
-        clearSwapQuote();
+        if (seq !== swapQuoteSeq) return;
+        invalidateSwapQuote(true, false);
         refreshSwapUI();
         return;
       }
 
       try{
         const pair = getPairForStable("USDC", false);
-        const amountIn = await quoteInputForDesiredOut(pair, tokenAddr(inSymbol), tokenAddr(outSymbol), desiredOut);
-        const exactOut = await quoteOut(pair, tokenAddr(inSymbol), amountIn);
-        if (runId !== swapQuoteSeq) return;
+        const amountIn = await quoteInputForDesiredOut(pair, tokenAddr(topTokenSnapshot), tokenAddr(bottomTokenSnapshot), desiredOut);
+        const exactOut = await quoteOut(pair, tokenAddr(topTokenSnapshot), amountIn);
+
+        if (
+          seq !== swapQuoteSeq ||
+          bottomSnapshot !== swapBottomInput.value.trim() ||
+          topTokenSnapshot !== state.swap.topToken ||
+          bottomTokenSnapshot !== state.swap.bottomToken
+        ) return;
 
         state.swap.quoteOut = exactOut;
-        const slippageBps = Math.floor(state.swap.slippage * 100);
+        const slippageBps = Math.floor(slippageSnapshot * 100);
         state.swap.minOut = exactOut.mul(10000 - slippageBps).div(10000);
 
-        swapTopInput.value = formatUnitsSmart(amountIn, state.tokenMeta[inSymbol].decimals, 6);
+        swapTopInput.value = formatUnitsSmart(amountIn, state.tokenMeta[topTokenSnapshot].decimals, 6);
         fitNumericField(swapTopInput, 24, 13);
       }catch{
-        if (runId !== swapQuoteSeq) return;
-        clearSwapQuote();
+        if (seq !== swapQuoteSeq) return;
+        invalidateSwapQuote(true, false);
       }
 
-      if (runId !== swapQuoteSeq) return;
+      if (seq !== swapQuoteSeq) return;
       state.swap.quotePending = false;
       refreshSwapUI();
     }
@@ -6838,6 +6408,13 @@
         swapStatus.textContent = "Insufficient balance";
         swapActionBtn.textContent = "Insufficient balance";
         swapActionBtn.className = "action-btn disabled danger";
+        return;
+      }
+
+      if (!state.swap.quoteOut || state.swap.quoteOut.lte(0) || !state.swap.minOut || state.swap.minOut.lte(0)) {
+        swapStatus.textContent = "Quote needed";
+        swapActionBtn.textContent = "Waiting quote";
+        swapActionBtn.className = "action-btn disabled";
         return;
       }
 
@@ -6924,10 +6501,7 @@
     }
 
     function resetSwapFields(){
-      clearTimeout(swapQuoteTimer);
-      swapTopInput.value = "";
-      swapBottomInput.value = "";
-      clearSwapQuote();
+      invalidateSwapQuote(true, true);
       fitNumericField(swapTopInput, 24, 13);
       fitNumericField(swapBottomInput, 24, 13);
     }
@@ -6936,6 +6510,7 @@
       state.pay.asset = asset;
       payAssetUsdc.classList.toggle("active", asset === "USDC");
       payAssetEurc.classList.toggle("active", asset === "EURC");
+      resetPayFlowUi(true);
       schedulePayQuote(0);
     }
 
@@ -6946,7 +6521,13 @@
       state.pay.quotePending = false;
     }
 
-    function schedulePayQuote(delay = 140){
+    function invalidatePayQuote(){
+      clearTimeout(payQuoteTimer);
+      payQuoteSeq += 1;
+      clearPayQuote();
+    }
+
+    function schedulePayQuote(delay = 90){
       clearTimeout(payQuoteTimer);
       const runId = ++payQuoteSeq;
 
@@ -6960,12 +6541,15 @@
       state.pay.quotePending = true;
       refreshPayUI();
 
+      const amountSnapshot = payAmountInput.value.trim();
+      const assetSnapshot = state.pay.asset;
+
       payQuoteTimer = setTimeout(async () => {
-        await refreshPayQuote(runId);
+        await refreshPayQuote(runId, amountSnapshot, assetSnapshot);
       }, delay);
     }
 
-    async function refreshPayQuote(runId = payQuoteSeq){
+    async function refreshPayQuote(runId = payQuoteSeq, amountSnapshot = "", assetSnapshot = state.pay.asset){
       if (!state.connected || !state.provider) {
         if (runId !== payQuoteSeq) return;
         clearPayQuote();
@@ -6973,9 +6557,7 @@
         return;
       }
 
-      const stable = state.pay.asset;
-      const amountText = payAmountInput.value.trim();
-      const desiredOut = parseAmountToBN(amountText, state.tokenMeta[stable].decimals);
+      const desiredOut = parseAmountToBN(amountSnapshot, state.tokenMeta[assetSnapshot].decimals);
 
       if (!desiredOut || desiredOut.lte(0)) {
         if (runId !== payQuoteSeq) return;
@@ -6985,11 +6567,17 @@
       }
 
       try{
-        const pair = getPairForStable(stable, false);
-        const rawIn = await quoteInputForDesiredOut(pair, ADDR.LMTV, ADDR[stable], desiredOut);
-        if (runId !== payQuoteSeq) return;
+        const pair = getPairForStable(assetSnapshot, false);
+        const rawIn = await quoteInputForDesiredOut(pair, ADDR.LMTV, ADDR[assetSnapshot], desiredOut);
+
+        if (
+          runId !== payQuoteSeq ||
+          amountSnapshot !== payAmountInput.value.trim() ||
+          assetSnapshot !== state.pay.asset
+        ) return;
+
         state.pay.rawLmtvNeeded = rawIn;
-        state.pay.lmtvNeeded = getBufferedPayInput(rawIn, stable, amountText);
+        state.pay.lmtvNeeded = getBufferedPayInput(rawIn, assetSnapshot, amountSnapshot);
       }catch(err){
         console.error(err);
         if (runId !== payQuoteSeq) return;
@@ -7167,20 +6755,20 @@
 
           phase = "approve";
           const lmtvWrite = getErc20("LMTV", true);
-          const txApprove = await lmtvWrite.approve(pairAddr, exactIn);
+          const txApprove = await lmtvWrite.approve(pairAddr, ethers.constants.MaxUint256);
           await txApprove.wait();
 
           setPayStep(2);
           payPreviewStatus.textContent = "Approval confirmed";
           setPayLiveAssistantKey("pay_flow_swap_after_approve", "warn");
-          await flushUi(300);
+          await flushUi(260);
         } else {
           configurePaySteps(2);
 
           setPayStep(1);
           payPreviewStatus.textContent = "Allowance ready";
           setPayLiveAssistantKey("pay_flow_swap_no_approve", "warn");
-          await flushUi(300);
+          await flushUi(220);
         }
 
         phase = "swap";
@@ -7192,7 +6780,7 @@
         const afterStableBal = await readTokenBalance(stable);
         const gained = afterStableBal.sub(beforeStableBal);
 
-        if (afterStableBal.lt(desiredAmount)) {
+        if (afterStableBal.lt(desiredAmount) || gained.lt(desiredAmount)) {
           phase = "post-swap-check";
           throw new Error("Stable target not reached after swap");
         }
@@ -7215,7 +6803,7 @@
           });
         }
 
-        await flushUi(320);
+        await flushUi(260);
 
         phase = "transfer";
         const stableToken = getErc20(stable, true);
@@ -7240,25 +6828,21 @@
         }, 2200);
       }catch(err){
         console.error(err);
-
         clearPayLiveAssistant();
 
         if (phase === "approve") {
-          payPreviewStatus.textContent = "Approve failed";
           applyAssistantKey("pay_approve_fail", "danger");
         } else if (phase === "swap") {
-          payPreviewStatus.textContent = "Swap failed";
           applyAssistantKey("pay_swap_fail", "danger");
         } else if (phase === "post-swap-check") {
-          payPreviewStatus.textContent = "Requote needed";
           applyAssistantKey("pay_target_fail", "danger");
         } else if (phase === "transfer") {
-          payPreviewStatus.textContent = "Transfer failed";
           applyAssistantKey("pay_transfer_fail", "danger");
         } else {
-          payPreviewStatus.textContent = "Failed";
           applyAssistantKey("pay_fail", "danger");
         }
+
+        resetPayFlowUi(true);
       }finally{
         state.pay.busy = false;
         payFlowOrb.classList.remove("running");
@@ -7267,16 +6851,13 @@
     }
 
     function resetPayFields(){
-      clearTimeout(payQuoteTimer);
+      invalidatePayQuote();
       payWalletInput.value = "";
       payAmountInput.value = "";
       payNoteInput.value = "";
-      clearPayQuote();
-      clearPayLiveAssistant();
-      configurePaySteps(3);
       fitNumericField(payAmountInput, 24, 13);
-      payFlowPanel.classList.remove("open");
-      payPreviewStatus.textContent = "Waiting";
+      resetPayFlowUi(true);
+      refreshPayUI();
     }
 
     function setRequestAsset(asset){
@@ -8230,7 +7811,7 @@
       slippageRange.value = "0.5";
       slippageVal.textContent = "0.5%";
       if (swapTopInput.value.trim() || swapBottomInput.value.trim()) {
-        scheduleSwapQuote("top", 0);
+        scheduleSwapQuote(state.swap.activeInput || "top", 0);
       } else {
         refreshSwapUI();
       }
@@ -8240,7 +7821,7 @@
       state.swap.slippage = Number(slippageRange.value);
       slippageVal.textContent = `${state.swap.slippage.toFixed(1)}%`;
       if (swapTopInput.value.trim() || swapBottomInput.value.trim()) {
-        scheduleSwapQuote("top", 0);
+        scheduleSwapQuote(state.swap.activeInput || "top", 0);
       } else {
         refreshSwapUI();
       }
@@ -8291,6 +7872,8 @@
       const oldTopValue = swapTopInput.value;
       const oldBottomValue = swapBottomInput.value;
 
+      invalidateSwapQuote();
+
       state.swap.topToken = state.swap.bottomToken;
       state.swap.bottomToken = oldTopToken;
 
@@ -8309,7 +7892,6 @@
       } else if (swapBottomInput.value.trim()) {
         scheduleSwapQuote("bottom", 0);
       } else {
-        clearSwapQuote();
         refreshSwapUI();
       }
 
@@ -8335,12 +7917,18 @@
     payAssetUsdc.addEventListener("click", () => setPayAsset("USDC"));
     payAssetEurc.addEventListener("click", () => setPayAsset("EURC"));
 
-    payWalletInput.addEventListener("input", refreshPayUI);
+    payWalletInput.addEventListener("input", () => {
+      resetPayFlowUi(true);
+      refreshPayUI();
+    });
+
     payAmountInput.addEventListener("input", () => {
       payAmountInput.value = sanitizeNumeric(payAmountInput.value);
       fitNumericField(payAmountInput, 24, 13);
+      resetPayFlowUi(true);
       schedulePayQuote();
     });
+
     payNoteInput.addEventListener("input", refreshPayUI);
 
     payActionBtn.addEventListener("click", async () => {
