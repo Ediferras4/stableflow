@@ -1293,7 +1293,6 @@
       white-space:nowrap;
     }
 
-    /* HOME GRAPH */
     .home-graph-wrap{
       border-radius:22px;
       overflow:hidden;
@@ -1808,6 +1807,16 @@
       text-transform:uppercase;
       box-shadow:var(--shadow-soft);
       flex:0 0 auto;
+      transition:.18s ease;
+    }
+
+    .quick-btn.active{
+      color:#f4f8fb;
+      border-color:rgba(113,211,255,.18);
+      background:linear-gradient(180deg, rgba(143,194,255,.14), rgba(143,194,255,.05));
+      box-shadow:
+        inset 0 1px 0 rgba(255,255,255,.03),
+        0 0 0 1px rgba(143,194,255,.04);
     }
 
     .trade-box{
@@ -2155,8 +2164,7 @@
     }
 
     .wide-input::placeholder,
-    .note-input::placeholder,
-    .request-amount-input::placeholder{
+    .note-input::placeholder{
       color:#66798a;
     }
 
@@ -2691,24 +2699,9 @@
 
     .request-bottom-row{
       display:grid;
-      grid-template-columns:74px 1fr 1fr 1fr;
+      grid-template-columns:repeat(4,1fr);
       gap:8px;
       align-items:center;
-    }
-
-    .request-amount-input{
-      width:100%;
-      min-height:40px;
-      border-radius:12px;
-      padding:0 8px;
-      background:linear-gradient(180deg,#1a242d 0%, #151d25 100%);
-      border:1px solid rgba(134,186,226,.08);
-      color:#eff7fd;
-      font-size:14px;
-      font-weight:1000;
-      box-shadow:var(--shadow-soft);
-      text-align:center;
-      overflow:hidden;
     }
 
     .request-result{
@@ -2885,7 +2878,6 @@
       padding:0 8px;
     }
 
-    /* MORE */
     .more-grid{
       display:flex;
       flex-direction:column;
@@ -3035,7 +3027,6 @@
       align-items:flex-start;
       justify-content:space-between;
       gap:8px;
-      margin-bottom:10px;
     }
 
     .more-wallet-value{
@@ -3049,7 +3040,6 @@
     }
 
     .more-copy-btn,
-    .more-circle-btn,
     .more-tab-btn,
     .more-token-copy-btn,
     .more-token-scan-btn,
@@ -3072,91 +3062,6 @@
       color:var(--blue);
       box-shadow:inset 0 1px 0 rgba(255,255,255,.03);
       font-size:13px;
-    }
-
-    .more-mint-row{
-      display:flex;
-      align-items:flex-end;
-      justify-content:space-between;
-      gap:8px;
-    }
-
-    .more-mint-left{
-      display:flex;
-      flex-direction:column;
-      gap:4px;
-    }
-
-    .more-mint-price{
-      font-size:13px;
-      font-weight:900;
-      color:var(--gold);
-      line-height:1;
-      letter-spacing:-.01em;
-    }
-
-    .more-circle-btn{
-      width:31px;
-      height:31px;
-      min-width:31px;
-      border-radius:50%;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      background:
-        radial-gradient(circle at top, rgba(255,255,255,.03), transparent 54%),
-        linear-gradient(180deg, rgba(24,35,49,.98), rgba(12,20,30,.98));
-      border:1px solid rgba(226,178,95,.15);
-      color:var(--gold);
-      font-size:14px;
-      transition:.24s ease;
-    }
-
-    .more-circle-btn.open{
-      transform:rotate(180deg);
-    }
-
-    .more-mint-drop{
-      max-height:0;
-      overflow:hidden;
-      opacity:0;
-      transition:max-height .28s ease, opacity .22s ease, margin-top .22s ease;
-      margin-top:0;
-    }
-
-    .more-mint-drop.show{
-      max-height:110px;
-      opacity:1;
-      margin-top:9px;
-    }
-
-    .more-mint-inner{
-      border-radius:12px;
-      padding:8px;
-      border:1px solid rgba(143,194,255,.08);
-      background:linear-gradient(180deg, rgba(255,255,255,.018), rgba(255,255,255,.008));
-    }
-
-    .more-mint-inner p{
-      font-size:8px;
-      line-height:1.4;
-      color:var(--text-soft);
-      margin-bottom:7px;
-    }
-
-    .more-mint-action{
-      min-height:25px;
-      padding:0 10px;
-      border:none;
-      outline:none;
-      border-radius:999px;
-      background:linear-gradient(180deg, rgba(226,178,95,.16), rgba(226,178,95,.06));
-      border:1px solid rgba(226,178,95,.16);
-      color:var(--gold-3);
-      font-size:8px;
-      font-weight:900;
-      letter-spacing:.08em;
-      text-transform:uppercase;
     }
 
     .more-center-card{
@@ -4304,15 +4209,8 @@
       .request-orb-value{ font-size:30px; }
 
       .request-bottom-row{
-        grid-template-columns:58px 1fr 1fr 1fr;
+        grid-template-columns:repeat(4,1fr);
         gap:6px;
-      }
-
-      .request-amount-input{
-        min-height:36px;
-        border-radius:10px;
-        font-size:12px;
-        padding:0 6px;
       }
 
       .request-result{
@@ -4899,16 +4797,16 @@
                         <div class="request-orb-core">
                           <div class="request-orb-asset" id="requestOrbAsset">USDC</div>
                           <div class="request-orb-value" id="requestOrbValue">0</div>
-                          <div class="request-orb-sub">max 1000</div>
+                          <div class="request-orb-sub">max 10</div>
                         </div>
                       </div>
                     </div>
 
                     <div class="request-bottom-row">
-                      <input class="request-amount-input" id="requestAmountInput" placeholder="Custom" inputmode="decimal" />
-                      <button class="quick-btn" data-request-quick="5" type="button">5</button>
+                      <button class="quick-btn" data-request-quick="2" type="button">2</button>
+                      <button class="quick-btn" data-request-quick="4" type="button">4</button>
+                      <button class="quick-btn" data-request-quick="8" type="button">8</button>
                       <button class="quick-btn" data-request-quick="10" type="button">10</button>
-                      <button class="quick-btn" data-request-quick="15" type="button">15</button>
                     </div>
 
                     <textarea class="note-input" id="requestNoteInput" rows="2" placeholder="Optional note"></textarea>
@@ -4989,21 +4887,6 @@
                             <div class="more-wallet-value" id="moreWalletText">Wallet not connected</div>
                           </div>
                           <button class="more-copy-btn" id="moreCopyWalletBtn" type="button" aria-label="Copy wallet">⧉</button>
-                        </div>
-
-                        <div class="more-mint-row">
-                          <div class="more-mint-left">
-                            <span class="more-eyebrow">Mint your profile</span>
-                            <div class="more-mint-price">$1</div>
-                          </div>
-                          <button class="more-circle-btn" id="moreMintToggle" type="button" aria-label="Open mint section">↓</button>
-                        </div>
-
-                        <div class="more-mint-drop" id="moreMintDrop">
-                          <div class="more-mint-inner">
-                            <p>Create your StableFlow profile and unlock your first premium identity badge.</p>
-                            <button class="more-mint-action" id="moreMintAction" type="button">Mint profile</button>
-                          </div>
                         </div>
                       </section>
 
@@ -5100,12 +4983,12 @@
                             <small>Open</small>
                           </a>
 
-                          <a class="more-arc-link" href="#" data-coming="Faucet">
+                          <a class="more-arc-link" href="https://faucet.circle.com/" target="_blank" rel="noopener noreferrer">
                             <span>Faucet</span>
                             <small>Open</small>
                           </a>
 
-                          <a class="more-arc-link" href="#" data-coming="Arc House">
+                          <a class="more-arc-link" href="https://community.arc.network/" target="_blank" rel="noopener noreferrer">
                             <span>Arc House</span>
                             <small>Open</small>
                           </a>
@@ -5122,7 +5005,7 @@
                             <span>Profile</span>
                           </a>
 
-                          <a class="more-social-btn" href="#" data-coming="Discord">
+                          <a class="more-social-btn" href="https://discord.com/invite/buildonarc" target="_blank" rel="noopener noreferrer">
                             <b>Discord</b>
                             <span>Profile</span>
                           </a>
@@ -5218,7 +5101,7 @@
         },
         onboarding_2: {
           kicker: "Guide",
-          title: "Arc Testnet required",
+          title: "Arc Testnet is required",
           text: "Use Arc Testnet before trying swap or pay."
         },
         onboarding_3: {
@@ -5418,8 +5301,8 @@
         },
         get_paid_amount: {
           kicker: "Get Paid",
-          title: "Choose an amount and asset",
-          text: "This page only creates a QR request. The payer decides later how to pay."
+          title: "Choose an amount",
+          text: "Use one of the quick values. This page only creates a QR request."
         },
         get_paid_ready: {
           kicker: "Get Paid",
@@ -5454,12 +5337,12 @@
         get_paid_invalid_amount: {
           kicker: "Get Paid",
           title: "Invalid amount",
-          text: "Enter a valid request amount."
+          text: "Choose one of the quick values before generating."
         },
         get_paid_limit: {
           kicker: "Get Paid",
-          title: "Max 1000",
-          text: "A payment request can be at most 1000 dollars."
+          title: "Max 10",
+          text: "A payment request can be at most 10 dollars in this test version."
         },
 
         more_placeholder: {
@@ -5735,8 +5618,8 @@
         },
         get_paid_amount: {
           kicker: "Get Paid",
-          title: "Elige monto y activo",
-          text: "Esta página solo crea un QR de cobro. El pagador decide después cómo pagar."
+          title: "Elige un monto",
+          text: "Usa uno de los valores rápidos. Esta página solo crea un QR de cobro."
         },
         get_paid_ready: {
           kicker: "Get Paid",
@@ -5771,12 +5654,12 @@
         get_paid_invalid_amount: {
           kicker: "Get Paid",
           title: "Monto inválido",
-          text: "Introduce un monto válido para la solicitud."
+          text: "Elige uno de los valores rápidos antes de generar."
         },
         get_paid_limit: {
           kicker: "Get Paid",
-          title: "Máximo 1000",
-          text: "Una solicitud de pago puede ser como máximo de 1000 dólares."
+          title: "Máximo 10",
+          text: "Una solicitud de pago puede ser como máximo de 10 dólares en esta versión de prueba."
         },
 
         more_placeholder: {
@@ -5883,7 +5766,8 @@
         asset: "USDC",
         hideNote: false,
         link: "",
-        payload: null
+        payload: null,
+        amount: ""
       },
 
       more: {
@@ -5999,7 +5883,6 @@
     const requestOrb = document.getElementById("requestOrb");
     const requestOrbAsset = document.getElementById("requestOrbAsset");
     const requestOrbValue = document.getElementById("requestOrbValue");
-    const requestAmountInput = document.getElementById("requestAmountInput");
     const requestNoteInput = document.getElementById("requestNoteInput");
     const requestGenerateBtn = document.getElementById("requestGenerateBtn");
     const requestResult = document.getElementById("requestResult");
@@ -6012,6 +5895,7 @@
     const requestShareBtn = document.getElementById("requestShareBtn");
     const requestDownloadBtn = document.getElementById("requestDownloadBtn");
     const requestNewBtn = document.getElementById("requestNewBtn");
+    const requestQuickButtons = Array.from(document.querySelectorAll("[data-request-quick]"));
 
     const scannerOverlay = document.getElementById("scannerOverlay");
     const scannerVideo = document.getElementById("scannerVideo");
@@ -6025,13 +5909,9 @@
     const moreLangOptions = Array.from(document.querySelectorAll(".more-lang-option"));
     const moreWalletText = document.getElementById("moreWalletText");
     const moreCopyWalletBtn = document.getElementById("moreCopyWalletBtn");
-    const moreMintToggle = document.getElementById("moreMintToggle");
-    const moreMintDrop = document.getElementById("moreMintDrop");
-    const moreMintAction = document.getElementById("moreMintAction");
     const moreTabButtons = Array.from(document.querySelectorAll(".more-tab-btn"));
     const moreTabPanels = Array.from(document.querySelectorAll(".more-tab-panel"));
     const notesPanel = document.getElementById("notesPanel");
-    const tokensPanel = document.getElementById("tokensPanel");
 
     const sfStructure = document.getElementById("sfStructure");
     const sfRods = document.getElementById("sfRods");
@@ -7399,14 +7279,6 @@
       payPreviewStatus.textContent = "Waiting";
     }
 
-    function clampRequestAmount(value){
-      const clean = sanitizeNumeric(value);
-      if (!clean) return "";
-      const n = Math.min(1000, Math.max(0, Number(clean)));
-      if (!Number.isFinite(n)) return "";
-      return String(n);
-    }
-
     function setRequestAsset(asset){
       state.request.asset = asset;
       requestAssetUsdc.classList.toggle("active", asset === "USDC");
@@ -7449,9 +7321,18 @@
 
     function refreshRequestUI(){
       requestOrbAsset.textContent = state.request.asset;
-      requestAmountInput.value = clampRequestAmount(requestAmountInput.value);
-      requestOrbValue.textContent = requestAmountInput.value.trim() || "0";
-      fitNumericField(requestAmountInput, 14, 11);
+
+      let amount = Number(state.request.amount || 0);
+      if (!Number.isFinite(amount) || amount < 0) amount = 0;
+      if (amount > 10) amount = 10;
+      state.request.amount = amount > 0 ? String(amount) : "";
+
+      requestOrbValue.textContent = state.request.amount || "0";
+
+      requestQuickButtons.forEach(btn => {
+        btn.classList.toggle("active", btn.dataset.requestQuick === state.request.amount);
+      });
+
       updateAssistant();
     }
 
@@ -7479,7 +7360,7 @@
       }
 
       const wallet = requestWalletInput.value.trim();
-      const amount = Number(requestAmountInput.value || 0);
+      const amount = Number(state.request.amount || 0);
       const note = state.request.hideNote ? "" : requestNoteInput.value.trim();
 
       if (!wallet || !ethers.utils.isAddress(wallet)) {
@@ -7492,7 +7373,7 @@
         return;
       }
 
-      if (amount > 1000) {
+      if (amount > 10) {
         applyAssistantKey("get_paid_limit", "danger");
         return;
       }
@@ -7542,7 +7423,7 @@
       } else {
         requestWalletInput.value = "";
       }
-      requestAmountInput.value = "";
+      state.request.amount = "";
       requestNoteInput.value = "";
       state.request.link = "";
       state.request.payload = null;
@@ -7829,13 +7710,13 @@
           return;
         }
 
-        const amount = Number(requestAmountInput.value || 0);
+        const amount = Number(state.request.amount || 0);
         if (!amount || amount <= 0) {
           applyAssistantKey("get_paid_amount", "warn");
           return;
         }
 
-        if (amount > 1000) {
+        if (amount > 10) {
           applyAssistantKey("get_paid_limit", "danger");
           return;
         }
@@ -7849,7 +7730,6 @@
       }
     }
 
-    /* GRAPH */
     function clamp(value, min, max){
       return Math.max(min, Math.min(max, value));
     }
@@ -8171,12 +8051,6 @@
       }
     });
 
-    /* MORE */
-    function shortContract(contract){
-      if (!contract) return "—";
-      return `${contract.slice(0,10)}...${contract.slice(-6)}`;
-    }
-
     function normalizeNote(note){
       return {
         id: note.id || ("note-" + Math.random().toString(36).slice(2)),
@@ -8318,7 +8192,6 @@
       clearNotes: clearMoreNotes
     };
 
-    /* EVENTS */
     connectBtn.addEventListener("click", () => {
       if (state.connected) {
         setPage("home");
@@ -8493,13 +8366,12 @@
     requestAssetEurc.addEventListener("click", () => setRequestAsset("EURC"));
     requestSwitch.addEventListener("click", () => setRequestAsset(state.request.asset === "USDC" ? "EURC" : "USDC"));
 
-    requestAmountInput.addEventListener("input", refreshRequestUI);
     requestWalletInput.addEventListener("input", refreshRequestUI);
     requestNoteInput.addEventListener("input", refreshRequestUI);
 
-    document.querySelectorAll("[data-request-quick]").forEach(btn => {
+    requestQuickButtons.forEach(btn => {
       btn.addEventListener("click", () => {
-        requestAmountInput.value = btn.dataset.requestQuick;
+        state.request.amount = btn.dataset.requestQuick;
         refreshRequestUI();
       });
     });
@@ -8541,15 +8413,6 @@
       }catch{
         showToast("Copy failed", true);
       }
-    });
-
-    moreMintToggle.addEventListener("click", () => {
-      moreMintToggle.classList.toggle("open");
-      moreMintDrop.classList.toggle("show");
-    });
-
-    moreMintAction.addEventListener("click", () => {
-      showToast("Coming soon");
     });
 
     moreTabButtons.forEach(btn => {
