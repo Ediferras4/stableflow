@@ -668,10 +668,10 @@
       inset:0;
       z-index:1;
       background:
-        radial-gradient(circle at 50% 48%, rgba(86,221,233,.018), transparent 46%),
-        radial-gradient(circle at 50% 78%, rgba(217,183,120,.018), transparent 46%),
-        linear-gradient(180deg, rgba(255,255,255,.007), transparent 16%, transparent 84%, rgba(255,255,255,.006)),
-        #000605;
+        radial-gradient(circle at 50% 40%, rgba(86,221,233,.030), transparent 34%),
+        radial-gradient(circle at 50% 62%, rgba(217,183,120,.020), transparent 48%),
+        radial-gradient(circle at 50% 88%, rgba(86,221,233,.014), transparent 46%),
+        linear-gradient(180deg, #000807 0%, #000504 48%, #000706 100%);
       pointer-events:none;
     }
 
@@ -737,107 +737,97 @@
       flex-direction:column;
       align-items:center;
       justify-content:center;
-      gap:16px;
-      transform:translateY(4px);
+      gap:18px;
+      transform:translateY(2px);
     }
 
-    .logo-orbit{
+    .logo-avatar{
       position:relative;
-      width:156px;
-      height:156px;
+      width:154px;
+      height:154px;
+      border-radius:50%;
       display:grid;
       place-items:center;
-      border-radius:50%;
       background:
-        radial-gradient(circle at 50% 50%, rgba(52,109,126,.22), transparent 48%),
-        radial-gradient(circle at 50% 50%, rgba(217,183,120,.055), transparent 64%);
+        radial-gradient(circle at 50% 50%, rgba(86,221,233,.105), transparent 49%),
+        radial-gradient(circle at 50% 50%, rgba(217,183,120,.055), transparent 63%),
+        linear-gradient(180deg, rgba(255,255,255,.012), rgba(255,255,255,.002)),
+        #000807;
       box-shadow:
-        0 0 34px rgba(86,221,233,.030),
-        0 0 48px rgba(0,0,0,.45);
+        0 0 28px rgba(86,221,233,.050),
+        0 0 54px rgba(0,0,0,.58),
+        0 18px 44px rgba(0,0,0,.36);
     }
 
-    .logo-orbit::before{
+    .logo-avatar::before{
       content:"";
       position:absolute;
-      inset:6px;
+      inset:5px;
       border-radius:50%;
-      border:1px solid rgba(86,221,233,.080);
+      border:1px solid rgba(86,221,233,.115);
       box-shadow:
-        inset 0 0 18px rgba(86,221,233,.018),
-        0 0 16px rgba(86,221,233,.020);
-    }
-
-    .logo-orbit::after{
-      content:"";
-      position:absolute;
-      inset:20px;
-      border-radius:50%;
-      border:1px solid rgba(217,183,120,.120);
-      box-shadow:
-        inset 0 0 18px rgba(217,183,120,.018),
-        0 0 18px rgba(217,183,120,.026);
-    }
-
-    .logo-disc{
-      position:relative;
-      z-index:3;
-      width:96px;
-      height:96px;
-      border-radius:50%;
-      display:grid;
-      place-items:center;
-      overflow:hidden;
-      background:#010504;
-      border:1px solid rgba(217,183,120,.20);
-      box-shadow:
-        0 0 0 1px rgba(86,221,233,.035),
-        0 0 20px rgba(86,221,233,.040),
-        0 0 24px rgba(217,183,120,.035),
-        inset 0 0 18px rgba(0,0,0,.62),
-        inset 0 1px 0 rgba(255,255,255,.025);
-    }
-
-    .logo-disc::before{
-      content:"";
-      position:absolute;
-      inset:8px;
-      border-radius:50%;
-      border:1px solid rgba(86,221,233,.055);
+        inset 0 0 18px rgba(86,221,233,.020),
+        0 0 14px rgba(86,221,233,.030);
       pointer-events:none;
     }
 
-    .logo-img{
+    .logo-avatar::after{
+      content:"";
+      position:absolute;
+      inset:16px;
+      border-radius:50%;
+      border:1px solid rgba(217,183,120,.145);
+      box-shadow:
+        inset 0 0 18px rgba(217,183,120,.015),
+        0 0 18px rgba(217,183,120,.024);
+      pointer-events:none;
+    }
+
+    .logo-avatar-core{
       position:relative;
-      z-index:2;
-      width:84px;
-      height:84px;
-      object-fit:contain;
-      object-position:center;
+      z-index:3;
+      width:104px;
+      height:104px;
+      border-radius:50%;
+      overflow:hidden;
+      background:#000807;
+      border:1px solid rgba(217,183,120,.16);
+      box-shadow:
+        0 0 0 1px rgba(86,221,233,.040),
+        0 0 16px rgba(86,221,233,.038),
+        0 0 22px rgba(217,183,120,.030),
+        inset 0 0 18px rgba(0,0,0,.62);
+    }
+
+    .logo-avatar-core img{
+      width:100%;
+      height:100%;
       display:block;
-      mix-blend-mode:screen;
+      object-fit:cover;
+      object-position:center;
+      border-radius:50%;
       filter:
-        brightness(1.24)
-        contrast(1.18)
-        saturate(1.10)
-        drop-shadow(0 0 7px rgba(217,183,120,.20))
-        drop-shadow(0 0 8px rgba(86,221,233,.07));
+        brightness(1.08)
+        contrast(1.08)
+        saturate(1.04);
     }
 
     .logo-fallback{
-      position:relative;
-      z-index:2;
+      width:100%;
+      height:100%;
       display:none;
-      flex-direction:column;
       align-items:center;
       justify-content:center;
-      text-align:center;
+      flex-direction:column;
+      border-radius:50%;
+      background:#000807;
     }
 
     .logo-fallback span{
       color:#edf6f7;
-      font-size:19px;
+      font-size:17px;
       font-weight:950;
-      letter-spacing:.18em;
+      letter-spacing:.16em;
       text-shadow:
         0 0 8px rgba(255,255,255,.055),
         0 0 10px rgba(86,221,233,.070);
@@ -845,11 +835,11 @@
 
     .logo-fallback small{
       display:block;
-      margin-top:8px;
+      margin-top:7px;
       color:#80e8ef;
-      font-size:10px;
+      font-size:9px;
       font-weight:900;
-      letter-spacing:.22em;
+      letter-spacing:.20em;
       text-shadow:0 0 8px rgba(86,221,233,.090);
     }
 
@@ -857,13 +847,13 @@
       position:relative;
       z-index:5;
       color:#e9f6ff;
-      font-size:33px;
+      font-size:30px;
       font-weight:950;
-      letter-spacing:-.065em;
+      letter-spacing:-.055em;
       line-height:1;
       text-shadow:
-        0 1px 0 rgba(255,255,255,.18),
-        0 0 12px rgba(86,221,233,.13),
+        0 1px 0 rgba(255,255,255,.16),
+        0 0 12px rgba(86,221,233,.11),
         0 0 22px rgba(217,183,120,.045);
     }
 
@@ -871,17 +861,17 @@
       content:"";
       position:absolute;
       left:50%;
-      bottom:-18px;
-      width:108px;
+      bottom:-16px;
+      width:96px;
       height:3px;
       transform:translateX(-50%);
       border-radius:999px;
       background:
-        radial-gradient(circle at 50% 50%, rgba(217,183,120,.80), rgba(217,183,120,.20) 35%, transparent 72%);
-      opacity:.58;
+        radial-gradient(circle at 50% 50%, rgba(217,183,120,.68), rgba(217,183,120,.18) 36%, transparent 72%);
+      opacity:.52;
       box-shadow:
-        0 0 12px rgba(217,183,120,.18),
-        0 0 22px rgba(86,221,233,.035);
+        0 0 12px rgba(217,183,120,.16),
+        0 0 22px rgba(86,221,233,.032);
       pointer-events:none;
     }
 
@@ -1021,15 +1011,13 @@
       <div class="cover-line-bottom"></div>
 
       <div class="cover-brand">
-        <div class="logo-orbit">
-          <div class="logo-disc">
+        <div class="logo-avatar">
+          <div class="logo-avatar-core">
             <img
-              class="logo-img"
               src="logo.png"
               alt="StableFlow logo"
               onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"
             />
-
             <div class="logo-fallback">
               <span>FLOW</span>
               <small>TAP</small>
@@ -1183,4 +1171,4 @@
     updateDisconnectState();
   </script>
 </body>
-</html>
+  </html>
