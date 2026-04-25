@@ -188,8 +188,9 @@
     }
 
     .page.active{
-      display:grid;
-      place-items:center;
+      display:flex;
+      align-items:center;
+      justify-content:center;
     }
 
     @keyframes pageIn{
@@ -197,7 +198,18 @@
       to{opacity:1;transform:translateX(0);}
     }
 
-    .page-number{
+    .scroll-test-stack{
+      width:100%;
+      min-height:1180px;
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      justify-content:flex-start;
+      gap:92px;
+      padding:72px 0 160px;
+    }
+
+    .scroll-number{
       font-size:82px;
       line-height:1;
       font-weight:300;
@@ -1252,7 +1264,7 @@
           0 18px 38px rgba(0,0,0,.34);
       }
 
-      .page-number{
+      .scroll-number{
         font-size:94px;
       }
     }
@@ -1300,7 +1312,7 @@
         min-height:calc(min(100dvh, 940px) - var(--assistant-h) - var(--joint-h) - var(--bottom-h) - var(--frame-top) - 58px);
       }
 
-      .page-number{
+      .scroll-number{
         font-size:106px;
       }
 
@@ -1401,30 +1413,86 @@
     <div class="top-band"></div>
 
     <section class="screen" id="swipeZone">
-      <div class="scroll">
+      <div class="scroll" id="scrollArea">
+
         <article class="page active" data-page="page1">
-          <div class="page-number">1</div>
+          <div class="scroll-test-stack">
+            <div class="scroll-number">1</div>
+            <div class="scroll-number">1</div>
+            <div class="scroll-number">1</div>
+            <div class="scroll-number">1</div>
+            <div class="scroll-number">1</div>
+            <div class="scroll-number">1</div>
+            <div class="scroll-number">1</div>
+            <div class="scroll-number">1</div>
+          </div>
         </article>
 
         <article class="page" data-page="page2">
-          <div class="page-number">2</div>
+          <div class="scroll-test-stack">
+            <div class="scroll-number">2</div>
+            <div class="scroll-number">2</div>
+            <div class="scroll-number">2</div>
+            <div class="scroll-number">2</div>
+            <div class="scroll-number">2</div>
+            <div class="scroll-number">2</div>
+            <div class="scroll-number">2</div>
+            <div class="scroll-number">2</div>
+          </div>
         </article>
 
         <article class="page" data-page="page3">
-          <div class="page-number">3</div>
+          <div class="scroll-test-stack">
+            <div class="scroll-number">3</div>
+            <div class="scroll-number">3</div>
+            <div class="scroll-number">3</div>
+            <div class="scroll-number">3</div>
+            <div class="scroll-number">3</div>
+            <div class="scroll-number">3</div>
+            <div class="scroll-number">3</div>
+            <div class="scroll-number">3</div>
+          </div>
         </article>
 
         <article class="page" data-page="page4">
-          <div class="page-number">4</div>
+          <div class="scroll-test-stack">
+            <div class="scroll-number">4</div>
+            <div class="scroll-number">4</div>
+            <div class="scroll-number">4</div>
+            <div class="scroll-number">4</div>
+            <div class="scroll-number">4</div>
+            <div class="scroll-number">4</div>
+            <div class="scroll-number">4</div>
+            <div class="scroll-number">4</div>
+          </div>
         </article>
 
         <article class="page" data-page="page5">
-          <div class="page-number">5</div>
+          <div class="scroll-test-stack">
+            <div class="scroll-number">5</div>
+            <div class="scroll-number">5</div>
+            <div class="scroll-number">5</div>
+            <div class="scroll-number">5</div>
+            <div class="scroll-number">5</div>
+            <div class="scroll-number">5</div>
+            <div class="scroll-number">5</div>
+            <div class="scroll-number">5</div>
+          </div>
         </article>
 
         <article class="page" data-page="page6">
-          <div class="page-number">6</div>
+          <div class="scroll-test-stack">
+            <div class="scroll-number">6</div>
+            <div class="scroll-number">6</div>
+            <div class="scroll-number">6</div>
+            <div class="scroll-number">6</div>
+            <div class="scroll-number">6</div>
+            <div class="scroll-number">6</div>
+            <div class="scroll-number">6</div>
+            <div class="scroll-number">6</div>
+          </div>
         </article>
+
       </div>
 
       <div class="screen-swipe-guide" aria-hidden="true">
@@ -1514,6 +1582,7 @@
     const pages = Array.from(document.querySelectorAll(".page"));
     const swipeZone = document.getElementById("swipeZone");
     const txPill = document.getElementById("txPill");
+    const scrollArea = document.getElementById("scrollArea");
 
     const route = ["page1","page2","page3","page4","page5","page6"];
 
@@ -1572,6 +1641,13 @@
       });
 
       assistantText.textContent = "Page " + pageNumber + " ready for lapidation.";
+
+      if(scrollArea){
+        scrollArea.scrollTo({
+          top:0,
+          behavior:"smooth"
+        });
+      }
     }
 
     openHotspot.addEventListener("pointerdown", e => {
@@ -1655,4 +1731,4 @@
     updateDisconnectState();
   </script>
 </body>
-</html>
+  </html>
