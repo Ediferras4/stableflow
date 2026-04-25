@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-  <title>StableFlow Empty Shell</title>
+  <title>StableFlow Fixed Shell</title>
 
   <style>
     *{
@@ -25,22 +25,21 @@
     body{
       position:fixed;
       inset:0;
-      display:flex;
-      align-items:center;
-      justify-content:center;
       background:
-        radial-gradient(circle at 20% 10%, rgba(77,214,224,.025), transparent 30%),
-        radial-gradient(circle at 80% 92%, rgba(217,183,120,.014), transparent 32%),
+        radial-gradient(circle at 18% 8%, rgba(77,214,224,.028), transparent 32%),
+        radial-gradient(circle at 82% 92%, rgba(217,183,120,.015), transparent 34%),
         linear-gradient(180deg, #010505 0%, #000303 100%);
     }
 
     :root{
-      --app-w:430px;
       --frame-x:12px;
       --frame-top:18px;
+      --frame-bottom:14px;
+
       --assistant-h:92px;
       --joint-h:22px;
       --bottom-h:80px;
+
       --side-rail-w:7px;
 
       --app-radius:0px;
@@ -54,29 +53,25 @@
       --gold:#d9b778;
       --green:#79ffb2;
 
-      --bg:#010707;
-      --bg-deep:#000504;
-      --screen:#071117;
-
       --cover-speed:940ms;
     }
 
     .app{
-      position:relative;
-      width:min(100vw, var(--app-w));
+      position:fixed;
+      inset:0;
+      width:100vw;
       height:100vh;
       height:100dvh;
       overflow:hidden;
       isolation:isolate;
       border-radius:var(--app-radius);
       background:
-        radial-gradient(circle at 50% 0%, rgba(86,221,233,.018), transparent 31%),
-        radial-gradient(circle at 50% 100%, rgba(217,183,120,.012), transparent 35%),
-        var(--bg);
+        radial-gradient(circle at 50% 0%, rgba(86,221,233,.018), transparent 32%),
+        radial-gradient(circle at 50% 100%, rgba(217,183,120,.012), transparent 36%),
+        #010707;
       box-shadow:
-        0 0 0 1px rgba(255,255,255,.010),
-        0 0 40px rgba(0,0,0,.52),
-        inset 0 0 0 1px rgba(255,255,255,.009);
+        inset 0 0 0 1px rgba(255,255,255,.010),
+        inset 0 0 70px rgba(0,0,0,.28);
     }
 
     .app::before,
@@ -86,27 +81,27 @@
       top:0;
       bottom:0;
       width:var(--side-rail-w);
-      z-index:30;
+      z-index:40;
       pointer-events:none;
       background:
         linear-gradient(180deg, rgba(255,255,255,.018), transparent 12%, transparent 88%, rgba(255,255,255,.012)),
-        linear-gradient(90deg, rgba(86,221,233,.030), rgba(0,0,0,.34), rgba(217,183,120,.018));
+        linear-gradient(90deg, rgba(86,221,233,.032), rgba(0,0,0,.36), rgba(217,183,120,.018));
       box-shadow:
-        0 0 16px rgba(86,221,233,.035),
-        inset 0 0 10px rgba(0,0,0,.65);
+        0 0 16px rgba(86,221,233,.036),
+        inset 0 0 10px rgba(0,0,0,.66);
       opacity:.86;
     }
 
     .app::before{
       left:0;
-      border-right:1px solid rgba(86,221,233,.070);
+      border-right:1px solid rgba(86,221,233,.075);
     }
 
     .app::after{
       right:0;
-      border-left:1px solid rgba(86,221,233,.052);
+      border-left:1px solid rgba(86,221,233,.055);
       transform:scaleX(-1);
-      opacity:.58;
+      opacity:.60;
     }
 
     .top-band{
@@ -118,200 +113,9 @@
       z-index:4;
       pointer-events:none;
       background:
-        linear-gradient(90deg, rgba(86,221,233,.020), transparent 18%, transparent 82%, rgba(86,221,233,.014)),
+        linear-gradient(90deg, rgba(86,221,233,.022), transparent 18%, transparent 82%, rgba(86,221,233,.014)),
         linear-gradient(180deg, #000707 0%, #010707 100%);
       border-bottom:1px solid rgba(217,183,120,.060);
-    }
-
-    .screen{
-      position:absolute;
-      left:var(--frame-x);
-      right:var(--frame-x);
-      top:var(--frame-top);
-      bottom:var(--bottom-h);
-      z-index:1;
-      overflow:hidden;
-      opacity:0;
-      border-radius:var(--screen-radius);
-      border:1px solid rgba(106,158,174,.115);
-      transition:opacity 520ms ease 220ms;
-      background:
-        radial-gradient(circle at 50% 34%, rgba(44,124,140,.105), transparent 34%),
-        radial-gradient(circle at 50% 72%, rgba(20,73,88,.090), transparent 46%),
-        radial-gradient(circle at 50% 100%, rgba(7,31,42,.55), transparent 42%),
-        linear-gradient(180deg, #0b151b 0%, #071117 43%, #040a0e 100%);
-      box-shadow:
-        inset 0 0 0 1px rgba(197,221,228,.018),
-        inset 0 0 42px rgba(0,0,0,.43),
-        inset 0 -22px 38px rgba(0,0,0,.24),
-        0 18px 36px rgba(0,0,0,.30);
-    }
-
-    .screen::before{
-      content:"";
-      position:absolute;
-      inset:0;
-      border-radius:inherit;
-      pointer-events:none;
-      background:
-        linear-gradient(90deg, rgba(86,221,233,.018), transparent 13%, transparent 87%, rgba(86,221,233,.018)),
-        linear-gradient(180deg, rgba(208,225,230,.016), transparent 13%, transparent 86%, rgba(64,139,154,.018));
-      opacity:.74;
-    }
-
-    .screen::after{
-      content:"";
-      position:absolute;
-      left:18px;
-      right:18px;
-      bottom:11px;
-      height:1px;
-      pointer-events:none;
-      background:linear-gradient(90deg, transparent, rgba(86,221,233,.052), transparent);
-      opacity:.44;
-    }
-
-    .scroll{
-      position:relative;
-      z-index:2;
-      width:100%;
-      height:100%;
-      overflow-y:auto;
-      overflow-x:hidden;
-      overscroll-behavior:contain;
-      scroll-behavior:smooth;
-      padding:calc(var(--assistant-h) + var(--joint-h) + 16px) 14px 58px;
-    }
-
-    .scroll::-webkit-scrollbar{
-      width:0;
-      height:0;
-    }
-
-    .page{
-      display:none;
-      min-height:calc(100dvh - var(--assistant-h) - var(--joint-h) - var(--bottom-h) - var(--frame-top) - 34px);
-      animation:pageIn .32s ease;
-    }
-
-    .page.active{
-      display:flex;
-      align-items:center;
-      justify-content:center;
-    }
-
-    @keyframes pageIn{
-      from{
-        opacity:0;
-        transform:translateX(22px);
-      }
-      to{
-        opacity:1;
-        transform:translateX(0);
-      }
-    }
-
-    .scroll-test-stack{
-      width:100%;
-      min-height:1180px;
-      display:flex;
-      flex-direction:column;
-      align-items:center;
-      justify-content:flex-start;
-      gap:92px;
-      padding:72px 0 160px;
-    }
-
-    .scroll-number{
-      font-size:82px;
-      line-height:1;
-      font-weight:300;
-      letter-spacing:-.085em;
-      color:#dcebee;
-      opacity:.46;
-      text-shadow:
-        0 0 8px rgba(86,221,233,.050),
-        0 0 18px rgba(86,221,233,.024),
-        0 0 16px rgba(197,221,228,.018);
-    }
-
-    .screen-swipe-guide{
-      position:absolute;
-      left:24px;
-      right:24px;
-      bottom:13px;
-      z-index:7;
-      height:16px;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      gap:14px;
-      pointer-events:none;
-      opacity:.42;
-      filter:drop-shadow(0 0 7px rgba(86,221,233,.075));
-    }
-
-    .screen-swipe-guide::before{
-      content:"";
-      position:absolute;
-      left:0;
-      right:0;
-      top:50%;
-      height:1px;
-      transform:translateY(-50%);
-      background:
-        linear-gradient(90deg,
-          transparent 0%,
-          rgba(126,216,255,.055) 18%,
-          rgba(126,216,255,.20) 38%,
-          transparent 48%,
-          transparent 52%,
-          rgba(126,216,255,.20) 62%,
-          rgba(126,216,255,.055) 82%,
-          transparent 100%
-        );
-    }
-
-    .guide-arrow,
-    .guide-word{
-      position:relative;
-      z-index:2;
-    }
-
-    .guide-arrow{
-      width:28px;
-      height:10px;
-      opacity:.72;
-    }
-
-    .guide-arrow svg{
-      width:100%;
-      height:100%;
-      display:block;
-      overflow:visible;
-    }
-
-    .guide-arrow path{
-      fill:none;
-      stroke:rgba(158,223,239,.70);
-      stroke-width:1.4;
-      stroke-linecap:round;
-      stroke-linejoin:round;
-    }
-
-    .guide-word{
-      padding:0 9px;
-      color:rgba(196,222,228,.52);
-      font-size:7px;
-      font-weight:950;
-      letter-spacing:.34em;
-      text-transform:uppercase;
-      text-shadow:
-        0 1px 0 rgba(0,0,0,.60),
-        0 0 8px rgba(86,221,233,.055);
-      background:
-        linear-gradient(90deg, transparent, rgba(5,15,19,.62) 18%, rgba(5,15,19,.68) 82%, transparent);
-      transform:translateX(.16em);
     }
 
     .assistant{
@@ -320,7 +124,7 @@
       right:var(--frame-x);
       top:var(--frame-top);
       height:var(--assistant-h);
-      z-index:5;
+      z-index:12;
       overflow:hidden;
       border-radius:var(--assistant-radius) var(--assistant-radius) 8px 8px;
       transform:translateY(-130%);
@@ -456,7 +260,7 @@
       right:var(--frame-x);
       top:calc(var(--frame-top) + var(--assistant-h));
       height:var(--joint-h);
-      z-index:4;
+      z-index:11;
       opacity:0;
       transform:translateY(-8px);
       border-radius:var(--joint-radius);
@@ -594,13 +398,204 @@
       50%{filter:brightness(1.09);}
     }
 
+    .screen{
+      position:absolute;
+      left:var(--frame-x);
+      right:var(--frame-x);
+      top:calc(var(--frame-top) + var(--assistant-h) + var(--joint-h));
+      bottom:var(--bottom-h);
+      z-index:2;
+      overflow:hidden;
+      opacity:0;
+      border-radius:0 0 var(--screen-radius) var(--screen-radius);
+      border-left:1px solid rgba(106,158,174,.115);
+      border-right:1px solid rgba(106,158,174,.115);
+      border-bottom:1px solid rgba(106,158,174,.115);
+      transition:opacity 520ms ease 220ms;
+      background:
+        radial-gradient(circle at 50% 26%, rgba(44,124,140,.105), transparent 34%),
+        radial-gradient(circle at 50% 68%, rgba(20,73,88,.090), transparent 46%),
+        radial-gradient(circle at 50% 100%, rgba(7,31,42,.55), transparent 42%),
+        linear-gradient(180deg, #0b151b 0%, #071117 43%, #040a0e 100%);
+      box-shadow:
+        inset 0 0 0 1px rgba(197,221,228,.014),
+        inset 0 0 42px rgba(0,0,0,.43),
+        inset 0 -22px 38px rgba(0,0,0,.24),
+        0 18px 36px rgba(0,0,0,.30);
+    }
+
+    .screen::before{
+      content:"";
+      position:absolute;
+      inset:0;
+      border-radius:inherit;
+      pointer-events:none;
+      z-index:3;
+      background:
+        linear-gradient(90deg, rgba(86,221,233,.018), transparent 13%, transparent 87%, rgba(86,221,233,.018)),
+        linear-gradient(180deg, rgba(208,225,230,.016), transparent 13%, transparent 86%, rgba(64,139,154,.018));
+      opacity:.74;
+    }
+
+    .screen::after{
+      content:"";
+      position:absolute;
+      left:18px;
+      right:18px;
+      bottom:11px;
+      height:1px;
+      z-index:4;
+      pointer-events:none;
+      background:linear-gradient(90deg, transparent, rgba(86,221,233,.052), transparent);
+      opacity:.44;
+    }
+
+    .page{
+      position:absolute;
+      inset:0;
+      z-index:2;
+      display:none;
+      width:100%;
+      height:100%;
+      overflow-y:auto;
+      overflow-x:hidden;
+      overscroll-behavior:contain;
+      scroll-behavior:smooth;
+      padding:22px 14px 58px;
+      animation:pageIn .32s ease;
+    }
+
+    .page::-webkit-scrollbar{
+      width:0;
+      height:0;
+    }
+
+    .page.active{
+      display:block;
+    }
+
+    @keyframes pageIn{
+      from{
+        opacity:0;
+        transform:translateX(22px);
+      }
+
+      to{
+        opacity:1;
+        transform:translateX(0);
+      }
+    }
+
+    .scroll-test-stack{
+      width:100%;
+      min-height:1180px;
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      justify-content:flex-start;
+      gap:92px;
+      padding:72px 0 160px;
+    }
+
+    .scroll-number{
+      font-size:82px;
+      line-height:1;
+      font-weight:300;
+      letter-spacing:-.085em;
+      color:#dcebee;
+      opacity:.46;
+      text-shadow:
+        0 0 8px rgba(86,221,233,.050),
+        0 0 18px rgba(86,221,233,.024),
+        0 0 16px rgba(197,221,228,.018);
+    }
+
+    .screen-swipe-guide{
+      position:absolute;
+      left:24px;
+      right:24px;
+      bottom:13px;
+      z-index:8;
+      height:16px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      gap:14px;
+      pointer-events:none;
+      opacity:.42;
+      filter:drop-shadow(0 0 7px rgba(86,221,233,.075));
+    }
+
+    .screen-swipe-guide::before{
+      content:"";
+      position:absolute;
+      left:0;
+      right:0;
+      top:50%;
+      height:1px;
+      transform:translateY(-50%);
+      background:
+        linear-gradient(90deg,
+          transparent 0%,
+          rgba(126,216,255,.055) 18%,
+          rgba(126,216,255,.20) 38%,
+          transparent 48%,
+          transparent 52%,
+          rgba(126,216,255,.20) 62%,
+          rgba(126,216,255,.055) 82%,
+          transparent 100%
+        );
+    }
+
+    .guide-arrow,
+    .guide-word{
+      position:relative;
+      z-index:2;
+    }
+
+    .guide-arrow{
+      width:28px;
+      height:10px;
+      opacity:.72;
+    }
+
+    .guide-arrow svg{
+      width:100%;
+      height:100%;
+      display:block;
+      overflow:visible;
+    }
+
+    .guide-arrow path{
+      fill:none;
+      stroke:rgba(158,223,239,.70);
+      stroke-width:1.4;
+      stroke-linecap:round;
+      stroke-linejoin:round;
+    }
+
+    .guide-word{
+      padding:0 9px;
+      color:rgba(196,222,228,.52);
+      font-size:7px;
+      font-weight:950;
+      letter-spacing:.34em;
+      text-transform:uppercase;
+      text-shadow:
+        0 1px 0 rgba(0,0,0,.60),
+        0 0 8px rgba(86,221,233,.055);
+      background:
+        linear-gradient(90deg, transparent, rgba(5,15,19,.62) 18%, rgba(5,15,19,.68) 82%, transparent);
+      transform:translateX(.16em);
+    }
+
     .bottom-controls{
       position:absolute;
       left:var(--frame-x);
       right:var(--frame-x);
-      bottom:18px;
+      bottom:var(--frame-bottom);
       height:52px;
-      z-index:6;
+      z-index:13;
       transform:translateY(145%);
       transition:transform 660ms cubic-bezier(.16,.9,.18,1) 360ms;
       display:grid;
@@ -866,7 +861,7 @@
     .cover{
       position:absolute;
       inset:0;
-      z-index:20;
+      z-index:25;
       display:flex;
       align-items:center;
       justify-content:center;
@@ -1023,6 +1018,7 @@
           0 0 10px rgba(86,221,233,.022);
         opacity:.76;
       }
+
       50%{
         border-color:rgba(126,216,255,.32);
         box-shadow:
@@ -1177,40 +1173,30 @@
     }
 
     .app.open .cover{
-      transform:translate3d(calc(100% + 44px),0,0);
+      transform:translate3d(calc(100vw + 44px),0,0);
       pointer-events:none;
     }
 
     @media (min-width:700px){
       :root{
-        --app-w:760px;
         --frame-x:18px;
         --frame-top:20px;
+        --frame-bottom:20px;
+
         --assistant-h:94px;
         --joint-h:22px;
         --bottom-h:86px;
+
         --side-rail-w:10px;
 
-        --app-radius:22px;
+        --app-radius:0px;
         --screen-radius:20px;
         --assistant-radius:18px;
         --joint-radius:0 0 16px 16px;
-        --cover-radius:22px;
-      }
-
-      .app{
-        width:min(96vw, var(--app-w));
-        height:100dvh;
-        border-left:1px solid rgba(86,221,233,.045);
-        border-right:1px solid rgba(86,221,233,.035);
-      }
-
-      .top-band{
-        border-radius:22px 22px 0 0;
+        --cover-radius:0px;
       }
 
       .bottom-controls{
-        bottom:22px;
         height:56px;
         grid-template-columns:48px minmax(220px,1fr) 124px;
         gap:16px;
@@ -1244,14 +1230,6 @@
         bottom:16px;
       }
 
-      .screen{
-        box-shadow:
-          inset 0 0 0 1px rgba(197,221,228,.020),
-          inset 0 0 58px rgba(0,0,0,.46),
-          inset 0 -26px 44px rgba(0,0,0,.26),
-          0 18px 38px rgba(0,0,0,.34);
-      }
-
       .scroll-number{
         font-size:94px;
       }
@@ -1259,49 +1237,43 @@
 
     @media (min-width:1024px){
       :root{
-        --app-w:980px;
-        --frame-x:26px;
-        --frame-top:24px;
+        --frame-x:24px;
+        --frame-top:22px;
+        --frame-bottom:22px;
+
         --assistant-h:96px;
         --joint-h:24px;
-        --bottom-h:92px;
-        --side-rail-w:14px;
+        --bottom-h:90px;
 
-        --app-radius:28px;
-        --screen-radius:24px;
-        --assistant-radius:22px;
+        --side-rail-w:12px;
+
+        --screen-radius:22px;
+        --assistant-radius:20px;
         --joint-radius:0 0 18px 18px;
-        --cover-radius:28px;
       }
 
-      .app{
-        width:min(88vw, var(--app-w));
-        height:100dvh;
-        box-shadow:
-          0 0 0 1px rgba(255,255,255,.012),
-          0 0 60px rgba(0,0,0,.68),
-          0 24px 80px rgba(0,0,0,.44),
-          inset 0 0 0 1px rgba(255,255,255,.010);
+      .assistant b{
+        font-size:8.5px;
       }
 
-      .top-band{
-        border-radius:28px 28px 0 0;
+      .assistant p{
+        font-size:12px;
       }
 
-      .scroll{
-        padding:calc(var(--assistant-h) + var(--joint-h) + 22px) 28px 66px;
+      .bot{
+        width:48px;
+        height:48px;
       }
 
       .page{
-        min-height:calc(100dvh - var(--assistant-h) - var(--joint-h) - var(--bottom-h) - var(--frame-top) - 58px);
+        padding:26px 28px 66px;
       }
 
       .scroll-number{
-        font-size:106px;
+        font-size:104px;
       }
 
       .bottom-controls{
-        bottom:24px;
         height:58px;
         grid-template-columns:50px minmax(340px,1fr) 132px;
         gap:18px;
@@ -1309,7 +1281,6 @@
 
       .brand-pill{
         height:28px;
-        letter-spacing:.28em;
       }
 
       .exit-circle{
@@ -1334,24 +1305,19 @@
       .screen-swipe-guide{
         left:72px;
         right:72px;
-        bottom:20px;
-      }
-
-      .cover-brand{
-        transform:translateY(4px) scale(1.02);
-      }
-
-      .screen::before{
-        background:
-          linear-gradient(90deg, rgba(86,221,233,.026), transparent 10%, transparent 90%, rgba(86,221,233,.026)),
-          linear-gradient(180deg, rgba(208,225,230,.018), transparent 13%, transparent 86%, rgba(64,139,154,.022));
+        bottom:18px;
       }
     }
 
     @media (max-width:360px){
       :root{
         --frame-x:10px;
+        --frame-top:16px;
+        --frame-bottom:12px;
+
+        --assistant-h:90px;
         --bottom-h:78px;
+
         --screen-radius:11px;
         --assistant-radius:11px;
       }
@@ -1394,91 +1360,101 @@
 
 <body>
   <main class="app" id="app">
-
     <div class="top-band"></div>
 
+    <section class="assistant">
+      <div class="assistant-glow"></div>
+      <div class="assistant-top-line"></div>
+      <div class="assistant-bottom-line"></div>
+      <b>ASSISTANT</b>
+      <p id="assistantText">Page 1 ready for lapidation.</p>
+      <div class="bot"></div>
+    </section>
+
+    <div class="assistant-joint">
+      <span class="joint-line-left"></span>
+      <div class="tx-pill" id="txPill"></div>
+      <span class="joint-line-right"></span>
+    </div>
+
     <section class="screen" id="swipeZone">
-      <div class="scroll" id="scrollArea">
+      <article class="page active" data-page="page1">
+        <div class="scroll-test-stack">
+          <div class="scroll-number">1</div>
+          <div class="scroll-number">1</div>
+          <div class="scroll-number">1</div>
+          <div class="scroll-number">1</div>
+          <div class="scroll-number">1</div>
+          <div class="scroll-number">1</div>
+          <div class="scroll-number">1</div>
+          <div class="scroll-number">1</div>
+        </div>
+      </article>
 
-        <article class="page active" data-page="page1">
-          <div class="scroll-test-stack">
-            <div class="scroll-number">1</div>
-            <div class="scroll-number">1</div>
-            <div class="scroll-number">1</div>
-            <div class="scroll-number">1</div>
-            <div class="scroll-number">1</div>
-            <div class="scroll-number">1</div>
-            <div class="scroll-number">1</div>
-            <div class="scroll-number">1</div>
-          </div>
-        </article>
+      <article class="page" data-page="page2">
+        <div class="scroll-test-stack">
+          <div class="scroll-number">2</div>
+          <div class="scroll-number">2</div>
+          <div class="scroll-number">2</div>
+          <div class="scroll-number">2</div>
+          <div class="scroll-number">2</div>
+          <div class="scroll-number">2</div>
+          <div class="scroll-number">2</div>
+          <div class="scroll-number">2</div>
+        </div>
+      </article>
 
-        <article class="page" data-page="page2">
-          <div class="scroll-test-stack">
-            <div class="scroll-number">2</div>
-            <div class="scroll-number">2</div>
-            <div class="scroll-number">2</div>
-            <div class="scroll-number">2</div>
-            <div class="scroll-number">2</div>
-            <div class="scroll-number">2</div>
-            <div class="scroll-number">2</div>
-            <div class="scroll-number">2</div>
-          </div>
-        </article>
+      <article class="page" data-page="page3">
+        <div class="scroll-test-stack">
+          <div class="scroll-number">3</div>
+          <div class="scroll-number">3</div>
+          <div class="scroll-number">3</div>
+          <div class="scroll-number">3</div>
+          <div class="scroll-number">3</div>
+          <div class="scroll-number">3</div>
+          <div class="scroll-number">3</div>
+          <div class="scroll-number">3</div>
+        </div>
+      </article>
 
-        <article class="page" data-page="page3">
-          <div class="scroll-test-stack">
-            <div class="scroll-number">3</div>
-            <div class="scroll-number">3</div>
-            <div class="scroll-number">3</div>
-            <div class="scroll-number">3</div>
-            <div class="scroll-number">3</div>
-            <div class="scroll-number">3</div>
-            <div class="scroll-number">3</div>
-            <div class="scroll-number">3</div>
-          </div>
-        </article>
+      <article class="page" data-page="page4">
+        <div class="scroll-test-stack">
+          <div class="scroll-number">4</div>
+          <div class="scroll-number">4</div>
+          <div class="scroll-number">4</div>
+          <div class="scroll-number">4</div>
+          <div class="scroll-number">4</div>
+          <div class="scroll-number">4</div>
+          <div class="scroll-number">4</div>
+          <div class="scroll-number">4</div>
+        </div>
+      </article>
 
-        <article class="page" data-page="page4">
-          <div class="scroll-test-stack">
-            <div class="scroll-number">4</div>
-            <div class="scroll-number">4</div>
-            <div class="scroll-number">4</div>
-            <div class="scroll-number">4</div>
-            <div class="scroll-number">4</div>
-            <div class="scroll-number">4</div>
-            <div class="scroll-number">4</div>
-            <div class="scroll-number">4</div>
-          </div>
-        </article>
+      <article class="page" data-page="page5">
+        <div class="scroll-test-stack">
+          <div class="scroll-number">5</div>
+          <div class="scroll-number">5</div>
+          <div class="scroll-number">5</div>
+          <div class="scroll-number">5</div>
+          <div class="scroll-number">5</div>
+          <div class="scroll-number">5</div>
+          <div class="scroll-number">5</div>
+          <div class="scroll-number">5</div>
+        </div>
+      </article>
 
-        <article class="page" data-page="page5">
-          <div class="scroll-test-stack">
-            <div class="scroll-number">5</div>
-            <div class="scroll-number">5</div>
-            <div class="scroll-number">5</div>
-            <div class="scroll-number">5</div>
-            <div class="scroll-number">5</div>
-            <div class="scroll-number">5</div>
-            <div class="scroll-number">5</div>
-            <div class="scroll-number">5</div>
-          </div>
-        </article>
-
-        <article class="page" data-page="page6">
-          <div class="scroll-test-stack">
-            <div class="scroll-number">6</div>
-            <div class="scroll-number">6</div>
-            <div class="scroll-number">6</div>
-            <div class="scroll-number">6</div>
-            <div class="scroll-number">6</div>
-            <div class="scroll-number">6</div>
-            <div class="scroll-number">6</div>
-            <div class="scroll-number">6</div>
-          </div>
-        </article>
-
-      </div>
+      <article class="page" data-page="page6">
+        <div class="scroll-test-stack">
+          <div class="scroll-number">6</div>
+          <div class="scroll-number">6</div>
+          <div class="scroll-number">6</div>
+          <div class="scroll-number">6</div>
+          <div class="scroll-number">6</div>
+          <div class="scroll-number">6</div>
+          <div class="scroll-number">6</div>
+          <div class="scroll-number">6</div>
+        </div>
+      </article>
 
       <div class="screen-swipe-guide" aria-hidden="true">
         <span class="guide-arrow">
@@ -1498,21 +1474,6 @@
         </span>
       </div>
     </section>
-
-    <section class="assistant">
-      <div class="assistant-glow"></div>
-      <div class="assistant-top-line"></div>
-      <div class="assistant-bottom-line"></div>
-      <b>ASSISTANT</b>
-      <p id="assistantText">Page 1 ready for lapidation.</p>
-      <div class="bot"></div>
-    </section>
-
-    <div class="assistant-joint">
-      <span class="joint-line-left"></span>
-      <div class="tx-pill" id="txPill"></div>
-      <span class="joint-line-right"></span>
-    </div>
 
     <div class="bottom-controls">
       <button class="exit-circle" id="exitBtn" type="button">
@@ -1555,7 +1516,6 @@
         <div class="open-hint">tap logo to enter</div>
       </div>
     </section>
-
   </main>
 
   <script>
@@ -1567,16 +1527,20 @@
     const pages = Array.from(document.querySelectorAll(".page"));
     const swipeZone = document.getElementById("swipeZone");
     const txPill = document.getElementById("txPill");
-    const scrollArea = document.getElementById("scrollArea");
 
     const route = ["page1","page2","page3","page4","page5","page6"];
 
     let index = 0;
     let disconnectPreviewOn = false;
     let txNoticeTimer = null;
+
     let startX = 0;
     let startY = 0;
     let tracking = false;
+
+    function currentPage(){
+      return pages[index];
+    }
 
     function openShell(){
       app.classList.add("open");
@@ -1634,8 +1598,10 @@
 
       assistantText.textContent = "Page " + pageNumber + " ready for lapidation.";
 
-      if(scrollArea){
-        scrollArea.scrollTo({
+      const page = currentPage();
+
+      if(page){
+        page.scrollTo({
           top:0,
           behavior:smooth ? "smooth" : "auto"
         });
