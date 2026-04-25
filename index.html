@@ -668,9 +668,9 @@
       inset:0;
       z-index:1;
       background:
-        radial-gradient(circle at 50% 39%, rgba(86,221,233,.024), transparent 34%),
-        radial-gradient(circle at 50% 61%, rgba(217,183,120,.016), transparent 48%),
-        radial-gradient(circle at 50% 88%, rgba(86,221,233,.012), transparent 46%),
+        radial-gradient(circle at 50% 39%, rgba(86,221,233,.020), transparent 32%),
+        radial-gradient(circle at 50% 61%, rgba(217,183,120,.012), transparent 46%),
+        radial-gradient(circle at 50% 88%, rgba(86,221,233,.010), transparent 44%),
         linear-gradient(180deg, #000807 0%, #000504 48%, #000706 100%);
       pointer-events:none;
     }
@@ -681,16 +681,16 @@
       top:18px;
       bottom:34px;
       left:0;
-      width:30px;
+      width:32px;
       z-index:4;
       background:
-        linear-gradient(270deg, transparent, rgba(86,221,233,.045), rgba(217,183,120,.050), transparent);
+        linear-gradient(270deg, transparent, rgba(86,221,233,.060), rgba(217,183,120,.058), transparent);
       box-shadow:
-        inset 1px 0 0 rgba(217,183,120,.12),
-        0 0 16px rgba(86,221,233,.075);
-      opacity:.76;
+        inset 1px 0 0 rgba(217,183,120,.16),
+        0 0 18px rgba(86,221,233,.090);
+      opacity:.88;
       pointer-events:none;
-      filter:blur(.15px);
+      filter:blur(.12px);
     }
 
     .cover-vignette{
@@ -730,6 +730,79 @@
         radial-gradient(ellipse at center, rgba(217,183,120,.050), transparent 60%);
     }
 
+    .cover-dock{
+      position:absolute;
+      left:8px;
+      top:50%;
+      width:18px;
+      height:168px;
+      transform:translateY(-50%);
+      z-index:6;
+      pointer-events:none;
+      opacity:.92;
+    }
+
+    .cover-dock::before{
+      content:"";
+      position:absolute;
+      left:6px;
+      top:0;
+      bottom:0;
+      width:1px;
+      border-radius:999px;
+      background:
+        linear-gradient(
+          180deg,
+          transparent,
+          rgba(86,221,233,.16),
+          rgba(217,183,120,.22),
+          rgba(86,221,233,.14),
+          transparent
+        );
+      box-shadow:
+        0 0 8px rgba(86,221,233,.10),
+        0 0 14px rgba(217,183,120,.060);
+    }
+
+    .cover-dock::after{
+      content:"";
+      position:absolute;
+      left:10px;
+      top:16px;
+      bottom:16px;
+      width:1px;
+      border-radius:999px;
+      background:
+        linear-gradient(
+          180deg,
+          transparent,
+          rgba(255,255,255,.045),
+          rgba(86,221,233,.10),
+          rgba(255,255,255,.035),
+          transparent
+        );
+      opacity:.72;
+    }
+
+    .dock-mark{
+      position:absolute;
+      left:1px;
+      width:11px;
+      height:2px;
+      border-radius:999px;
+      background:
+        linear-gradient(90deg, rgba(217,183,120,.32), rgba(86,221,233,.18), transparent);
+      box-shadow:
+        0 0 8px rgba(217,183,120,.075),
+        0 0 10px rgba(86,221,233,.050);
+      opacity:.82;
+    }
+
+    .dock-mark:nth-child(1){ top:26px; }
+    .dock-mark:nth-child(2){ top:60px; width:8px; opacity:.62; }
+    .dock-mark:nth-child(3){ top:94px; }
+    .dock-mark:nth-child(4){ top:128px; width:8px; opacity:.62; }
+
     .cover-brand{
       position:relative;
       z-index:5;
@@ -749,13 +822,13 @@
       display:grid;
       place-items:center;
       background:
-        radial-gradient(circle at 50% 50%, rgba(86,221,233,.075), transparent 50%),
-        radial-gradient(circle at 50% 50%, rgba(217,183,120,.040), transparent 63%),
+        radial-gradient(circle at 50% 50%, rgba(86,221,233,.065), transparent 50%),
+        radial-gradient(circle at 50% 50%, rgba(217,183,120,.035), transparent 63%),
         linear-gradient(180deg, rgba(255,255,255,.010), rgba(255,255,255,.002)),
         #000807;
       box-shadow:
-        0 0 22px rgba(86,221,233,.035),
-        0 0 46px rgba(0,0,0,.58),
+        0 0 20px rgba(86,221,233,.032),
+        0 0 44px rgba(0,0,0,.58),
         0 18px 44px rgba(0,0,0,.36);
     }
 
@@ -764,7 +837,7 @@
       position:absolute;
       inset:5px;
       border-radius:50%;
-      border:1px solid rgba(86,221,233,.105);
+      border:1px solid rgba(86,221,233,.115);
       box-shadow:
         inset 0 0 16px rgba(86,221,233,.014),
         0 0 12px rgba(86,221,233,.024);
@@ -776,7 +849,7 @@
       position:absolute;
       inset:16px;
       border-radius:50%;
-      border:1px solid rgba(217,183,120,.135);
+      border:1px solid rgba(217,183,120,.155);
       box-shadow:
         inset 0 0 14px rgba(217,183,120,.010),
         0 0 15px rgba(217,183,120,.020);
@@ -786,8 +859,8 @@
     .logo-avatar-core{
       position:relative;
       z-index:3;
-      width:106px;
-      height:106px;
+      width:100px;
+      height:100px;
       border-radius:50%;
       overflow:hidden;
       background:#020202;
@@ -847,33 +920,54 @@
     .cover-brand-name{
       position:relative;
       z-index:5;
-      color:#e9f6ff;
-      font-size:30px;
-      font-weight:950;
-      letter-spacing:-.055em;
-      line-height:1;
-      text-shadow:
-        0 1px 0 rgba(255,255,255,.16),
-        0 0 12px rgba(86,221,233,.11),
-        0 0 22px rgba(217,183,120,.045);
-    }
-
-    .cover-brand-name::after{
-      content:"";
-      position:absolute;
-      left:50%;
-      bottom:-16px;
-      width:96px;
-      height:3px;
-      transform:translateX(-50%);
+      display:flex;
+      align-items:baseline;
+      justify-content:center;
+      gap:2px;
+      padding:8px 18px 9px;
       border-radius:999px;
       background:
-        radial-gradient(circle at 50% 50%, rgba(217,183,120,.68), rgba(217,183,120,.18) 36%, transparent 72%);
-      opacity:.52;
+        radial-gradient(circle at 50% 0%, rgba(255,255,255,.018), transparent 58%),
+        linear-gradient(180deg, rgba(255,255,255,.010), rgba(255,255,255,.002)),
+        rgba(0,8,8,.42);
+      border:1px solid rgba(86,221,233,.055);
       box-shadow:
-        0 0 12px rgba(217,183,120,.16),
-        0 0 22px rgba(86,221,233,.032);
+        inset 0 1px 0 rgba(255,255,255,.020),
+        inset 0 0 14px rgba(86,221,233,.018),
+        0 12px 24px rgba(0,0,0,.22);
+      line-height:1;
+    }
+
+    .cover-brand-name::before{
+      content:"";
+      position:absolute;
+      left:18px;
+      right:18px;
+      top:3px;
+      height:1px;
+      background:linear-gradient(90deg, transparent, rgba(217,183,120,.20), rgba(86,221,233,.10), transparent);
+      opacity:.58;
       pointer-events:none;
+    }
+
+    .cover-brand-name .stable{
+      color:#eef8ff;
+      font-size:27px;
+      font-weight:950;
+      letter-spacing:-.060em;
+      text-shadow:
+        0 1px 0 rgba(255,255,255,.15),
+        0 0 10px rgba(238,248,255,.070);
+    }
+
+    .cover-brand-name .flow{
+      color:#7fd7ff;
+      font-size:27px;
+      font-weight:950;
+      letter-spacing:-.060em;
+      text-shadow:
+        0 0 10px rgba(127,215,255,.20),
+        0 0 18px rgba(86,221,233,.10);
     }
 
     .app.open .assistant{
@@ -1011,6 +1105,13 @@
       <div class="cover-line-top"></div>
       <div class="cover-line-bottom"></div>
 
+      <div class="cover-dock">
+        <span class="dock-mark"></span>
+        <span class="dock-mark"></span>
+        <span class="dock-mark"></span>
+        <span class="dock-mark"></span>
+      </div>
+
       <div class="cover-brand">
         <div class="logo-avatar">
           <div class="logo-avatar-core">
@@ -1026,7 +1127,9 @@
           </div>
         </div>
 
-        <div class="cover-brand-name">StableFlow</div>
+        <div class="cover-brand-name">
+          <span class="stable">Stable</span><span class="flow">Flow</span>
+        </div>
       </div>
     </section>
 
