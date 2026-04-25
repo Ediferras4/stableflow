@@ -668,9 +668,9 @@
       inset:0;
       z-index:1;
       background:
-        radial-gradient(circle at 50% 40%, rgba(86,221,233,.030), transparent 34%),
-        radial-gradient(circle at 50% 62%, rgba(217,183,120,.020), transparent 48%),
-        radial-gradient(circle at 50% 88%, rgba(86,221,233,.014), transparent 46%),
+        radial-gradient(circle at 50% 39%, rgba(86,221,233,.024), transparent 34%),
+        radial-gradient(circle at 50% 61%, rgba(217,183,120,.016), transparent 48%),
+        radial-gradient(circle at 50% 88%, rgba(86,221,233,.012), transparent 46%),
         linear-gradient(180deg, #000807 0%, #000504 48%, #000706 100%);
       pointer-events:none;
     }
@@ -749,13 +749,13 @@
       display:grid;
       place-items:center;
       background:
-        radial-gradient(circle at 50% 50%, rgba(86,221,233,.105), transparent 49%),
-        radial-gradient(circle at 50% 50%, rgba(217,183,120,.055), transparent 63%),
-        linear-gradient(180deg, rgba(255,255,255,.012), rgba(255,255,255,.002)),
+        radial-gradient(circle at 50% 50%, rgba(86,221,233,.075), transparent 50%),
+        radial-gradient(circle at 50% 50%, rgba(217,183,120,.040), transparent 63%),
+        linear-gradient(180deg, rgba(255,255,255,.010), rgba(255,255,255,.002)),
         #000807;
       box-shadow:
-        0 0 28px rgba(86,221,233,.050),
-        0 0 54px rgba(0,0,0,.58),
+        0 0 22px rgba(86,221,233,.035),
+        0 0 46px rgba(0,0,0,.58),
         0 18px 44px rgba(0,0,0,.36);
     }
 
@@ -764,10 +764,10 @@
       position:absolute;
       inset:5px;
       border-radius:50%;
-      border:1px solid rgba(86,221,233,.115);
+      border:1px solid rgba(86,221,233,.105);
       box-shadow:
-        inset 0 0 18px rgba(86,221,233,.020),
-        0 0 14px rgba(86,221,233,.030);
+        inset 0 0 16px rgba(86,221,233,.014),
+        0 0 12px rgba(86,221,233,.024);
       pointer-events:none;
     }
 
@@ -776,27 +776,27 @@
       position:absolute;
       inset:16px;
       border-radius:50%;
-      border:1px solid rgba(217,183,120,.145);
+      border:1px solid rgba(217,183,120,.135);
       box-shadow:
-        inset 0 0 18px rgba(217,183,120,.015),
-        0 0 18px rgba(217,183,120,.024);
+        inset 0 0 14px rgba(217,183,120,.010),
+        0 0 15px rgba(217,183,120,.020);
       pointer-events:none;
     }
 
     .logo-avatar-core{
       position:relative;
       z-index:3;
-      width:104px;
-      height:104px;
+      width:106px;
+      height:106px;
       border-radius:50%;
       overflow:hidden;
-      background:#000807;
+      background:#020202;
       border:1px solid rgba(217,183,120,.16);
       box-shadow:
-        0 0 0 1px rgba(86,221,233,.040),
-        0 0 16px rgba(86,221,233,.038),
-        0 0 22px rgba(217,183,120,.030),
-        inset 0 0 18px rgba(0,0,0,.62);
+        0 0 0 1px rgba(86,221,233,.035),
+        0 0 14px rgba(86,221,233,.030),
+        0 0 20px rgba(217,183,120,.024),
+        inset 0 0 20px rgba(0,0,0,.72);
     }
 
     .logo-avatar-core img{
@@ -806,10 +806,11 @@
       object-fit:cover;
       object-position:center;
       border-radius:50%;
+      background:#020202;
       filter:
-        brightness(1.08)
-        contrast(1.08)
-        saturate(1.04);
+        brightness(1.04)
+        contrast(1.06)
+        saturate(1.02);
     }
 
     .logo-fallback{
@@ -820,7 +821,7 @@
       justify-content:center;
       flex-direction:column;
       border-radius:50%;
-      background:#000807;
+      background:#020202;
     }
 
     .logo-fallback span{
@@ -1171,4 +1172,4 @@
     updateDisconnectState();
   </script>
 </body>
-  </html>
+</html>
