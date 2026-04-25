@@ -650,7 +650,7 @@
       align-items:center;
       justify-content:center;
       overflow:hidden;
-      cursor:pointer;
+      cursor:default;
       background:#000605;
       transform:translate3d(0,0,0);
       transition:transform var(--cover-speed) cubic-bezier(.14,.78,.14,1);
@@ -757,6 +757,30 @@
         0 0 20px rgba(86,221,233,.034),
         0 0 44px rgba(0,0,0,.58),
         0 18px 44px rgba(0,0,0,.36);
+      cursor:pointer;
+      transition:transform 160ms ease, filter 160ms ease;
+      animation:logoReadyPulse 3.8s ease-in-out infinite;
+      touch-action:manipulation;
+    }
+
+    .logo-avatar:active{
+      transform:scale(.965);
+      filter:brightness(1.06);
+    }
+
+    @keyframes logoReadyPulse{
+      0%,100%{
+        box-shadow:
+          0 0 20px rgba(86,221,233,.034),
+          0 0 44px rgba(0,0,0,.58),
+          0 18px 44px rgba(0,0,0,.36);
+      }
+      50%{
+        box-shadow:
+          0 0 27px rgba(86,221,233,.072),
+          0 0 52px rgba(0,0,0,.60),
+          0 18px 44px rgba(0,0,0,.36);
+      }
     }
 
     .logo-avatar::before{
@@ -797,6 +821,7 @@
         0 0 14px rgba(86,221,233,.032),
         0 0 14px rgba(171,202,209,.018),
         inset 0 0 20px rgba(0,0,0,.72);
+      pointer-events:none;
     }
 
     .logo-avatar-core::after{
@@ -865,6 +890,7 @@
       border:0;
       padding:0;
       box-shadow:none;
+      pointer-events:none;
     }
 
     .cover-brand-name .stable{
@@ -887,6 +913,25 @@
         0 0 9px rgba(126,216,255,.18),
         0 0 16px rgba(86,221,233,.080),
         0 7px 18px rgba(0,0,0,.40);
+    }
+
+    .open-hint{
+      position:relative;
+      z-index:5;
+      margin-top:5px;
+      color:rgba(157,190,203,.52);
+      font-size:8px;
+      font-weight:900;
+      letter-spacing:.22em;
+      text-transform:uppercase;
+      text-shadow:0 0 8px rgba(86,221,233,.055);
+      pointer-events:none;
+      animation:hintPulse 3.8s ease-in-out infinite;
+    }
+
+    @keyframes hintPulse{
+      0%,100%{opacity:.44;}
+      50%{opacity:.70;}
     }
 
     .app.open .assistant{
@@ -1025,7 +1070,7 @@
       <div class="cover-line-bottom"></div>
 
       <div class="cover-brand">
-        <div class="logo-avatar">
+        <div class="logo-avatar" id="openHotspot" role="button" aria-label="Open StableFlow">
           <div class="logo-avatar-core">
             <img
               src="logo.png"
@@ -1042,6 +1087,8 @@
         <div class="cover-brand-name">
           <span class="stable">Stable</span><span class="flow">Flow</span>
         </div>
+
+        <div class="open-hint">tap logo to enter</div>
       </div>
     </section>
 
@@ -1049,7 +1096,7 @@
 
   <script>
     const app = document.getElementById("app");
-    const cover = document.getElementById("cover");
+    const openHotspot = document.getElementById("openHotspot");
     const exitBtn = document.getElementById("exitBtn");
     const disconnectBtn = document.getElementById("disconnectBtn");
     const assistantText = document.getElementById("assistantText");
@@ -1116,7 +1163,17 @@
       assistantText.textContent = "Page " + pageNumber + " ready for lapidation.";
     }
 
-    cover.addEventListener("pointerdown", openShell);
+    openHotspot.addEventListener("pointerdown", e => {
+      e.stopPropagation();
+      openShell();
+    });
+
+    openHotspot.addEventListener("keydown", e => {
+      if(e.key === "Enter" || e.key === " "){
+        e.preventDefault();
+        openShell();
+      }
+    });
 
     exitBtn.addEventListener("click", closeShell);
 
@@ -1187,4 +1244,4 @@
     updateDisconnectState();
   </script>
 </body>
-</html>
+  </html>
