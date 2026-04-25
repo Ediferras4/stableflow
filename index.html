@@ -5843,6 +5843,7 @@
 
     function refreshMoreWalletUI(){
       moreWalletText.textContent = state.connected ? state.address : "Wallet not connected";
+      renderMoreNotes();
     }
 
     function pickInjectedProvider(){
@@ -7650,7 +7651,9 @@
     function createMoreEmptyState(){
       const empty = document.createElement("div");
       empty.className = "more-empty-state";
-      empty.textContent = "Get Paid notes will appear here.";
+      empty.textContent = state.connected
+        ? "Get Paid notes will appear here."
+        : "Connect wallet to view your notes.";
       return empty;
     }
 
@@ -7748,6 +7751,12 @@
 
     function renderMoreNotes(){
       notesPanel.innerHTML = "";
+
+      if (!state.connected) {
+        notesPanel.appendChild(createMoreEmptyState());
+        return;
+      }
+
       if (!state.more.notes.length) {
         notesPanel.appendChild(createMoreEmptyState());
         return;
@@ -7772,6 +7781,17 @@
       setNotes: setMoreNotes,
       clearNotes: clearMoreNotes
     };
+
+    async function drawReceiptCanvasFromCard(card){
+      if (window.html2canvas) {
+        return await html2canvas(card, {
+          backgroundColor: null,
+          scale: 2,
+          useCORS: true
+        });
+      }
+      return null;
+    }
 
     connectBtn.addEventListener("click", () => {
       if (state.connected) {
