@@ -42,7 +42,7 @@
 
       --assistant-h:98px;
       --joint-h:24px;
-      --bottom-h:84px;
+      --bottom-h:88px;
 
       --side-rail-w:7px;
 
@@ -129,8 +129,6 @@
     .hidden{
       display:none !important;
     }
-
-    /* shell 2.0 */
 
     .app{
       position:fixed;
@@ -625,7 +623,7 @@
     @keyframes pageIn{
       from{
         opacity:0;
-        transform:translateX(20px);
+        transform:translateX(16px);
       }
       to{
         opacity:1;
@@ -645,364 +643,153 @@
       z-index:2;
     }
 
-    .screen-swipe-guide{
-      position:absolute;
-      left:24px;
-      right:24px;
-      bottom:13px;
-      z-index:8;
-      height:16px;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      gap:14px;
-      pointer-events:none;
-      opacity:.42;
-      filter:drop-shadow(0 0 7px rgba(86,221,233,.075));
-    }
-
-    .screen-swipe-guide::before{
-      content:"";
-      position:absolute;
-      left:0;
-      right:0;
-      top:50%;
-      height:1px;
-      transform:translateY(-50%);
-      background:
-        linear-gradient(90deg,
-          transparent 0%,
-          rgba(126,216,255,.055) 18%,
-          rgba(126,216,255,.20) 38%,
-          transparent 48%,
-          transparent 52%,
-          rgba(126,216,255,.20) 62%,
-          rgba(126,216,255,.055) 82%,
-          transparent 100%
-        );
-    }
-
-    .guide-arrow,
-    .guide-word{
-      position:relative;
-      z-index:2;
-    }
-
-    .guide-arrow{
-      width:28px;
-      height:10px;
-      opacity:.72;
-    }
-
-    .guide-arrow svg{
-      width:100%;
-      height:100%;
-      display:block;
-      overflow:visible;
-    }
-
-    .guide-arrow path{
-      fill:none;
-      stroke:rgba(158,223,239,.70);
-      stroke-width:1.4;
-      stroke-linecap:round;
-      stroke-linejoin:round;
-    }
-
-    .guide-word{
-      padding:0 9px;
-      color:rgba(196,222,228,.52);
-      font-size:7px;
-      font-weight:950;
-      letter-spacing:.34em;
-      text-transform:uppercase;
-      text-shadow:
-        0 1px 0 rgba(0,0,0,.60),
-        0 0 8px rgba(86,221,233,.055);
-      background:
-        linear-gradient(90deg, transparent, rgba(5,15,19,.62) 18%, rgba(5,15,19,.68) 82%, transparent);
-      transform:translateX(.16em);
-    }
-
     .bottom-controls{
       position:absolute;
-      left:var(--frame-x);
-      right:var(--frame-x);
+      left:50%;
       bottom:var(--frame-bottom);
-      height:52px;
+      transform:translate(-50%,145%);
+      min-width:0;
       z-index:13;
-      transform:translateY(145%);
       transition:transform 660ms cubic-bezier(.16,.9,.18,1) 340ms;
       display:grid;
-      grid-template-columns:46px minmax(0,1fr) 112px;
+      grid-template-columns:54px 82px 54px;
       align-items:center;
+      justify-content:center;
       gap:12px;
-      padding:0 2px;
       pointer-events:auto;
     }
 
-    .brand-pill{
+    .nav-circle{
       position:relative;
-      z-index:2;
-      height:24px;
-      border-radius:999px;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      overflow:hidden;
-      color:rgba(201,213,219,.32);
-      font-size:8px;
-      font-weight:950;
-      letter-spacing:.22em;
-      text-transform:uppercase;
-      background:
-        radial-gradient(circle at 50% 0%, rgba(255,255,255,.018), transparent 58%),
-        linear-gradient(180deg, rgba(255,255,255,.008), rgba(255,255,255,.002)),
-        #010707;
-      border:1px solid rgba(217,183,120,.050);
-      box-shadow:
-        0 8px 16px rgba(0,0,0,.24),
-        inset 0 1px 0 rgba(255,255,255,.010);
-    }
-
-    .brand-pill::before{
-      content:"";
-      position:absolute;
-      left:12px;
-      right:12px;
-      top:50%;
-      height:1px;
-      background:linear-gradient(90deg, transparent, rgba(86,221,233,.075), transparent);
-      opacity:.55;
-    }
-
-    .brand-pill span{
-      position:relative;
-      z-index:2;
-      text-shadow:
-        0 1px 0 rgba(255,255,255,.020),
-        0 0 10px rgba(86,221,233,.025);
-    }
-
-    .exit-circle{
-      position:relative;
-      z-index:2;
-      width:44px;
-      height:44px;
+      width:54px;
+      height:54px;
       border-radius:50%;
-      border:1px solid rgba(144,189,196,.23);
       display:grid;
       place-items:center;
-      isolation:isolate;
-      overflow:visible;
-      cursor:pointer;
-      color:rgba(234,238,224,.88);
-      font-size:7.6px;
-      font-weight:950;
-      letter-spacing:.12em;
-      text-transform:uppercase;
+      overflow:hidden;
+      border:1px solid rgba(144,189,196,.22);
       background:
-        radial-gradient(circle at 50% 38%, rgba(16,38,42,.98), rgba(3,10,11,.98) 58%, rgba(0,4,5,1) 100%);
+        radial-gradient(circle at 30% 24%, rgba(255,255,255,.06), transparent 26%),
+        linear-gradient(180deg, rgba(15,33,39,.98), rgba(5,11,13,.99));
       box-shadow:
-        0 10px 20px rgba(0,0,0,.42),
-        0 0 18px rgba(86,221,233,.035),
-        inset 0 1px 0 rgba(255,255,255,.045),
-        inset 0 -10px 16px rgba(0,0,0,.42);
+        0 12px 22px rgba(0,0,0,.42),
+        0 0 18px rgba(86,221,233,.03),
+        inset 0 1px 0 rgba(255,255,255,.04),
+        inset 0 -10px 16px rgba(0,0,0,.40);
       transition:
-        transform 150ms ease,
-        border-color 220ms ease,
-        box-shadow 220ms ease,
-        filter 220ms ease,
-        opacity 220ms ease;
+        transform .16s ease,
+        border-color .22s ease,
+        box-shadow .22s ease,
+        opacity .22s ease;
     }
 
-    .exit-circle span{
-      position:relative;
-      z-index:3;
-      transform:translateY(.5px);
-      text-shadow:
-        0 1px 0 rgba(0,0,0,.55),
-        0 0 8px rgba(217,183,120,.10);
-    }
-
-    .exit-circle::before{
+    .nav-circle::before{
       content:"";
       position:absolute;
       inset:-6px;
-      z-index:0;
       border-radius:50%;
-      border:1px solid rgba(217,183,120,.13);
-      background:
-        radial-gradient(circle at 50% 50%, rgba(217,183,120,.045), transparent 62%);
-      box-shadow:
-        0 0 14px rgba(217,183,120,.035),
-        inset 0 0 12px rgba(86,221,233,.025);
+      border:1px solid rgba(86,221,233,.08);
+      background:radial-gradient(circle at 50% 50%, rgba(86,221,233,.03), transparent 64%);
+      box-shadow:0 0 14px rgba(86,221,233,.03);
       pointer-events:none;
     }
 
-    .exit-circle::after{
+    .nav-circle::after{
       content:"";
       position:absolute;
       inset:7px;
-      z-index:1;
       border-radius:50%;
-      border:1px solid rgba(255,255,255,.050);
+      border:1px solid rgba(255,255,255,.045);
       background:
-        radial-gradient(circle at 50% 0%, rgba(255,255,255,.028), transparent 50%),
-        radial-gradient(circle at 50% 100%, rgba(217,183,120,.025), transparent 60%),
+        radial-gradient(circle at 50% 0%, rgba(255,255,255,.025), transparent 50%),
+        radial-gradient(circle at 50% 100%, rgba(86,221,233,.02), transparent 60%),
         rgba(1,8,9,.76);
       pointer-events:none;
     }
 
-    .exit-circle:active{
-      transform:scale(.96);
-      filter:brightness(1.04);
-    }
-
-    .exit-circle.off{
-      opacity:.22;
-      pointer-events:none;
-      filter:saturate(.5);
-    }
-
-    .disconnect-switch{
+    .nav-circle span{
       position:relative;
-      z-index:2;
-      width:112px;
-      height:38px;
+      z-index:3;
+      font-size:24px;
+      line-height:1;
+      color:#d8edf7;
+      text-shadow:
+        0 1px 0 rgba(0,0,0,.55),
+        0 0 8px rgba(86,221,233,.10);
+      transform:translateY(-1px);
+    }
+
+    .nav-circle:active{
+      transform:scale(.96);
+    }
+
+    .nav-circle.off{
+      opacity:.28;
+      pointer-events:none;
+      filter:saturate(.6);
+    }
+
+    .exit-center{
+      position:relative;
+      min-width:82px;
+      height:44px;
       border-radius:999px;
-      border:1px solid rgba(126,190,202,.155);
       display:flex;
       align-items:center;
-      justify-content:flex-end;
-      padding:0 10px 0 38px;
+      justify-content:center;
       overflow:hidden;
-      isolation:isolate;
-      cursor:pointer;
-      opacity:.46;
-      color:rgba(208,224,226,.34);
-      font-size:6.8px;
-      font-weight:950;
-      letter-spacing:.078em;
-      text-transform:uppercase;
+      border:1px solid rgba(216,174,107,.18);
       background:
-        radial-gradient(circle at 18% 50%, rgba(86,221,233,.025), transparent 42%),
-        radial-gradient(circle at 88% 50%, rgba(217,183,120,.018), transparent 46%),
-        linear-gradient(180deg, rgba(255,255,255,.018), rgba(255,255,255,.004)),
-        #020909;
+        radial-gradient(circle at 24% 50%, rgba(216,174,107,.05), transparent 32%),
+        radial-gradient(circle at 88% 50%, rgba(86,221,233,.04), transparent 34%),
+        linear-gradient(180deg, rgba(255,255,255,.018), rgba(255,255,255,.005)),
+        #030909;
       box-shadow:
-        0 10px 20px rgba(0,0,0,.38),
-        0 0 16px rgba(86,221,233,.020),
-        inset 0 1px 0 rgba(255,255,255,.024),
-        inset 0 -10px 16px rgba(0,0,0,.28);
+        0 12px 22px rgba(0,0,0,.42),
+        0 0 20px rgba(216,174,107,.04),
+        inset 0 1px 0 rgba(255,255,255,.035),
+        inset 0 -10px 16px rgba(0,0,0,.42);
       transition:
-        transform .18s ease,
-        opacity .28s ease,
-        border-color .28s ease,
-        background .28s ease,
-        color .28s ease,
-        box-shadow .28s ease,
-        padding .28s ease,
-        filter .28s ease;
+        transform .16s ease,
+        opacity .22s ease,
+        filter .22s ease;
+    }
+
+    .exit-center::before{
+      content:"";
+      position:absolute;
+      inset:6px;
+      border-radius:999px;
+      border:1px solid rgba(255,255,255,.05);
+      background:
+        linear-gradient(180deg, rgba(255,255,255,.02), rgba(255,255,255,.002)),
+        rgba(2,10,11,.72);
       pointer-events:none;
-      filter:saturate(.72);
     }
 
-    .disconnect-switch span{
+    .exit-center span{
       position:relative;
-      z-index:3;
-      white-space:nowrap;
-      text-shadow:
-        0 1px 0 rgba(0,0,0,.50),
-        0 0 8px rgba(86,221,233,.035);
-    }
-
-    .disconnect-switch::before{
-      content:"";
-      position:absolute;
-      left:5px;
-      top:5px;
       z-index:2;
-      width:28px;
-      height:28px;
-      border-radius:50%;
-      background:
-        radial-gradient(circle at 42% 30%, rgba(255,255,255,.060), transparent 34%),
-        radial-gradient(circle at 50% 70%, rgba(86,221,233,.060), transparent 50%),
-        linear-gradient(180deg, #071315, #020707);
-      border:1px solid rgba(126,190,202,.135);
-      box-shadow:
-        inset 0 0 8px rgba(0,0,0,.55),
-        0 0 12px rgba(86,221,233,.030);
-      transition:
-        left .28s cubic-bezier(.2,.9,.18,1),
-        border-color .28s ease,
-        background .28s ease,
-        box-shadow .28s ease;
+      color:#f3e3c5;
+      font-size:10px;
+      font-weight:1000;
+      letter-spacing:.16em;
+      text-transform:uppercase;
+      text-shadow:
+        0 1px 0 rgba(0,0,0,.6),
+        0 0 8px rgba(216,174,107,.08);
+      transform:translateY(.5px);
+      white-space:nowrap;
     }
 
-    .disconnect-switch::after{
-      content:"";
-      position:absolute;
-      left:15px;
-      top:15px;
-      z-index:3;
-      width:8px;
-      height:8px;
-      border-radius:50%;
-      background:rgba(126,216,255,.10);
-      box-shadow:0 0 6px rgba(86,221,233,.030);
-      opacity:.65;
-      transition:
-        left .28s cubic-bezier(.2,.9,.18,1),
-        background .28s ease,
-        box-shadow .28s ease,
-        opacity .28s ease;
+    .exit-center:active{
+      transform:scale(.97);
     }
 
-    .disconnect-switch.connected{
-      pointer-events:auto;
-      opacity:.96;
-      color:rgba(224,255,238,.92);
-      border-color:rgba(121,255,178,.27);
-      background:
-        radial-gradient(circle at 84% 50%, rgba(121,255,178,.088), transparent 42%),
-        radial-gradient(circle at 12% 50%, rgba(86,221,233,.022), transparent 44%),
-        linear-gradient(180deg, rgba(255,255,255,.018), rgba(255,255,255,.004)),
-        #020b0a;
-      padding:0 38px 0 10px;
-      justify-content:flex-start;
-      box-shadow:
-        0 10px 20px rgba(0,0,0,.38),
-        0 0 14px rgba(121,255,178,.052),
-        inset 0 1px 0 rgba(255,255,255,.030),
-        inset 0 -10px 16px rgba(0,0,0,.30);
-      filter:none;
-    }
-
-    .disconnect-switch.connected::before{
-      left:77px;
-      border-color:rgba(121,255,178,.29);
-      background:
-        radial-gradient(circle at 42% 30%, rgba(255,255,255,.076), transparent 34%),
-        radial-gradient(circle at 50% 70%, rgba(121,255,178,.112), transparent 50%),
-        linear-gradient(180deg, #092017, #03100c);
-      box-shadow:
-        inset 0 0 9px rgba(0,0,0,.44),
-        0 0 13px rgba(121,255,178,.125);
-    }
-
-    .disconnect-switch.connected::after{
-      left:87px;
-      background:rgba(121,255,178,.90);
-      box-shadow:
-        0 0 7px rgba(121,255,178,.50),
-        0 0 13px rgba(121,255,178,.16);
-      opacity:.96;
-    }
-
-    .disconnect-switch:active{
-      transform:scale(.98);
+    .exit-center.off{
+      opacity:0;
+      pointer-events:none;
+      filter:saturate(.4);
     }
 
     .cover{
@@ -1315,15 +1102,13 @@
     }
 
     .app.open .bottom-controls{
-      transform:translateY(0);
+      transform:translate(-50%,0);
     }
 
     .app.open .cover{
       transform:translate3d(calc(100vw + 44px),0,0);
       pointer-events:none;
     }
-
-    /* internal mother base 14 pages */
 
     .section-title{
       font-size:27px;
@@ -1573,6 +1358,13 @@
       align-items:center;
       gap:10px;
       flex:0 0 auto;
+      transition:opacity .2s ease, filter .2s ease;
+    }
+
+    .home-disconnect.disabled{
+      opacity:.34;
+      pointer-events:none;
+      filter:saturate(.7);
     }
 
     .home-disconnect-track{
@@ -4217,7 +4009,6 @@
       line-height:1.35;
     }
 
-    /* mobile fits */
     @media (max-width:760px){
       .shell-assistant{
         grid-template-columns:minmax(0,1fr) 50px;
@@ -4250,6 +4041,30 @@
 
       .page-shell{
         gap:10px;
+      }
+
+      .bottom-controls{
+        grid-template-columns:48px 74px 48px;
+        gap:10px;
+      }
+
+      .nav-circle{
+        width:48px;
+        height:48px;
+      }
+
+      .nav-circle span{
+        font-size:22px;
+      }
+
+      .exit-center{
+        min-width:74px;
+        height:40px;
+      }
+
+      .exit-center span{
+        font-size:9px;
+        letter-spacing:.14em;
       }
 
       .connect-stars{
@@ -4776,7 +4591,7 @@
 
         --assistant-h:100px;
         --joint-h:24px;
-        --bottom-h:88px;
+        --bottom-h:94px;
 
         --side-rail-w:10px;
 
@@ -4788,37 +4603,18 @@
       }
 
       .bottom-controls{
-        height:56px;
-        grid-template-columns:48px minmax(220px,1fr) 124px;
+        grid-template-columns:58px 90px 58px;
         gap:16px;
       }
 
-      .brand-pill{
-        height:26px;
+      .nav-circle{
+        width:58px;
+        height:58px;
       }
 
-      .exit-circle{
-        width:46px;
+      .exit-center{
+        min-width:90px;
         height:46px;
-      }
-
-      .disconnect-switch{
-        width:124px;
-        height:40px;
-      }
-
-      .disconnect-switch.connected::before{
-        left:88px;
-      }
-
-      .disconnect-switch.connected::after{
-        left:98px;
-      }
-
-      .screen-swipe-guide{
-        left:38px;
-        right:38px;
-        bottom:16px;
       }
     }
 
@@ -4830,7 +4626,7 @@
 
         --assistant-h:104px;
         --joint-h:24px;
-        --bottom-h:92px;
+        --bottom-h:96px;
 
         --side-rail-w:12px;
 
@@ -4840,42 +4636,26 @@
       }
 
       .page{
-        padding:18px 22px 68px;
+        padding:18px 22px 70px;
       }
 
       .bottom-controls{
-        height:58px;
-        grid-template-columns:50px minmax(340px,1fr) 132px;
+        grid-template-columns:62px 96px 62px;
         gap:18px;
       }
 
-      .brand-pill{
-        height:28px;
+      .nav-circle{
+        width:62px;
+        height:62px;
       }
 
-      .exit-circle{
-        width:48px;
+      .nav-circle span{
+        font-size:26px;
+      }
+
+      .exit-center{
+        min-width:96px;
         height:48px;
-      }
-
-      .disconnect-switch{
-        width:132px;
-        height:42px;
-        font-size:7px;
-      }
-
-      .disconnect-switch.connected::before{
-        left:96px;
-      }
-
-      .disconnect-switch.connected::after{
-        left:106px;
-      }
-
-      .screen-swipe-guide{
-        left:72px;
-        right:72px;
-        bottom:18px;
       }
     }
 
@@ -4886,39 +4666,33 @@
         --frame-bottom:12px;
 
         --assistant-h:92px;
-        --bottom-h:78px;
+        --bottom-h:80px;
 
         --screen-radius:11px;
         --assistant-radius:11px;
       }
 
       .bottom-controls{
-        gap:9px;
-        grid-template-columns:44px minmax(0,1fr) 106px;
+        grid-template-columns:46px 70px 46px;
+        gap:8px;
       }
 
-      .disconnect-switch{
-        width:106px;
-        font-size:6.4px;
+      .nav-circle{
+        width:46px;
+        height:46px;
       }
 
-      .disconnect-switch.connected::before{
-        left:71px;
+      .nav-circle span{
+        font-size:21px;
       }
 
-      .disconnect-switch.connected::after{
-        left:81px;
+      .exit-center{
+        min-width:70px;
+        height:38px;
       }
 
-      .screen-swipe-guide{
-        left:18px;
-        right:18px;
-        bottom:11px;
-      }
-
-      .guide-word{
-        font-size:6.5px;
-        letter-spacing:.28em;
+      .exit-center span{
+        font-size:8px;
       }
 
       .cover-brand{
@@ -4944,7 +4718,7 @@
       <span class="joint-line-right"></span>
     </div>
 
-    <section class="screen" id="swipeZone">
+    <section class="screen" id="screen">
       <article class="page active" data-page="connect">
         <div class="page-shell">
           <div class="connect-stars" aria-hidden="true">
@@ -5022,7 +4796,7 @@
         <div class="page-shell">
           <div class="home-profile-row">
             <div class="home-profile-title">Profile</div>
-            <button class="home-disconnect" id="homeDisconnectBtn" type="button">
+            <button class="home-disconnect disabled" id="homeDisconnectBtn" type="button">
               <span class="home-disconnect-track"></span>
               <span class="home-disconnect-label">Disconnect</span>
             </button>
@@ -5594,37 +5368,19 @@
           </div>
         </div>
       </article>
-
-      <div class="screen-swipe-guide" aria-hidden="true">
-        <span class="guide-arrow">
-          <svg viewBox="0 0 32 12">
-            <path d="M12 2 L4 6 L12 10"></path>
-            <path d="M5 6 H29"></path>
-          </svg>
-        </span>
-
-        <span class="guide-word">Swipe</span>
-
-        <span class="guide-arrow">
-          <svg viewBox="0 0 32 12">
-            <path d="M20 2 L28 6 L20 10"></path>
-            <path d="M3 6 H27"></path>
-          </svg>
-        </span>
-      </div>
     </section>
 
     <div class="bottom-controls">
-      <button class="exit-circle" id="exitBtn" type="button">
+      <button class="nav-circle" id="prevNavBtn" type="button" aria-label="Previous page">
+        <span>‹</span>
+      </button>
+
+      <button class="exit-center" id="exitBtn" type="button" aria-label="Exit">
         <span>Exit</span>
       </button>
 
-      <div class="brand-pill">
-        <span>StableFlow</span>
-      </div>
-
-      <button class="disconnect-switch" id="disconnectBtn" type="button">
-        <span>Disconnect</span>
+      <button class="nav-circle" id="nextNavBtn" type="button" aria-label="Next page">
+        <span>›</span>
       </button>
     </div>
 
@@ -5714,12 +5470,12 @@
     const ASSISTANT_I18N = {
       en: {
         fallback: { kicker: "Assistant", title: "StableFlow", text: "Ready." },
-        onboarding_1: { kicker: "Hello", title: "StableFlow is awake", text: "Connect your wallet to begin on Arc Testnet." },
+        onboarding_1: { kicker: "Hello", title: "StableFlow is awake", text: "Open by logo, start on Connect, and use the bottom nav to explore." },
         onboarding_2: { kicker: "Guide", title: "Arc Testnet is required", text: "Use Arc Testnet before trying swap or pay." },
-        onboarding_3: { kicker: "Guide", title: "MetaMask works best", text: "MetaMask is the smoothest option here, but other wallets can work too." },
+        onboarding_3: { kicker: "Guide", title: "Use the premium nav buttons", text: "There is no swipe now. Use the bottom arrows to move through the shell." },
         shell_closed: { kicker: "Connect", title: "Open the shell", text: "Tap the logo to wake up StableFlow." },
         connect_page: { kicker: "Connect", title: "MetaMask recommended", text: "Browser extension and in-wallet browser both work. Arc Testnet is required." },
-        browse_page: { kicker: "Browse", title: "You can look around first", text: "Connect your wallet when you want real balances and actions." },
+        browse_page: { kicker: "Browse", title: "Use the bottom buttons", text: "You can navigate the pages with the left and right premium controls." },
         get_paid_connect_required: { kicker: "Get Paid", title: "Connect required", text: "Generate takes you to Connect when no wallet is active." },
         home_ready: { kicker: "Home guide", title: "Your profile grows with activity", text: "Each successful swap or pay adds +1 LV until level 10." },
 
@@ -5779,17 +5535,17 @@
         wallet_failed: { kicker: "Wallet", title: "Connection failed", text: "The wallet connection was rejected or interrupted." },
         network_failed: { kicker: "Network", title: "Arc setup failed", text: "Please add or switch to Arc Testnet and try again." },
         network_wrong: { kicker: "Network", title: "Wrong network", text: "Please switch back to Arc Testnet." },
-        disconnected: { kicker: "Disconnected", title: "Wallet disconnected", text: "You can browse again or reconnect anytime." }
+        disconnected: { kicker: "Disconnected", title: "Wallet disconnected", text: "Connect came back and the main shell returned to browse mode." }
       },
 
       es: {
         fallback: { kicker: "Asistente", title: "StableFlow", text: "Listo." },
-        onboarding_1: { kicker: "Hola", title: "StableFlow está activo", text: "Conecta tu wallet para empezar en Arc Testnet." },
+        onboarding_1: { kicker: "Hola", title: "StableFlow está activo", text: "Abre por el logo, empieza en Connect y usa la navegación inferior." },
         onboarding_2: { kicker: "Guía", title: "Arc Testnet es obligatoria", text: "Usa Arc Testnet antes de probar swap o pay." },
-        onboarding_3: { kicker: "Guía", title: "MetaMask funciona mejor", text: "MetaMask es la opción más fluida aquí, aunque otras wallets también pueden funcionar." },
+        onboarding_3: { kicker: "Guía", title: "Usa los botones premium", text: "Ya no hay swipe. Usa las flechas inferiores para navegar." },
         shell_closed: { kicker: "Connect", title: "Abre la shell", text: "Toca el logo para activar StableFlow." },
         connect_page: { kicker: "Connect", title: "MetaMask recomendada", text: "La extensión del navegador y el navegador interno de la wallet funcionan. Arc Testnet es obligatoria." },
-        browse_page: { kicker: "Browse", title: "Puedes mirar primero", text: "Conecta tu wallet cuando quieras balances y acciones reales." },
+        browse_page: { kicker: "Browse", title: "Usa los botones inferiores", text: "Puedes navegar las páginas con los controles premium de izquierda y derecha." },
         get_paid_connect_required: { kicker: "Get Paid", title: "Conexión requerida", text: "Generate te lleva a Connect cuando no hay una wallet activa." },
         home_ready: { kicker: "Home guide", title: "Tu perfil crece con actividad", text: "Cada swap o pay exitoso suma +1 LV hasta el nivel 10." },
 
@@ -5849,7 +5605,7 @@
         wallet_failed: { kicker: "Wallet", title: "La conexión falló", text: "La conexión de la wallet fue rechazada o interrumpida." },
         network_failed: { kicker: "Network", title: "La configuración de Arc falló", text: "Agrega Arc Testnet o cambia a esa red e inténtalo de nuevo." },
         network_wrong: { kicker: "Network", title: "Red incorrecta", text: "Vuelve a cambiar a Arc Testnet." },
-        disconnected: { kicker: "Disconnected", title: "Wallet desconectada", text: "Puedes navegar o reconectar cuando quieras." }
+        disconnected: { kicker: "Disconnected", title: "Wallet desconectada", text: "Connect volvió y la shell principal regresó al modo de navegación." }
       }
     };
 
@@ -5935,34 +5691,22 @@
       assistantHoldTimer: null
     };
 
+    const shellState = {
+      routeIndex: 0,
+      txNoticeTimer: null
+    };
+
     let swapQuoteTimer = null;
     let swapQuoteSeq = 0;
     let payQuoteTimer = null;
     let payQuoteSeq = 0;
 
-    const shellState = {
-      index: 0,
-      walletConnected: false,
-      txNoticeTimer: null,
-      tracking: false,
-      pointerId: null,
-      startX: 0,
-      startY: 0,
-      lastX: 0,
-      lastY: 0,
-      startedInsideInteractive: false,
-      horizontalLock: false,
-      verticalLock: false
-    };
-
-    const pageNames = ["connect","home","swap","pay","get-paid","more"];
-
     const app = document.getElementById("app");
     const openHotspot = document.getElementById("openHotspot");
     const exitBtn = document.getElementById("exitBtn");
-    const disconnectBtn = document.getElementById("disconnectBtn");
+    const prevNavBtn = document.getElementById("prevNavBtn");
+    const nextNavBtn = document.getElementById("nextNavBtn");
     const pages = Array.from(document.querySelectorAll(".page"));
-    const swipeZone = document.getElementById("swipeZone");
     const txPill = document.getElementById("txPill");
     const assistantSlot = document.getElementById("assistantSlot");
     const toast = document.getElementById("toast");
@@ -6084,6 +5828,46 @@
       toast.className = "toast show " + (isError ? "error" : "ok");
       clearTimeout(window.__toastTimer);
       window.__toastTimer = setTimeout(() => toast.classList.remove("show"), 1500);
+    }
+
+    function getRoute(){
+      return state.connected
+        ? ["home","swap","pay","get-paid","more"]
+        : ["connect","home","swap","pay","get-paid","more"];
+    }
+
+    function normalizeRouteTarget(input){
+      const route = getRoute();
+
+      if (typeof input === "number" && Number.isFinite(input)) {
+        let idx = Math.round(input);
+        if (idx < 0) idx = route.length - 1;
+        if (idx >= route.length) idx = 0;
+        return { route, idx, page: route[idx] };
+      }
+
+      if (typeof input === "string") {
+        if (!route.includes(input)) {
+          const fallback = state.connected ? "home" : "connect";
+          return {
+            route,
+            idx: route.indexOf(fallback),
+            page: fallback
+          };
+        }
+        return {
+          route,
+          idx: route.indexOf(input),
+          page: input
+        };
+      }
+
+      const fallback = state.connected ? "home" : "connect";
+      return {
+        route,
+        idx: route.indexOf(fallback),
+        page: fallback
+      };
     }
 
     function tokenAddr(symbol){
@@ -6410,36 +6194,24 @@
 
     function updateBottomState(){
       exitBtn.classList.toggle("off", state.connected);
-      disconnectBtn.classList.toggle("connected", state.connected);
-    }
+      homeDisconnectBtn.classList.toggle("disabled", !state.connected);
 
-    function normalizePageInput(input){
-      if (typeof input === "number" && Number.isFinite(input)) {
-        let idx = Math.round(input);
-        if (idx < 0) idx = pageNames.length - 1;
-        if (idx >= pageNames.length) idx = 0;
-        return idx;
-      }
-
-      if (typeof input === "string") {
-        const idx = pageNames.indexOf(input);
-        return idx === -1 ? 0 : idx;
-      }
-
-      return 0;
+      const route = getRoute();
+      const showNav = route.length > 1;
+      prevNavBtn.classList.toggle("off", !showNav);
+      nextNavBtn.classList.toggle("off", !showNav);
     }
 
     function setPage(next, smooth = true){
-      const nextIndex = normalizePageInput(next);
-      shellState.index = nextIndex;
-      const currentName = pageNames[nextIndex];
-      state.currentPage = currentName;
+      const resolved = normalizeRouteTarget(next);
+      shellState.routeIndex = resolved.idx;
+      state.currentPage = resolved.page;
 
       pages.forEach(page => {
-        page.classList.toggle("active", page.dataset.page === currentName);
+        page.classList.toggle("active", page.dataset.page === resolved.page);
       });
 
-      const activePage = pages.find(p => p.dataset.page === currentName);
+      const activePage = pages.find(p => p.dataset.page === resolved.page);
       if (activePage) {
         activePage.scrollTo({
           top: 0,
@@ -6447,17 +6219,37 @@
         });
       }
 
+      updateBottomState();
       updateAssistant();
+    }
+
+    function goPage(delta){
+      const route = getRoute();
+      if (route.length < 2) return;
+
+      let idx = shellState.routeIndex + delta;
+      if (idx < 0) idx = route.length - 1;
+      if (idx >= route.length) idx = 0;
+
+      setPage(idx);
     }
 
     function openShell(){
       state.shellOpen = true;
       app.classList.add("open");
       updateBottomState();
+
       if (!state.connected) {
         setPage("connect", false);
         startAssistantOnboarding();
+      } else {
+        if (state.currentPage === "connect") {
+          setPage("home", false);
+        } else {
+          setPage(state.currentPage, false);
+        }
       }
+
       updateAssistant();
     }
 
@@ -6488,69 +6280,6 @@
       txPill.textContent = "";
     }
 
-    function isInteractiveTarget(target){
-      return !!target.closest(
-        "button, a, input, textarea, select, label, [role='button'], [contenteditable='true'], [data-no-swipe]"
-      );
-    }
-
-    function startGesture(x, y, target, pointerId = null){
-      shellState.tracking = true;
-      shellState.pointerId = pointerId;
-      shellState.startX = x;
-      shellState.startY = y;
-      shellState.lastX = x;
-      shellState.lastY = y;
-      shellState.horizontalLock = false;
-      shellState.verticalLock = false;
-      shellState.startedInsideInteractive = isInteractiveTarget(target);
-    }
-
-    function moveGesture(x, y){
-      if (!shellState.tracking) return;
-      shellState.lastX = x;
-      shellState.lastY = y;
-
-      const dx = x - shellState.startX;
-      const dy = y - shellState.startY;
-
-      if (!shellState.horizontalLock && !shellState.verticalLock) {
-        if (Math.abs(dx) > 12 || Math.abs(dy) > 12) {
-          if (Math.abs(dx) > Math.abs(dy) * 1.25) {
-            shellState.horizontalLock = true;
-          } else if (Math.abs(dy) > Math.abs(dx) * 1.12) {
-            shellState.verticalLock = true;
-          }
-        }
-      }
-    }
-
-    function endGesture(x, y){
-      if (!shellState.tracking) return;
-
-      const dx = x - shellState.startX;
-      const dy = y - shellState.startY;
-
-      const canSwipe =
-        !shellState.startedInsideInteractive &&
-        shellState.horizontalLock &&
-        Math.abs(dx) > 56 &&
-        Math.abs(dx) > Math.abs(dy) * 1.35;
-
-      shellState.tracking = false;
-      shellState.pointerId = null;
-      shellState.horizontalLock = false;
-      shellState.verticalLock = false;
-
-      if (!canSwipe) return;
-
-      if (dx < 0) {
-        setPage(shellState.index + 1);
-      } else {
-        setPage(shellState.index - 1);
-      }
-    }
-
     function refreshHomeProgress(){
       const lv = Math.min(state.stats.totalTx, 10);
       profileLv.textContent = String(lv);
@@ -6568,6 +6297,7 @@
         ? `${state.preferredWallet || "Wallet"} · ${shortenAddress(state.address)}`
         : "Wallet not connected";
       refreshHomeProgress();
+      homeDisconnectBtn.classList.toggle("disabled", !state.connected);
     }
 
     function refreshMoreWalletUI(){
@@ -8515,8 +8245,6 @@
       clearNotes: clearMoreNotes
     };
 
-    /* shell events */
-
     openHotspot.addEventListener("pointerdown", event => {
       event.stopPropagation();
       openShell();
@@ -8534,41 +8262,8 @@
       closeShell();
     });
 
-    disconnectBtn.addEventListener("click", () => {
-      if (!state.connected) return;
-      disconnectWallet();
-    });
-
-    swipeZone.addEventListener("touchstart", event => {
-      const touch = event.touches[0];
-      startGesture(touch.clientX, touch.clientY, event.target);
-    }, { passive: true });
-
-    swipeZone.addEventListener("touchmove", event => {
-      const touch = event.touches[0];
-      moveGesture(touch.clientX, touch.clientY);
-    }, { passive: true });
-
-    swipeZone.addEventListener("touchend", event => {
-      const touch = event.changedTouches[0];
-      endGesture(touch.clientX, touch.clientY);
-    }, { passive: true });
-
-    swipeZone.addEventListener("mousedown", event => {
-      startGesture(event.clientX, event.clientY, event.target, "mouse");
-    });
-
-    window.addEventListener("mousemove", event => {
-      if (shellState.pointerId !== "mouse") return;
-      moveGesture(event.clientX, event.clientY);
-    });
-
-    window.addEventListener("mouseup", event => {
-      if (shellState.pointerId !== "mouse") return;
-      endGesture(event.clientX, event.clientY);
-    });
-
-    /* connect page */
+    prevNavBtn.addEventListener("click", () => goPage(-1));
+    nextNavBtn.addEventListener("click", () => goPage(1));
 
     document.querySelectorAll("[data-wallet]").forEach(btn => {
       btn.addEventListener("click", () => connectWallet(btn.dataset.wallet));
@@ -8577,8 +8272,6 @@
     homeDisconnectBtn.addEventListener("click", () => {
       if (state.connected) disconnectWallet();
     });
-
-    /* swap */
 
     slippageToggle.addEventListener("click", () => {
       slippageShell.classList.toggle("open");
@@ -8685,8 +8378,6 @@
       await doSwap();
     });
 
-    /* pay */
-
     payHideNoteBtn.addEventListener("click", () => {
       state.pay.hideNote = !state.pay.hideNote;
       payHideNoteBtn.classList.toggle("on", state.pay.hideNote);
@@ -8723,8 +8414,6 @@
     payQrBtn.addEventListener("click", openScanner);
     scannerCloseBtn.addEventListener("click", closeScanner);
 
-    /* get paid */
-
     requestHideNoteBtn.addEventListener("click", () => {
       state.request.hideNote = !state.request.hideNote;
       requestHideNoteBtn.classList.toggle("on", state.request.hideNote);
@@ -8751,8 +8440,6 @@
     requestShareBtn.addEventListener("click", shareRequestLink);
     requestDownloadBtn.addEventListener("click", downloadRequestQr);
     requestNewBtn.addEventListener("click", resetRequestFields);
-
-    /* more */
 
     moreLangTrigger.addEventListener("click", () => {
       const open = moreLangMenu.classList.toggle("show");
@@ -8866,20 +8553,27 @@
     };
 
     window.StableFlowShell = {
-      pages: [...pageNames],
+      get pages(){
+        return getRoute();
+      },
       setWalletConnected(value){
         if (value) {
           state.connected = true;
           state.shellOpen = true;
           app.classList.add("open");
+          updateBottomState();
+          setPage("home", false);
         } else {
           state.connected = false;
+          updateBottomState();
+          setPage("connect", false);
         }
-        updateBottomState();
       },
       openShell,
       closeShell,
       setPage,
+      nextPage(){ goPage(1); },
+      prevPage(){ goPage(-1); },
       flashTxDone,
       clearTxNotice,
       setAssistantHTML(html){
@@ -8891,9 +8585,10 @@
       getState(){
         return {
           currentPage: state.currentPage,
-          currentIndex: shellState.index,
+          currentIndex: shellState.routeIndex,
           walletConnected: state.connected,
-          shellOpen: state.shellOpen
+          shellOpen: state.shellOpen,
+          route: getRoute()
         };
       }
     };
