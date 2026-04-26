@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-  <title>StableFlow 2.0 A • Final Color Polish</title>
+  <title>StableFlow 2.0 B • Navigation Polish</title>
 
   <script src="https://cdn.jsdelivr.net/npm/ethers@5.7.2/dist/ethers.umd.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
@@ -38,11 +38,11 @@
     :root{
       --frame-x:12px;
       --frame-top:18px;
-      --frame-bottom:14px;
+      --frame-bottom:8px;
 
       --assistant-h:98px;
       --joint-h:24px;
-      --bottom-h:88px;
+      --bottom-h:38px;
 
       --side-rail-w:7px;
 
@@ -96,6 +96,7 @@
       --shadow-soft:0 10px 22px rgba(0,0,0,.24);
 
       --cover-speed:900ms;
+      --nav-active:2;
     }
 
     button,input,textarea{
@@ -543,7 +544,6 @@
       0%,100%{filter:brightness(1);}
       50%{filter:brightness(1.08);}
     }
-
     .screen{
       position:absolute;
       left:var(--frame-x);
@@ -557,7 +557,7 @@
       border-left:1px solid rgba(122,182,198,.09);
       border-right:1px solid rgba(122,182,198,.09);
       border-bottom:1px solid rgba(122,182,198,.09);
-      transition:opacity 520ms ease 200ms;
+      transition:opacity 420ms ease 160ms;
       background:
         radial-gradient(circle at 50% 24%, rgba(35,116,136,.090), transparent 34%),
         radial-gradient(circle at 50% 70%, rgba(15,62,74,.072), transparent 46%),
@@ -606,9 +606,9 @@
       overflow-y:auto;
       overflow-x:hidden;
       overscroll-behavior:contain;
-      scroll-behavior:smooth;
-      padding:18px 14px 62px;
-      animation:pageIn .28s ease;
+      scroll-behavior:auto;
+      padding:18px 14px 116px;
+      animation:pageIn .16s ease;
     }
 
     .page::-webkit-scrollbar{
@@ -623,7 +623,7 @@
     @keyframes pageIn{
       from{
         opacity:0;
-        transform:translateX(16px);
+        transform:translateX(6px);
       }
       to{
         opacity:1;
@@ -643,153 +643,276 @@
       z-index:2;
     }
 
-    .bottom-controls{
+    .bottom-nav-wrap,
+    .exit-nav-wrap{
       position:absolute;
-      left:50%;
-      bottom:var(--frame-bottom);
-      transform:translate(-50%,145%);
-      min-width:0;
-      z-index:13;
-      transition:transform 660ms cubic-bezier(.16,.9,.18,1) 340ms;
-      display:grid;
-      grid-template-columns:54px 82px 54px;
-      align-items:center;
-      justify-content:center;
-      gap:12px;
+      left:18px;
+      right:18px;
+      bottom:12px;
+      height:74px;
+      z-index:30;
+      opacity:0;
+      transform:translateY(10px);
+      pointer-events:none;
+      transition:
+        opacity .28s ease,
+        transform .28s ease;
+    }
+
+    .app.open:not(.wallet-connected) .exit-nav-wrap{
+      opacity:1;
+      transform:translateY(0);
       pointer-events:auto;
     }
 
-    .nav-circle{
+    .app.wallet-connected .exit-nav-wrap{
+      opacity:0;
+      transform:translateY(10px);
+      pointer-events:none;
+    }
+
+    .app.open.wallet-connected .bottom-nav-wrap{
+      opacity:1;
+      transform:translateY(0);
+      pointer-events:auto;
+    }
+
+    .bottom-nav,
+    .exit-nav{
+      pointer-events:auto;
       position:relative;
-      width:54px;
-      height:54px;
-      border-radius:50%;
-      display:grid;
-      place-items:center;
+      width:100%;
+      height:64px;
+      border-radius:26px;
       overflow:hidden;
-      border:1px solid rgba(148,201,220,.18);
-      background:
-        radial-gradient(circle at 30% 24%, rgba(255,255,255,.05), transparent 26%),
-        linear-gradient(180deg, rgba(14,31,38,.98), rgba(6,11,14,.99));
+      backdrop-filter:blur(13px) saturate(1.15);
+      -webkit-backdrop-filter:blur(13px) saturate(1.15);
+      border:1px solid rgba(181,235,255,.36);
       box-shadow:
-        0 12px 22px rgba(0,0,0,.44),
-        0 0 16px rgba(89,217,241,.020),
-        inset 0 1px 0 rgba(255,255,255,.03),
-        inset 0 -10px 16px rgba(0,0,0,.42);
-      transition:
-        transform .16s ease,
-        border-color .22s ease,
-        box-shadow .22s ease,
-        opacity .22s ease;
-    }
-
-    .nav-circle::before{
-      content:"";
-      position:absolute;
-      inset:-6px;
-      border-radius:50%;
-      border:1px solid rgba(89,217,241,.055);
-      background:radial-gradient(circle at 50% 50%, rgba(89,217,241,.022), transparent 64%);
-      box-shadow:0 0 14px rgba(89,217,241,.03);
-      pointer-events:none;
-    }
-
-    .nav-circle::after{
-      content:"";
-      position:absolute;
-      inset:7px;
-      border-radius:50%;
-      border:1px solid rgba(255,255,255,.040);
+        0 0 0 1px rgba(255,255,255,.028) inset,
+        0 0 17px rgba(98,204,255,.08),
+        0 13px 30px rgba(0,0,0,.42),
+        inset 0 0 22px rgba(76,218,237,.045);
       background:
-        radial-gradient(circle at 50% 0%, rgba(255,255,255,.022), transparent 50%),
-        radial-gradient(circle at 50% 100%, rgba(89,217,241,.015), transparent 60%),
-        rgba(1,8,9,.78);
-      pointer-events:none;
+        linear-gradient(180deg,rgba(8,24,28,.38),rgba(2,10,13,.21));
     }
 
-    .nav-circle span{
+    .bottom-nav::before,
+    .exit-nav::before{
+      content:"";
+      position:absolute;
+      inset:5px;
+      border-radius:21px;
+      border:1px solid rgba(255,255,255,.032);
+      pointer-events:none;
+      z-index:2;
+    }
+
+    .bottom-nav{
+      display:grid;
+      grid-template-columns:repeat(5,1fr);
+      align-items:center;
+      background:
+        radial-gradient(circle at calc((100% / 5) * var(--nav-active) + 10%) 50%, rgba(214,184,114,.105), transparent 18%),
+        linear-gradient(180deg,rgba(8,24,28,.38),rgba(2,10,13,.21));
+    }
+
+    .bottom-nav::after{
+      content:"";
+      position:absolute;
+      left:calc((100% / 5) * var(--nav-active) + 16px);
+      bottom:7px;
+      width:calc((100% / 5) - 32px);
+      height:2px;
+      border-radius:999px;
+      background:
+        linear-gradient(90deg,transparent,rgba(232,197,125,.88),transparent);
+      box-shadow:
+        0 0 10px rgba(232,197,125,.42),
+        0 0 18px rgba(88,220,255,.08);
+      transition:left .32s cubic-bezier(.2,.8,.2,1);
+      z-index:5;
+    }
+
+    .nav-btn{
       position:relative;
-      z-index:3;
-      font-size:24px;
-      line-height:1;
-      color:#eef7fb;
+      height:100%;
+      border:0;
+      background:transparent;
+      color:rgba(210,232,242,.62);
+      font-size:12px;
+      font-weight:800;
+      letter-spacing:.35px;
+      z-index:4;
+      text-shadow:0 0 8px rgba(120,210,255,.08);
+      transition:
+        color .25s ease,
+        text-shadow .25s ease,
+        transform .22s ease;
+    }
+
+    .nav-btn::before{
+      content:"";
+      position:absolute;
+      top:16px;
+      bottom:16px;
+      right:0;
+      width:1px;
+      background:
+        linear-gradient(180deg,transparent,rgba(180,231,255,.20),transparent);
+      opacity:.76;
+    }
+
+    .nav-btn:last-child::before{
+      display:none;
+    }
+
+    .nav-btn .nav-label{
+      position:relative;
+      top:5px;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      min-width:52px;
+      height:28px;
+      padding:0 6px;
+      border-radius:999px;
+      transform:translateY(0);
+      white-space:nowrap;
+      font-family:Arial, Helvetica, sans-serif;
+      transition:
+        background .25s ease,
+        color .25s ease,
+        box-shadow .25s ease,
+        transform .25s ease;
+    }
+
+    .nav-btn .nav-label.get-paid{
+      font-size:10.4px;
+      letter-spacing:.05px;
+      min-width:58px;
+      padding:0 5px;
+    }
+
+    .nav-btn .nav-label::before{
+      content:"";
+      position:absolute;
+      left:50%;
+      top:-8px;
+      width:5px;
+      height:5px;
+      border-radius:50%;
+      background:rgba(144,234,255,.20);
+      box-shadow:0 0 8px rgba(144,234,255,.12);
+      transform:translateX(-50%) scale(.7);
+      opacity:0;
+      transition:.25s ease;
+    }
+
+    .nav-btn.active{
+      color:#f2d69a;
       text-shadow:
-        0 1px 0 rgba(0,0,0,.55),
-        0 0 8px rgba(89,217,241,.06);
+        0 0 10px rgba(242,214,154,.34),
+        0 0 18px rgba(85,216,255,.11);
+    }
+
+    .nav-btn.active .nav-label{
+      background:
+        linear-gradient(180deg,rgba(255,227,163,.095),rgba(255,195,92,.045));
+      box-shadow:
+        inset 0 0 0 1px rgba(246,214,148,.105),
+        0 0 16px rgba(235,198,121,.105);
       transform:translateY(-1px);
     }
 
-    .nav-circle:active{
-      transform:scale(.96);
-    }
-
-    .nav-circle.off{
-      opacity:.28;
-      pointer-events:none;
-      filter:saturate(.6);
-    }
-
-    .exit-center{
-      position:relative;
-      min-width:82px;
-      height:44px;
-      border-radius:999px;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      overflow:hidden;
-      border:1px solid rgba(226,197,142,.13);
-      background:
-        radial-gradient(circle at 24% 50%, rgba(226,197,142,.035), transparent 32%),
-        radial-gradient(circle at 88% 50%, rgba(89,217,241,.025), transparent 34%),
-        linear-gradient(180deg, rgba(255,255,255,.015), rgba(255,255,255,.004)),
-        #030809;
+    .nav-btn.active .nav-label::before{
+      opacity:1;
+      transform:translateX(-50%) scale(1);
+      background:#c9f7ff;
       box-shadow:
-        0 12px 22px rgba(0,0,0,.44),
-        0 0 18px rgba(226,197,142,.025),
-        inset 0 1px 0 rgba(255,255,255,.03),
-        inset 0 -10px 16px rgba(0,0,0,.44);
-      transition:
-        transform .16s ease,
-        opacity .22s ease,
-        filter .22s ease;
+        0 0 9px rgba(201,247,255,.78),
+        0 0 15px rgba(241,203,132,.20);
     }
 
-    .exit-center::before{
+    .exit-nav{
+      display:grid;
+      place-items:center;
+      background:
+        radial-gradient(circle at 50% 45%,rgba(214,184,114,.045),transparent 17%),
+        linear-gradient(180deg,rgba(8,24,28,.34),rgba(2,10,13,.18));
+    }
+
+    .exit-center-btn{
+      position:relative;
+      z-index:5;
+      width:42px;
+      height:42px;
+      border:0;
+      border-radius:50%;
+      background:
+        radial-gradient(circle at 50% 22%,rgba(255,242,206,.13),transparent 38%),
+        radial-gradient(circle at 50% 100%,rgba(111,229,255,.055),transparent 58%),
+        linear-gradient(180deg,rgba(18,35,39,.86),rgba(3,10,13,.96));
+      color:rgba(238,213,160,.88);
+      font-size:7.2px;
+      font-weight:950;
+      letter-spacing:.7px;
+      text-align:center;
+      text-shadow:
+        0 0 7px rgba(236,203,137,.24),
+        0 0 12px rgba(135,233,255,.08);
+      box-shadow:
+        inset 0 0 0 1px rgba(239,211,154,.16),
+        inset 0 0 13px rgba(118,229,255,.035),
+        0 0 13px rgba(236,203,137,.075),
+        0 9px 16px rgba(0,0,0,.26);
+      opacity:.96;
+    }
+
+    .exit-center-btn::before{
       content:"";
       position:absolute;
-      inset:6px;
-      border-radius:999px;
-      border:1px solid rgba(255,255,255,.045);
+      left:50%;
+      top:-7px;
+      width:4px;
+      height:4px;
+      border-radius:50%;
+      background:rgba(201,247,255,.82);
+      transform:translateX(-50%);
+      box-shadow:
+        0 0 7px rgba(201,247,255,.62),
+        0 0 12px rgba(241,203,132,.12);
+    }
+
+    .exit-center-btn::after{
+      content:"";
+      position:absolute;
+      inset:5px;
+      border-radius:50%;
+      border:1px solid rgba(255,245,220,.07);
       background:
-        linear-gradient(180deg, rgba(255,255,255,.018), rgba(255,255,255,.002)),
-        rgba(2,10,11,.72);
+        linear-gradient(180deg,rgba(255,255,255,.035),transparent 42%);
       pointer-events:none;
     }
 
-    .exit-center span{
-      position:relative;
-      z-index:2;
-      color:#f2dfbc;
-      font-size:10px;
-      font-weight:1000;
-      letter-spacing:.16em;
-      text-transform:uppercase;
-      text-shadow:
-        0 1px 0 rgba(0,0,0,.60),
-        0 0 8px rgba(226,197,142,.05);
-      transform:translateY(.5px);
-      white-space:nowrap;
+    .exit-center-btn:active{
+      transform:translateY(1px) scale(.94);
+      filter:brightness(1.14);
     }
 
-    .exit-center:active{
-      transform:scale(.97);
-    }
-
-    .exit-center.off{
-      opacity:0;
+    .nav-halo{
+      position:absolute;
+      left:22px;
+      right:22px;
+      bottom:-8px;
+      height:18px;
+      z-index:-1;
       pointer-events:none;
-      filter:saturate(.4);
+      border-radius:999px;
+      background:
+        radial-gradient(ellipse at center, rgba(89,217,241,.13), transparent 68%);
+      filter:blur(9px);
+      opacity:.42;
     }
 
     .cover{
@@ -1102,15 +1225,10 @@
       opacity:1;
     }
 
-    .app.open .bottom-controls{
-      transform:translate(-50%,0);
-    }
-
     .app.open .cover{
       transform:translate3d(calc(100vw + 44px),0,0);
       pointer-events:none;
-    }
-
+                      }
     .section-title{
       font-size:27px;
       line-height:.98;
@@ -2020,833 +2138,7 @@
     @keyframes livePulse{
       0%,100%{ transform:scale(.90); opacity:.74; }
       50%{ transform:scale(1.13); opacity:1; }
-    }
-
-    .swap-top-row{
-      display:flex;
-      align-items:flex-start;
-      justify-content:space-between;
-      gap:12px;
-      flex-wrap:wrap;
-    }
-
-    .slippage-shell{
-      width:186px;
-      min-height:44px;
-      border-radius:18px;
-      padding:6px 8px;
-      background:
-        radial-gradient(circle at 14% 30%, rgba(226,197,142,.032), transparent 16%),
-        linear-gradient(180deg,#18222b 0%, #111820 100%);
-      display:flex;
-      align-items:center;
-      gap:10px;
-      overflow:hidden;
-      transition:width .28s ease;
-    }
-
-    .slippage-shell.open{
-      width:296px;
-    }
-
-    .slippage-main{
-      display:flex;
-      align-items:center;
-      gap:8px;
-      white-space:nowrap;
-      flex:0 0 auto;
-    }
-
-    .slippage-dot{
-      width:10px;
-      height:10px;
-      border-radius:50%;
-      background:linear-gradient(180deg,#efd5a0,#c8a169);
-      box-shadow:0 0 0 5px rgba(226,197,142,.050);
-      flex:0 0 auto;
-    }
-
-    .slippage-label{
-      color:#e4c993;
-      font-size:9px;
-      font-weight:1000;
-      letter-spacing:.16em;
-      text-transform:uppercase;
-    }
-
-    .slippage-chip{
-      min-width:50px;
-      height:28px;
-      border-radius:999px;
-      padding:0 10px;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      background:linear-gradient(180deg,#251d12 0%, #1a140e 100%);
-      border:1px solid rgba(226,197,142,.10);
-      color:#e4c993;
-      font-size:9px;
-      font-weight:1000;
-      letter-spacing:.10em;
-      flex:0 0 auto;
-    }
-
-    .slippage-track{
-      display:flex;
-      align-items:center;
-      gap:10px;
-      min-width:0;
-      max-width:0;
-      opacity:0;
-      overflow:hidden;
-      transition:max-width .26s ease, opacity .22s ease;
-    }
-
-    .slippage-shell.open .slippage-track{
-      max-width:160px;
-      opacity:1;
-    }
-
-    .slippage-track input[type="range"]{
-      appearance:none;
-      width:100%;
-      height:8px;
-      border-radius:999px;
-      background:linear-gradient(180deg,#24313c,#1a2530);
-      border:1px solid rgba(255,255,255,.03);
-    }
-
-    .slippage-track input[type="range"]::-webkit-slider-thumb{
-      appearance:none;
-      width:18px;
-      height:18px;
-      border-radius:50%;
-      background:linear-gradient(180deg,#f4e7c9,#d8ae6b);
-      border:1px solid rgba(226,197,142,.18);
-      box-shadow:0 4px 10px rgba(226,197,142,.10);
-    }
-
-    .slippage-val{
-      color:#d9effc;
-      font-size:10px;
-      font-weight:1000;
-      min-width:36px;
-      text-align:right;
-    }
-
-    .quick-row{
-      display:flex;
-      gap:8px;
-      flex-wrap:wrap;
-      transition:max-height .22s ease, opacity .22s ease, margin .22s ease;
-      max-height:60px;
-      opacity:1;
-    }
-
-    .quick-row.hidden{
-      max-height:0;
-      opacity:0;
-      overflow:hidden;
-      margin-top:-6px;
-      pointer-events:none;
-    }
-
-    .quick-btn{
-      min-width:54px;
-      height:28px;
-      padding:0 10px;
-      border-radius:999px;
-      background:linear-gradient(180deg,#1a242d 0%, #141c24 100%);
-      border:1px solid rgba(146,204,232,.075);
-      color:#e0eef9;
-      font-size:9px;
-      font-weight:1000;
-      letter-spacing:.14em;
-      text-transform:uppercase;
-      box-shadow:var(--shadow-soft);
-      flex:0 0 auto;
-      transition:.18s ease;
-    }
-
-    .quick-btn.active{
-      color:#f5f9fc;
-      border-color:rgba(99,207,255,.14);
-      background:linear-gradient(180deg, rgba(99,207,255,.11), rgba(99,207,255,.036));
-      box-shadow:
-        inset 0 1px 0 rgba(255,255,255,.020),
-        0 0 0 1px rgba(99,207,255,.028);
-    }
-
-    .trade-box{
-      border-radius:18px;
-      padding:12px;
-    }
-
-    .trade-head{
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:10px;
-      margin-bottom:10px;
-    }
-
-    .trade-head b{
-      color:#8fdcff;
-      font-size:9px;
-      font-weight:1000;
-      letter-spacing:.22em;
-      text-transform:uppercase;
-    }
-
-    .trade-head span{
-      color:#8799aa;
-      font-size:9px;
-      font-weight:900;
-      white-space:nowrap;
-    }
-
-    .trade-row{
-      display:flex;
-      align-items:center;
-      gap:8px;
-      min-width:0;
-    }
-
-    .token-pill{
-      min-width:126px;
-      height:56px;
-      padding:0 10px;
-      border-radius:16px;
-      display:flex;
-      align-items:center;
-      gap:10px;
-      flex:0 0 auto;
-      overflow:hidden;
-    }
-
-    .token-badge{
-      width:30px;
-      height:30px;
-      border-radius:50%;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      background:linear-gradient(180deg,#69d9ff 0%, #2fbdef 100%);
-      box-shadow:0 10px 16px rgba(47,189,239,.08);
-      flex:0 0 auto;
-      overflow:hidden;
-    }
-
-    .token-badge img{
-      width:100%;
-      height:100%;
-      object-fit:cover;
-    }
-
-    .token-pill .name{
-      font-size:16px;
-      font-weight:1000;
-      letter-spacing:-.04em;
-      color:#f4f8fb;
-      line-height:1;
-      white-space:nowrap;
-      overflow:hidden;
-      text-overflow:ellipsis;
-    }
-
-    .token-pill .meta{
-      font-size:9px;
-      font-weight:900;
-      color:#7f95a8;
-      margin-top:2px;
-      white-space:nowrap;
-      overflow:hidden;
-      text-overflow:ellipsis;
-    }
-
-    .trade-input{
-      flex:1;
-      min-width:0;
-      width:100%;
-      height:56px;
-      border-radius:16px;
-      padding:0 12px;
-      background:linear-gradient(180deg,#1a242d 0%, #151d25 100%);
-      border:1px solid rgba(255,255,255,.04);
-      color:#f5f8fb;
-      font-size:25px;
-      font-weight:1000;
-      letter-spacing:-.06em;
-      text-align:right;
-      box-shadow:inset 0 1px 0 rgba(255,255,255,.015);
-      overflow:hidden;
-      text-shadow:0 0 10px rgba(255,255,255,.015);
-    }
-
-    .trade-input::placeholder{
-      color:#55697b;
-    }
-
-    .flip-wrap{
-      display:flex;
-      justify-content:center;
-      margin:-4px 0;
-      position:relative;
-      z-index:3;
-    }
-
-    .flip-btn{
-      width:62px;
-      height:62px;
-      border-radius:50%;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      background:
-        radial-gradient(circle at 35% 28%, rgba(255,255,255,.06), transparent 30%),
-        linear-gradient(180deg,#202a34 0%, #141c24 100%);
-      border:1px solid rgba(255,255,255,.045);
-      box-shadow:
-        0 12px 24px rgba(0,0,0,.24),
-        inset 0 1px 0 rgba(255,255,255,.02);
-      color:#e1c48e;
-      font-size:24px;
-      transition:transform .38s ease;
-    }
-
-    .flip-btn.spinning{
-      transform:rotate(180deg);
-    }
-
-    .trade-footer{
-      display:grid;
-      grid-template-columns:minmax(0,1fr) 112px;
-      gap:10px;
-      align-items:stretch;
-    }
-
-    .trade-data{
-      border-radius:18px;
-      padding:12px;
-      min-width:0;
-    }
-
-    .trade-data .data-title{
-      color:#f4f8fb;
-      font-size:14px;
-      font-weight:1000;
-      letter-spacing:-.03em;
-      margin-bottom:8px;
-    }
-
-    .data-row{
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:12px;
-      padding:8px 0;
-      border-bottom:1px solid rgba(255,255,255,.040);
-      min-width:0;
-    }
-
-    .data-row:last-child{
-      border-bottom:none;
-    }
-
-    .data-row .k{
-      color:#8fdcff;
-      font-size:8px;
-      font-weight:1000;
-      letter-spacing:.20em;
-      text-transform:uppercase;
-      flex:0 0 auto;
-    }
-
-    .data-row .v{
-      color:#dcecf7;
-      font-size:10px;
-      font-weight:900;
-      text-align:right;
-      min-width:0;
-      overflow:hidden;
-      text-overflow:ellipsis;
-      white-space:nowrap;
-    }
-
-    .swap-cta{
-      border-radius:18px;
-      padding:10px;
-      display:flex;
-      flex-direction:column;
-      align-items:center;
-      justify-content:center;
-      gap:10px;
-    }
-
-    .action-btn{
-      width:100%;
-      min-height:44px;
-      border-radius:15px;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      background:linear-gradient(180deg,#ecd8b2 0%, #caa26a 100%);
-      color:#5e3910;
-      font-size:12px;
-      font-weight:1000;
-      letter-spacing:.03em;
-      box-shadow:
-        inset 0 1px 0 rgba(255,255,255,.24),
-        0 8px 16px rgba(0,0,0,.10);
-      padding:0 10px;
-      text-align:center;
-    }
-
-    .action-btn.disabled{
-      opacity:.42;
-      pointer-events:none;
-      box-shadow:none;
-    }
-
-    .action-btn.danger{
-      background:
-        linear-gradient(180deg, rgba(69,38,45,.98), rgba(44,24,28,.99));
-      color:#e2c2c6;
-      border:1px solid rgba(214,163,168,.10);
-    }
-
-    .action-btn.disabled.danger{
-      opacity:.72;
-      filter:saturate(.88);
-    }
-
-    .cta-note{
-      color:#8b9baa;
-      font-size:8px;
-      font-weight:900;
-      letter-spacing:.12em;
-      text-transform:uppercase;
-      text-align:center;
-    }
-
-    .top-toggle-row{
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:12px;
-    }
-
-    .toggle-wrap{
-      display:flex;
-      align-items:center;
-      gap:10px;
-      flex:0 0 auto;
-    }
-
-    .toggle-label{
-      color:#d0d9e0;
-      font-size:10px;
-      font-weight:1000;
-      letter-spacing:.18em;
-      text-transform:uppercase;
-      white-space:nowrap;
-    }
-
-    .toggle-btn{
-      position:relative;
-      width:50px;
-      height:28px;
-      border-radius:999px;
-      background:linear-gradient(180deg,#202932 0%, #141c24 100%);
-      border:1px solid rgba(255,255,255,.040);
-      box-shadow:inset 0 1px 0 rgba(255,255,255,.015);
-      flex:0 0 auto;
-    }
-
-    .toggle-btn::after{
-      content:"";
-      position:absolute;
-      top:3px;
-      left:3px;
-      width:20px;
-      height:20px;
-      border-radius:50%;
-      background:linear-gradient(180deg,#ecd8b2 0%, #c8a169 100%);
-      transition:left .22s ease, background .22s ease;
-      box-shadow:0 4px 10px rgba(226,197,142,.08);
-    }
-
-    .toggle-btn.on::after{
-      left:25px;
-      background:linear-gradient(180deg,#eff8fd 0%, #a7e6ff 100%);
-      box-shadow:0 4px 10px rgba(99,207,255,.08);
-    }
-
-    .pay-grid-top{
-      display:grid;
-      grid-template-columns:52px minmax(0,1fr);
-      gap:10px;
-    }
-
-    .qr-btn{
-      height:48px;
-      border-radius:15px;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      color:#e2c58e;
-      flex:0 0 auto;
-    }
-
-    .wide-input{
-      width:100%;
-      min-height:48px;
-      border-radius:15px;
-      padding:0 14px;
-      color:#eff7fd;
-      font-size:13px;
-      font-weight:900;
-      overflow:hidden;
-    }
-
-    .wide-input::placeholder,
-    .note-input::placeholder{
-      color:#748796;
-    }
-
-    .asset-line{
-      display:grid;
-      grid-template-columns:88px minmax(0,1fr) 88px;
-      gap:8px;
-      align-items:end;
-    }
-
-    .amount-stack{
-      min-width:0;
-      display:flex;
-      flex-direction:column;
-      gap:5px;
-    }
-
-    .amount-mini-label{
-      text-align:center;
-      color:#8fdcff;
-      font-size:8px;
-      font-weight:1000;
-      letter-spacing:.18em;
-      text-transform:uppercase;
-      line-height:1;
-    }
-
-    .asset-btn{
-      min-height:48px;
-      border-radius:16px;
-      padding:0 8px;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      gap:7px;
-      color:#eaf5fd;
-      font-size:13px;
-      font-weight:1000;
-      white-space:nowrap;
-      overflow:hidden;
-      text-overflow:ellipsis;
-      transition:all .18s ease;
-    }
-
-    .asset-btn img{
-      width:24px;
-      height:24px;
-      border-radius:50%;
-      object-fit:cover;
-      flex:0 0 auto;
-      transition:all .18s ease;
-    }
-
-    .asset-btn.active{
-      color:#eff8fd;
-      border-color:rgba(99,207,255,.20);
-      background:
-        radial-gradient(circle at 18% 50%, rgba(99,207,255,.14), transparent 34%),
-        linear-gradient(180deg,#18283a 0%, #121f2b 100%);
-      box-shadow:
-        0 0 0 1px rgba(99,207,255,.08),
-        0 0 14px rgba(99,207,255,.04),
-        0 10px 22px rgba(0,0,0,.18);
-    }
-
-    .asset-btn.active img{
-      width:26px;
-      height:26px;
-      box-shadow:0 0 0 4px rgba(99,207,255,.06);
-    }
-
-    .asset-btn.eurc.active{
-      color:#fff4e8;
-      border-color:rgba(226,197,142,.22);
-      background:
-        radial-gradient(circle at 18% 50%, rgba(226,197,142,.14), transparent 34%),
-        linear-gradient(180deg,#2a2115 0%, #1a140e 100%);
-      box-shadow:
-        0 0 0 1px rgba(226,197,142,.09),
-        0 0 14px rgba(226,197,142,.04),
-        0 10px 22px rgba(0,0,0,.18);
-    }
-
-    .asset-btn.eurc.active img{
-      width:26px;
-      height:26px;
-      box-shadow:0 0 0 4px rgba(226,197,142,.06);
-    }
-
-    .amount-box{
-      min-height:48px;
-      border-radius:16px;
-      padding:0 10px;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      min-width:0;
-      overflow:hidden;
-    }
-
-    .amount-box input{
-      width:100%;
-      text-align:center;
-      color:#f5f8fb;
-      font-size:25px;
-      font-weight:1000;
-      letter-spacing:-.06em;
-      overflow:hidden;
-      text-shadow:0 0 10px rgba(255,255,255,.015);
-    }
-
-    .amount-box input::placeholder{
-      color:#55697b;
-    }
-
-    .you-pay-strip{
-      min-height:44px;
-      border-radius:16px;
-      padding:0 14px;
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:12px;
-      min-width:0;
-    }
-
-    .you-pay-left{
-      color:#eff5fb;
-      font-size:14px;
-      font-weight:1000;
-      letter-spacing:-.04em;
-      white-space:nowrap;
-      overflow:hidden;
-      text-overflow:ellipsis;
-    }
-
-    .you-pay-right{
-      display:flex;
-      align-items:center;
-      gap:10px;
-      color:#f4f8fb;
-      font-size:14px;
-      font-weight:1000;
-      white-space:nowrap;
-      overflow:hidden;
-      text-overflow:ellipsis;
-      flex:0 1 auto;
-      min-width:0;
-    }
-
-    .mini-orb{
-      width:30px;
-      height:30px;
-      border-radius:50%;
-      background:
-        radial-gradient(circle at 35% 28%, rgba(255,255,255,.07), transparent 30%),
-        linear-gradient(180deg,#202d38 0%, #151d25 100%);
-      border:1px solid rgba(255,255,255,.05);
-      box-shadow:0 10px 18px rgba(0,0,0,.18);
-      flex:0 0 auto;
-      overflow:hidden;
-    }
-
-    .mini-orb img{
-      width:100%;
-      height:100%;
-      object-fit:cover;
-    }
-
-    .note-input{
-      width:100%;
-      min-height:46px;
-      border-radius:15px;
-      padding:12px 14px;
-      color:#eef7fd;
-      font-size:12px;
-      font-weight:900;
-      overflow:hidden;
-    }
-
-    .pay-summary{
-      display:grid;
-      grid-template-columns:minmax(0,1fr) 68px minmax(0,1fr);
-      gap:8px;
-      align-items:center;
-    }
-
-    .summary-box{
-      min-height:84px;
-      border-radius:18px;
-      padding:10px 12px;
-      display:flex;
-      flex-direction:column;
-      justify-content:space-between;
-      min-width:0;
-      overflow:hidden;
-    }
-
-    .summary-kicker{
-      color:#8fdcff;
-      font-size:8px;
-      font-weight:1000;
-      letter-spacing:.18em;
-      text-transform:uppercase;
-      white-space:nowrap;
-      overflow:hidden;
-      text-overflow:ellipsis;
-    }
-
-    .summary-value{
-      color:#f5f9fc;
-      font-size:16px;
-      line-height:1;
-      font-weight:1000;
-      letter-spacing:-.05em;
-      margin-top:8px;
-      white-space:nowrap;
-      overflow:hidden;
-      text-overflow:ellipsis;
-      min-width:0;
-    }
-
-    .summary-foot{
-      color:#91a3b2;
-      font-size:9px;
-      font-weight:900;
-      margin-top:8px;
-      line-height:1.15;
-      min-width:0;
-      overflow:hidden;
-      text-overflow:ellipsis;
-    }
-
-    .flow-orb{
-      width:68px;
-      height:68px;
-      border-radius:50%;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      background:
-        radial-gradient(circle at 50% 20%, rgba(255,255,255,.06), transparent 58%),
-        linear-gradient(180deg,#1d2731 0%, #141c24 100%);
-      border:1px solid rgba(255,255,255,.05);
-      box-shadow:0 12px 22px rgba(0,0,0,.24);
-      position:relative;
-      flex:0 0 auto;
-    }
-
-    .flow-orb::before{
-      content:"";
-      position:absolute;
-      inset:7px;
-      border-radius:50%;
-      border:1px solid rgba(255,255,255,.04);
-    }
-
-    .flow-orb .inner-rotor{
-      width:26px;
-      height:26px;
-      border-radius:50%;
-      border:2px solid rgba(226,197,142,.24);
-      border-top-color:var(--gold);
-      border-right-color:#6fd7ff;
-    }
-
-    .flow-orb.running .inner-rotor{
-      animation:spin 1s linear infinite;
-    }
-
-    @keyframes spin{
-      from{ transform:rotate(0deg); }
-      to{ transform:rotate(360deg); }
-    }
-
-    .pay-action-row{
-      display:grid;
-      grid-template-columns:1fr;
-      gap:12px;
-    }
-
-    .pay-flow-panel{
-      border-radius:18px;
-      padding:12px;
-      display:none;
-      min-width:0;
-    }
-
-    .pay-flow-panel.open{
-      display:block;
-    }
-
-    .steps-row{
-      display:grid;
-      grid-template-columns:repeat(3,1fr);
-      gap:6px;
-      margin-bottom:10px;
-    }
-
-    .steps-row.two-step{
-      grid-template-columns:repeat(2,1fr);
-    }
-
-    .step-chip{
-      min-height:32px;
-      border-radius:12px;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      background:linear-gradient(180deg,#1b2530 0%, #141c24 100%);
-      border:1px solid rgba(255,255,255,.042);
-      color:#9aabbb;
-      font-size:9px;
-      font-weight:1000;
-      letter-spacing:.10em;
-      text-transform:uppercase;
-      text-align:center;
-      min-width:0;
-      white-space:nowrap;
-      overflow:hidden;
-      text-overflow:ellipsis;
-    }
-
-    .step-chip.hidden{
-      display:none;
-    }
-
-    .step-chip.current{
-      color:#f6fbff;
-      box-shadow:0 0 0 1px rgba(99,207,255,.09), 0 0 10px rgba(99,207,255,.03);
-    }
-
-    .step-chip.done{
-      color:#e2c58e;
-      box-shadow:0 0 0 1px rgba(226,197,142,.09), 0 0 10px rgba(226,197,142,.03);
-    }
+                                }
 
     .flow-lines{
       display:flex;
@@ -3354,8 +2646,7 @@
       color:#dff4ff;
       border:1px solid rgba(143,214,255,.13);
       background:linear-gradient(180deg, rgba(143,214,255,.10), rgba(143,214,255,.032));
-    }
-
+        }
     .more-wallet-card{
       padding:10px 10px 9px;
     }
@@ -3962,8 +3253,7 @@
       font-size:11px;
       font-weight:900;
       line-height:1.35;
-    }
-
+      }
     @media (max-width:760px){
       .shell-assistant{
         grid-template-columns:minmax(0,1fr) 50px;
@@ -3991,35 +3281,41 @@
       }
 
       .page{
-        padding:12px 10px 58px;
+        padding:12px 10px 110px;
       }
 
       .page-shell{
         gap:10px;
       }
 
-      .bottom-controls{
-        grid-template-columns:48px 74px 48px;
-        gap:10px;
+      .bottom-nav-wrap,
+      .exit-nav-wrap{
+        left:12px;
+        right:12px;
+        bottom:10px;
+        height:72px;
       }
 
-      .nav-circle{
-        width:48px;
-        height:48px;
+      .bottom-nav,
+      .exit-nav{
+        height:62px;
+        border-radius:24px;
       }
 
-      .nav-circle span{
-        font-size:22px;
+      .nav-btn{
+        font-size:11px;
       }
 
-      .exit-center{
-        min-width:74px;
-        height:40px;
+      .nav-btn .nav-label{
+        min-width:44px;
+        height:27px;
+        padding:0 4px;
       }
 
-      .exit-center span{
-        font-size:9px;
-        letter-spacing:.14em;
+      .nav-btn .nav-label.get-paid{
+        font-size:9.3px;
+        min-width:54px;
+        padding:0 3px;
       }
 
       .connect-stars{
@@ -4400,8 +3696,8 @@
       }
 
       .token-pill{
-        min-width:104px;
-        width:104px;
+        min-width:118px;
+        width:118px;
         height:46px;
         border-radius:12px;
         padding:0 8px;
@@ -4542,11 +3838,11 @@
       :root{
         --frame-x:18px;
         --frame-top:20px;
-        --frame-bottom:20px;
+        --frame-bottom:10px;
 
         --assistant-h:100px;
         --joint-h:24px;
-        --bottom-h:94px;
+        --bottom-h:42px;
 
         --side-rail-w:10px;
 
@@ -4557,19 +3853,11 @@
         --cover-radius:0px;
       }
 
-      .bottom-controls{
-        grid-template-columns:58px 90px 58px;
-        gap:16px;
-      }
-
-      .nav-circle{
-        width:58px;
-        height:58px;
-      }
-
-      .exit-center{
-        min-width:90px;
-        height:46px;
+      .bottom-nav-wrap,
+      .exit-nav-wrap{
+        left:24px;
+        right:24px;
+        bottom:16px;
       }
     }
 
@@ -4577,11 +3865,11 @@
       :root{
         --frame-x:24px;
         --frame-top:22px;
-        --frame-bottom:22px;
+        --frame-bottom:12px;
 
         --assistant-h:104px;
         --joint-h:24px;
-        --bottom-h:96px;
+        --bottom-h:46px;
 
         --side-rail-w:12px;
 
@@ -4591,26 +3879,14 @@
       }
 
       .page{
-        padding:18px 22px 70px;
+        padding:18px 22px 120px;
       }
 
-      .bottom-controls{
-        grid-template-columns:62px 96px 62px;
-        gap:18px;
-      }
-
-      .nav-circle{
-        width:62px;
-        height:62px;
-      }
-
-      .nav-circle span{
-        font-size:26px;
-      }
-
-      .exit-center{
-        min-width:96px;
-        height:48px;
+      .bottom-nav-wrap,
+      .exit-nav-wrap{
+        left:34px;
+        right:34px;
+        bottom:18px;
       }
     }
 
@@ -4618,36 +3894,40 @@
       :root{
         --frame-x:10px;
         --frame-top:16px;
-        --frame-bottom:12px;
+        --frame-bottom:8px;
 
         --assistant-h:92px;
-        --bottom-h:80px;
+        --bottom-h:34px;
 
         --screen-radius:11px;
         --assistant-radius:11px;
       }
 
-      .bottom-controls{
-        grid-template-columns:46px 70px 46px;
-        gap:8px;
+      .bottom-nav-wrap,
+      .exit-nav-wrap{
+        left:9px;
+        right:9px;
+        bottom:8px;
       }
 
-      .nav-circle{
-        width:46px;
-        height:46px;
+      .bottom-nav,
+      .exit-nav{
+        height:60px;
+        border-radius:22px;
       }
 
-      .nav-circle span{
-        font-size:21px;
+      .nav-btn{
+        font-size:10.4px;
       }
 
-      .exit-center{
-        min-width:70px;
-        height:38px;
+      .nav-btn .nav-label{
+        min-width:39px;
+        padding:0 3px;
       }
 
-      .exit-center span{
-        font-size:8px;
+      .nav-btn .nav-label.get-paid{
+        font-size:8.6px;
+        min-width:50px;
       }
 
       .cover-brand{
@@ -4689,8 +3969,8 @@
           </div>
 
           <div class="connect-note">
-            <p>Make sure your wallet is on Arc Testnet.</p>
-            <p>Use a test wallet for safer interaction.</p>
+            <p>Connect your wallet to enter StableFlow.</p>
+            <p>Use Arc Testnet and a test wallet for safer interaction.</p>
           </div>
 
           <div class="wallet-list">
@@ -4717,7 +3997,6 @@
               </div>
               <div class="wallet-go">Connect</div>
             </button>
-
             <button class="wallet-row" data-wallet="OKX" type="button">
               <div class="wallet-badge">
                 <img src="okx.png" alt="OKX" onload="this.nextElementSibling.style.display='none'" onerror="this.style.display='none'">
@@ -5073,7 +4352,6 @@
           </div>
         </div>
       </article>
-
       <article class="page" data-page="get-paid">
         <div class="page-shell">
           <div class="request-top">
@@ -5325,18 +4603,36 @@
       </article>
     </section>
 
-    <div class="bottom-controls">
-      <button class="nav-circle" id="prevNavBtn" type="button" aria-label="Previous page">
-        <span>‹</span>
-      </button>
+    <div class="exit-nav-wrap">
+      <nav class="exit-nav">
+        <button class="exit-center-btn" id="exitBtn" type="button">EXIT</button>
+      </nav>
+      <div class="nav-halo"></div>
+    </div>
 
-      <button class="exit-center" id="exitBtn" type="button" aria-label="Exit">
-        <span>Exit</span>
-      </button>
+    <div class="bottom-nav-wrap">
+      <nav class="bottom-nav" id="bottomNav">
+        <button class="nav-btn" type="button" data-index="0" data-page-target="swap">
+          <span class="nav-label">Swap</span>
+        </button>
 
-      <button class="nav-circle" id="nextNavBtn" type="button" aria-label="Next page">
-        <span>›</span>
-      </button>
+        <button class="nav-btn" type="button" data-index="1" data-page-target="pay">
+          <span class="nav-label">Pay</span>
+        </button>
+
+        <button class="nav-btn active" type="button" data-index="2" data-page-target="home">
+          <span class="nav-label">Home</span>
+        </button>
+
+        <button class="nav-btn" type="button" data-index="3" data-page-target="get-paid">
+          <span class="nav-label get-paid">Get Paid</span>
+        </button>
+
+        <button class="nav-btn" type="button" data-index="4" data-page-target="more">
+          <span class="nav-label">More</span>
+        </button>
+      </nav>
+      <div class="nav-halo"></div>
     </div>
 
     <section class="cover" id="cover">
@@ -5421,16 +4717,15 @@
       "function getAmountOut(address tokenIn,uint256 amountIn) view returns (uint256)",
       "function swap(address tokenIn,uint256 amountIn)"
     ];
-
     const ASSISTANT_I18N = {
       en: {
         fallback: { kicker: "Assistant", title: "StableFlow", text: "Ready." },
-        onboarding_1: { kicker: "Hello", title: "StableFlow is awake", text: "Open by logo, start on Connect, and use the bottom nav to explore." },
+        onboarding_1: { kicker: "Hello", title: "StableFlow is awake", text: "Connect your wallet to enter, or tap EXIT to close." },
         onboarding_2: { kicker: "Guide", title: "Arc Testnet is required", text: "Use Arc Testnet before trying swap or pay." },
-        onboarding_3: { kicker: "Guide", title: "Use the premium nav buttons", text: "There is no swipe now. Use the bottom arrows to move through the shell." },
+        onboarding_3: { kicker: "Guide", title: "Navigation unlocks after connect", text: "After connecting, use Swap, Pay, Home, Get Paid and More." },
         shell_closed: { kicker: "Connect", title: "Open the shell", text: "Tap the logo to wake up StableFlow." },
-        connect_page: { kicker: "Connect", title: "MetaMask recommended", text: "Browser extension and in-wallet browser both work. Arc Testnet is required." },
-        browse_page: { kicker: "Browse", title: "Use the bottom buttons", text: "You can navigate the pages with the left and right premium controls." },
+        connect_page: { kicker: "Connect", title: "Connect to enter StableFlow", text: "Choose your wallet. EXIT closes the shell before connection." },
+        browse_page: { kicker: "Navigation", title: "Use the bottom menu", text: "Move directly between Swap, Pay, Home, Get Paid and More." },
         get_paid_connect_required: { kicker: "Get Paid", title: "Connect required", text: "Generate takes you to Connect when no wallet is active." },
         home_ready: { kicker: "Home guide", title: "Your profile grows with activity", text: "Each successful swap or pay adds +1 LV until level 10." },
 
@@ -5486,21 +4781,21 @@
 
         wallet_none: { kicker: "Wallet", title: "No wallet detected", text: "Install MetaMask or open StableFlow in a wallet browser." },
         wallet_no_provider: { kicker: "Wallet", title: "No provider found", text: "StableFlow could not find an injected wallet provider." },
-        wallet_connected: { kicker: "Wallet", title: "{wallet} connected", text: "StableFlow is live on Arc Testnet." },
+        wallet_connected: { kicker: "Wallet", title: "{wallet} connected", text: "StableFlow is live. Bottom navigation is now unlocked." },
         wallet_failed: { kicker: "Wallet", title: "Connection failed", text: "The wallet connection was rejected or interrupted." },
         network_failed: { kicker: "Network", title: "Arc setup failed", text: "Please add or switch to Arc Testnet and try again." },
         network_wrong: { kicker: "Network", title: "Wrong network", text: "Please switch back to Arc Testnet." },
-        disconnected: { kicker: "Disconnected", title: "Wallet disconnected", text: "Connect came back and the main shell returned to browse mode." }
+        disconnected: { kicker: "Disconnected", title: "Wallet disconnected", text: "Connect returned. The inside pages are locked until wallet connection." }
       },
 
       es: {
         fallback: { kicker: "Asistente", title: "StableFlow", text: "Listo." },
-        onboarding_1: { kicker: "Hola", title: "StableFlow está activo", text: "Abre por el logo, empieza en Connect y usa la navegación inferior." },
+        onboarding_1: { kicker: "Hola", title: "StableFlow está activo", text: "Conecta tu wallet para entrar, o toca EXIT para cerrar." },
         onboarding_2: { kicker: "Guía", title: "Arc Testnet es obligatoria", text: "Usa Arc Testnet antes de probar swap o pay." },
-        onboarding_3: { kicker: "Guía", title: "Usa los botones premium", text: "Ya no hay swipe. Usa las flechas inferiores para navegar." },
+        onboarding_3: { kicker: "Guía", title: "La navegación se desbloquea al conectar", text: "Después de conectar, usa Swap, Pay, Home, Get Paid y More." },
         shell_closed: { kicker: "Connect", title: "Abre la shell", text: "Toca el logo para activar StableFlow." },
-        connect_page: { kicker: "Connect", title: "MetaMask recomendada", text: "La extensión del navegador y el navegador interno de la wallet funcionan. Arc Testnet es obligatoria." },
-        browse_page: { kicker: "Browse", title: "Usa los botones inferiores", text: "Puedes navegar las páginas con los controles premium de izquierda y derecha." },
+        connect_page: { kicker: "Connect", title: "Conecta para entrar", text: "Elige tu wallet. EXIT cierra la shell antes de conectar." },
+        browse_page: { kicker: "Navegación", title: "Usa el menú inferior", text: "Muévete directo entre Swap, Pay, Home, Get Paid y More." },
         get_paid_connect_required: { kicker: "Get Paid", title: "Conexión requerida", text: "Generate te lleva a Connect cuando no hay una wallet activa." },
         home_ready: { kicker: "Home guide", title: "Tu perfil crece con actividad", text: "Cada swap o pay exitoso suma +1 LV hasta el nivel 10." },
 
@@ -5556,11 +4851,11 @@
 
         wallet_none: { kicker: "Wallet", title: "No se detectó wallet", text: "Instala MetaMask o abre StableFlow dentro del navegador de una wallet." },
         wallet_no_provider: { kicker: "Wallet", title: "No se encontró provider", text: "StableFlow no pudo encontrar un provider de wallet inyectado." },
-        wallet_connected: { kicker: "Wallet", title: "{wallet} conectada", text: "StableFlow ya está activo en Arc Testnet." },
+        wallet_connected: { kicker: "Wallet", title: "{wallet} conectada", text: "StableFlow ya está activo. La navegación inferior fue desbloqueada." },
         wallet_failed: { kicker: "Wallet", title: "La conexión falló", text: "La conexión de la wallet fue rechazada o interrumpida." },
         network_failed: { kicker: "Network", title: "La configuración de Arc falló", text: "Agrega Arc Testnet o cambia a esa red e inténtalo de nuevo." },
         network_wrong: { kicker: "Network", title: "Red incorrecta", text: "Vuelve a cambiar a Arc Testnet." },
-        disconnected: { kicker: "Disconnected", title: "Wallet desconectada", text: "Connect volvió y la shell principal regresó al modo de navegación." }
+        disconnected: { kicker: "Disconnected", title: "Wallet desconectada", text: "Connect volvió. Las páginas internas quedan bloqueadas hasta conectar." }
       }
     };
 
@@ -5659,8 +4954,7 @@
     const app = document.getElementById("app");
     const openHotspot = document.getElementById("openHotspot");
     const exitBtn = document.getElementById("exitBtn");
-    const prevNavBtn = document.getElementById("prevNavBtn");
-    const nextNavBtn = document.getElementById("nextNavBtn");
+    const bottomNavBtns = Array.from(document.querySelectorAll(".nav-btn"));
     const pages = Array.from(document.querySelectorAll(".page"));
     const txPill = document.getElementById("txPill");
     const assistantSlot = document.getElementById("assistantSlot");
@@ -5786,9 +5080,7 @@
     }
 
     function getRoute(){
-      return state.connected
-        ? ["home","swap","pay","get-paid","more"]
-        : ["connect","home","swap","pay","get-paid","more"];
+      return state.connected ? ["swap","pay","home","get-paid","more"] : ["connect"];
     }
 
     function normalizeRouteTarget(input){
@@ -5804,30 +5096,39 @@
       if (typeof input === "string") {
         if (!route.includes(input)) {
           const fallback = state.connected ? "home" : "connect";
-          return {
-            route,
-            idx: route.indexOf(fallback),
-            page: fallback
-          };
+          return { route, idx: route.indexOf(fallback), page: fallback };
         }
-        return {
-          route,
-          idx: route.indexOf(input),
-          page: input
-        };
+        return { route, idx: route.indexOf(input), page: input };
       }
 
       const fallback = state.connected ? "home" : "connect";
-      return {
-        route,
-        idx: route.indexOf(fallback),
-        page: fallback
-      };
+      return { route, idx: route.indexOf(fallback), page: fallback };
     }
 
-    function tokenAddr(symbol){
-      return ADDR[symbol];
+    function syncNavActive(){
+      const route = getRoute();
+      const idx = route.indexOf(state.currentPage);
+
+      const navMap = {
+        "swap": 0,
+        "pay": 1,
+        "home": 2,
+        "get-paid": 3,
+        "more": 4
+      };
+
+      const navIndex = state.connected ? (navMap[state.currentPage] ?? 2) : 2;
+
+      document.documentElement.style.setProperty("--nav-active", String(navIndex));
+
+      bottomNavBtns.forEach(btn => {
+        btn.classList.toggle("active", Number(btn.dataset.index) === navIndex);
+      });
+
+      shellState.routeIndex = idx >= 0 ? idx : 0;
     }
+
+    function tokenAddr(symbol){ return ADDR[symbol]; }
 
     function tokenImage(symbol){
       if (symbol === "USDC") return "usdc.png";
@@ -5869,22 +5170,16 @@
     function loadAssistantLanguage(){
       try{
         const saved = localStorage.getItem("stableflow_assistant_lang");
-        if (saved && ASSISTANT_I18N[saved]) {
-          state.assistant.lang = saved;
-        }
+        if (saved && ASSISTANT_I18N[saved]) state.assistant.lang = saved;
       }catch{}
     }
 
     function saveAssistantLanguage(){
-      try{
-        localStorage.setItem("stableflow_assistant_lang", state.assistant.lang);
-      }catch{}
+      try{ localStorage.setItem("stableflow_assistant_lang", state.assistant.lang); }catch{}
     }
 
     function saveMoreNotes(){
-      try{
-        localStorage.setItem("stableflow_more_notes_v1", JSON.stringify(state.more.notes));
-      }catch{}
+      try{ localStorage.setItem("stableflow_more_notes_v1", JSON.stringify(state.more.notes)); }catch{}
     }
 
     function loadMoreNotes(){
@@ -5897,25 +5192,20 @@
     }
 
     function saveGraphData(){
-      try{
-        localStorage.setItem("stableflow_graph_v1", JSON.stringify(window.StableFlowGraph.getData()));
-      }catch{}
+      try{ localStorage.setItem("stableflow_graph_v1", JSON.stringify(window.StableFlowGraph.getData())); }catch{}
     }
 
     function loadGraphData(){
       try{
         const raw = localStorage.getItem("stableflow_graph_v1");
         if (!raw) return;
-        const parsed = JSON.parse(raw);
-        window.StableFlowGraph.sync(parsed);
+        window.StableFlowGraph.sync(JSON.parse(raw));
       }catch{}
     }
 
     function incrementDaily(type){
       const today = todayKey();
-      if (state.stats.daily.date !== today) {
-        state.stats.daily = { date: today, swap: 0, pay: 0 };
-      }
+      if (state.stats.daily.date !== today) state.stats.daily = { date: today, swap: 0, pay: 0 };
       state.stats.daily[type] += 1;
       state.stats.totalTx += 1;
       saveStats();
@@ -5948,9 +5238,7 @@
     function sanitizeNumeric(value){
       let clean = String(value || "").replace(",", ".").replace(/[^0-9.]/g, "");
       const firstDot = clean.indexOf(".");
-      if (firstDot !== -1) {
-        clean = clean.slice(0, firstDot + 1) + clean.slice(firstDot + 1).replace(/\./g, "");
-      }
+      if (firstDot !== -1) clean = clean.slice(0, firstDot + 1) + clean.slice(firstDot + 1).replace(/\./g, "");
       return clean;
     }
 
@@ -5963,11 +5251,7 @@
     function parseAmountToBN(value, decimals){
       const clean = sanitizeNumeric(value);
       if (!clean) return null;
-      try{
-        return ethers.utils.parseUnits(clean, decimals);
-      }catch{
-        return null;
-      }
+      try{ return ethers.utils.parseUnits(clean, decimals); }catch{ return null; }
     }
 
     function roundDownBN(value, decimals, displayDp){
@@ -6006,10 +5290,7 @@
       const floor = ethers.utils.parseUnits(stable === "USDC" ? "0.0040" : "0.0020", 18);
       const cap = ethers.utils.parseUnits(stable === "USDC" ? "0.0500" : "0.0300", 18);
 
-      const curveFloat = stable === "USDC"
-        ? (0.004 + ratio * 0.046)
-        : (0.002 + ratio * 0.020);
-
+      const curveFloat = stable === "USDC" ? (0.004 + ratio * 0.046) : (0.002 + ratio * 0.020);
       const curveBN = ethers.utils.parseUnits(curveFloat.toFixed(6), 18);
       const pctBN = rawIn.mul(stable === "USDC" ? 8 : 5).div(10000);
 
@@ -6068,9 +5349,7 @@
 
     function setAssistant(tone, kicker, title, text, key = "", force = false){
       const now = Date.now();
-      if (!force && key && state.assistant.lastKey === key && (now - state.assistant.lastAt) < 550) {
-        return;
-      }
+      if (!force && key && state.assistant.lastKey === key && (now - state.assistant.lastAt) < 550) return;
 
       renderAssistantPayload(tone, kicker, title, text);
 
@@ -6119,24 +5398,18 @@
       holdAssistantKey("onboarding_1", "warn", {}, 1400);
 
       state.assistant.onboardingTimers.push(setTimeout(() => {
-        if (!state.connected && state.shellOpen && state.currentPage === "connect") {
-          holdAssistantKey("onboarding_2", "warn", {}, 1500);
-        }
+        if (!state.connected && state.shellOpen && state.currentPage === "connect") holdAssistantKey("onboarding_2", "warn", {}, 1500);
       }, 1600));
 
       state.assistant.onboardingTimers.push(setTimeout(() => {
-        if (!state.connected && state.shellOpen && state.currentPage === "connect") {
-          holdAssistantKey("onboarding_3", "warn", {}, 1700);
-        }
+        if (!state.connected && state.shellOpen && state.currentPage === "connect") holdAssistantKey("onboarding_3", "warn", {}, 1700);
       }, 3400));
     }
 
     function syncMoreLanguageUI(){
       const current = state.assistant.lang === "es" ? "Español" : "English";
       moreLangCurrent.textContent = current;
-      moreLangOptions.forEach(btn => {
-        btn.classList.toggle("active", btn.dataset.lang === state.assistant.lang);
-      });
+      moreLangOptions.forEach(btn => btn.classList.toggle("active", btn.dataset.lang === state.assistant.lang));
     }
 
     function setAssistantLanguage(lang){
@@ -6148,61 +5421,37 @@
     }
 
     function updateBottomState(){
-      exitBtn.classList.toggle("off", state.connected);
+      app.classList.toggle("wallet-connected", state.connected);
       homeDisconnectBtn.classList.toggle("disabled", !state.connected);
-
-      const route = getRoute();
-      const showNav = route.length > 1;
-      prevNavBtn.classList.toggle("off", !showNav);
-      nextNavBtn.classList.toggle("off", !showNav);
+      syncNavActive();
     }
 
-    function setPage(next, smooth = true){
+    function setPage(next, smooth = false){
       const resolved = normalizeRouteTarget(next);
       shellState.routeIndex = resolved.idx;
       state.currentPage = resolved.page;
 
-      pages.forEach(page => {
-        page.classList.toggle("active", page.dataset.page === resolved.page);
-      });
+      pages.forEach(page => page.classList.toggle("active", page.dataset.page === resolved.page));
 
       const activePage = pages.find(p => p.dataset.page === resolved.page);
-      if (activePage) {
-        activePage.scrollTo({
-          top: 0,
-          behavior: smooth ? "smooth" : "auto"
-        });
-      }
+      if (activePage) activePage.scrollTo({ top: 0, behavior: "auto" });
 
       updateBottomState();
       updateAssistant();
     }
 
-    function goPage(delta){
-      const route = getRoute();
-      if (route.length < 2) return;
-
-      let idx = shellState.routeIndex + delta;
-      if (idx < 0) idx = route.length - 1;
-      if (idx >= route.length) idx = 0;
-
-      setPage(idx);
-    }
-
     function openShell(){
       state.shellOpen = true;
       app.classList.add("open");
+      app.classList.toggle("wallet-connected", state.connected);
       updateBottomState();
 
       if (!state.connected) {
         setPage("connect", false);
         startAssistantOnboarding();
       } else {
-        if (state.currentPage === "connect") {
-          setPage("home", false);
-        } else {
-          setPage(state.currentPage, false);
-        }
+        if (state.currentPage === "connect") setPage("home", false);
+        else setPage(state.currentPage, false);
       }
 
       updateAssistant();
@@ -6210,10 +5459,15 @@
 
     function closeShell(force = false){
       if (state.connected && !force) return;
+
+      state.connected = false;
       state.shellOpen = false;
+      app.classList.remove("wallet-connected");
       app.classList.remove("open");
+
       clearTxNotice();
       clearAssistantOnboarding();
+
       setPage("connect", false);
       updateBottomState();
       updateAssistant();
@@ -6224,9 +5478,7 @@
       txPill.textContent = label;
       txPill.classList.add("active");
 
-      shellState.txNoticeTimer = setTimeout(() => {
-        clearTxNotice();
-      }, ms);
+      shellState.txNoticeTimer = setTimeout(() => clearTxNotice(), ms);
     }
 
     function clearTxNotice(){
@@ -6248,9 +5500,7 @@
     }
 
     function refreshHomeUI(){
-      profileWallet.textContent = state.connected
-        ? `${state.preferredWallet || "Wallet"} · ${shortenAddress(state.address)}`
-        : "Wallet not connected";
+      profileWallet.textContent = state.connected ? `${state.preferredWallet || "Wallet"} · ${shortenAddress(state.address)}` : "Wallet not connected";
       refreshHomeProgress();
       homeDisconnectBtn.classList.toggle("disabled", !state.connected);
     }
@@ -6309,17 +5559,12 @@
 
     async function loadTokenMeta(){
       if (!state.provider) return;
+
       for (const symbol of ["LMTV", "USDC", "EURC"]) {
         try{
           const c = new ethers.Contract(tokenAddr(symbol), ERC20_ABI, state.provider);
-          const [decimals, onchainSymbol] = await Promise.all([
-            c.decimals(),
-            c.symbol()
-          ]);
-          state.tokenMeta[symbol] = {
-            symbol: onchainSymbol || symbol,
-            decimals: Number(decimals)
-          };
+          const [decimals, onchainSymbol] = await Promise.all([c.decimals(), c.symbol()]);
+          state.tokenMeta[symbol] = { symbol: onchainSymbol || symbol, decimals: Number(decimals) };
         }catch{
           state.tokenMeta[symbol] = state.tokenMeta[symbol] || { symbol, decimals: 18 };
         }
@@ -6328,6 +5573,7 @@
 
     async function refreshBalances(){
       if (!state.provider || !state.address) return;
+
       for (const symbol of ["LMTV", "USDC", "EURC"]) {
         try{
           const c = new ethers.Contract(tokenAddr(symbol), ERC20_ABI, state.provider);
@@ -6336,6 +5582,7 @@
           state.balances[symbol] = ethers.BigNumber.from(0);
         }
       }
+
       refreshSwapUI();
       refreshPayUI();
       updateAssistant();
@@ -6388,25 +5635,22 @@
 
         picked.provider.on?.("chainChanged", async () => {
           const ok2 = await ensureArcNetwork(picked.provider);
-          if (!ok2) {
-            applyAssistantKey("network_wrong", "danger");
-          }
+          if (!ok2) applyAssistantKey("network_wrong", "danger");
           await refreshBalances();
           updateAssistant();
         });
 
         app.classList.add("open");
+        app.classList.add("wallet-connected");
         updateBottomState();
 
         await loadTokenMeta();
         await refreshBalances();
         refreshHomeUI();
         refreshMoreWalletUI();
-        setPage("home");
+        setPage("home", false);
 
-        if (!requestWalletInput.value.trim()) {
-          requestWalletInput.value = state.address;
-        }
+        if (!requestWalletInput.value.trim()) requestWalletInput.value = state.address;
 
         holdAssistantKey("wallet_connected", "success", { wallet: state.preferredWallet }, 1700);
       }catch(err){
@@ -6438,13 +5682,14 @@
 
       state.shellOpen = true;
       app.classList.add("open");
+      app.classList.remove("wallet-connected");
       updateBottomState();
 
       refreshHomeUI();
       refreshMoreWalletUI();
       refreshSwapUI();
       refreshPayUI();
-      setPage("connect");
+      setPage("connect", false);
       applyAssistantKey("disconnected", "warn");
     }
 
@@ -6480,11 +5725,7 @@
 
     async function quoteOut(pair, tokenInAddr, amountIn){
       if (!amountIn || amountIn.lte(0)) return ethers.BigNumber.from(0);
-      try{
-        return await pair.getAmountOut(tokenInAddr, amountIn);
-      }catch{
-        return ethers.BigNumber.from(0);
-      }
+      try{ return await pair.getAmountOut(tokenInAddr, amountIn); }catch{ return ethers.BigNumber.from(0); }
     }
 
     async function getReservesForDirection(pair, tokenInAddr, tokenOutAddr){
@@ -6495,10 +5736,9 @@
         pair.reserve1()
       ]);
 
-      const in0 = token0.toLowerCase() === tokenInAddr.toLowerCase();
-      const out1 = token1.toLowerCase() === tokenOutAddr.toLowerCase();
-
-      if (in0 && out1) return { reserveIn: reserve0, reserveOut: reserve1 };
+      if (token0.toLowerCase() === tokenInAddr.toLowerCase() && token1.toLowerCase() === tokenOutAddr.toLowerCase()) {
+        return { reserveIn: reserve0, reserveOut: reserve1 };
+      }
 
       if (token1.toLowerCase() === tokenInAddr.toLowerCase() && token0.toLowerCase() === tokenOutAddr.toLowerCase()) {
         return { reserveIn: reserve1, reserveOut: reserve0 };
@@ -6527,6 +5767,7 @@
           low = mid.add(1);
         }
       }
+
       return best;
     }
 
@@ -6550,7 +5791,6 @@
     function configurePaySteps(total = 3){
       state.pay.flowTotal = total;
       state.pay.flowPhase = 0;
-
       payStepsRow.classList.toggle("two-step", total === 2);
 
       if (total === 2) {
@@ -6564,9 +5804,7 @@
         payStepChips[2].classList.remove("hidden");
       }
 
-      payStepChips.forEach(chip => {
-        chip.classList.remove("current", "done");
-      });
+      payStepChips.forEach(chip => chip.classList.remove("current", "done"));
     }
 
     function setPayStep(step){
@@ -6587,9 +5825,7 @@
       payPreviewStatus.textContent = "Waiting";
       payFlowOrb.classList.remove("running");
       clearPayLiveAssistant();
-      if (hidePanel) {
-        payFlowPanel.classList.remove("open");
-      }
+      if (hidePanel) payFlowPanel.classList.remove("open");
     }
 
     function updateSwapTokenVisuals(){
@@ -6600,13 +5836,8 @@
       swapTopBadgeImg.alt = state.swap.topToken;
       swapBottomBadgeImg.alt = state.swap.bottomToken;
 
-      const topBal = state.connected
-        ? formatUnitsSmart(state.balances[state.swap.topToken], state.tokenMeta[state.swap.topToken].decimals, 4)
-        : "—";
-
-      const bottomBal = state.connected
-        ? formatUnitsSmart(state.balances[state.swap.bottomToken], state.tokenMeta[state.swap.bottomToken].decimals, 4)
-        : "—";
+      const topBal = state.connected ? formatUnitsSmart(state.balances[state.swap.topToken], state.tokenMeta[state.swap.topToken].decimals, 4) : "—";
+      const bottomBal = state.connected ? formatUnitsSmart(state.balances[state.swap.bottomToken], state.tokenMeta[state.swap.bottomToken].decimals, 4) : "—";
 
       swapTopMeta.textContent = `balance ${topBal}`;
       swapBottomMeta.textContent = `balance ${bottomBal}`;
@@ -6760,6 +5991,7 @@
         state.stats.daily = { date: today, swap: 0, pay: 0 };
         saveStats();
       }
+
       swapDailyText.textContent = `${state.stats.daily.swap} / 7`;
 
       if (state.swap.minOut && state.connected) {
@@ -6900,11 +6132,7 @@
         await refreshBalances();
         resetSwapFields();
 
-        window.StableFlowGraph.addMovement({
-          type: "swap",
-          amount: stableValue,
-          txHash: tx.hash
-        });
+        window.StableFlowGraph.addMovement({ type: "swap", amount: stableValue, txHash: tx.hash });
 
         flashTxDone();
         holdAssistantKey("swap_success", "success", { from: inputSymbol, to: outputSymbol }, 2200);
@@ -6987,11 +6215,7 @@
         const pair = getPairForStable(assetSnapshot, false);
         const rawIn = await quoteInputForDesiredOut(pair, ADDR.LMTV, ADDR[assetSnapshot], desiredOut);
 
-        if (
-          runId !== payQuoteSeq ||
-          amountSnapshot !== payAmountInput.value.trim() ||
-          assetSnapshot !== state.pay.asset
-        ) return;
+        if (runId !== payQuoteSeq || amountSnapshot !== payAmountInput.value.trim() || assetSnapshot !== state.pay.asset) return;
 
         state.pay.rawLmtvNeeded = rawIn;
         state.pay.lmtvNeeded = getBufferedPayInput(rawIn, assetSnapshot, amountSnapshot);
@@ -7164,7 +6388,6 @@
 
         if (needsApprove) {
           configurePaySteps(3);
-
           setPayStep(1);
           payPreviewStatus.textContent = "Approve LMTV";
           setPayLiveAssistantKey("pay_flow_approve", "warn");
@@ -7181,7 +6404,6 @@
           await flushUi(260);
         } else {
           configurePaySteps(2);
-
           setPayStep(1);
           payPreviewStatus.textContent = "Allowance ready";
           setPayLiveAssistantKey("pay_flow_swap_no_approve", "warn");
@@ -7207,17 +6429,11 @@
         if (needsApprove) {
           setPayStep(3);
           payPreviewStatus.textContent = "Swap confirmed";
-          setPayLiveAssistantKey("pay_flow_transfer_3", "warn", {
-            amount: gainedText,
-            asset: stable
-          });
+          setPayLiveAssistantKey("pay_flow_transfer_3", "warn", { amount: gainedText, asset: stable });
         } else {
           setPayStep(2);
           payPreviewStatus.textContent = "Swap confirmed";
-          setPayLiveAssistantKey("pay_flow_transfer_2", "warn", {
-            amount: gainedText,
-            asset: stable
-          });
+          setPayLiveAssistantKey("pay_flow_transfer_2", "warn", { amount: gainedText, asset: stable });
         }
 
         await flushUi(260);
@@ -7231,34 +6447,21 @@
         await refreshBalances();
         resetPayFields();
 
-        window.StableFlowGraph.addMovement({
-          type: "pay",
-          amount: Number(desiredText),
-          txHash: txTransfer.hash
-        });
+        window.StableFlowGraph.addMovement({ type: "pay", amount: Number(desiredText), txHash: txTransfer.hash });
 
         payPreviewStatus.textContent = "Complete";
         clearPayLiveAssistant();
         flashTxDone();
-        holdAssistantKey("pay_success", "success", {
-          amount: desiredText,
-          asset: stable
-        }, 2300);
+        holdAssistantKey("pay_success", "success", { amount: desiredText, asset: stable }, 2300);
       }catch(err){
         console.error(err);
         clearPayLiveAssistant();
 
-        if (phase === "approve") {
-          applyAssistantKey("pay_approve_fail", "danger");
-        } else if (phase === "swap") {
-          applyAssistantKey("pay_swap_fail", "danger");
-        } else if (phase === "post-swap-check") {
-          applyAssistantKey("pay_target_fail", "danger");
-        } else if (phase === "transfer") {
-          applyAssistantKey("pay_transfer_fail", "danger");
-        } else {
-          applyAssistantKey("pay_fail", "danger");
-        }
+        if (phase === "approve") applyAssistantKey("pay_approve_fail", "danger");
+        else if (phase === "swap") applyAssistantKey("pay_swap_fail", "danger");
+        else if (phase === "post-swap-check") applyAssistantKey("pay_target_fail", "danger");
+        else if (phase === "transfer") applyAssistantKey("pay_transfer_fail", "danger");
+        else applyAssistantKey("pay_fail", "danger");
 
         resetPayFlowUi(true);
       }finally{
@@ -7417,11 +6620,9 @@
     }
 
     function resetRequestFields(){
-      if (state.connected && state.address) {
-        requestWalletInput.value = state.address;
-      } else {
-        requestWalletInput.value = "";
-      }
+      if (state.connected && state.address) requestWalletInput.value = state.address;
+      else requestWalletInput.value = "";
+
       state.request.amount = "";
       requestNoteInput.value = "";
       state.request.link = "";
@@ -7540,13 +6741,9 @@
       try{
         let payload;
 
-        if (str.includes("#q=")) {
-          payload = decodeCompactPayload(str.split("#q=")[1]);
-        } else if (str.startsWith("q=")) {
-          payload = decodeCompactPayload(str.replace("q=", ""));
-        } else {
-          return false;
-        }
+        if (str.includes("#q=")) payload = decodeCompactPayload(str.split("#q=")[1]);
+        else if (str.startsWith("q=")) payload = decodeCompactPayload(str.replace("q=", ""));
+        else return false;
 
         if (!payload.wallet || !ethers.utils.isAddress(payload.wallet)) return false;
 
@@ -7555,7 +6752,8 @@
         if (payload.note) payNoteInput.value = payload.note;
         setPayAsset(payload.asset === "EURC" ? "EURC" : "USDC");
         openShell();
-        setPage("pay");
+        if (state.connected) setPage("pay");
+        else setPage("connect");
         return true;
       }catch{
         return false;
@@ -7567,25 +6765,16 @@
       if (!hash) return;
 
       let ok = false;
-      if (hash.startsWith("#q=")) {
-        ok = consumeRequestString(hash.slice(1));
-      }
+      if (hash.startsWith("#q=")) ok = consumeRequestString(hash.slice(1));
 
-      if (ok) {
-        history.replaceState({}, "", location.pathname + location.search);
-      }
+      if (ok) history.replaceState({}, "", location.pathname + location.search);
     }
 
     function updateAssistant(){
       if (Date.now() < state.assistantHoldUntil) return;
 
       if (state.pay.busy && state.pay.liveAssistant) {
-        applyAssistantKey(
-          state.pay.liveAssistant.key,
-          state.pay.liveAssistant.tone,
-          state.pay.liveAssistant.vars || {},
-          true
-        );
+        applyAssistantKey(state.pay.liveAssistant.key, state.pay.liveAssistant.tone, state.pay.liveAssistant.vars || {}, true);
         return;
       }
 
@@ -7594,18 +6783,7 @@
           applyAssistantKey("shell_closed", "warn");
           return;
         }
-
-        if (state.currentPage === "connect") {
-          applyAssistantKey("connect_page", "warn");
-          return;
-        }
-
-        if (state.currentPage === "get-paid") {
-          applyAssistantKey("get_paid_connect_required", "warn");
-          return;
-        }
-
-        applyAssistantKey("browse_page", "warn");
+        applyAssistantKey("connect_page", "warn");
         return;
       }
 
@@ -7725,32 +6903,20 @@
         return;
       }
 
-      if (state.currentPage === "more") {
-        applyAssistantKey("more_placeholder", "success");
-      }
+      if (state.currentPage === "more") applyAssistantKey("more_placeholder", "success");
     }
 
-    function clamp(value, min, max){
-      return Math.max(min, Math.min(max, value));
-    }
+    function clamp(value, min, max){ return Math.max(min, Math.min(max, value)); }
 
     function formatGraphVolume(value){
       const number = Number(value || 0);
-
-      if(number >= 1000000){
-        return (number / 1000000).toFixed(1) + "M";
-      }
-
-      if(number >= 1000){
-        return (number / 1000).toFixed(1) + "K";
-      }
-
+      if(number >= 1000000) return (number / 1000000).toFixed(1) + "M";
+      if(number >= 1000) return (number / 1000).toFixed(1) + "K";
       return number.toFixed(0);
     }
 
     function smoothPath(points){
       if(points.length < 2) return "";
-
       let d = `M ${points[0].x} ${points[0].y}`;
 
       for(let i = 0; i < points.length - 1; i++){
@@ -7795,20 +6961,13 @@
 
         if(col >= activeCols) return;
 
-        const sourceIndex = clamp(
-          Math.floor((col / COLS) * values.length),
-          0,
-          Math.max(values.length - 1, 0)
-        );
-
+        const sourceIndex = clamp(Math.floor((col / COLS) * values.length), 0, Math.max(values.length - 1, 0));
         const level = Math.ceil((values[sourceIndex] / max) * ROWS);
         const rowFromBottom = ROWS - row;
 
         if(rowFromBottom <= level){
           cell.classList.add("active");
-          if(col >= activeCols - 2){
-            cell.classList.add("hot");
-          }
+          if(col >= activeCols - 2) cell.classList.add("hot");
         }
       });
     }
@@ -7819,9 +6978,7 @@
         const rod = document.createElement("div");
         rod.className = index % 3 === 0 ? "sf-rod blue" : "sf-rod";
 
-        if(index > points.length - 4){
-          rod.classList.add("hot");
-        }
+        if(index > points.length - 4) rod.classList.add("hot");
 
         rod.style.left = point.x + "px";
         rod.style.height = Math.max(18, 112 - point.y) + "px";
@@ -7876,15 +7033,10 @@
 
     function renderGraph(){
       const data = StableFlowGraphState.movements.slice(-15);
-
       const values = data.map(item => {
         const type = String(item.type || "tx").toLowerCase();
         const amount = Number(item.amount || 0);
-
-        if(type === "qr"){
-          return Math.max(1, amount * .28);
-        }
-
+        if(type === "qr") return Math.max(1, amount * .28);
         return amount;
       });
 
@@ -7907,18 +7059,10 @@
       const cumulativeMax = Math.max(...cumulative, 1);
 
       const points = cumulative.map((value, index) => {
-        const x = cumulative.length === 1
-          ? w / 2
-          : padX + (usableW / (cumulative.length - 1)) * index;
-
+        const x = cumulative.length === 1 ? w / 2 : padX + (usableW / (cumulative.length - 1)) * index;
         const normalized = value / cumulativeMax;
         const y = padTop + usableH - normalized * usableH;
-
-        return {
-          x,
-          y: clamp(y, padTop, h - padBottom),
-          value
-        };
+        return { x, y: clamp(y, padTop, h - padBottom), value };
       });
 
       if(points.length){
@@ -7977,10 +7121,7 @@
       },
 
       addQR(amount){
-        this.addMovement({
-          type:"qr",
-          amount:Number(amount || 1)
-        });
+        this.addMovement({ type:"qr", amount:Number(amount || 1) });
       },
 
       setStats(stats){
@@ -8005,17 +7146,9 @@
       },
 
       sync(data){
-        if(data && Array.isArray(data.movements)){
-          this.setMovements(data.movements);
-        }
-
-        if(data && data.stats){
-          this.setStats(data.stats);
-        }
-
-        if(data && typeof data.volume !== "undefined"){
-          this.setVolume(data.volume);
-        }
+        if(data && Array.isArray(data.movements)) this.setMovements(data.movements);
+        if(data && data.stats) this.setStats(data.stats);
+        if(data && typeof data.volume !== "undefined") this.setVolume(data.volume);
       },
 
       getData(){
@@ -8035,9 +7168,7 @@
     };
 
     window.addEventListener("stableflow:movement", event => {
-      if(event.detail){
-        window.StableFlowGraph.addMovement(event.detail);
-      }
+      if(event.detail) window.StableFlowGraph.addMovement(event.detail);
     });
 
     window.addEventListener("stableflow:qr", event => {
@@ -8046,9 +7177,7 @@
     });
 
     window.addEventListener("stableflow:graph-sync", event => {
-      if(event.detail){
-        window.StableFlowGraph.sync(event.detail);
-      }
+      if(event.detail) window.StableFlowGraph.sync(event.detail);
     });
 
     function normalizeNote(note){
@@ -8069,21 +7198,14 @@
     function createMoreEmptyState(){
       const empty = document.createElement("div");
       empty.className = "more-empty-state";
-      empty.textContent = state.connected
-        ? "Get Paid notes will appear here."
-        : "Connect wallet to view your notes.";
+      empty.textContent = state.connected ? "Get Paid notes will appear here." : "Connect wallet to view your notes.";
       return empty;
     }
 
     function renderMiniQr(container, link){
       container.innerHTML = "";
       if (!link || typeof QRCode === "undefined") return;
-      new QRCode(container, {
-        text: link,
-        width: 41,
-        height: 41,
-        correctLevel: QRCode.CorrectLevel.L
-      });
+      new QRCode(container, { text: link, width: 41, height: 41, correctLevel: QRCode.CorrectLevel.L });
     }
 
     function attachMoreReceiptActions(article, note){
@@ -8180,9 +7302,7 @@
         return;
       }
 
-      state.more.notes.forEach(note => {
-        notesPanel.appendChild(createMoreReceiptNote(normalizeNote(note)));
-      });
+      state.more.notes.forEach(note => notesPanel.appendChild(createMoreReceiptNote(normalizeNote(note))));
     }
 
     function setMoreNotes(notes = []){
@@ -8213,12 +7333,19 @@
     });
 
     exitBtn.addEventListener("click", () => {
-      if (state.connected) return;
-      closeShell();
+      app.classList.remove("wallet-connected");
+      closeShell(true);
     });
 
-    prevNavBtn.addEventListener("click", () => goPage(-1));
-    nextNavBtn.addEventListener("click", () => goPage(1));
+    bottomNavBtns.forEach(btn => {
+      btn.addEventListener("click", () => {
+        if (!state.connected) return;
+        const index = Number(btn.dataset.index);
+        const target = btn.dataset.pageTarget;
+        document.documentElement.style.setProperty("--nav-active", String(index));
+        setPage(target, false);
+      });
+    });
 
     document.querySelectorAll("[data-wallet]").forEach(btn => {
       btn.addEventListener("click", () => connectWallet(btn.dataset.wallet));
@@ -8228,29 +7355,21 @@
       if (state.connected) disconnectWallet();
     });
 
-    slippageToggle.addEventListener("click", () => {
-      slippageShell.classList.toggle("open");
-    });
+    slippageToggle.addEventListener("click", () => slippageShell.classList.toggle("open"));
 
     slippageChip.addEventListener("click", () => {
       state.swap.slippage = 0.5;
       slippageRange.value = "0.5";
       slippageVal.textContent = "0.5%";
-      if (swapTopInput.value.trim() || swapBottomInput.value.trim()) {
-        scheduleSwapQuote(state.swap.activeInput || "top", 0);
-      } else {
-        refreshSwapUI();
-      }
+      if (swapTopInput.value.trim() || swapBottomInput.value.trim()) scheduleSwapQuote(state.swap.activeInput || "top", 0);
+      else refreshSwapUI();
     });
 
     slippageRange.addEventListener("input", () => {
       state.swap.slippage = Number(slippageRange.value);
       slippageVal.textContent = `${state.swap.slippage.toFixed(1)}%`;
-      if (swapTopInput.value.trim() || swapBottomInput.value.trim()) {
-        scheduleSwapQuote(state.swap.activeInput || "top", 0);
-      } else {
-        refreshSwapUI();
-      }
+      if (swapTopInput.value.trim() || swapBottomInput.value.trim()) scheduleSwapQuote(state.swap.activeInput || "top", 0);
+      else refreshSwapUI();
     });
 
     swapTopInput.addEventListener("input", () => {
@@ -8313,13 +7432,9 @@
       fitNumericField(swapTopInput, 24, 13);
       fitNumericField(swapBottomInput, 24, 13);
 
-      if (swapTopInput.value.trim()) {
-        scheduleSwapQuote("top", 0);
-      } else if (swapBottomInput.value.trim()) {
-        scheduleSwapQuote("bottom", 0);
-      } else {
-        refreshSwapUI();
-      }
+      if (swapTopInput.value.trim()) scheduleSwapQuote("top", 0);
+      else if (swapBottomInput.value.trim()) scheduleSwapQuote("bottom", 0);
+      else refreshSwapUI();
 
       updateAssistant();
     });
@@ -8421,6 +7536,7 @@
         showToast("No wallet connected", true);
         return;
       }
+
       try{
         await navigator.clipboard.writeText(state.address);
         showToast("Wallet copied");
@@ -8455,11 +7571,8 @@
     document.querySelectorAll(".more-token-scan-btn").forEach(btn => {
       btn.addEventListener("click", () => {
         const url = btn.dataset.explorer;
-        if(url){
-          window.open(url, "_blank");
-        }else{
-          showToast("No explorer link", true);
-        }
+        if(url) window.open(url, "_blank");
+        else showToast("No explorer link", true);
       });
     });
 
@@ -8499,36 +7612,26 @@
     boot();
 
     window.StableFlowAssistant = {
-      setLanguage(lang){
-        setAssistantLanguage(lang);
-      },
-      getLanguage(){
-        return state.assistant.lang;
-      }
+      setLanguage(lang){ setAssistantLanguage(lang); },
+      getLanguage(){ return state.assistant.lang; }
     };
 
     window.StableFlowShell = {
-      get pages(){
-        return getRoute();
-      },
+      get pages(){ return getRoute(); },
       setWalletConnected(value){
-        if (value) {
-          state.connected = true;
-          state.shellOpen = true;
-          app.classList.add("open");
-          updateBottomState();
-          setPage("home", false);
-        } else {
-          state.connected = false;
-          updateBottomState();
-          setPage("connect", false);
-        }
+        state.connected = Boolean(value);
+        app.classList.toggle("wallet-connected", state.connected);
+        state.shellOpen = true;
+        app.classList.add("open");
+
+        if (state.connected) setPage("home", false);
+        else setPage("connect", false);
+
+        updateBottomState();
       },
       openShell,
       closeShell,
       setPage,
-      nextPage(){ goPage(1); },
-      prevPage(){ goPage(-1); },
       flashTxDone,
       clearTxNotice,
       setAssistantHTML(html){
@@ -8549,4 +7652,4 @@
     };
   </script>
 </body>
-  </html>
+</html>
