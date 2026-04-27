@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-  <title>StableFlow 16</title>
+  <title>StableFlow 16.1</title>
 
   <script src="https://cdn.jsdelivr.net/npm/ethers@5.7.2/dist/ethers.umd.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
@@ -503,6 +503,7 @@
       background:linear-gradient(90deg, transparent, rgba(126,216,255,.065), transparent);
       opacity:.42;
     }
+
     .tx-pill{
       position:absolute;
       left:50%;
@@ -688,11 +689,31 @@
     }
 
     .section-title{
-      font-size:27px;
-      line-height:.98;
+      width:max-content;
+      max-width:100%;
+      position:relative;
+      color:#8fdcff;
+      font-size:20px;
+      line-height:1;
       font-weight:1000;
-      letter-spacing:-.05em;
-      color:#f4f8fb;
+      letter-spacing:-.035em;
+      text-transform:none;
+      text-shadow:
+        0 0 14px rgba(113,211,255,.16),
+        0 1px 0 rgba(0,0,0,.48);
+    }
+
+    .section-title::after{
+      content:"";
+      position:absolute;
+      left:1px;
+      right:-10px;
+      bottom:-7px;
+      height:1px;
+      border-radius:999px;
+      background:linear-gradient(90deg, rgba(143,220,255,.72), rgba(216,174,107,.16), transparent);
+      opacity:.68;
+      pointer-events:none;
     }
 
     .section-sub{
@@ -704,11 +725,31 @@
     }
 
     .mini-kicker{
-      color:#88cef9;
-      font-size:10px;
+      width:max-content;
+      max-width:100%;
+      position:relative;
+      color:#8fdcff;
+      font-size:20px;
+      line-height:1;
       font-weight:1000;
-      letter-spacing:.22em;
-      text-transform:uppercase;
+      letter-spacing:-.03em;
+      text-transform:none;
+      text-shadow:
+        0 0 14px rgba(113,211,255,.16),
+        0 1px 0 rgba(0,0,0,.48);
+    }
+
+    .mini-kicker::after{
+      content:"";
+      position:absolute;
+      left:1px;
+      right:-10px;
+      bottom:-7px;
+      height:1px;
+      border-radius:999px;
+      background:linear-gradient(90deg, rgba(143,220,255,.72), rgba(216,174,107,.16), transparent);
+      opacity:.68;
+      pointer-events:none;
     }
 
     .btn-with-icon{
@@ -904,7 +945,7 @@
     }
 
     .home-profile-row{
-      min-height:46px;
+      min-height:40px;
       display:flex;
       align-items:center;
       justify-content:space-between;
@@ -913,55 +954,128 @@
     }
 
     .home-profile-title{
-      color:#f5f8fb;
-      font-size:21px;
-      font-weight:1000;
-      letter-spacing:-.05em;
+      width:max-content;
+      max-width:100%;
+      position:relative;
+      color:#8fdcff;
+      font-size:20px;
       line-height:1;
+      font-weight:1000;
+      letter-spacing:-.035em;
+      text-transform:none;
+      text-shadow:
+        0 0 14px rgba(113,211,255,.16),
+        0 1px 0 rgba(0,0,0,.48);
+    }
+
+    .home-profile-title::after{
+      content:"";
+      position:absolute;
+      left:1px;
+      right:-10px;
+      bottom:-7px;
+      height:1px;
+      border-radius:999px;
+      background:linear-gradient(90deg, rgba(143,220,255,.72), rgba(216,174,107,.16), transparent);
+      opacity:.68;
+      pointer-events:none;
     }
 
     .home-disconnect{
+      height:34px;
+      padding:3px 9px 3px 5px;
+      border-radius:999px;
       display:flex;
       align-items:center;
-      gap:10px;
+      gap:7px;
       flex:0 0 auto;
+      background:
+        radial-gradient(circle at 18% 50%, rgba(255,126,112,.13), transparent 36%),
+        radial-gradient(circle at 92% 50%, rgba(113,211,255,.055), transparent 34%),
+        linear-gradient(180deg, rgba(39,24,27,.96), rgba(13,16,20,.98));
+      border:1px solid rgba(255,142,126,.18);
+      box-shadow:
+        0 10px 20px rgba(0,0,0,.24),
+        0 0 0 1px rgba(255,255,255,.018),
+        inset 0 1px 0 rgba(255,255,255,.035),
+        inset 0 -8px 12px rgba(0,0,0,.32);
+      transition:
+        transform .16s ease,
+        border-color .18s ease,
+        box-shadow .18s ease,
+        background .18s ease;
+    }
+
+    .home-disconnect::before{
+      content:"";
+      width:5px;
+      height:5px;
+      border-radius:50%;
+      margin-left:1px;
+      flex:0 0 auto;
+      background:#ff9a8e;
+      box-shadow:
+        0 0 8px rgba(255,126,112,.38),
+        0 0 14px rgba(255,126,112,.14);
+    }
+
+    .home-disconnect:active{
+      transform:scale(.965);
     }
 
     .home-disconnect-track{
-      width:60px;
-      height:30px;
+      width:40px;
+      height:24px;
       border-radius:999px;
-      background:linear-gradient(180deg,#1b242d 0%, #121a22 100%);
-      border:1px solid rgba(255,255,255,.05);
+      background:
+        radial-gradient(circle at 76% 50%, rgba(255,126,112,.12), transparent 38%),
+        linear-gradient(180deg,#0f181e 0%, #080d11 100%);
+      border:1px solid rgba(255,142,126,.14);
       box-shadow:
-        inset 0 1px 0 rgba(255,255,255,.02),
-        0 8px 16px rgba(0,0,0,.20);
+        inset 0 1px 0 rgba(255,255,255,.025),
+        inset 0 0 10px rgba(255,126,112,.035),
+        0 7px 13px rgba(0,0,0,.20);
       position:relative;
       flex:0 0 auto;
+    }
+
+    .home-disconnect-track::before{
+      content:"";
+      position:absolute;
+      left:7px;
+      right:7px;
+      top:50%;
+      height:2px;
+      transform:translateY(-50%);
+      border-radius:999px;
+      background:linear-gradient(90deg, rgba(255,126,112,.18), rgba(113,211,255,.08));
     }
 
     .home-disconnect-track::after{
       content:"";
       position:absolute;
       top:4px;
-      left:4px;
-      width:20px;
-      height:20px;
+      left:auto;
+      right:4px;
+      width:14px;
+      height:14px;
       border-radius:50%;
-      background:linear-gradient(180deg,#f0dbb7 0%, #cda56d 100%);
+      background:linear-gradient(180deg,#ffc0b2 0%, #db695e 100%);
       box-shadow:
-        0 6px 12px rgba(216,174,107,.12),
-        inset 0 1px 0 rgba(255,255,255,.22);
+        0 0 0 3px rgba(255,126,112,.07),
+        0 5px 10px rgba(0,0,0,.28),
+        inset 0 1px 0 rgba(255,255,255,.30);
     }
 
     .home-disconnect-label{
-      color:#eef5fb;
-      font-size:13px;
+      color:#ffb9ae;
+      font-size:9.5px;
       font-weight:1000;
-      letter-spacing:-.02em;
+      letter-spacing:.105em;
+      text-transform:uppercase;
       white-space:nowrap;
+      text-shadow:0 0 10px rgba(255,126,112,.12);
     }
-
     .profile-card{
       border-radius:22px;
       padding:15px;
@@ -1198,7 +1312,8 @@
       font-weight:1000;
       font-style:italic;
       white-space:nowrap;
-      }
+    }
+
     .home-graph-wrap{
       border-radius:22px;
       overflow:hidden;
@@ -1892,7 +2007,8 @@
       align-items:center;
       justify-content:center;
       gap:10px;
-      }
+    }
+
     .action-btn{
       width:100%;
       min-height:44px;
@@ -2411,8 +2527,7 @@
       text-transform:uppercase;
       font-weight:1000;
       flex:0 0 auto;
-    }
-
+        }
     .request-asset-row{
       display:grid;
       grid-template-columns:1fr 86px 1fr;
@@ -2742,7 +2857,8 @@
       overflow:hidden;
       text-overflow:ellipsis;
       padding:0 8px;
-      }
+    }
+
     .more-grid{
       display:flex;
       flex-direction:column;
@@ -3042,8 +3158,7 @@
       background:var(--pending-soft);
       color:var(--pending);
       border-color:var(--pending-line);
-    }
-
+      }
     .more-receipt-box{
       border:1px solid var(--receipt-line);
       background:#efebe5;
@@ -3545,8 +3660,7 @@
 
     .app.wallet-connected .nav-btn.exit{
       display:none;
-    }
-
+      }
     .cover{
       position:absolute;
       inset:0;
@@ -4353,12 +4467,11 @@
           <div class="gold-divider"></div>
         </div>
       </article>
-
       <article class="shell-page" data-page="swap">
         <div class="page-shell" id="swapSlot">
           <div class="swap-top-row">
             <div>
-              <div class="mini-kicker">Swap</div>
+              <div class="page-name-title">Swap</div>
               <div class="section-sub" style="margin-top:10px;max-width:340px;">
                 Real swap on Arc Testnet using the LMTV/USDC pool.
               </div>
@@ -4459,7 +4572,7 @@
       <article class="shell-page" data-page="pay">
         <div class="page-shell" id="paySlot">
           <div class="top-toggle-row">
-            <div class="section-title">Pay</div>
+            <div class="page-name-title">Pay</div>
 
             <div class="toggle-wrap">
               <span class="toggle-label">Hide note</span>
@@ -4550,9 +4663,11 @@
       <article class="shell-page" data-page="menu">
         <div class="page-shell" id="menuSlot">
           <div class="home-profile-row">
-            <div class="home-profile-title">Profile</div>
+            <div class="page-name-title profile-title">Profile</div>
             <button class="home-disconnect" id="homeDisconnectBtn" type="button">
-              <span class="home-disconnect-track"></span>
+              <span class="home-disconnect-track">
+                <span class="home-disconnect-light"></span>
+              </span>
               <span class="home-disconnect-label">Disconnect</span>
             </button>
           </div>
@@ -4676,15 +4791,15 @@
 
                 <div class="sf-live off" id="sfLive"></div>
               </div>
+            
             </div>
           </div>
         </div>
       </article>
-
       <article class="shell-page" data-page="getpaid">
         <div class="page-shell" id="getPaidSlot">
           <div class="request-top">
-            <div class="section-title">Get Paid</div>
+            <div class="page-name-title">Get Paid</div>
 
             <div class="toggle-wrap">
               <span class="toggle-label">Hide note</span>
@@ -4889,7 +5004,6 @@
                 </div>
               </div>
             </section>
-
             <section class="more-soft-card more-bottom-card">
               <span class="more-eyebrow">Arc links</span>
 
@@ -5707,8 +5821,7 @@
       if (bonus.gt(cap)) bonus = cap;
 
       return bonus;
-    }
-
+      }
     function getBufferedPayInput(rawIn, stable, desiredText){
       const bonus = getDynamicPayBuffer(rawIn, stable, desiredText);
       state.pay.lastBuffer = bonus;
@@ -6173,8 +6286,7 @@
       if (hidePanel) {
         payFlowPanel.classList.remove("open");
       }
-    }
-
+            }
     function updateSwapTokenVisuals(){
       swapTopToken.textContent = state.swap.topToken;
       swapBottomToken.textContent = state.swap.bottomToken;
