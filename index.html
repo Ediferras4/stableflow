@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-  <title>StableFlow</title>
+  <title>StableFlow 16</title>
 
   <script src="https://cdn.jsdelivr.net/npm/ethers@5.7.2/dist/ethers.umd.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
@@ -28,7 +28,7 @@
       --assistant-radius:13px;
       --joint-radius:0 0 13px 13px;
       --green:#79ffb2;
-      --cover-speed:940ms;
+      --cover-speed:1040ms;
 
       --bg:#02050a;
       --panel:#101821;
@@ -503,7 +503,6 @@
       background:linear-gradient(90deg, transparent, rgba(126,216,255,.065), transparent);
       opacity:.42;
     }
-
     .tx-pill{
       position:absolute;
       left:50%;
@@ -648,7 +647,7 @@
       overscroll-behavior:contain;
       scroll-behavior:auto;
       padding:14px 12px 76px;
-      animation:pageIn .26s ease;
+      animation:pageIn .24s ease;
       scrollbar-width:none;
       -ms-overflow-style:none;
     }
@@ -669,7 +668,7 @@
     @keyframes pageIn{
       from{
         opacity:0;
-        transform:translateX(18px);
+        transform:translateX(12px);
       }
 
       to{
@@ -1199,8 +1198,7 @@
       font-weight:1000;
       font-style:italic;
       white-space:nowrap;
-    }
-
+      }
     .home-graph-wrap{
       border-radius:22px;
       overflow:hidden;
@@ -1894,8 +1892,7 @@
       align-items:center;
       justify-content:center;
       gap:10px;
-    }
-
+      }
     .action-btn{
       width:100%;
       min-height:44px;
@@ -2676,7 +2673,8 @@
       padding:12px;
     }
 
-    #requestQr img,#requestQr canvas{
+    #requestQr img,
+    #requestQr canvas{
       width:190px !important;
       height:190px !important;
       background:#fff !important;
@@ -2744,8 +2742,7 @@
       overflow:hidden;
       text-overflow:ellipsis;
       padding:0 8px;
-    }
-
+      }
     .more-grid{
       display:flex;
       flex-direction:column;
@@ -4283,7 +4280,7 @@
       <div class="tx-pill" id="txPill"></div>
     </div>
 
-    <section class="screen" id="swipeZone">
+    <section class="screen" id="screenZone">
       <article class="shell-page active" data-page="connect-home">
         <div class="page-shell" id="connectHomeSlot">
           <div class="connect-stars" aria-hidden="true">
@@ -4948,7 +4945,7 @@
         </button>
 
         <button class="nav-btn" type="button" data-target="menu">
-          <span>MENU</span>
+          <span>HOME</span>
         </button>
 
         <button class="nav-btn get" type="button" data-target="getpaid">
@@ -5131,7 +5128,6 @@
     const openHotspot = document.getElementById("openHotspot");
     const exitBtn = document.getElementById("exitBtn");
     const pages = Array.from(document.querySelectorAll(".shell-page"));
-    const swipeZone = document.getElementById("swipeZone");
     const txPill = document.getElementById("txPill");
     const navButtons = Array.from(document.querySelectorAll(".nav-btn[data-target]"));
     const assistantBar = document.getElementById("assistantBar");
@@ -5182,10 +5178,6 @@
     let shellIndex = 0;
     let txNoticeTimer = null;
     let navLock = false;
-    let startX = 0;
-    let startY = 0;
-    let tracking = false;
-
     let swapQuoteTimer = null;
     let swapQuoteSeq = 0;
     let payQuoteTimer = null;
@@ -5199,14 +5191,12 @@
       signer: null,
       address: "",
       preferredWallet: "",
-
       assistant: {
         lang: "en",
         lastKey: "",
         lastAt: 0,
         onboardingTimers: []
       },
-
       swap: {
         topToken: "USDC",
         bottomToken: "LMTV",
@@ -5217,7 +5207,6 @@
         quotePending: false,
         busy: false
       },
-
       pay: {
         asset: "USDC",
         hideNote: false,
@@ -5230,7 +5219,6 @@
         flowPhase: 0,
         liveAssistant: null
       },
-
       request: {
         asset: "USDC",
         hideNote: false,
@@ -5238,23 +5226,19 @@
         payload: null,
         amount: ""
       },
-
       more: {
         notes: []
       },
-
       tokenMeta: {
         LMTV: { symbol: "LMTV", decimals: 18 },
         USDC: { symbol: "USDC", decimals: 18 },
         EURC: { symbol: "EURC", decimals: 18 }
       },
-
       balances: {
         LMTV: ethers.BigNumber.from(0),
         USDC: ethers.BigNumber.from(0),
         EURC: ethers.BigNumber.from(0)
       },
-
       stats: {
         totalTx: 0,
         daily: {
@@ -5263,12 +5247,10 @@
           pay: 0
         }
       },
-
       scanner: {
         stream: null,
         timer: null
       },
-
       assistantHoldUntil: 0,
       assistantHoldTimer: null
     };
@@ -5962,6 +5944,7 @@
         }
 
         await picked.provider.request({ method: "eth_requestAccounts" });
+
         state.provider = new ethers.providers.Web3Provider(picked.provider, "any");
         state.signer = state.provider.getSigner();
         state.address = await state.signer.getAddress();
@@ -5995,20 +5978,21 @@
           updateAssistant();
         });
 
-        app.classList.add("open");
-        app.classList.add("wallet-connected");
-
-        await loadTokenMeta();
-        await refreshBalances();
-        refreshHomeUI();
-        refreshMoreWalletUI();
+        app.classList.add("open", "wallet-connected");
 
         if (!requestWalletInput.value.trim()) {
           requestWalletInput.value = state.address;
         }
 
+        refreshHomeUI();
+        refreshMoreWalletUI();
         shellSetPage("menu", false);
         holdAssistantKey("wallet_connected", "success", { wallet: state.preferredWallet }, 1700);
+
+        await loadTokenMeta();
+        await refreshBalances();
+        refreshHomeUI();
+        refreshMoreWalletUI();
       }catch(err){
         console.error(err);
         applyAssistantKey("wallet_failed", "danger");
@@ -7809,32 +7793,6 @@
       }
     };
 
-    function startSwipe(x, y){
-      startX = x;
-      startY = y;
-      tracking = true;
-    }
-
-    function endSwipe(x, y){
-      if (!tracking) return;
-
-      tracking = false;
-
-      const dx = x - startX;
-      const dy = y - startY;
-
-      if (Math.abs(dx) < 42) return;
-      if (Math.abs(dx) < Math.abs(dy) * 1.2) return;
-
-      openShell();
-
-      if (dx < 0) {
-        shellSetPage(shellIndex + 1);
-      } else {
-        shellSetPage(shellIndex - 1);
-      }
-    }
-
     openHotspot.addEventListener("pointerdown", event => {
       event.stopPropagation();
       openShell();
@@ -8115,25 +8073,9 @@
       });
     });
 
-    swipeZone.addEventListener("touchstart", event => {
-      const touch = event.touches[0];
-      startSwipe(touch.clientX, touch.clientY);
-    }, { passive:true });
-
-    swipeZone.addEventListener("touchend", event => {
-      const touch = event.changedTouches[0];
-      endSwipe(touch.clientX, touch.clientY);
-    }, { passive:true });
-
-    swipeZone.addEventListener("mousedown", event => {
-      startSwipe(event.clientX, event.clientY);
-    });
-
-    swipeZone.addEventListener("mouseup", event => {
-      endSwipe(event.clientX, event.clientY);
-    });
-
     function boot(){
+      document.documentElement.style.setProperty("--cover-speed", "1040ms");
+
       loadStats();
       loadAssistantLanguage();
       loadMoreNotes();
@@ -8168,9 +8110,11 @@
     window.StableFlowShell = {
       setWalletConnected(value){
         if (value) {
-          app.classList.add("wallet-connected");
           state.connected = true;
-          openShell();
+          state.shellOpen = true;
+          app.classList.add("open", "wallet-connected");
+          refreshHomeUI();
+          refreshMoreWalletUI();
           shellSetPage("menu", false);
         } else {
           disconnectWallet();
@@ -8198,4 +8142,4 @@
     boot();
   </script>
 </body>
-  </html>
+</html>
